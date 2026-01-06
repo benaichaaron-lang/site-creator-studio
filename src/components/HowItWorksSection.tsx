@@ -18,7 +18,7 @@ const steps = [
     icon: Wallet,
     number: "03",
     title: "Crypto payment",
-    description: "Pay securely with your wallet. ETH, BTC, USDC accepted.",
+    description: "Pay securely with your wallet. ETH, BTC, USDC, USDT accepted.",
   },
   {
     icon: Truck,
@@ -57,20 +57,38 @@ const HowItWorksSection = () => {
 
         {/* Steps */}
         <div className="max-w-5xl mx-auto relative">
-          {/* Connection Line */}
-          <motion.div 
-            className="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-          />
+          {/* Connection Line - Desktop */}
+          <div className="hidden lg:block absolute top-24 left-0 right-0">
+            <motion.div 
+              className="h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.3 }}
+            />
+            {/* Connector dots */}
+            <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-[10%]">
+              {[1, 2, 3, 4].map((_, index) => (
+                <motion.div
+                  key={index}
+                  className="w-3 h-3 rounded-full bg-primary/40"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 + index * 0.15 }}
+                />
+              ))}
+            </div>
+          </div>
+          
+          {/* Mobile Connection Line */}
+          <div className="lg:hidden absolute left-8 top-24 bottom-24 w-0.5 bg-gradient-to-b from-primary/30 via-primary/20 to-primary/30" />
           
           <div className="grid md:grid-cols-5 gap-8 relative">
             {steps.map((step, index) => (
               <motion.div
                 key={step.number}
-                className="flex flex-col items-center text-center group"
+                className="flex flex-col items-center text-center group lg:items-center"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -107,6 +125,17 @@ const HowItWorksSection = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Summary sentence */}
+          <motion.p
+            className="text-center text-muted-foreground mt-12 text-sm max-w-xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+          >
+            You'll receive a short questionnaire, then a delivery date and payment link.
+          </motion.p>
         </div>
       </div>
     </section>

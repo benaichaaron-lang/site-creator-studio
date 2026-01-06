@@ -1,26 +1,54 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Mail, MessageCircle } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Send, Mail, MessageCircle, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
+    topic: "",
     message: "",
+    consent: false,
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.consent) {
+      toast({
+        title: "Consent required",
+        description: "Please agree to be contacted to submit the form.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Show success state
+    setIsSubmitted(true);
+    
     toast({
       title: "Message sent!",
-      description: "We'll get back to you as soon as possible.",
+      description: "We'll get back to you within 24 hours.",
     });
-    setFormData({ name: "", email: "", subject: "", message: "" });
+
+    // Reset after delay
+    setTimeout(() => {
+      setFormData({ name: "", email: "", topic: "", message: "", consent: false });
+      setIsSubmitted(false);
+    }, 5000);
   };
 
   return (
@@ -96,92 +124,154 @@ const ContactSection = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-4">
+              <AnimatePresence mode="wait">
+                {isSubmitted ? (
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="flex flex-col items-center justify-center h-full min-h-[400px] text-center"
                   >
-                    <label className="text-sm font-medium mb-2 block">Name</label>
-                    <Input
-                      placeholder="Your name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
-                      required
-                    />
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.35 }}
-                  >
-                    <label className="text-sm font-medium mb-2 block">Email</label>
-                    <Input
-                      type="email"
-                      placeholder="your@email.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
-                      required
-                    />
-                  </motion.div>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <label className="text-sm font-medium mb-2 block">Subject</label>
-                  <Input
-                    placeholder="How can we help you?"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
-                    required
-                  />
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.45 }}
-                >
-                  <label className="text-sm font-medium mb-2 block">Message</label>
-                  <Textarea
-                    placeholder="Describe your project or ask us your question..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="bg-secondary/50 border-border/50 focus:border-primary min-h-[150px] transition-all duration-300"
-                    required
-                  />
-                </motion.div>
-
-                <motion.div 
-                  whileHover={{ scale: 1.02 }} 
-                  whileTap={{ scale: 0.98 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <Button type="submit" variant="hero" size="lg" className="w-full">
-                    Send message
                     <motion.div
-                      whileHover={{ x: 5, rotate: -20 }}
-                      transition={{ type: "spring", stiffness: 300 }}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", delay: 0.2 }}
+                      className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mb-6"
                     >
-                      <Send className="w-5 h-5" />
+                      <CheckCircle className="w-10 h-10 text-primary" />
                     </motion.div>
-                  </Button>
-                </motion.div>
-              </form>
+                    <h3 className="font-display text-2xl font-bold mb-2">Message sent!</h3>
+                    <p className="text-muted-foreground">
+                      Thank you for reaching out. We'll get back to you within 24 hours.
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.form 
+                    key="form"
+                    onSubmit={handleSubmit} 
+                    className="space-y-6"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        <label className="text-sm font-medium mb-2 block">Name</label>
+                        <Input
+                          placeholder="Your name"
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
+                          required
+                        />
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.35 }}
+                      >
+                        <label className="text-sm font-medium mb-2 block">Email</label>
+                        <Input
+                          type="email"
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
+                          required
+                        />
+                      </motion.div>
+                    </div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      <label className="text-sm font-medium mb-2 block">Topic</label>
+                      <Select 
+                        value={formData.topic} 
+                        onValueChange={(value) => setFormData({ ...formData, topic: value })}
+                      >
+                        <SelectTrigger className="bg-secondary/50 border-border/50">
+                          <SelectValue placeholder="What can we help you with?" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="quote">Request a quote</SelectItem>
+                          <SelectItem value="support">Support / Question</SelectItem>
+                          <SelectItem value="partnership">Partnership</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.45 }}
+                    >
+                      <label className="text-sm font-medium mb-2 block">Message</label>
+                      <Textarea
+                        placeholder="Describe your project or ask us your question..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        className="bg-secondary/50 border-border/50 focus:border-primary min-h-[120px] transition-all duration-300"
+                        required
+                      />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 }}
+                      className="flex items-start gap-3"
+                    >
+                      <Checkbox
+                        id="consent"
+                        checked={formData.consent}
+                        onCheckedChange={(checked) => 
+                          setFormData({ ...formData, consent: checked as boolean })
+                        }
+                        className="mt-0.5"
+                      />
+                      <label 
+                        htmlFor="consent" 
+                        className="text-sm text-muted-foreground cursor-pointer leading-relaxed"
+                      >
+                        I agree to be contacted by MySiteFactory regarding my request. 
+                        Your data will be processed according to our privacy policy.
+                      </label>
+                    </motion.div>
+
+                    <motion.div 
+                      whileHover={{ scale: 1.02 }} 
+                      whileTap={{ scale: 0.98 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.55 }}
+                    >
+                      <Button type="submit" variant="hero" size="lg" className="w-full">
+                        Send message
+                        <motion.div
+                          whileHover={{ x: 5, rotate: -20 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Send className="w-5 h-5" />
+                        </motion.div>
+                      </Button>
+                    </motion.div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </motion.div>
           </div>
         </div>

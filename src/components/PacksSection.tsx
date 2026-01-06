@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Check, X, Zap, Building2, Crown } from "lucide-react";
+import { Check, Zap, Building2, Crown, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const packs = [
@@ -10,16 +10,15 @@ const packs = [
     price: "0.15 ETH",
     fiat: "~$500",
     delay: "5 days",
+    revisions: "1 revision",
     popular: false,
     features: [
-      { text: "One-page landing page", included: true },
-      { text: "Responsive design", included: true },
-      { text: "Contact form", included: true },
-      { text: "1 year hosting", included: true },
-      { text: "1 revision included", included: true },
-      { text: "Multiple pages", included: false },
-      { text: "Integrated blog", included: false },
-      { text: "Priority support", included: false },
+      "One-page landing page",
+      "Responsive design (mobile-first)",
+      "Contact form with email notification",
+      "1 year hosting included",
+      "SSL certificate",
+      "Basic SEO setup",
     ],
   },
   {
@@ -29,16 +28,16 @@ const packs = [
     price: "0.35 ETH",
     fiat: "~$1,200",
     delay: "7 days",
+    revisions: "3 revisions",
     popular: true,
     features: [
-      { text: "Up to 5 pages", included: true },
-      { text: "Premium responsive design", included: true },
-      { text: "Advanced forms", included: true },
-      { text: "1 year hosting", included: true },
-      { text: "3 revisions included", included: true },
-      { text: "SEO optimized", included: true },
-      { text: "Integrations (analytics, etc.)", included: true },
-      { text: "Priority support", included: false },
+      "Up to 5 pages",
+      "Premium responsive design",
+      "Advanced forms & integrations",
+      "1 year hosting included",
+      "SSL certificate",
+      "Full SEO optimization",
+      "Analytics integration",
     ],
   },
   {
@@ -48,16 +47,17 @@ const packs = [
     price: "0.6 ETH",
     fiat: "~$2,000",
     delay: "10 days",
+    revisions: "Unlimited revisions",
     popular: false,
     features: [
-      { text: "Unlimited pages", included: true },
-      { text: "Premium custom design", included: true },
-      { text: "Advanced features", included: true },
-      { text: "2 years hosting", included: true },
-      { text: "Unlimited revisions", included: true },
-      { text: "Advanced SEO", included: true },
-      { text: "All integrations", included: true },
-      { text: "24/7 priority support", included: true },
+      "Unlimited pages",
+      "Premium custom design",
+      "Advanced features & animations",
+      "2 years hosting included",
+      "SSL certificate",
+      "Advanced SEO & performance",
+      "All integrations included",
+      "24/7 priority support (6 months)",
     ],
   },
 ];
@@ -82,6 +82,10 @@ const cardVariants = {
 } as const;
 
 const PacksSection = () => {
+  const handleChoosePack = (packName: string) => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="packs" className="py-24 relative">
       <div className="container mx-auto px-4">
@@ -107,9 +111,14 @@ const PacksSection = () => {
             <br />
             <span className="text-gradient">that fits your needs</span>
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground mb-4">
             Clear and transparent pricing. No surprises, no hidden fees.
           </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-muted-foreground">
+            <span>💱 USD estimate updates with market rate</span>
+            <span className="hidden sm:inline">•</span>
+            <span>💵 Prefer stablecoins? Pay in USDC/USDT</span>
+          </div>
         </motion.div>
 
         {/* Packs Grid */}
@@ -120,7 +129,7 @@ const PacksSection = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {packs.map((pack, index) => (
+          {packs.map((pack) => (
             <motion.div
               key={pack.name}
               variants={cardVariants}
@@ -167,7 +176,7 @@ const PacksSection = () => {
               <p className="text-muted-foreground text-sm mb-6">{pack.description}</p>
 
               {/* Price */}
-              <div className="mb-8">
+              <div className="mb-6">
                 <div className="flex items-baseline gap-2">
                   <motion.span 
                     className="font-display text-3xl font-bold text-foreground"
@@ -178,50 +187,49 @@ const PacksSection = () => {
                   </motion.span>
                   <span className="text-muted-foreground text-sm">{pack.fiat}</span>
                 </div>
+                <p className="text-primary text-sm mt-1">{pack.revisions}</p>
               </div>
 
-              {/* Features */}
-              <ul className="space-y-3 mb-8">
-                {pack.features.map((feature, i) => (
-                  <motion.li 
-                    key={i} 
-                    className="flex items-center gap-3"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 * i }}
-                  >
-                    {feature.included ? (
-                      <motion.div
-                        whileHover={{ scale: 1.2 }}
-                      >
+              {/* What you get */}
+              <div className="mb-8">
+                <p className="text-sm font-semibold mb-3">What you get:</p>
+                <ul className="space-y-3">
+                  {pack.features.map((feature, i) => (
+                    <motion.li 
+                      key={i} 
+                      className="flex items-center gap-3"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.1 * i }}
+                    >
+                      <motion.div whileHover={{ scale: 1.2 }}>
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
                       </motion.div>
-                    ) : (
-                      <X className="w-5 h-5 text-muted-foreground/50 flex-shrink-0" />
-                    )}
-                    <span className={feature.included ? "text-foreground" : "text-muted-foreground/50"}>
-                      {feature.text}
-                    </span>
-                  </motion.li>
-                ))}
-              </ul>
+                      <span className="text-foreground text-sm">{feature}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Next Steps Preview */}
+              <div className="mb-6 p-3 bg-secondary/30 rounded-lg">
+                <p className="text-xs text-muted-foreground">
+                  <span className="font-semibold text-foreground">Next steps:</span> Brief → Payment → Delivery
+                </p>
+              </div>
 
               {/* CTA Button */}
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <a href="#contact">
-                  <Button 
-                    variant={pack.popular ? "hero" : "outline"} 
-                    className="w-full"
-                    size="lg"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                  >
-                    Choose this pack
-                  </Button>
-                </a>
+                <Button 
+                  variant={pack.popular ? "hero" : "outline"} 
+                  className="w-full"
+                  size="lg"
+                  onClick={() => handleChoosePack(pack.name)}
+                >
+                  Choose this pack
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
               </motion.div>
             </motion.div>
           ))}

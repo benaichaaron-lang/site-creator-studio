@@ -1,32 +1,35 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Search, Check } from "lucide-react";
+import { ArrowRight, Clock, CreditCard, RefreshCw, DollarSign } from "lucide-react";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const HeroSection = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [websiteType, setWebsiteType] = useState("");
+  const [budget, setBudget] = useState("");
+  const [timeline, setTimeline] = useState("");
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (href.startsWith("#")) {
-      const sectionId = href.substring(1);
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+    
+    // Scroll to packs section
+    const packsSection = document.getElementById('packs');
+    if (packsSection) {
+      packsSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const trustedLogos = [
-    { name: "Hitachi", opacity: 0.7 },
-    { name: "PayPal", opacity: 0.7 },
-    { name: "Netflix", opacity: 0.7 },
-    { name: "L'Oréal", opacity: 0.7 },
-    { name: "Skechers", opacity: 0.7 },
+  const valueProps = [
+    { icon: Clock, text: "5–10 days delivery" },
+    { icon: DollarSign, text: "Fixed pricing" },
+    { icon: CreditCard, text: "Crypto or card" },
+    { icon: RefreshCw, text: "Clear revisions" },
   ];
 
   return (
@@ -63,98 +66,123 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Trust Badge */}
-          <motion.p 
-            className="text-hero-foreground/80 text-sm md:text-base mb-6"
+          {/* Value Props */}
+          <motion.div 
+            className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Trusted by 200,000+ customers worldwide
-          </motion.p>
+            {valueProps.map((prop, index) => (
+              <motion.div
+                key={prop.text}
+                className="flex items-center gap-2 text-hero-foreground/80 text-sm"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+              >
+                <prop.icon className="w-4 h-4 text-primary" />
+                <span>{prop.text}</span>
+              </motion.div>
+            ))}
+          </motion.div>
 
           {/* Main Title */}
           <motion.h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight text-hero-foreground"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-[1.1] tracking-tight text-hero-foreground"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Turn to top freelancers
+            High-converting websites
             <br />
-            to create the <span className="italic font-normal">perfect site</span>
+            delivered in <span className="text-primary">5–10 days</span>.
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p 
-            className="text-lg md:text-xl text-hero-foreground/70 max-w-2xl mx-auto mb-10 leading-relaxed"
+            className="text-lg md:text-xl text-hero-foreground/70 max-w-2xl mx-auto mb-10 leading-relaxed italic"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Modern websites crafted with precision. Simple process, transparent pricing, exceptional results.
+            Pay in crypto. Simple and transparent.
           </motion.p>
 
-          {/* Search Bar */}
+          {/* Mini Quote Form */}
           <motion.div 
-            className="max-w-2xl mx-auto mb-12"
+            className="max-w-3xl mx-auto mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <div className="relative flex items-center bg-background rounded-full overflow-hidden shadow-elevated">
-              <div className="flex-1 flex items-center pl-6">
-                <Search className="w-5 h-5 text-muted-foreground mr-3" />
-                <input
-                  type="text"
-                  placeholder="What type of website do you need?"
-                  className="w-full py-4 text-foreground placeholder:text-muted-foreground bg-transparent outline-none text-base"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+            <form onSubmit={handleSubmit} className="bg-background rounded-2xl p-6 shadow-elevated">
+              <div className="grid sm:grid-cols-3 gap-4 mb-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block text-left text-muted-foreground">Website type</label>
+                  <Select value={websiteType} onValueChange={setWebsiteType}>
+                    <SelectTrigger className="bg-secondary/50 border-border/50">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="landing">Landing page</SelectItem>
+                      <SelectItem value="ecommerce">E-commerce</SelectItem>
+                      <SelectItem value="business">Business site</SelectItem>
+                      <SelectItem value="portfolio">Portfolio</SelectItem>
+                      <SelectItem value="webapp">Web app</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block text-left text-muted-foreground">Budget</label>
+                  <Select value={budget} onValueChange={setBudget}>
+                    <SelectTrigger className="bg-secondary/50 border-border/50">
+                      <SelectValue placeholder="Select budget" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="starter">Starter (~$500)</SelectItem>
+                      <SelectItem value="business">Business (~$1,200)</SelectItem>
+                      <SelectItem value="premium">Premium (~$2,000)</SelectItem>
+                      <SelectItem value="unsure">Not sure</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block text-left text-muted-foreground">Timeline</label>
+                  <Select value={timeline} onValueChange={setTimeline}>
+                    <SelectTrigger className="bg-secondary/50 border-border/50">
+                      <SelectValue placeholder="Select timeline" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="asap">ASAP</SelectItem>
+                      <SelectItem value="1week">1 week</SelectItem>
+                      <SelectItem value="2weeks">2 weeks</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <a href="#packs" onClick={(e) => handleNavClick(e, "#packs")}>
-                <Button className="m-2 rounded-full px-6 py-6 bg-foreground text-background hover:bg-foreground/90 font-semibold">
-                  Search
-                </Button>
-              </a>
-            </div>
-            
-            {/* Popular searches */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-              <span className="text-hero-foreground/60 text-sm">Popular:</span>
-              {["Website Design", "E-Commerce", "Landing Page", "WordPress"].map((tag) => (
-                <a
-                  key={tag}
-                  href="#packs"
-                  onClick={(e) => handleNavClick(e, "#packs")}
-                  className="text-hero-foreground/80 hover:text-hero-foreground text-sm border border-hero-foreground/30 rounded-full px-3 py-1 transition-colors hover:border-hero-foreground/60"
-                >
-                  {tag}
-                </a>
-              ))}
-            </div>
+
+              <Button 
+                type="submit" 
+                className="w-full sm:w-auto px-8 py-6 bg-foreground text-background hover:bg-foreground/90 font-semibold rounded-full"
+              >
+                Start my brief
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </form>
           </motion.div>
 
-          {/* Trust Logos */}
-          <motion.div 
-            className="flex flex-wrap items-center justify-center gap-8 md:gap-12"
+          {/* Trust indicators */}
+          <motion.p 
+            className="text-hero-foreground/50 text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            {trustedLogos.map((logo, index) => (
-              <motion.div 
-                key={logo.name}
-                className="text-hero-foreground/50 font-semibold text-lg"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 0.5, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-              >
-                {logo.name}
-              </motion.div>
-            ))}
-          </motion.div>
+            No commitment required • Response within 24h
+          </motion.p>
         </div>
       </div>
 
