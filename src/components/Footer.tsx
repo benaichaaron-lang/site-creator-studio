@@ -1,28 +1,57 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const footerLinks = {
     services: [
-      { label: "Pack Starter", href: "#packs" },
-      { label: "Pack Business", href: "#packs" },
-      { label: "Pack Premium", href: "#packs" },
-      { label: "Sur-mesure", href: "#custom" },
+      { label: "Pack Starter", href: "/#packs" },
+      { label: "Pack Business", href: "/#packs" },
+      { label: "Pack Premium", href: "/#packs" },
+      { label: "Sur-mesure", href: "/#custom" },
     ],
     company: [
-      { label: "À propos", href: "#" },
-      { label: "Comment ça marche", href: "#how-it-works" },
-      { label: "FAQ", href: "#faq" },
-      { label: "Contact", href: "#contact" },
+      { label: "À propos", href: "/about" },
+      { label: "Comment ça marche", href: "/#how-it-works" },
+      { label: "FAQ", href: "/#faq" },
+      { label: "Contact", href: "/#contact" },
     ],
     legal: [
-      { label: "Mentions légales", href: "#" },
-      { label: "Politique de confidentialité", href: "#" },
-      { label: "Conditions générales", href: "#" },
+      { label: "Mentions légales", href: "/mentions-legales" },
+      { label: "Politique de confidentialité", href: "/politique-confidentialite" },
+      { label: "Conditions générales", href: "/cgv" },
     ],
+  };
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+
+    if (href.startsWith("/#")) {
+      const sectionId = href.substring(2);
+      
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      } else {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    } else {
+      navigate(href);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
@@ -67,20 +96,24 @@ const Footer = () => {
               transition={{ delay: 0.4 }}
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <Button variant="hero" size="xl">
-                  Créer mon site maintenant
-                  <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <ArrowRight className="w-5 h-5" />
-                  </motion.div>
-                </Button>
+                <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
+                  <Button variant="hero" size="xl">
+                    Créer mon site maintenant
+                    <motion.div
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.div>
+                  </Button>
+                </a>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <Button variant="heroOutline" size="xl">
-                  Demander un devis
-                </Button>
+                <a href="/#custom" onClick={(e) => handleNavClick(e, "/#custom")}>
+                  <Button variant="heroOutline" size="xl">
+                    Demander un devis
+                  </Button>
+                </a>
               </motion.div>
             </motion.div>
           </div>
@@ -98,19 +131,19 @@ const Footer = () => {
         >
           {/* Brand */}
           <div className="lg:col-span-2">
-            <motion.a 
-              href="#" 
-              className="flex items-center gap-2 mb-4"
+            <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">M</span>
-              </div>
-              <span className="font-display font-bold text-xl">
-                MySite<span className="text-gradient">Factory</span>
-              </span>
-            </motion.a>
+              <Link to="/" className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-lg">M</span>
+                </div>
+                <span className="font-display font-bold text-xl">
+                  MySite<span className="text-gradient">Factory</span>
+                </span>
+              </Link>
+            </motion.div>
             <p className="text-muted-foreground text-sm mb-6 max-w-xs">
               Des sites web professionnels, livrés rapidement, avec paiement en crypto. 
               Simple, moderne, transparent.
@@ -139,7 +172,8 @@ const Footer = () => {
                 >
                   <motion.a
                     href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-muted-foreground hover:text-foreground transition-colors text-sm cursor-pointer"
                     whileHover={{ x: 5 }}
                   >
                     {link.label}
@@ -163,7 +197,8 @@ const Footer = () => {
                 >
                   <motion.a
                     href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-muted-foreground hover:text-foreground transition-colors text-sm cursor-pointer"
                     whileHover={{ x: 5 }}
                   >
                     {link.label}
@@ -187,7 +222,8 @@ const Footer = () => {
                 >
                   <motion.a
                     href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-muted-foreground hover:text-foreground transition-colors text-sm cursor-pointer"
                     whileHover={{ x: 5 }}
                   >
                     {link.label}
