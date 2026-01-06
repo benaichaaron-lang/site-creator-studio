@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -51,21 +51,22 @@ const Navbar = () => {
 
   return (
     <motion.nav 
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50"
+      className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo - Professional and clean */}
+        <div className="flex items-center justify-between h-16 md:h-[72px]">
+          {/* Logo */}
           <Link 
             to="/" 
             className="flex items-center gap-2 group"
             onClick={handleLogoClick}
           >
-            <span className="font-display text-xl tracking-tight text-foreground">
-              MySite<span className="italic text-primary">Factory</span>
+            <span className="font-bold text-xl tracking-tight text-foreground">
+              mysite<span className="text-primary">factory</span>
+              <span className="text-primary">.</span>
             </span>
           </Link>
 
@@ -83,10 +84,10 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* Right Side */}
+          <div className="hidden md:flex items-center gap-4">
             <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
-              <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-6 text-sm font-medium">
+              <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-md px-5 text-sm font-semibold">
                 Get Started
               </Button>
             </a>
@@ -123,7 +124,7 @@ const Navbar = () => {
                   </a>
                 ))}
                 <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
-                  <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full mt-2 w-full">
+                  <Button className="bg-foreground text-background hover:bg-foreground/90 mt-2 w-full">
                     Get Started
                   </Button>
                 </a>
