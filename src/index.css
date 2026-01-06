@@ -130,11 +130,61 @@
   }
 
   .glass {
-    @apply bg-card/50 backdrop-blur-xl border border-border/50;
+    @apply bg-card/50 backdrop-blur-xl border border-border/50 transition-all duration-300;
+  }
+
+  .glass:hover {
+    @apply bg-card/70 shadow-elevated -translate-y-1;
   }
 
   .glass-strong {
-    @apply bg-card/80 backdrop-blur-2xl border border-border/60;
+    @apply bg-card/80 backdrop-blur-2xl border border-border/60 transition-all duration-300;
+  }
+
+  /* Card hover effects */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .card-hover:hover {
+    @apply -translate-y-2 shadow-elevated;
+  }
+
+  /* Magnetic hover effect for icons */
+  .icon-hover {
+    @apply transition-transform duration-300 ease-out;
+  }
+
+  .icon-hover:hover {
+    @apply scale-110 rotate-3;
+  }
+
+  /* Shine effect on hover */
+  .shine-hover {
+    @apply relative overflow-hidden;
+  }
+
+  .shine-hover::before {
+    content: '';
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-500;
+  }
+
+  .shine-hover:hover::before {
+    @apply translate-x-full;
+  }
+
+  /* Pulse ring on hover */
+  .pulse-hover {
+    @apply relative;
+  }
+
+  .pulse-hover::after {
+    content: '';
+    @apply absolute inset-0 rounded-lg border-2 border-primary opacity-0 transition-all duration-300;
+  }
+
+  .pulse-hover:hover::after {
+    @apply opacity-100 scale-110;
   }
 }
 
@@ -150,6 +200,20 @@
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
   }
+
+  /* Bounce on hover */
+  .bounce-hover {
+    @apply transition-transform duration-300;
+  }
+
+  .bounce-hover:hover {
+    animation: bounce-subtle 0.4s ease-out;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes float {
