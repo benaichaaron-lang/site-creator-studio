@@ -3,33 +3,33 @@ import { motion } from "framer-motion";
 
 const examples = [
   {
-    title: "Studio Créatif",
-    category: "Agence",
+    title: "Creative Studio",
+    category: "Agency",
     image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&h=400&fit=crop",
   },
   {
-    title: "E-commerce Mode",
-    category: "Boutique",
+    title: "Fashion E-commerce",
+    category: "Store",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop",
   },
   {
-    title: "Restaurant Gastronomique",
-    category: "Restauration",
+    title: "Fine Dining Restaurant",
+    category: "Food & Beverage",
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop",
   },
   {
-    title: "Cabinet Médical",
-    category: "Santé",
+    title: "Medical Clinic",
+    category: "Healthcare",
     image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop",
   },
   {
-    title: "Startup Tech",
+    title: "Tech Startup",
     category: "SaaS",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
   },
   {
-    title: "Portfolio Artistique",
-    category: "Créatif",
+    title: "Artist Portfolio",
+    category: "Creative",
     image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop",
   },
 ];
@@ -68,12 +68,12 @@ const ExamplesSection = () => {
         >
           <span className="text-primary text-sm font-semibold uppercase tracking-wider">Portfolio</span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-            Des exemples qui
+            Examples that
             <br />
-            <span className="text-gradient">inspirent</span>
+            <span className="text-gradient">inspire</span>
           </h2>
           <p className="text-muted-foreground">
-            Découvrez ce que nous pouvons créer pour vous. Chaque projet est unique.
+            Discover what we can create for you. Each project is unique.
           </p>
         </motion.div>
 

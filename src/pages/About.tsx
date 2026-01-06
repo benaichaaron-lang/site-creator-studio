@@ -7,23 +7,23 @@ import { Link } from "react-router-dom";
 const values = [
   {
     icon: Zap,
-    title: "Rapidité",
-    description: "Des délais de livraison garantis pour que vous puissiez lancer votre projet rapidement.",
+    title: "Speed",
+    description: "Guaranteed delivery times so you can launch your project quickly.",
   },
   {
     icon: Shield,
-    title: "Transparence",
-    description: "Des prix clairs, un processus simple, et une communication directe à chaque étape.",
+    title: "Transparency",
+    description: "Clear pricing, simple process, and direct communication at every step.",
   },
   {
     icon: Globe,
     title: "Innovation",
-    description: "Nous embrassons les nouvelles technologies : crypto, web3, et les dernières tendances du web.",
+    description: "We embrace new technologies: crypto, web3, and the latest web trends.",
   },
   {
     icon: Users,
-    title: "Proximité",
-    description: "Une équipe à votre écoute qui vous accompagne de A à Z dans votre projet.",
+    title: "Proximity",
+    description: "A team that listens and supports you from A to Z in your project.",
   },
 ];
 
@@ -39,13 +39,13 @@ const About = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="text-center mb-16">
-              <span className="text-primary text-sm font-semibold uppercase tracking-wider">À propos</span>
+              <span className="text-primary text-sm font-semibold uppercase tracking-wider">About</span>
               <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-                Qui sommes-nous ?
+                Who are we?
               </h1>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                MySiteFactory est né d'une vision simple : rendre la création de sites web professionnels 
-                accessible, rapide et transparente.
+                MySiteFactory was born from a simple vision: to make professional website creation 
+                accessible, fast, and transparent.
               </p>
             </div>
 
@@ -56,12 +56,12 @@ const About = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="font-display text-2xl font-bold mb-6 text-center">Notre mission</h2>
+              <h2 className="font-display text-2xl font-bold mb-6 text-center">Our Mission</h2>
               <p className="text-muted-foreground text-lg leading-relaxed text-center">
-                Nous croyons que chaque entreprise mérite une présence en ligne de qualité, sans les 
-                complications habituelles des agences traditionnelles. Notre approche productisée 
-                permet de livrer des sites web modernes et performants en un temps record, avec 
-                un processus simple et des prix transparents.
+                We believe every business deserves a quality online presence, without the usual 
+                complications of traditional agencies. Our productized approach allows us to 
+                deliver modern and performant websites in record time, with a simple process 
+                and transparent pricing.
               </p>
             </motion.div>
 
@@ -71,7 +71,7 @@ const About = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h2 className="font-display text-2xl font-bold mb-8 text-center">Nos valeurs</h2>
+              <h2 className="font-display text-2xl font-bold mb-8 text-center">Our Values</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {values.map((value, index) => (
                   <motion.div
@@ -102,17 +102,17 @@ const About = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <h2 className="font-display text-2xl font-bold mb-6 text-center">Pourquoi la crypto ?</h2>
+              <h2 className="font-display text-2xl font-bold mb-6 text-center">Why Crypto?</h2>
               <p className="text-muted-foreground text-lg leading-relaxed text-center mb-8">
-                Nous avons choisi d'accepter les paiements en cryptomonnaie car nous croyons en l'avenir 
-                de cette technologie. Elle offre des transactions sécurisées, transparentes et sans 
-                frontières, parfaitement alignées avec notre vision d'un web moderne et accessible.
+                We chose to accept cryptocurrency payments because we believe in the future of this 
+                technology. It offers secure, transparent, and borderless transactions, perfectly 
+                aligned with our vision of a modern and accessible web.
               </p>
               <div className="flex justify-center">
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                   <Link to="/#packs">
                     <Button variant="hero" size="xl">
-                      Découvrir nos offres
+                      Discover our offers
                       <ArrowRight className="w-5 h-5" />
                     </Button>
                   </Link>

@@ -17,8 +17,8 @@ const ContactSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Message envoyé !",
-      description: "Nous vous répondrons dans les plus brefs délais.",
+      title: "Message sent!",
+      description: "We'll get back to you as soon as possible.",
     });
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
@@ -40,13 +40,13 @@ const ContactSection = () => {
             >
               <span className="text-primary text-sm font-semibold uppercase tracking-wider">Contact</span>
               <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-                Une question ?
+                Have a question?
                 <br />
-                <span className="text-gradient">Parlons-en</span>
+                <span className="text-gradient">Let's talk</span>
               </h2>
               <p className="text-muted-foreground text-lg mb-10">
-                Vous avez des questions sur nos offres ou besoin d'un conseil ? 
-                Notre équipe est là pour vous aider à concrétiser votre projet.
+                Do you have questions about our offers or need advice? 
+                Our team is here to help you bring your project to life.
               </p>
 
               {/* Contact Options */}
@@ -80,8 +80,8 @@ const ContactSection = () => {
                     <MessageCircle className="w-6 h-6 text-accent" />
                   </motion.div>
                   <div>
-                    <h4 className="font-semibold">Chat en direct</h4>
-                    <p className="text-muted-foreground text-sm">Réponse sous 24h en moyenne</p>
+                    <h4 className="font-semibold">Live Chat</h4>
+                    <p className="text-muted-foreground text-sm">Average response within 24h</p>
                   </div>
                 </motion.div>
               </div>
@@ -103,9 +103,9 @@ const ContactSection = () => {
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 }}
                   >
-                    <label className="text-sm font-medium mb-2 block">Nom</label>
+                    <label className="text-sm font-medium mb-2 block">Name</label>
                     <Input
-                      placeholder="Votre nom"
+                      placeholder="Your name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
@@ -121,7 +121,7 @@ const ContactSection = () => {
                     <label className="text-sm font-medium mb-2 block">Email</label>
                     <Input
                       type="email"
-                      placeholder="votre@email.com"
+                      placeholder="your@email.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
@@ -136,9 +136,9 @@ const ContactSection = () => {
                   viewport={{ once: true }}
                   transition={{ delay: 0.4 }}
                 >
-                  <label className="text-sm font-medium mb-2 block">Sujet</label>
+                  <label className="text-sm font-medium mb-2 block">Subject</label>
                   <Input
-                    placeholder="Comment pouvons-nous vous aider ?"
+                    placeholder="How can we help you?"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
@@ -154,7 +154,7 @@ const ContactSection = () => {
                 >
                   <label className="text-sm font-medium mb-2 block">Message</label>
                   <Textarea
-                    placeholder="Décrivez votre projet ou posez-nous votre question..."
+                    placeholder="Describe your project or ask us your question..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="bg-secondary/50 border-border/50 focus:border-primary min-h-[150px] transition-all duration-300"
@@ -171,7 +171,7 @@ const ContactSection = () => {
                   transition={{ delay: 0.5 }}
                 >
                   <Button type="submit" variant="hero" size="lg" className="w-full">
-                    Envoyer le message
+                    Send message
                     <motion.div
                       whileHover={{ x: 5, rotate: -20 }}
                       transition={{ type: "spring", stiffness: 300 }}

@@ -6,58 +6,58 @@ const packs = [
   {
     name: "Starter",
     icon: Zap,
-    description: "Parfait pour démarrer rapidement avec un site simple et efficace.",
+    description: "Perfect for getting started quickly with a simple and effective site.",
     price: "0.15 ETH",
-    fiat: "~500€",
-    delay: "5 jours",
+    fiat: "~$500",
+    delay: "5 days",
     popular: false,
     features: [
-      { text: "Landing page one-page", included: true },
-      { text: "Design responsive", included: true },
-      { text: "Formulaire de contact", included: true },
-      { text: "Hébergement 1 an", included: true },
-      { text: "1 révision incluse", included: true },
-      { text: "Pages multiples", included: false },
-      { text: "Blog intégré", included: false },
-      { text: "Support prioritaire", included: false },
+      { text: "One-page landing page", included: true },
+      { text: "Responsive design", included: true },
+      { text: "Contact form", included: true },
+      { text: "1 year hosting", included: true },
+      { text: "1 revision included", included: true },
+      { text: "Multiple pages", included: false },
+      { text: "Integrated blog", included: false },
+      { text: "Priority support", included: false },
     ],
   },
   {
     name: "Business",
     icon: Building2,
-    description: "La solution complète pour les entreprises qui veulent se démarquer.",
+    description: "The complete solution for businesses that want to stand out.",
     price: "0.35 ETH",
-    fiat: "~1200€",
-    delay: "7 jours",
+    fiat: "~$1,200",
+    delay: "7 days",
     popular: true,
     features: [
-      { text: "Jusqu'à 5 pages", included: true },
-      { text: "Design responsive premium", included: true },
-      { text: "Formulaires avancés", included: true },
-      { text: "Hébergement 1 an", included: true },
-      { text: "3 révisions incluses", included: true },
-      { text: "SEO optimisé", included: true },
-      { text: "Intégrations (analytics, etc.)", included: true },
-      { text: "Support prioritaire", included: false },
+      { text: "Up to 5 pages", included: true },
+      { text: "Premium responsive design", included: true },
+      { text: "Advanced forms", included: true },
+      { text: "1 year hosting", included: true },
+      { text: "3 revisions included", included: true },
+      { text: "SEO optimized", included: true },
+      { text: "Integrations (analytics, etc.)", included: true },
+      { text: "Priority support", included: false },
     ],
   },
   {
     name: "Premium",
     icon: Crown,
-    description: "L'excellence pour les projets ambitieux avec un support dédié.",
+    description: "Excellence for ambitious projects with dedicated support.",
     price: "0.6 ETH",
-    fiat: "~2000€",
-    delay: "10 jours",
+    fiat: "~$2,000",
+    delay: "10 days",
     popular: false,
     features: [
-      { text: "Pages illimitées", included: true },
-      { text: "Design sur-mesure premium", included: true },
-      { text: "Fonctionnalités avancées", included: true },
-      { text: "Hébergement 2 ans", included: true },
-      { text: "Révisions illimitées", included: true },
-      { text: "SEO avancé", included: true },
-      { text: "Toutes intégrations", included: true },
-      { text: "Support prioritaire 24/7", included: true },
+      { text: "Unlimited pages", included: true },
+      { text: "Premium custom design", included: true },
+      { text: "Advanced features", included: true },
+      { text: "2 years hosting", included: true },
+      { text: "Unlimited revisions", included: true },
+      { text: "Advanced SEO", included: true },
+      { text: "All integrations", included: true },
+      { text: "24/7 priority support", included: true },
     ],
   },
 ];
@@ -100,15 +100,15 @@ const PacksSection = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            Nos offres
+            Our Offers
           </motion.span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-            Choisissez le pack
+            Choose the pack
             <br />
-            <span className="text-gradient">adapté à vos besoins</span>
+            <span className="text-gradient">that fits your needs</span>
           </h2>
           <p className="text-muted-foreground">
-            Des formules claires et transparentes. Pas de surprise, pas de frais cachés.
+            Clear and transparent pricing. No surprises, no hidden fees.
           </p>
         </motion.div>
 
@@ -142,7 +142,7 @@ const PacksSection = () => {
                   viewport={{ once: true }}
                   transition={{ delay: 0.5, type: "spring" }}
                 >
-                  <span className="text-primary-foreground text-sm font-semibold">Le plus populaire</span>
+                  <span className="text-primary-foreground text-sm font-semibold">Most Popular</span>
                 </motion.div>
               )}
 
@@ -159,7 +159,7 @@ const PacksSection = () => {
                 </motion.div>
                 <div>
                   <h3 className="font-display text-xl font-bold">{pack.name}</h3>
-                  <span className="text-sm text-muted-foreground">Livré en {pack.delay}</span>
+                  <span className="text-sm text-muted-foreground">Delivered in {pack.delay}</span>
                 </div>
               </div>
 
@@ -214,7 +214,7 @@ const PacksSection = () => {
                   className="w-full"
                   size="lg"
                 >
-                  Choisir ce pack
+                  Choose this pack
                 </Button>
               </motion.div>
             </motion.div>
