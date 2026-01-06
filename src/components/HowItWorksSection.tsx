@@ -36,7 +36,7 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <section id="how-it-works" className="py-24 relative">
+    <section id="how-it-works" className="py-32 relative" style={{ backgroundColor: 'hsl(160 10% 97%)' }}>
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 

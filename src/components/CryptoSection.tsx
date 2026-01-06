@@ -45,9 +45,9 @@ const steps = [
 
 const CryptoSection = () => {
   return (
-    <section className="py-24 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/30 to-transparent" />
+    <section className="py-32 relative overflow-hidden" style={{ backgroundColor: 'hsl(160 30% 10%)' }}>
+      {/* Background with darker tone */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
@@ -60,13 +60,13 @@ const CryptoSection = () => {
               transition={{ duration: 0.6 }}
             >
               <span className="text-primary text-sm font-semibold uppercase tracking-wider">Payment</span>
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-white">
                 Pay with
-                <span className="text-gradient"> crypto</span>,
+                <span className="text-primary"> crypto</span>,
                 <br />
                 simply
               </h2>
-              <p className="text-muted-foreground text-lg mb-8">
+              <p className="text-white/70 text-lg mb-8">
                 We accept the main cryptocurrencies. A simple, modern, and secure 
                 payment process that adapts to your habits.
               </p>
@@ -98,7 +98,7 @@ const CryptoSection = () => {
 
               {/* Supported Wallets */}
               <div className="mb-10">
-                <p className="text-sm text-muted-foreground mb-3">Supported wallets:</p>
+                <p className="text-sm text-white/60 mb-3">Supported wallets:</p>
                 <div className="flex flex-wrap gap-2">
                   {wallets.map((wallet, index) => (
                     <motion.div
@@ -134,8 +134,8 @@ const CryptoSection = () => {
                       <span className="text-primary text-sm font-bold">{step.num}</span>
                     </motion.div>
                     <div>
-                      <h4 className="font-semibold mb-1">{step.title}</h4>
-                      <p className="text-muted-foreground text-sm">{step.desc}</p>
+                      <h4 className="font-semibold mb-1 text-white">{step.title}</h4>
+                      <p className="text-white/60 text-sm">{step.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -179,7 +179,7 @@ const CryptoSection = () => {
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  className="glass rounded-xl p-6 hover:glow-primary transition-all duration-500 group"
+                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-primary/30 transition-all duration-500 group"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -187,14 +187,14 @@ const CryptoSection = () => {
                   whileHover={{ y: -5 }}
                 >
                   <motion.div 
-                    className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-4"
+                    className="w-12 h-12 rounded-lg bg-primary/30 flex items-center justify-center mb-4"
                     whileHover={{ scale: 1.1, rotate: 10 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <feature.icon className="w-6 h-6 text-primary" />
+                    <feature.icon className="w-6 h-6 text-primary" strokeWidth={2.5} />
                   </motion.div>
-                  <h3 className="font-display font-bold text-lg mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm">{feature.description}</p>
+                  <h3 className="font-display font-bold text-lg mb-2 text-white">{feature.title}</h3>
+                  <p className="text-white/60 text-sm">{feature.description}</p>
                 </motion.div>
               ))}
             </motion.div>
