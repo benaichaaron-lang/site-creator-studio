@@ -1,26 +1,26 @@
-import { Shield, Zap, Globe, Lock } from "lucide-react";
+import { Shield, Zap, Globe, Lock, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
   {
     icon: Shield,
     title: "Secure",
-    description: "Transactions verified on the blockchain. No intermediaries.",
+    description: "Transactions verified on the blockchain with full transparency.",
   },
   {
     icon: Zap,
-    title: "Instant",
-    description: "Fast confirmation of your payment. We start immediately.",
+    title: "Fast",
+    description: "Quick confirmation of your payment. We start immediately after verification.",
   },
   {
     icon: Globe,
     title: "Borderless",
-    description: "Pay from anywhere in the world, without bank fees.",
+    description: "Pay from anywhere in the world, without traditional bank fees.",
   },
   {
     icon: Lock,
     title: "Transparent",
-    description: "Every transaction is traceable and publicly verifiable.",
+    description: "Every transaction is traceable. Invoice and reference included.",
   },
 ];
 
@@ -31,9 +31,15 @@ const cryptos = [
   { name: "Tether", symbol: "USDT" },
 ];
 
+const wallets = [
+  { name: "MetaMask" },
+  { name: "WalletConnect" },
+  { name: "Coinbase Wallet" },
+];
+
 const steps = [
   { num: "1", title: "Choose your pack", desc: "Select the offer that suits you" },
-  { num: "2", title: "Connect your wallet", desc: "MetaMask, WalletConnect, or any compatible wallet" },
+  { num: "2", title: "Connect your wallet", desc: "MetaMask, WalletConnect, or Coinbase Wallet" },
   { num: "3", title: "Confirm the transaction", desc: "Validate and we start your project" },
 ];
 
@@ -66,7 +72,7 @@ const CryptoSection = () => {
               </p>
 
               {/* Crypto Badges */}
-              <div className="flex flex-wrap gap-3 mb-10">
+              <div className="flex flex-wrap gap-3 mb-6">
                 {cryptos.map((crypto, index) => (
                   <motion.div
                     key={crypto.symbol}
@@ -88,6 +94,26 @@ const CryptoSection = () => {
                     <span className="text-sm font-medium">{crypto.name}</span>
                   </motion.div>
                 ))}
+              </div>
+
+              {/* Supported Wallets */}
+              <div className="mb-10">
+                <p className="text-sm text-muted-foreground mb-3">Supported wallets:</p>
+                <div className="flex flex-wrap gap-2">
+                  {wallets.map((wallet, index) => (
+                    <motion.div
+                      key={wallet.name}
+                      className="flex items-center gap-2 bg-secondary/50 rounded-lg px-3 py-1.5"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + index * 0.1 }}
+                    >
+                      <Wallet className="w-4 h-4 text-primary" />
+                      <span className="text-xs font-medium">{wallet.name}</span>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
 
               {/* Steps */}
@@ -114,6 +140,20 @@ const CryptoSection = () => {
                   </motion.div>
                 ))}
               </div>
+
+              {/* Trust Note */}
+              <motion.div
+                className="mt-8 p-4 bg-primary/5 rounded-xl border border-primary/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+              >
+                <p className="text-sm text-muted-foreground">
+                  <Shield className="w-4 h-4 inline-block mr-2 text-primary" />
+                  Payments processed via secure provider. Invoice and transaction reference included with every order.
+                </p>
+              </motion.div>
             </motion.div>
 
             {/* Right Content - Features Grid */}

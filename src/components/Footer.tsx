@@ -17,6 +17,7 @@ const Footer = () => {
     ],
     company: [
       { label: "About", href: "/about" },
+      { label: "Portfolio", href: "/#portfolio" },
       { label: "How it Works", href: "/#how-it-works" },
       { label: "FAQ", href: "/#faq" },
       { label: "Contact", href: "/#contact" },
@@ -54,6 +55,18 @@ const Footer = () => {
     }
   };
 
+  const scrollToHeroForm = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <footer className="relative pt-24 pb-8 overflow-hidden">
       {/* CTA Banner */}
@@ -86,7 +99,7 @@ const Footer = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              Join the businesses that trust us for their online presence.
+              Get your high-converting website delivered in 5–10 days.
             </motion.p>
             <motion.div 
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
@@ -96,9 +109,9 @@ const Footer = () => {
               transition={{ delay: 0.4 }}
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
+                <a href="/" onClick={scrollToHeroForm}>
                   <Button variant="hero" size="xl">
-                    Build my site now
+                    Start my brief
                     <motion.div
                       animate={{ x: [0, 5, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
@@ -109,9 +122,9 @@ const Footer = () => {
                 </a>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <a href="/#custom" onClick={(e) => handleNavClick(e, "/#custom")}>
+                <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
                   <Button variant="heroOutline" size="xl">
-                    Request a quote
+                    See pricing
                   </Button>
                 </a>
               </motion.div>
@@ -253,7 +266,7 @@ const Footer = () => {
           <div className="flex items-center gap-4">
             <span className="text-muted-foreground text-sm">Accepted payments:</span>
             <div className="flex items-center gap-2">
-              {["ETH", "BTC", "USDC"].map((crypto, index) => (
+              {["ETH", "BTC", "USDC", "USDT"].map((crypto, index) => (
                 <motion.div
                   key={crypto}
                   className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center"

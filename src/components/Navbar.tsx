@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navItems = [
     { label: "Packs", href: "/#packs" },
     { label: "Custom", href: "/#custom" },
+    { label: "Portfolio", href: "/#portfolio" },
     { label: "How it Works", href: "/#how-it-works" },
     { label: "FAQ", href: "/#faq" },
     { label: "Contact", href: "/#contact" },
@@ -49,9 +59,23 @@ const Navbar = () => {
     }
   };
 
+  const scrollToHeroForm = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <motion.nav 
-      className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border"
+      className={`fixed top-0 left-0 right-0 z-50 bg-background border-b border-border transition-shadow duration-300 ${
+        hasScrolled ? 'shadow-md' : ''
+      }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
@@ -86,9 +110,9 @@ const Navbar = () => {
 
           {/* Right Side */}
           <div className="hidden md:flex items-center gap-4">
-            <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
+            <a href="/" onClick={scrollToHeroForm}>
               <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-md px-5 text-sm font-semibold">
-                Get Started
+                Start my brief
               </Button>
             </a>
           </div>
@@ -123,9 +147,9 @@ const Navbar = () => {
                     {item.label}
                   </a>
                 ))}
-                <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
+                <a href="/" onClick={scrollToHeroForm}>
                   <Button className="bg-foreground text-background hover:bg-foreground/90 mt-2 w-full">
-                    Get Started
+                    Start my brief
                   </Button>
                 </a>
               </div>
