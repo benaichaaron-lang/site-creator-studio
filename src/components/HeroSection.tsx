@@ -14,15 +14,19 @@ const HeroSection = () => {
   const [websiteType, setWebsiteType] = useState("");
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setFormSubmitted(true);
     
-    // Scroll to packs section
-    const packsSection = document.getElementById('packs');
-    if (packsSection) {
-      packsSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Scroll to packs section after showing confirmation
+    setTimeout(() => {
+      const packsSection = document.getElementById('packs');
+      if (packsSection) {
+        packsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 1500);
   };
 
   const valueProps = [
@@ -101,12 +105,22 @@ const HeroSection = () => {
 
           {/* Subtitle */}
           <motion.p 
-            className="text-lg md:text-xl text-hero-foreground/70 max-w-2xl mx-auto mb-10 leading-relaxed italic"
+            className="text-lg md:text-xl text-hero-foreground/70 max-w-2xl mx-auto mb-4 leading-relaxed italic"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             Pay in crypto. Simple and transparent.
+          </motion.p>
+
+          {/* Reassurance line */}
+          <motion.p 
+            className="text-sm text-primary font-medium mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+          >
+            Free project brief • No upfront commitment • Response within 24h
           </motion.p>
 
           {/* Mini Quote Form */}
@@ -171,18 +185,26 @@ const HeroSection = () => {
                 Start my brief
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
+              
+              {/* Micro-copy under button */}
+              <p className="text-xs text-muted-foreground mt-3">
+                You'll speak with a real project manager. No payment required at this step.
+              </p>
             </form>
-          </motion.div>
 
-          {/* Trust indicators */}
-          <motion.p 
-            className="text-hero-foreground/50 text-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            No commitment required • Response within 24h
-          </motion.p>
+            {/* Confirmation message state */}
+            {formSubmitted && (
+              <motion.div
+                className="mt-4 p-4 bg-primary/10 border border-primary/20 rounded-xl"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <p className="text-sm text-foreground">
+                  ✓ Thanks! We'll review your request and send you a clear proposal with timeline and payment options.
+                </p>
+              </motion.div>
+            )}
+          </motion.div>
         </div>
       </div>
 

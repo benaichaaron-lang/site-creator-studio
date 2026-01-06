@@ -141,18 +141,30 @@ const CryptoSection = () => {
                 ))}
               </div>
 
-              {/* Trust Note */}
+              {/* Trust Notes */}
               <motion.div
-                className="mt-8 p-4 bg-primary/5 rounded-xl border border-primary/10"
+                className="mt-8 space-y-3"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
               >
-                <p className="text-sm text-muted-foreground">
-                  <Shield className="w-4 h-4 inline-block mr-2 text-primary" />
-                  Payments processed via secure provider. Invoice and transaction reference included with every order.
-                </p>
+                <div className="p-4 bg-primary/5 rounded-xl border border-primary/10">
+                  <p className="text-sm text-muted-foreground">
+                    <Shield className="w-4 h-4 inline-block mr-2 text-primary" />
+                    Invoice, transaction reference, and proof of payment provided for every order.
+                  </p>
+                </div>
+                <div className="p-3 bg-secondary/30 rounded-lg">
+                  <p className="text-xs text-muted-foreground">
+                    💵 Prefer stability? Pay in USDC or USDT.
+                  </p>
+                </div>
+                <div className="p-3 bg-secondary/30 rounded-lg">
+                  <p className="text-xs text-muted-foreground">
+                    ⏳ Crypto payment happens <strong>only after brief validation</strong>. No upfront payment.
+                  </p>
+                </div>
               </motion.div>
             </motion.div>
 

@@ -93,13 +93,22 @@ const Footer = () => {
               Ready to launch your project?
             </motion.h2>
             <motion.p 
-              className="text-muted-foreground mb-8 max-w-xl mx-auto"
+              className="text-muted-foreground mb-2 max-w-xl mx-auto"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              Get your high-converting website delivered in 5–10 days.
+              Start with a free brief. Decide later.
+            </motion.p>
+            <motion.p 
+              className="text-primary text-sm mb-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.35 }}
+            >
+              No payment required until you validate the project.
             </motion.p>
             <motion.div 
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
