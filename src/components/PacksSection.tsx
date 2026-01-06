@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check, X, Zap, Building2, Crown } from "lucide-react";
+import { motion } from "framer-motion";
 
 const packs = [
   {
@@ -61,13 +62,46 @@ const packs = [
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+} as const;
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+} as const;
+
 const PacksSection = () => {
   return (
     <section id="packs" className="py-24 relative">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider">Nos offres</span>
+        <motion.div 
+          className="text-center max-w-2xl mx-auto mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.span 
+            className="text-primary text-sm font-semibold uppercase tracking-wider"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            Nos offres
+          </motion.span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
             Choisissez le pack
             <br />
@@ -76,33 +110,53 @@ const PacksSection = () => {
           <p className="text-muted-foreground">
             Des formules claires et transparentes. Pas de surprise, pas de frais cachés.
           </p>
-        </div>
+        </motion.div>
 
         {/* Packs Grid */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <motion.div 
+          className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
           {packs.map((pack, index) => (
-            <div
+            <motion.div
               key={pack.name}
-              className={`relative rounded-2xl p-8 transition-all duration-500 hover:scale-105 ${
+              variants={cardVariants}
+              whileHover={{ 
+                y: -10,
+                transition: { duration: 0.3 }
+              }}
+              className={`relative rounded-2xl p-8 transition-all duration-500 ${
                 pack.popular
                   ? "bg-gradient-card border-2 border-primary/50 glow-primary"
                   : "glass"
               }`}
-              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {pack.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-primary rounded-full">
+                <motion.div 
+                  className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-primary rounded-full"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5, type: "spring" }}
+                >
                   <span className="text-primary-foreground text-sm font-semibold">Le plus populaire</span>
-                </div>
+                </motion.div>
               )}
 
               {/* Icon & Name */}
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                  pack.popular ? "bg-primary/20" : "bg-secondary"
-                }`}>
+                <motion.div 
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    pack.popular ? "bg-primary/20" : "bg-secondary"
+                  }`}
+                  whileHover={{ rotate: [0, -10, 10, 0] }}
+                  transition={{ duration: 0.5 }}
+                >
                   <pack.icon className={`w-6 h-6 ${pack.popular ? "text-primary" : "text-foreground"}`} />
-                </div>
+                </motion.div>
                 <div>
                   <h3 className="font-display text-xl font-bold">{pack.name}</h3>
                   <span className="text-sm text-muted-foreground">Livré en {pack.delay}</span>
@@ -115,7 +169,13 @@ const PacksSection = () => {
               {/* Price */}
               <div className="mb-8">
                 <div className="flex items-baseline gap-2">
-                  <span className="font-display text-3xl font-bold text-foreground">{pack.price}</span>
+                  <motion.span 
+                    className="font-display text-3xl font-bold text-foreground"
+                    initial={{ scale: 1 }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    {pack.price}
+                  </motion.span>
                   <span className="text-muted-foreground text-sm">{pack.fiat}</span>
                 </div>
               </div>
@@ -123,30 +183,43 @@ const PacksSection = () => {
               {/* Features */}
               <ul className="space-y-3 mb-8">
                 {pack.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
+                  <motion.li 
+                    key={i} 
+                    className="flex items-center gap-3"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 * i }}
+                  >
                     {feature.included ? (
-                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                      <motion.div
+                        whileHover={{ scale: 1.2 }}
+                      >
+                        <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                      </motion.div>
                     ) : (
                       <X className="w-5 h-5 text-muted-foreground/50 flex-shrink-0" />
                     )}
                     <span className={feature.included ? "text-foreground" : "text-muted-foreground/50"}>
                       {feature.text}
                     </span>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
 
               {/* CTA */}
-              <Button 
-                variant={pack.popular ? "hero" : "outline"} 
-                className="w-full"
-                size="lg"
-              >
-                Choisir ce pack
-              </Button>
-            </div>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button 
+                  variant={pack.popular ? "hero" : "outline"} 
+                  className="w-full"
+                  size="lg"
+                >
+                  Choisir ce pack
+                </Button>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

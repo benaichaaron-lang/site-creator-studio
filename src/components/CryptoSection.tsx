@@ -1,4 +1,5 @@
 import { Shield, Zap, Globe, Lock } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -30,6 +31,12 @@ const cryptos = [
   { name: "Tether", symbol: "USDT" },
 ];
 
+const steps = [
+  { num: "1", title: "Choisissez votre pack", desc: "Sélectionnez l'offre qui vous convient" },
+  { num: "2", title: "Connectez votre wallet", desc: "MetaMask, WalletConnect, ou tout autre wallet compatible" },
+  { num: "3", title: "Confirmez la transaction", desc: "Validez et nous démarrons votre projet" },
+];
+
 const CryptoSection = () => {
   return (
     <section className="py-24 relative overflow-hidden">
@@ -40,7 +47,12 @@ const CryptoSection = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+            >
               <span className="text-primary text-sm font-semibold uppercase tracking-wider">Paiement</span>
               <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
                 Payez en
@@ -55,66 +67,85 @@ const CryptoSection = () => {
 
               {/* Crypto Badges */}
               <div className="flex flex-wrap gap-3 mb-10">
-                {cryptos.map((crypto) => (
-                  <div
+                {cryptos.map((crypto, index) => (
+                  <motion.div
                     key={crypto.symbol}
-                    className="glass rounded-full px-4 py-2 flex items-center gap-2 hover:bg-card/60 transition-colors"
+                    className="glass rounded-full px-4 py-2 flex items-center gap-2 hover:bg-card/60 transition-colors cursor-pointer"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                    <motion.div 
+                      className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center"
+                      animate={{ rotate: [0, 360] }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    >
                       <span className="text-primary text-xs font-bold">{crypto.symbol[0]}</span>
-                    </div>
+                    </motion.div>
                     <span className="text-sm font-medium">{crypto.name}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               {/* Steps */}
               <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-primary text-sm font-bold">1</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-1">Choisissez votre pack</h4>
-                    <p className="text-muted-foreground text-sm">Sélectionnez l'offre qui vous convient</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-primary text-sm font-bold">2</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-1">Connectez votre wallet</h4>
-                    <p className="text-muted-foreground text-sm">MetaMask, WalletConnect, ou tout autre wallet compatible</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-primary text-sm font-bold">3</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-1">Confirmez la transaction</h4>
-                    <p className="text-muted-foreground text-sm">Validez et nous démarrons votre projet</p>
-                  </div>
-                </div>
+                {steps.map((step, index) => (
+                  <motion.div 
+                    key={step.num}
+                    className="flex items-start gap-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 + index * 0.1 }}
+                  >
+                    <motion.div 
+                      className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0"
+                      whileHover={{ scale: 1.1, backgroundColor: "hsl(var(--primary) / 0.4)" }}
+                    >
+                      <span className="text-primary text-sm font-bold">{step.num}</span>
+                    </motion.div>
+                    <div>
+                      <h4 className="font-semibold mb-1">{step.title}</h4>
+                      <p className="text-muted-foreground text-sm">{step.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Content - Features Grid */}
-            <div className="grid sm:grid-cols-2 gap-6">
+            <motion.div 
+              className="grid sm:grid-cols-2 gap-6"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               {features.map((feature, index) => (
-                <div
+                <motion.div
                   key={feature.title}
                   className="glass rounded-xl p-6 hover:glow-primary transition-all duration-500 group"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 * index }}
+                  whileHover={{ y: -5 }}
                 >
-                  <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <motion.div 
+                    className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-4"
+                    whileHover={{ scale: 1.1, rotate: 10 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
                     <feature.icon className="w-6 h-6 text-primary" />
-                  </div>
+                  </motion.div>
                   <h3 className="font-display font-bold text-lg mb-2">{feature.title}</h3>
                   <p className="text-muted-foreground text-sm">{feature.description}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
