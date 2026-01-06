@@ -51,8 +51,9 @@ const ContactSection = () => {
 
               {/* Contact Options */}
               <div className="space-y-6">
-                <motion.div 
-                  className="flex items-center gap-4 glass rounded-xl p-4 hover:bg-card/60 transition-colors cursor-pointer"
+                <motion.a 
+                  href="mailto:contact@mysitefactory.io"
+                  className="flex items-center gap-4 glass rounded-xl p-4 hover:bg-card/60 transition-colors"
                   whileHover={{ x: 10, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -66,7 +67,7 @@ const ContactSection = () => {
                     <h4 className="font-semibold">Email</h4>
                     <p className="text-muted-foreground text-sm">contact@mysitefactory.io</p>
                   </div>
-                </motion.div>
+                </motion.a>
 
                 <motion.div 
                   className="flex items-center gap-4 glass rounded-xl p-4 hover:bg-card/60 transition-colors cursor-pointer"

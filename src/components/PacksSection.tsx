@@ -209,13 +209,19 @@ const PacksSection = () => {
 
               {/* CTA Button */}
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button 
-                  variant={pack.popular ? "hero" : "outline"} 
-                  className="w-full"
-                  size="lg"
-                >
-                  Choose this pack
-                </Button>
+                <a href="#contact">
+                  <Button 
+                    variant={pack.popular ? "hero" : "outline"} 
+                    className="w-full"
+                    size="lg"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    Choose this pack
+                  </Button>
+                </a>
               </motion.div>
             </motion.div>
           ))}

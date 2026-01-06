@@ -84,15 +84,24 @@ const CustomSection = () => {
                 whileHover={{ scale: 1.05 }} 
                 whileTap={{ scale: 0.98 }}
               >
-                <Button variant="accent" size="xl">
-                  Request a custom quote
-                  <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                <a href="#contact">
+                  <Button 
+                    variant="accent" 
+                    size="xl"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
                   >
-                    <ArrowRight className="w-5 h-5" />
-                  </motion.div>
-                </Button>
+                    Request a custom quote
+                    <motion.div
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.div>
+                  </Button>
+                </a>
               </motion.div>
             </motion.div>
 
