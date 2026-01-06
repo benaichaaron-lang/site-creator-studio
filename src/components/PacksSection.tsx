@@ -207,33 +207,16 @@ const PacksSection = () => {
                 ))}
               </ul>
 
-              {/* CTA or Payment Widget */}
-              {index === 0 ? (
-                <motion.div 
-                  whileHover={{ scale: 1.01 }} 
-                  className="mt-4 rounded-xl overflow-hidden"
+              {/* CTA Button */}
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button 
+                  variant={pack.popular ? "hero" : "outline"} 
+                  className="w-full"
+                  size="lg"
                 >
-                  <iframe 
-                    src="https://nowpayments.io/embeds/payment-widget?iid=4461460750" 
-                    width="100%" 
-                    height="696" 
-                    frameBorder="0" 
-                    scrolling="no" 
-                    style={{ overflowY: 'hidden' }}
-                    title="Pay with Crypto"
-                  />
-                </motion.div>
-              ) : (
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button 
-                    variant={pack.popular ? "hero" : "outline"} 
-                    className="w-full"
-                    size="lg"
-                  >
-                    Choose this pack
-                  </Button>
-                </motion.div>
-              )}
+                  Choose this pack
+                </Button>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
