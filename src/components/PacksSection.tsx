@@ -213,11 +213,16 @@ const PacksSection = () => {
               </div>
 
               {/* Next Steps Preview */}
-              <div className="mb-6 p-3 bg-secondary/30 rounded-lg">
+              <div className="mb-4 p-3 bg-secondary/30 rounded-lg">
                 <p className="text-xs text-muted-foreground">
                   <span className="font-semibold text-foreground">Next steps:</span> Brief → Payment → Delivery
                 </p>
               </div>
+
+              {/* No payment reassurance */}
+              <p className="text-xs text-primary mb-4 text-center">
+                No payment required before project validation.
+              </p>
 
               {/* CTA Button */}
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -234,6 +239,17 @@ const PacksSection = () => {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Pack advice */}
+        <motion.p
+          className="text-center text-muted-foreground text-sm mt-10 max-w-xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+        >
+          Not sure which pack to choose? Start the brief and we'll advise you.
+        </motion.p>
       </div>
     </section>
   );

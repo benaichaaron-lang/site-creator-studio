@@ -126,16 +126,24 @@ const HowItWorksSection = () => {
             ))}
           </div>
 
-          {/* Summary sentence */}
-          <motion.p
-            className="text-center text-muted-foreground mt-12 text-sm max-w-xl mx-auto"
+          {/* Human team reassurance */}
+          <motion.div
+            className="text-center mt-12 space-y-3"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.6 }}
           >
-            You'll receive a short questionnaire, then a delivery date and payment link.
-          </motion.p>
+            <p className="text-sm text-foreground font-medium">
+              Every project is handled by a real human team. No automated websites.
+            </p>
+            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+              You'll receive a short questionnaire, then a delivery date and payment link.
+            </p>
+            <p className="text-primary text-sm font-medium">
+              You validate the direction before final delivery.
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>
