@@ -7,60 +7,61 @@
 
 @layer base {
   :root {
+    /* Two colors: White background + Deep Green */
     --background: 0 0% 100%;
-    --foreground: 120 3% 11%;
+    --foreground: 160 20% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 120 3% 11%;
+    --card-foreground: 160 20% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 120 3% 11%;
+    --popover-foreground: 160 20% 8%;
 
-    --primary: 151 84% 30%;
+    --primary: 160 84% 22%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 150 10% 96%;
-    --secondary-foreground: 120 3% 11%;
+    --secondary: 160 5% 96%;
+    --secondary-foreground: 160 20% 8%;
 
-    --muted: 150 10% 96%;
-    --muted-foreground: 120 3% 40%;
+    --muted: 160 5% 96%;
+    --muted-foreground: 160 10% 40%;
 
-    --accent: 151 84% 30%;
+    --accent: 160 84% 22%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 10% 90%;
-    --input: 150 10% 90%;
-    --ring: 151 84% 30%;
+    --border: 160 10% 90%;
+    --input: 160 10% 90%;
+    --ring: 160 84% 22%;
 
     --radius: 0.5rem;
 
-    /* Fiverr-inspired colors */
-    --hero-bg: 151 67% 18%;
+    /* Hero section - dark green */
+    --hero-bg: 160 50% 12%;
     --hero-foreground: 0 0% 100%;
-    --success: 151 84% 30%;
+    --success: 160 84% 22%;
     
-    /* Custom tokens - Fiverr palette */
-    --gradient-primary: linear-gradient(135deg, hsl(151 84% 30%), hsl(151 67% 25%));
-    --gradient-accent: linear-gradient(135deg, hsl(151 84% 35%), hsl(151 84% 25%));
-    --gradient-hero: linear-gradient(180deg, hsl(151 67% 18%) 0%, hsl(151 70% 15%) 100%);
+    /* Simple gradients - just green variations */
+    --gradient-primary: linear-gradient(135deg, hsl(160 84% 22%), hsl(160 70% 18%));
+    --gradient-accent: linear-gradient(135deg, hsl(160 84% 26%), hsl(160 84% 18%));
+    --gradient-hero: linear-gradient(180deg, hsl(160 50% 12%) 0%, hsl(160 55% 8%) 100%);
     
-    --glow-primary: 0 8px 32px hsl(151 84% 30% / 0.2);
-    --glow-accent: 0 8px 32px hsl(151 84% 30% / 0.15);
+    --glow-primary: 0 8px 32px hsl(160 84% 22% / 0.2);
+    --glow-accent: 0 8px 32px hsl(160 84% 22% / 0.15);
     
-    --shadow-card: 0 2px 8px hsl(120 3% 11% / 0.04), 0 8px 24px hsl(120 3% 11% / 0.08);
-    --shadow-elevated: 0 4px 16px hsl(120 3% 11% / 0.08), 0 24px 64px hsl(120 3% 11% / 0.16);
+    --shadow-card: 0 2px 8px hsl(160 20% 8% / 0.04), 0 8px 24px hsl(160 20% 8% / 0.08);
+    --shadow-elevated: 0 4px 16px hsl(160 20% 8% / 0.08), 0 24px 64px hsl(160 20% 8% / 0.16);
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 120 3% 11%;
-    --sidebar-primary: 151 84% 30%;
+    --sidebar-foreground: 160 20% 8%;
+    --sidebar-primary: 160 84% 22%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 150 10% 96%;
-    --sidebar-accent-foreground: 120 3% 11%;
-    --sidebar-border: 150 10% 90%;
-    --sidebar-ring: 151 84% 30%;
+    --sidebar-accent: 160 5% 96%;
+    --sidebar-accent-foreground: 160 20% 8%;
+    --sidebar-border: 160 10% 90%;
+    --sidebar-ring: 160 84% 22%;
   }
 }
 
@@ -162,9 +163,9 @@
 
 @keyframes glow {
   from {
-    box-shadow: 0 4px 20px hsl(151 84% 30% / 0.1);
+    box-shadow: 0 4px 20px hsl(160 84% 22% / 0.1);
   }
   to {
-    box-shadow: 0 8px 32px hsl(151 84% 30% / 0.2);
+    box-shadow: 0 8px 32px hsl(160 84% 22% / 0.2);
   }
 }
