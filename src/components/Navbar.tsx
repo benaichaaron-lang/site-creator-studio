@@ -11,8 +11,8 @@ const Navbar = () => {
 
   const navItems = [
     { label: "Packs", href: "/#packs" },
-    { label: "Sur-mesure", href: "/#custom" },
-    { label: "Comment ça marche", href: "/#how-it-works" },
+    { label: "Custom", href: "/#custom" },
+    { label: "How it Works", href: "/#how-it-works" },
     { label: "FAQ", href: "/#faq" },
     { label: "Contact", href: "/#contact" },
   ];
@@ -58,22 +58,27 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
+          {/* Logo - Discreet but noticeable */}
           <motion.div
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
             <Link 
               to="/" 
-              className="flex items-center gap-2"
+              className="flex items-center gap-3 group"
               onClick={handleLogoClick}
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">M</span>
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-shadow duration-300">
+                <span className="text-primary-foreground font-bold text-lg tracking-tight">M</span>
               </div>
-              <span className="font-display font-bold text-xl text-foreground">
-                MySite<span className="text-gradient">Factory</span>
-              </span>
+              <div className="flex flex-col">
+                <span className="font-display font-semibold text-lg tracking-tight text-foreground/90 group-hover:text-foreground transition-colors">
+                  MySite<span className="text-primary/80 group-hover:text-primary transition-colors">Factory</span>
+                </span>
+                <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 -mt-0.5 hidden sm:block">
+                  Web Solutions
+                </span>
+              </div>
             </Link>
           </motion.div>
 
@@ -113,7 +118,7 @@ const Navbar = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
                 <Button variant="hero" size="default">
-                  Créer mon site
+                  Build My Site
                 </Button>
               </a>
             </motion.div>
@@ -183,7 +188,7 @@ const Navbar = () => {
                 >
                   <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
                     <Button variant="hero" size="lg" className="mt-2 w-full">
-                      Créer mon site
+                      Build My Site
                     </Button>
                   </a>
                 </motion.div>

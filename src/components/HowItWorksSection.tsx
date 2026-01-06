@@ -5,32 +5,32 @@ const steps = [
   {
     icon: MousePointerClick,
     number: "01",
-    title: "Choisissez votre formule",
-    description: "Pack ou sur-mesure, sélectionnez l'offre qui correspond à vos besoins.",
+    title: "Choose your plan",
+    description: "Pack or custom, select the offer that matches your needs.",
   },
   {
     icon: FileText,
     number: "02",
-    title: "Remplissez le brief",
-    description: "Un questionnaire simple pour comprendre votre projet, vos objectifs et vos préférences.",
+    title: "Fill in the brief",
+    description: "A simple questionnaire to understand your project, goals, and preferences.",
   },
   {
     icon: Wallet,
     number: "03",
-    title: "Paiement crypto",
-    description: "Réglez en toute sécurité avec votre wallet. ETH, BTC, USDC acceptés.",
+    title: "Crypto payment",
+    description: "Pay securely with your wallet. ETH, BTC, USDC accepted.",
   },
   {
     icon: Truck,
     number: "04",
-    title: "Livraison",
-    description: "Recevez votre site web dans les délais annoncés, clé en main et prêt à l'emploi.",
+    title: "Delivery",
+    description: "Receive your turnkey website within the announced deadline, ready to use.",
   },
   {
     icon: RefreshCw,
     number: "05",
-    title: "Révisions",
-    description: "Demandez des ajustements selon votre formule. Nous perfectionnons ensemble.",
+    title: "Revisions",
+    description: "Request adjustments based on your plan. We perfect it together.",
   },
 ];
 
@@ -46,12 +46,12 @@ const HowItWorksSection = () => {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider">Processus</span>
+          <span className="text-primary text-sm font-semibold uppercase tracking-wider">Process</span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-            Comment ça marche
+            How it works
           </h2>
           <p className="text-muted-foreground">
-            Un processus simple et transparent en 5 étapes. De la commande à la livraison.
+            A simple and transparent process in 5 steps. From order to delivery.
           </p>
         </motion.div>
 

@@ -75,7 +75,7 @@ const HeroSection = () => {
             >
               <Sparkles className="w-4 h-4 text-primary" />
             </motion.div>
-            <span className="text-sm text-muted-foreground">Paiement 100% crypto accepté</span>
+            <span className="text-sm text-muted-foreground">100% crypto payments accepted</span>
           </motion.div>
 
           {/* Main Title */}
@@ -85,9 +85,9 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Votre site web professionnel
+            Your professional website
             <br />
-            <span className="text-gradient">livré en 7 jours</span>
+            <span className="text-gradient">delivered in 7 days</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -97,8 +97,8 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Des sites web modernes, sur-mesure ou en pack, avec un processus simple et transparent. 
-            Payez en crypto et recevez votre site clé en main.
+            Modern websites, custom-made or in packs, with a simple and transparent process. 
+            Pay with crypto and receive your turnkey website.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -111,7 +111,7 @@ const HeroSection = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <a href="#packs" onClick={(e) => handleNavClick(e, "#packs")}>
                 <Button variant="hero" size="xl">
-                  Voir les packs
+                  View Packs
                   <motion.div
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
@@ -124,7 +124,7 @@ const HeroSection = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <a href="#custom" onClick={(e) => handleNavClick(e, "#custom")}>
                 <Button variant="heroOutline" size="xl">
-                  Demander un devis
+                  Request a Quote
                 </Button>
               </a>
             </motion.div>
@@ -137,7 +137,7 @@ const HeroSection = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            {["Livraison garantie", "100% transparent", "Support inclus"].map((text, index) => (
+            {["Guaranteed delivery", "100% transparent", "Support included"].map((text, index) => (
               <motion.div 
                 key={text}
                 className="flex items-center gap-2"

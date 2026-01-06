@@ -5,31 +5,31 @@ import { motion } from "framer-motion";
 const benefits = [
   {
     icon: Palette,
-    title: "Design unique",
-    description: "Un design créé spécialement pour votre marque et vos besoins.",
+    title: "Unique design",
+    description: "A design created specifically for your brand and needs.",
   },
   {
     icon: Code,
-    title: "Fonctionnalités sur-mesure",
-    description: "Développement de fonctionnalités personnalisées sans limite.",
+    title: "Custom features",
+    description: "Development of personalized features without limits.",
   },
   {
     icon: Rocket,
-    title: "Scalabilité",
-    description: "Architecture pensée pour accompagner votre croissance.",
+    title: "Scalability",
+    description: "Architecture designed to support your growth.",
   },
   {
     icon: Headphones,
-    title: "Accompagnement dédié",
-    description: "Un chef de projet vous accompagne tout au long du processus.",
+    title: "Dedicated support",
+    description: "A project manager supports you throughout the process.",
   },
 ];
 
 const listItems = [
-  "E-commerce complet",
-  "Applications web complexes",
-  "Plateformes SaaS",
-  "Intégrations API avancées",
+  "Complete e-commerce",
+  "Complex web applications",
+  "SaaS platforms",
+  "Advanced API integrations",
 ];
 
 const CustomSection = () => {
@@ -48,16 +48,16 @@ const CustomSection = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-primary text-sm font-semibold uppercase tracking-wider">Sur-mesure</span>
+              <span className="text-primary text-sm font-semibold uppercase tracking-wider">Custom</span>
               <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-                Besoin d'un projet
+                Need a project
                 <br />
-                <span className="text-gradient-accent">vraiment unique ?</span>
+                <span className="text-gradient-accent">that's truly unique?</span>
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                Vous avez des besoins spécifiques qui ne rentrent pas dans nos packs ? 
-                Notre option sur-mesure est faite pour vous. Nous développons exactement 
-                ce dont vous avez besoin, sans compromis.
+                Have specific needs that don't fit our packs? 
+                Our custom option is made for you. We develop exactly 
+                what you need, without compromise.
               </p>
 
               <div className="space-y-4 mb-10">
@@ -85,7 +85,7 @@ const CustomSection = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Button variant="accent" size="xl">
-                  Demander un devis sur-mesure
+                  Request a custom quote
                   <motion.div
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}

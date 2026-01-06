@@ -10,21 +10,21 @@ const Footer = () => {
 
   const footerLinks = {
     services: [
-      { label: "Pack Starter", href: "/#packs" },
-      { label: "Pack Business", href: "/#packs" },
-      { label: "Pack Premium", href: "/#packs" },
-      { label: "Sur-mesure", href: "/#custom" },
+      { label: "Starter Pack", href: "/#packs" },
+      { label: "Business Pack", href: "/#packs" },
+      { label: "Premium Pack", href: "/#packs" },
+      { label: "Custom", href: "/#custom" },
     ],
     company: [
-      { label: "À propos", href: "/about" },
-      { label: "Comment ça marche", href: "/#how-it-works" },
+      { label: "About", href: "/about" },
+      { label: "How it Works", href: "/#how-it-works" },
       { label: "FAQ", href: "/#faq" },
       { label: "Contact", href: "/#contact" },
     ],
     legal: [
-      { label: "Mentions légales", href: "/mentions-legales" },
-      { label: "Politique de confidentialité", href: "/politique-confidentialite" },
-      { label: "Conditions générales", href: "/cgv" },
+      { label: "Legal Notice", href: "/legal-notice" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms of Service", href: "/terms" },
     ],
   };
 
@@ -77,7 +77,7 @@ const Footer = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              Prêt à lancer votre projet ?
+              Ready to launch your project?
             </motion.h2>
             <motion.p 
               className="text-muted-foreground mb-8 max-w-xl mx-auto"
@@ -86,7 +86,7 @@ const Footer = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              Rejoignez les entreprises qui nous font confiance pour leur présence en ligne.
+              Join the businesses that trust us for their online presence.
             </motion.p>
             <motion.div 
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
@@ -98,7 +98,7 @@ const Footer = () => {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                 <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
                   <Button variant="hero" size="xl">
-                    Créer mon site maintenant
+                    Build my site now
                     <motion.div
                       animate={{ x: [0, 5, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
@@ -111,7 +111,7 @@ const Footer = () => {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                 <a href="/#custom" onClick={(e) => handleNavClick(e, "/#custom")}>
                   <Button variant="heroOutline" size="xl">
-                    Demander un devis
+                    Request a quote
                   </Button>
                 </a>
               </motion.div>
@@ -132,21 +132,26 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <Link to="/" className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-lg">M</span>
+              <Link to="/" className="flex items-center gap-3 mb-4 group">
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-shadow duration-300">
+                  <span className="text-primary-foreground font-bold text-lg tracking-tight">M</span>
                 </div>
-                <span className="font-display font-bold text-xl">
-                  MySite<span className="text-gradient">Factory</span>
-                </span>
+                <div className="flex flex-col">
+                  <span className="font-display font-semibold text-lg tracking-tight text-foreground/90 group-hover:text-foreground transition-colors">
+                    MySite<span className="text-primary/80 group-hover:text-primary transition-colors">Factory</span>
+                  </span>
+                  <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 -mt-0.5">
+                    Web Solutions
+                  </span>
+                </div>
               </Link>
             </motion.div>
             <p className="text-muted-foreground text-sm mb-6 max-w-xs">
-              Des sites web professionnels, livrés rapidement, avec paiement en crypto. 
-              Simple, moderne, transparent.
+              Professional websites, delivered fast, with crypto payments. 
+              Simple, modern, transparent.
             </p>
             <div className="flex items-center gap-2">
               <motion.div 
@@ -154,7 +159,7 @@ const Footer = () => {
                 animate={{ scale: [1, 1.3, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span className="text-sm text-muted-foreground">Prêt à travailler avec vous</span>
+              <span className="text-sm text-muted-foreground">Ready to work with you</span>
             </div>
           </div>
 
@@ -185,7 +190,7 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h4 className="font-display font-semibold mb-4">Entreprise</h4>
+            <h4 className="font-display font-semibold mb-4">Company</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <motion.li 
@@ -210,7 +215,7 @@ const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h4 className="font-display font-semibold mb-4">Légal</h4>
+            <h4 className="font-display font-semibold mb-4">Legal</h4>
             <ul className="space-y-3">
               {footerLinks.legal.map((link, index) => (
                 <motion.li 
@@ -243,10 +248,10 @@ const Footer = () => {
           transition={{ delay: 0.3 }}
         >
           <p className="text-muted-foreground text-sm">
-            © {currentYear} MySiteFactory. Tous droits réservés.
+            © {currentYear} MySiteFactory. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <span className="text-muted-foreground text-sm">Paiements acceptés :</span>
+            <span className="text-muted-foreground text-sm">Accepted payments:</span>
             <div className="flex items-center gap-2">
               {["ETH", "BTC", "USDC"].map((crypto, index) => (
                 <motion.div

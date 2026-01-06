@@ -4,23 +4,23 @@ import { motion } from "framer-motion";
 const features = [
   {
     icon: Shield,
-    title: "Sécurisé",
-    description: "Transactions vérifiées sur la blockchain. Aucun intermédiaire.",
+    title: "Secure",
+    description: "Transactions verified on the blockchain. No intermediaries.",
   },
   {
     icon: Zap,
-    title: "Instantané",
-    description: "Confirmation rapide de votre paiement. Nous démarrons immédiatement.",
+    title: "Instant",
+    description: "Fast confirmation of your payment. We start immediately.",
   },
   {
     icon: Globe,
-    title: "Sans frontières",
-    description: "Payez de n'importe où dans le monde, sans frais bancaires.",
+    title: "Borderless",
+    description: "Pay from anywhere in the world, without bank fees.",
   },
   {
     icon: Lock,
     title: "Transparent",
-    description: "Chaque transaction est traçable et vérifiable publiquement.",
+    description: "Every transaction is traceable and publicly verifiable.",
   },
 ];
 
@@ -32,9 +32,9 @@ const cryptos = [
 ];
 
 const steps = [
-  { num: "1", title: "Choisissez votre pack", desc: "Sélectionnez l'offre qui vous convient" },
-  { num: "2", title: "Connectez votre wallet", desc: "MetaMask, WalletConnect, ou tout autre wallet compatible" },
-  { num: "3", title: "Confirmez la transaction", desc: "Validez et nous démarrons votre projet" },
+  { num: "1", title: "Choose your pack", desc: "Select the offer that suits you" },
+  { num: "2", title: "Connect your wallet", desc: "MetaMask, WalletConnect, or any compatible wallet" },
+  { num: "3", title: "Confirm the transaction", desc: "Validate and we start your project" },
 ];
 
 const CryptoSection = () => {
@@ -53,16 +53,16 @@ const CryptoSection = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-primary text-sm font-semibold uppercase tracking-wider">Paiement</span>
+              <span className="text-primary text-sm font-semibold uppercase tracking-wider">Payment</span>
               <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-                Payez en
+                Pay with
                 <span className="text-gradient"> crypto</span>,
                 <br />
-                simplement
+                simply
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                Nous acceptons les principales cryptomonnaies. Un processus de paiement 
-                simple, moderne et sécurisé qui s'adapte à vos habitudes.
+                We accept the main cryptocurrencies. A simple, modern, and secure 
+                payment process that adapts to your habits.
               </p>
 
               {/* Crypto Badges */}

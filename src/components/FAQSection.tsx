@@ -8,36 +8,36 @@ import { motion } from "framer-motion";
 
 const faqs = [
   {
-    question: "Quelle est la différence entre les packs et le sur-mesure ?",
-    answer: "Les packs sont des formules prédéfinies avec un contenu et un prix fixe, parfaites pour des projets standards. Le sur-mesure s'adresse aux projets complexes nécessitant des fonctionnalités spécifiques, un design unique ou des intégrations particulières. Nous établissons alors un devis personnalisé après étude de vos besoins.",
+    question: "What's the difference between packs and custom?",
+    answer: "Packs are predefined formulas with fixed content and pricing, perfect for standard projects. Custom is for complex projects requiring specific features, unique design, or particular integrations. We then provide a personalized quote after studying your needs.",
   },
   {
-    question: "Quels sont les délais de livraison ?",
-    answer: "Les délais varient selon la formule choisie : Pack Starter en 5 jours, Pack Business en 7 jours, Pack Premium en 10 jours. Pour les projets sur-mesure, le délai est estimé lors du devis en fonction de la complexité du projet. Ces délais sont garantis et démarrent après validation de votre brief.",
+    question: "What are the delivery times?",
+    answer: "Delivery times vary by chosen plan: Starter Pack in 5 days, Business Pack in 7 days, Premium Pack in 10 days. For custom projects, the timeline is estimated during the quote based on project complexity. These deadlines are guaranteed and start after your brief is validated.",
   },
   {
-    question: "Comment fonctionne le paiement en crypto ?",
-    answer: "Nous acceptons ETH, BTC, USDC et USDT. Après avoir choisi votre formule, vous recevez une adresse de paiement unique. Connectez votre wallet (MetaMask, WalletConnect...), envoyez le montant indiqué, et dès confirmation sur la blockchain, nous démarrons votre projet. C'est simple, sécurisé et instantané.",
+    question: "How does crypto payment work?",
+    answer: "We accept ETH, BTC, USDC, and USDT. After choosing your plan, you receive a unique payment address. Connect your wallet (MetaMask, WalletConnect...), send the indicated amount, and once confirmed on the blockchain, we start your project. Simple, secure, and instant.",
   },
   {
-    question: "Combien de révisions sont incluses ?",
-    answer: "Cela dépend du pack choisi : 1 révision pour Starter, 3 pour Business, et révisions illimitées pour Premium. Chaque révision vous permet de demander des ajustements sur le design ou le contenu. Pour le sur-mesure, le nombre de révisions est défini dans le devis.",
+    question: "How many revisions are included?",
+    answer: "It depends on the chosen pack: 1 revision for Starter, 3 for Business, and unlimited revisions for Premium. Each revision allows you to request adjustments to design or content. For custom projects, the number of revisions is defined in the quote.",
   },
   {
-    question: "Proposez-vous un support après la livraison ?",
-    answer: "Oui ! Tous les packs incluent un support par email pendant 30 jours après livraison. Le pack Premium inclut un support prioritaire 24/7 pendant 6 mois. Des options de maintenance et support étendu sont disponibles en supplément.",
+    question: "Do you offer support after delivery?",
+    answer: "Yes! All packs include email support for 30 days after delivery. The Premium pack includes 24/7 priority support for 6 months. Extended maintenance and support options are available as add-ons.",
   },
   {
-    question: "Puis-je modifier mon site moi-même après livraison ?",
-    answer: "Absolument. Nous vous livrons l'accès complet à votre site. Selon la technologie choisie, vous aurez un CMS intuitif pour modifier vos contenus facilement, ou nous vous formons à l'utilisation de votre site si nécessaire.",
+    question: "Can I modify my site myself after delivery?",
+    answer: "Absolutely. We deliver full access to your site. Depending on the chosen technology, you'll have an intuitive CMS to easily modify your content, or we train you on how to use your site if needed.",
   },
   {
-    question: "L'hébergement est-il inclus ?",
-    answer: "Oui, l'hébergement est inclus dans tous les packs : 1 an pour Starter et Business, 2 ans pour Premium. Nous nous occupons de tout : mise en ligne, certificat SSL, sauvegardes. À l'issue de la période, vous pouvez renouveler ou migrer votre site.",
+    question: "Is hosting included?",
+    answer: "Yes, hosting is included in all packs: 1 year for Starter and Business, 2 years for Premium. We take care of everything: deployment, SSL certificate, backups. At the end of the period, you can renew or migrate your site.",
   },
   {
-    question: "Que se passe-t-il si je ne suis pas satisfait ?",
-    answer: "Votre satisfaction est notre priorité. Les révisions incluses vous permettent d'ajuster le résultat. Si malgré tout le livrable ne correspond pas au brief validé, nous travaillons avec vous jusqu'à obtenir le résultat attendu. La transparence est au cœur de notre processus.",
+    question: "What happens if I'm not satisfied?",
+    answer: "Your satisfaction is our priority. The included revisions allow you to adjust the result. If despite everything the deliverable doesn't match the validated brief, we work with you until we achieve the expected result. Transparency is at the heart of our process.",
   },
 ];
 
@@ -74,10 +74,10 @@ const FAQSection = () => {
         >
           <span className="text-primary text-sm font-semibold uppercase tracking-wider">FAQ</span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-            Questions fréquentes
+            Frequently Asked Questions
           </h2>
           <p className="text-muted-foreground">
-            Tout ce que vous devez savoir avant de commencer.
+            Everything you need to know before getting started.
           </p>
         </motion.div>
 
