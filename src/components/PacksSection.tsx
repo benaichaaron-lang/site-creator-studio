@@ -207,16 +207,30 @@ const PacksSection = () => {
                 ))}
               </ul>
 
-              {/* CTA */}
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button 
-                  variant={pack.popular ? "hero" : "outline"} 
-                  className="w-full"
-                  size="lg"
-                >
-                  Choose this pack
-                </Button>
-              </motion.div>
+              {/* CTA or Payment Widget */}
+              {index === 0 ? (
+                <div className="mt-4">
+                  <iframe 
+                    src="https://nowpayments.io/embeds/payment-widget?iid=4437977809" 
+                    width="100%" 
+                    height="696" 
+                    frameBorder="0" 
+                    scrolling="no" 
+                    style={{ overflowY: 'hidden' }}
+                    title="NowPayments Widget"
+                  />
+                </div>
+              ) : (
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Button 
+                    variant={pack.popular ? "hero" : "outline"} 
+                    className="w-full"
+                    size="lg"
+                  >
+                    Choose this pack
+                  </Button>
+                </motion.div>
+              )}
             </motion.div>
           ))}
         </motion.div>
