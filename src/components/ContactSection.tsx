@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Send, Mail, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,12 @@ const ContactSection = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Left Content */}
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+            >
               <span className="text-primary text-sm font-semibold uppercase tracking-wider">Contact</span>
               <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
                 Une question ?
@@ -45,83 +51,137 @@ const ContactSection = () => {
 
               {/* Contact Options */}
               <div className="space-y-6">
-                <div className="flex items-center gap-4 glass rounded-xl p-4 hover:bg-card/60 transition-colors">
-                  <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                <motion.div 
+                  className="flex items-center gap-4 glass rounded-xl p-4 hover:bg-card/60 transition-colors cursor-pointer"
+                  whileHover={{ x: 10, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <motion.div 
+                    className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center"
+                    whileHover={{ rotate: 10 }}
+                  >
                     <Mail className="w-6 h-6 text-primary" />
-                  </div>
+                  </motion.div>
                   <div>
                     <h4 className="font-semibold">Email</h4>
                     <p className="text-muted-foreground text-sm">contact@mysitefactory.io</p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex items-center gap-4 glass rounded-xl p-4 hover:bg-card/60 transition-colors">
-                  <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                <motion.div 
+                  className="flex items-center gap-4 glass rounded-xl p-4 hover:bg-card/60 transition-colors cursor-pointer"
+                  whileHover={{ x: 10, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <motion.div 
+                    className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center"
+                    whileHover={{ rotate: -10 }}
+                  >
                     <MessageCircle className="w-6 h-6 text-accent" />
-                  </div>
+                  </motion.div>
                   <div>
                     <h4 className="font-semibold">Chat en direct</h4>
                     <p className="text-muted-foreground text-sm">Réponse sous 24h en moyenne</p>
                   </div>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Content - Form */}
-            <div className="glass-strong rounded-2xl p-8">
+            <motion.div 
+              className="glass-strong rounded-2xl p-8"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 }}
+                  >
                     <label className="text-sm font-medium mb-2 block">Nom</label>
                     <Input
                       placeholder="Votre nom"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="bg-secondary/50 border-border/50 focus:border-primary"
+                      className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
                       required
                     />
-                  </div>
-                  <div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.35 }}
+                  >
                     <label className="text-sm font-medium mb-2 block">Email</label>
                     <Input
                       type="email"
                       placeholder="votre@email.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="bg-secondary/50 border-border/50 focus:border-primary"
+                      className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
                       required
                     />
-                  </div>
+                  </motion.div>
                 </div>
 
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                >
                   <label className="text-sm font-medium mb-2 block">Sujet</label>
                   <Input
                     placeholder="Comment pouvons-nous vous aider ?"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="bg-secondary/50 border-border/50 focus:border-primary"
+                    className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
                     required
                   />
-                </div>
+                </motion.div>
 
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.45 }}
+                >
                   <label className="text-sm font-medium mb-2 block">Message</label>
                   <Textarea
                     placeholder="Décrivez votre projet ou posez-nous votre question..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="bg-secondary/50 border-border/50 focus:border-primary min-h-[150px]"
+                    className="bg-secondary/50 border-border/50 focus:border-primary min-h-[150px] transition-all duration-300"
                     required
                   />
-                </div>
+                </motion.div>
 
-                <Button type="submit" variant="hero" size="lg" className="w-full">
-                  Envoyer le message
-                  <Send className="w-5 h-5" />
-                </Button>
+                <motion.div 
+                  whileHover={{ scale: 1.02 }} 
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <Button type="submit" variant="hero" size="lg" className="w-full">
+                    Envoyer le message
+                    <motion.div
+                      whileHover={{ x: 5, rotate: -20 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <Send className="w-5 h-5" />
+                    </motion.div>
+                  </Button>
+                </motion.div>
               </form>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
