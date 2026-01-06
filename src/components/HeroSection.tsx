@@ -37,30 +37,32 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-hero pt-20">
-      {/* Background Pattern */}
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-hero pt-24 pb-16">
+      {/* Background Pattern - deeper and more immersive */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero" />
+        {/* Central glow behind headline */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-primary/8 rounded-full blur-[120px]" />
         <motion.div 
-          className="absolute top-1/4 -left-32 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl"
+          className="absolute top-1/4 -left-32 w-[700px] h-[700px] bg-primary/6 rounded-full blur-[100px]"
           animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.2, 0.1]
+            scale: [1, 1.15, 1],
+            opacity: [0.06, 0.12, 0.06]
           }}
           transition={{ 
-            duration: 10,
+            duration: 12,
             repeat: Infinity,
             ease: "easeInOut"
           }}
         />
         <motion.div 
-          className="absolute -bottom-32 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl"
+          className="absolute -bottom-48 right-0 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[100px]"
           animate={{ 
             scale: [1.1, 1, 1.1],
-            opacity: [0.15, 0.25, 0.15]
+            opacity: [0.08, 0.15, 0.08]
           }}
           transition={{ 
-            duration: 12,
+            duration: 14,
             repeat: Infinity,
             ease: "easeInOut",
             delay: 2
@@ -91,17 +93,21 @@ const HeroSection = () => {
             ))}
           </motion.div>
 
-          {/* Main Title */}
-          <motion.h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-[1.1] tracking-tight text-hero-foreground"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            High-converting websites
-            <br />
-            delivered in <span className="text-primary">5–10 days</span>.
-          </motion.h1>
+          {/* Main Title with glow effect */}
+          <motion.div className="relative">
+            {/* Subtle glow behind text */}
+            <div className="absolute inset-0 blur-3xl bg-primary/10 scale-150" />
+            <motion.h1 
+              className="relative text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-[1.05] tracking-tight text-hero-foreground"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              High-converting websites
+              <br />
+              delivered in <span className="text-primary font-extrabold drop-shadow-[0_0_20px_hsl(160,84%,22%,0.5)]">5–10 days</span>.
+            </motion.h1>
+          </motion.div>
 
           {/* Subtitle */}
           <motion.p 

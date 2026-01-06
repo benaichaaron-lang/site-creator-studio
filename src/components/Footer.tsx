@@ -68,23 +68,23 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative pt-24 pb-8 overflow-hidden">
+    <footer className="relative pt-32 pb-12 overflow-hidden" style={{ backgroundColor: 'hsl(160 55% 6%)' }}>
       {/* CTA Banner */}
       <motion.div 
-        className="container mx-auto px-4 mb-24"
+        className="container mx-auto px-4 mb-28"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
         <motion.div 
-          className="max-w-4xl mx-auto bg-gradient-card rounded-3xl p-8 md:p-12 border border-primary/20 glow-primary"
-          whileHover={{ scale: 1.02 }}
+          className="max-w-4xl mx-auto bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm rounded-3xl p-10 md:p-14 border border-primary/30 shadow-[0_8px_60px_hsl(160,84%,22%,0.3)]"
+          whileHover={{ scale: 1.01 }}
           transition={{ type: "spring", stiffness: 200 }}
         >
           <div className="text-center">
             <motion.h2 
-              className="font-display text-2xl md:text-3xl lg:text-4xl font-bold mb-4"
+              className="font-display text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -93,7 +93,7 @@ const Footer = () => {
               Ready to launch your project?
             </motion.h2>
             <motion.p 
-              className="text-muted-foreground mb-2 max-w-xl mx-auto"
+              className="text-white/70 mb-2 max-w-xl mx-auto"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -102,7 +102,7 @@ const Footer = () => {
               Start with a free brief. Decide later.
             </motion.p>
             <motion.p 
-              className="text-primary text-sm mb-8"
+              className="text-primary text-sm mb-10 font-medium"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -162,18 +162,21 @@ const Footer = () => {
                   <span className="text-primary-foreground font-bold text-lg tracking-tight">M</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-display font-semibold text-lg tracking-tight text-foreground/90 group-hover:text-foreground transition-colors">
+                  <span className="font-display font-semibold text-lg tracking-tight text-white/90 group-hover:text-white transition-colors">
                     MySite<span className="text-primary/80 group-hover:text-primary transition-colors">Factory</span>
                   </span>
-                  <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 -mt-0.5">
+                  <span className="text-[10px] tracking-[0.2em] uppercase text-white/40 -mt-0.5">
                     Web Solutions
                   </span>
                 </div>
               </Link>
             </motion.div>
-            <p className="text-muted-foreground text-sm mb-6 max-w-xs">
+            <p className="text-white/60 text-sm mb-4 max-w-xs">
               Professional websites, delivered fast, with crypto payments. 
               Simple, modern, transparent.
+            </p>
+            <p className="text-white/40 text-xs mb-6 max-w-xs italic">
+              Trusted by entrepreneurs and businesses worldwide since 2023.
             </p>
             <div className="flex items-center gap-2">
               <motion.div 
@@ -181,13 +184,13 @@ const Footer = () => {
                 animate={{ scale: [1, 1.3, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span className="text-sm text-muted-foreground">Ready to work with you</span>
+              <span className="text-sm text-white/50">Ready to work with you</span>
             </div>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="font-display font-semibold mb-4">Services</h4>
+            <h4 className="font-display font-semibold mb-4 text-white">Services</h4>
             <ul className="space-y-3">
               {footerLinks.services.map((link, index) => (
                 <motion.li 
@@ -200,7 +203,7 @@ const Footer = () => {
                   <motion.a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm cursor-pointer"
+                    className="text-white/50 hover:text-white transition-colors text-sm cursor-pointer"
                     whileHover={{ x: 5 }}
                   >
                     {link.label}
@@ -212,7 +215,7 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h4 className="font-display font-semibold mb-4">Company</h4>
+            <h4 className="font-display font-semibold mb-4 text-white">Company</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <motion.li 
@@ -225,7 +228,7 @@ const Footer = () => {
                   <motion.a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm cursor-pointer"
+                    className="text-white/50 hover:text-white transition-colors text-sm cursor-pointer"
                     whileHover={{ x: 5 }}
                   >
                     {link.label}
@@ -237,7 +240,7 @@ const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h4 className="font-display font-semibold mb-4">Legal</h4>
+            <h4 className="font-display font-semibold mb-4 text-white">Legal</h4>
             <ul className="space-y-3">
               {footerLinks.legal.map((link, index) => (
                 <motion.li 
@@ -250,7 +253,7 @@ const Footer = () => {
                   <motion.a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm cursor-pointer"
+                    className="text-white/50 hover:text-white transition-colors text-sm cursor-pointer"
                     whileHover={{ x: 5 }}
                   >
                     {link.label}
@@ -263,29 +266,29 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <motion.div 
-          className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4"
+          className="pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          <p className="text-muted-foreground text-sm">
+          <p className="text-white/40 text-sm">
             © {currentYear} MySiteFactory. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <span className="text-muted-foreground text-sm">Accepted payments:</span>
+            <span className="text-white/40 text-sm">Accepted payments:</span>
             <div className="flex items-center gap-2">
               {["ETH", "BTC", "USDC", "USDT"].map((crypto, index) => (
                 <motion.div
                   key={crypto}
-                  className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center"
+                  className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"
                   whileHover={{ scale: 1.2, rotate: 10 }}
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, type: "spring" }}
                 >
-                  <span className="text-xs font-bold text-foreground">{crypto[0]}</span>
+                  <span className="text-xs font-bold text-white">{crypto[0]}</span>
                 </motion.div>
               ))}
             </div>

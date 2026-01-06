@@ -87,7 +87,7 @@ const PacksSection = () => {
   };
 
   return (
-    <section id="packs" className="py-24 relative">
+    <section id="packs" className="py-32 relative bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 
@@ -134,13 +134,13 @@ const PacksSection = () => {
               key={pack.name}
               variants={cardVariants}
               whileHover={{ 
-                y: -10,
+                y: -12,
                 transition: { duration: 0.3 }
               }}
               className={`relative rounded-2xl p-8 transition-all duration-500 ${
                 pack.popular
-                  ? "bg-gradient-card border-2 border-primary/50 glow-primary"
-                  : "glass"
+                  ? "bg-card border-2 border-primary shadow-[0_8px_40px_hsl(160,84%,22%,0.25)] scale-105 z-10"
+                  : "bg-card border border-border/60 shadow-card hover:shadow-elevated"
               }`}
             >
               {pack.popular && (
@@ -175,19 +175,19 @@ const PacksSection = () => {
               {/* Description */}
               <p className="text-muted-foreground text-sm mb-6">{pack.description}</p>
 
-              {/* Price */}
+              {/* Price - visually dominant */}
               <div className="mb-6">
-                <div className="flex items-baseline gap-2">
+                <div className="flex items-baseline gap-3">
                   <motion.span 
-                    className="font-display text-3xl font-bold text-foreground"
+                    className={`font-display text-4xl font-extrabold ${pack.popular ? 'text-primary' : 'text-foreground'}`}
                     initial={{ scale: 1 }}
                     whileHover={{ scale: 1.05 }}
                   >
                     {pack.price}
                   </motion.span>
-                  <span className="text-muted-foreground text-sm">{pack.fiat}</span>
+                  <span className="text-muted-foreground text-sm font-medium">{pack.fiat}</span>
                 </div>
-                <p className="text-primary text-sm mt-1">{pack.revisions}</p>
+                <p className="text-primary text-sm mt-2 font-medium">{pack.revisions}</p>
               </div>
 
               {/* What you get */}

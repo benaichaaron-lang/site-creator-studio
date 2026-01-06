@@ -94,7 +94,7 @@ const itemVariants = {
 
 const ExamplesSection = () => {
   return (
-    <section id="portfolio" className="py-24 relative">
+    <section id="portfolio" className="py-32 relative bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 
@@ -127,17 +127,24 @@ const ExamplesSection = () => {
             <motion.div
               key={example.title}
               variants={itemVariants}
-              className="group relative rounded-2xl overflow-hidden glass"
+              className="group relative rounded-2xl overflow-hidden bg-card border border-border/50 shadow-card hover:shadow-elevated hover:-translate-y-2 transition-all duration-500"
             >
-              {/* Image */}
-              <div className="aspect-[3/2] overflow-hidden">
+              {/* Image with hover overlay */}
+              <div className="aspect-[4/3] overflow-hidden relative">
                 <motion.img
                   src={example.image}
                   alt={example.title}
                   className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.5 }}
+                  whileHover={{ scale: 1.08 }}
+                  transition={{ duration: 0.6 }}
                 />
+                {/* Hover overlay with details */}
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-5">
+                  <div className="text-white">
+                    <p className="text-sm font-medium">{example.industry}</p>
+                    <p className="text-xs opacity-80">{example.deliveryTime} • {example.pack} Pack</p>
+                  </div>
+                </div>
               </div>
 
               {/* Content */}
