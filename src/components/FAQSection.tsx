@@ -62,7 +62,7 @@ const itemVariants = {
 
 const FAQSection = () => {
   return (
-    <section id="faq" className="py-28 relative bg-background">
+    <section id="faq" className="py-16 lg:py-28 relative bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 

@@ -145,7 +145,7 @@ const Footer = () => {
       {/* Footer Content */}
       <div className="container mx-auto px-4">
         <motion.div 
-          className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16"
+          className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

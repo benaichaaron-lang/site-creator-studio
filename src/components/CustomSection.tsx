@@ -34,10 +34,10 @@ const listItems = [
 
 const CustomSection = () => {
   return (
-    <section id="custom" className="py-28 relative overflow-hidden bg-secondary/20">
+    <section id="custom" className="py-16 lg:py-28 relative overflow-hidden bg-secondary/20">
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}

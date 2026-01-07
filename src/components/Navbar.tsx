@@ -74,7 +74,7 @@ const Navbar = () => {
   return (
     <motion.nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        hasScrolled 
+        hasScrolled || isOpen
           ? 'bg-background border-b border-border shadow-md' 
           : 'bg-transparent border-b border-transparent'
       }`}
@@ -91,7 +91,7 @@ const Navbar = () => {
             onClick={handleLogoClick}
           >
             <span className={`font-bold text-xl tracking-tight transition-colors duration-300 ${
-              hasScrolled ? 'text-foreground' : 'text-white'
+              hasScrolled || isOpen ? 'text-foreground' : 'text-white'
             }`}>
               mysite<span className="text-primary">factory</span>
               <span className="text-primary">.</span>
@@ -127,7 +127,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className={`md:hidden p-2 transition-colors ${hasScrolled ? 'text-foreground' : 'text-white'}`}
+            className={`md:hidden p-2 transition-colors ${hasScrolled || isOpen ? 'text-foreground' : 'text-white'}`}
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -138,7 +138,7 @@ const Navbar = () => {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="md:hidden py-4 border-t border-border"
+              className="md:hidden py-4 border-t border-border bg-background"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}

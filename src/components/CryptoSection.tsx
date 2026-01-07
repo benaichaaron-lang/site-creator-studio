@@ -45,10 +45,10 @@ const steps = [
 
 const CryptoSection = () => {
   return (
-    <section className="py-28 relative overflow-hidden" style={{ backgroundColor: 'hsl(220 20% 10%)' }}>
+    <section className="py-16 lg:py-28 relative overflow-hidden" style={{ backgroundColor: 'hsl(220 20% 10%)' }}>
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}

@@ -87,7 +87,7 @@ const PacksSection = () => {
   };
 
   return (
-    <section id="packs" className="py-28 relative bg-background">
+    <section id="packs" className="py-16 lg:py-28 relative bg-background">
       <div className="container mx-auto px-4">
         {/* Header - cleaner */}
         <motion.div 
@@ -108,7 +108,7 @@ const PacksSection = () => {
 
         {/* Packs Grid */}
         <motion.div 
-          className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -122,9 +122,9 @@ const PacksSection = () => {
                 y: -12,
                 transition: { duration: 0.3 }
               }}
-              className={`relative rounded-2xl p-8 transition-all duration-500 ${
+              className={`relative rounded-2xl p-6 lg:p-8 transition-all duration-500 ${
                 pack.popular
-                  ? "bg-card border-2 border-primary shadow-[0_8px_40px_hsl(217,91%,50%,0.25)] scale-105 z-10"
+                  ? "bg-card border-2 border-primary shadow-[0_8px_40px_hsl(217,91%,50%,0.25)] lg:scale-105 z-10"
                   : "bg-card border border-border/60 shadow-card hover:shadow-elevated"
               }`}
             >
