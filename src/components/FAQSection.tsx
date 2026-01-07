@@ -62,22 +62,22 @@ const itemVariants = {
 
 const FAQSection = () => {
   return (
-    <section id="faq" className="py-32 relative bg-background">
+    <section id="faq" className="py-28 relative bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="text-center max-w-2xl mx-auto mb-14"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider">FAQ</span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-            Frequently Asked Questions
+          <span className="text-primary text-sm font-medium uppercase tracking-wider">FAQ</span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-5">
+            Common questions
           </h2>
           <p className="text-muted-foreground">
-            Everything you need to know before getting started.
+            Clear answers to help you decide with confidence.
           </p>
         </motion.div>
 
@@ -89,17 +89,17 @@ const FAQSection = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion type="single" collapsible className="space-y-3">
             {faqs.map((faq, index) => (
               <motion.div key={index} variants={itemVariants}>
                 <AccordionItem
                   value={`item-${index}`}
-                  className="glass rounded-xl px-6 border-none data-[state=open]:glow-primary transition-all duration-300"
+                  className="bg-secondary/30 rounded-lg px-6 border border-border/30 data-[state=open]:border-primary/20 transition-all duration-300"
                 >
-                  <AccordionTrigger className="text-left font-display font-semibold hover:no-underline hover:text-primary py-6">
+                  <AccordionTrigger className="text-left font-medium hover:no-underline hover:text-primary py-5 text-[15px]">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-6 leading-relaxed">
+                  <AccordionContent className="text-muted-foreground pb-5 leading-relaxed text-sm">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>

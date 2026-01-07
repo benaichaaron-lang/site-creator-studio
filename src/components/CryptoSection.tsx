@@ -45,30 +45,24 @@ const steps = [
 
 const CryptoSection = () => {
   return (
-    <section className="py-32 relative overflow-hidden" style={{ backgroundColor: 'hsl(217 40% 12%)' }}>
-      {/* Background with darker tone */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
-      
+    <section className="py-28 relative overflow-hidden" style={{ backgroundColor: 'hsl(220 20% 10%)' }}>
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-primary text-sm font-semibold uppercase tracking-wider">Payment</span>
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-white">
-                Pay with
-                <span className="text-primary"> crypto</span>,
-                <br />
-                simply
+              <span className="text-primary text-sm font-medium uppercase tracking-wider">Payment</span>
+              <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-6 text-white">
+                Crypto payment accepted
               </h2>
-              <p className="text-white/70 text-lg mb-8">
-                We accept the main cryptocurrencies. A simple, modern, and secure 
-                payment process that adapts to your habits.
+              <p className="text-white/60 text-lg mb-8 leading-relaxed">
+                We accept major cryptocurrencies for a seamless, 
+                borderless payment experience.
               </p>
 
               {/* Crypto Badges */}
@@ -141,28 +135,24 @@ const CryptoSection = () => {
                 ))}
               </div>
 
-              {/* Trust Notes */}
+              {/* Trust Notes - clear and reassuring */}
               <motion.div
-                className="mt-8 space-y-3"
+                className="mt-10 space-y-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
               >
-                <div className="p-4 bg-primary/5 rounded-xl border border-primary/10">
-                  <p className="text-sm text-muted-foreground">
+                <div className="p-4 bg-white/[0.03] rounded-lg border border-white/10">
+                  <p className="text-sm text-white/70 leading-relaxed">
                     <Shield className="w-4 h-4 inline-block mr-2 text-primary" />
                     Invoice, transaction reference, and proof of payment provided for every order.
                   </p>
                 </div>
-                <div className="p-3 bg-secondary/30 rounded-lg">
-                  <p className="text-xs text-muted-foreground">
-                    💵 Prefer stability? Pay in USDC or USDT.
-                  </p>
-                </div>
-                <div className="p-3 bg-secondary/30 rounded-lg">
-                  <p className="text-xs text-muted-foreground">
-                    ⏳ Crypto payment happens <strong>only after brief validation</strong>. No upfront payment.
+                <div className="p-4 bg-white/[0.03] rounded-lg border border-white/10">
+                  <p className="text-sm text-white/70 leading-relaxed">
+                    Payment happens <span className="text-white font-medium">only after brief validation</span>. 
+                    No upfront payment required.
                   </p>
                 </div>
               </motion.div>

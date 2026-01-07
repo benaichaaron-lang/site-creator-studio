@@ -41,80 +41,62 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[hsl(220,25%,6%)]">
-      {/* Sophisticated grid background */}
+    <section className="relative min-h-[88vh] flex items-center overflow-hidden bg-[hsl(220,20%,8%)]">
+      {/* Subtle professional background */}
       <div className="absolute inset-0">
+        {/* Very subtle grid */}
         <div 
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.015]"
           style={{
-            backgroundImage: `linear-gradient(hsl(220,60%,60%) 1px, transparent 1px), linear-gradient(90deg, hsl(220,60%,60%) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
+            backgroundImage: `linear-gradient(hsl(220,40%,50%) 1px, transparent 1px), linear-gradient(90deg, hsl(220,40%,50%) 1px, transparent 1px)`,
+            backgroundSize: '80px 80px'
           }}
         />
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(220,25%,6%)] to-[hsl(220,25%,6%)]" />
-        <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-primary/5 to-transparent" />
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,25%,10%)] via-[hsl(220,20%,8%)] to-[hsl(220,20%,8%)]" />
         
-        {/* Accent glows */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/8 rounded-full blur-[120px]" />
+        {/* Very subtle accent glow - minimal */}
+        <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[200px]" />
       </div>
-
-      {/* Floating elements */}
-      <motion.div
-        className="absolute top-32 right-20 w-2 h-2 bg-primary rounded-full"
-        animate={{ y: [0, -20, 0], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-16 w-1.5 h-1.5 bg-blue-400 rounded-full"
-        animate={{ y: [0, 20, 0], opacity: [0.3, 0.8, 0.3] }}
-        transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-      />
-      <motion.div
-        className="absolute bottom-40 right-1/4 w-1 h-1 bg-white rounded-full"
-        animate={{ y: [0, -15, 0], opacity: [0.2, 0.6, 0.2] }}
-        transition={{ duration: 3, repeat: Infinity, delay: 2 }}
-      />
 
       <div className="container mx-auto px-4 relative z-10 pt-32 pb-24">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left content */}
           <div className="max-w-2xl">
-            {/* Badge */}
+            {/* Badge - subtle and professional */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8"
             >
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-sm text-white/80 font-medium">Premium Web Development Agency</span>
+              <span className="w-1.5 h-1.5 bg-primary/80 rounded-full" />
+              <span className="text-sm text-white/60 font-medium tracking-wide">Web Development Studio</span>
             </motion.div>
 
-            {/* Main headline */}
+            {/* Main headline - confident, not hype */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-6"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight mb-6"
             >
-              We build websites
+              Professional websites,
               <br />
-              <span className="bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent">
-                that convert.
-              </span>
+              delivered in{" "}
+              <span className="text-primary font-extrabold">5–10 days</span>
             </motion.h1>
 
-            {/* Subtitle */}
+            {/* Subtitle - clear and calm */}
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl text-white/60 leading-relaxed mb-8 max-w-lg"
+              className="text-lg text-white/50 leading-relaxed mb-8 max-w-lg"
             >
-              High-performance websites delivered in 5–10 days. 
-              Transparent pricing. Pay in crypto or card.
+              Fixed pricing. Transparent process. Crypto or card payment.
+              <br />
+              Every project handled by a real team.
             </motion.p>
 
             {/* Feature list */}
@@ -215,25 +197,26 @@ const HeroSection = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base mt-2"
+                  className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm mt-2"
                 >
-                  Get my free proposal
-                  <ArrowRight className="w-5 h-5 ml-2" />
+                  Request a free proposal
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
                 
-                <p className="text-xs text-white/40 text-center pt-2">
-                  No payment required • Response within 24h
+                {/* Reassuring micro-copy */}
+                <p className="text-xs text-white/40 text-center pt-3 leading-relaxed">
+                  Free brief • No payment required • Reviewed by a real project manager
                 </p>
               </form>
 
               {formSubmitted && (
                 <motion.div
-                  className="mt-4 p-4 bg-primary/10 border border-primary/20 rounded-xl"
+                  className="mt-4 p-4 bg-white/[0.03] border border-white/10 rounded-lg"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <p className="text-sm text-white">
-                    ✓ Thanks! We'll review your request and send you a proposal within 24h.
+                  <p className="text-sm text-white/80 leading-relaxed">
+                    Thank you. A real team member will review your request and contact you within 24 hours.
                   </p>
                 </motion.div>
               )}

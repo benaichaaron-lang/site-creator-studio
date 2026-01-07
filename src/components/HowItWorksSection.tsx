@@ -36,22 +36,22 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <section id="how-it-works" className="py-32 relative" style={{ backgroundColor: 'hsl(217 15% 97%)' }}>
+    <section id="how-it-works" className="py-28 relative bg-secondary/30">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="text-center max-w-2xl mx-auto mb-14"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider">Process</span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
+          <span className="text-primary text-sm font-medium uppercase tracking-wider">Process</span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-5">
             How it works
           </h2>
           <p className="text-muted-foreground">
-            A simple and transparent process in 5 steps. From order to delivery.
+            A straightforward process from brief to delivery.
           </p>
         </motion.div>
 
@@ -126,22 +126,19 @@ const HowItWorksSection = () => {
             ))}
           </div>
 
-          {/* Human team reassurance */}
+          {/* Human team reassurance - calm and clear */}
           <motion.div
-            className="text-center mt-12 space-y-3"
+            className="text-center mt-14 pt-10 border-t border-border/50"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.6 }}
           >
-            <p className="text-sm text-foreground font-medium">
-              Every project is handled by a real human team. No automated websites.
+            <p className="text-foreground font-medium mb-2">
+              Every project is handled by a real human team.
             </p>
-            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-              You'll receive a short questionnaire, then a delivery date and payment link.
-            </p>
-            <p className="text-primary text-sm font-medium">
-              You validate the direction before final delivery.
+            <p className="text-muted-foreground text-sm">
+              No automated websites. No templates. Just experienced developers working on your project.
             </p>
           </motion.div>
         </div>
