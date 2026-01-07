@@ -14,7 +14,8 @@ const examples = [
     title: "GreenTech Solutions",
     industry: "SaaS / Technology",
     outcome: "Lead gen landing page • 40% conversion increase",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&fm=webp&q=80",
+    imageSrcSet: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=267&fit=crop&fm=webp&q=75 400w, https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&fm=webp&q=80 600w",
     description: "A modern SaaS landing page designed to convert visitors into qualified leads. Features include animated hero section, pricing tables, and integrated contact forms.",
     deliveryTime: "Delivered in 7 days",
     pack: "Business",
@@ -24,7 +25,8 @@ const examples = [
     title: "Artisan Boutique",
     industry: "E-commerce / Retail",
     outcome: "Online store • 150+ products launched",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop&fm=webp&q=80",
+    imageSrcSet: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=267&fit=crop&fm=webp&q=75 400w, https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop&fm=webp&q=80 600w",
     description: "Full e-commerce solution with product catalog, shopping cart, secure checkout, and inventory management. Mobile-first responsive design.",
     deliveryTime: "Delivered in 10 days",
     pack: "Premium",
@@ -34,7 +36,8 @@ const examples = [
     title: "Urban Architecture",
     industry: "Architecture / Design",
     outcome: "Portfolio showcase • Premium brand positioning",
-    image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&h=400&fit=crop&fm=webp&q=80",
+    imageSrcSet: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=267&fit=crop&fm=webp&q=75 400w, https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&h=400&fit=crop&fm=webp&q=80 600w",
     description: "Elegant portfolio website showcasing architectural projects with high-resolution galleries, project case studies, and contact integration.",
     deliveryTime: "Delivered in 5 days",
     pack: "Starter",
@@ -44,7 +47,8 @@ const examples = [
     title: "Wellness Center",
     industry: "Health & Wellness",
     outcome: "Booking system • 200+ monthly appointments",
-    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop&fm=webp&q=80",
+    imageSrcSet: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=267&fit=crop&fm=webp&q=75 400w, https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop&fm=webp&q=80 600w",
     description: "Health and wellness business site with online booking system, service catalog, practitioner profiles, and blog section.",
     deliveryTime: "Delivered in 7 days",
     pack: "Business",
@@ -54,7 +58,8 @@ const examples = [
     title: "Legal Partners LLP",
     industry: "Legal / Professional Services",
     outcome: "Corporate website • Professional credibility",
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop&fm=webp&q=80",
+    imageSrcSet: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&h=267&fit=crop&fm=webp&q=75 400w, https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop&fm=webp&q=80 600w",
     description: "Professional law firm website with team profiles, practice areas, case results, and secure client portal integration.",
     deliveryTime: "Delivered in 7 days",
     pack: "Business",
@@ -64,7 +69,8 @@ const examples = [
     title: "Crypto Exchange",
     industry: "Fintech / Blockchain",
     outcome: "Web application • Real-time data integration",
-    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&h=400&fit=crop&fm=webp&q=80",
+    imageSrcSet: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=267&fit=crop&fm=webp&q=75 400w, https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&h=400&fit=crop&fm=webp&q=80 600w",
     description: "Cryptocurrency platform interface with live price tracking, wallet integration, and secure transaction history. Built with Web3 compatibility.",
     deliveryTime: "Delivered in 10 days",
     pack: "Premium",
@@ -131,7 +137,11 @@ const ExamplesSection = () => {
               <div className="aspect-[4/3] overflow-hidden relative">
                 <img
                   src={example.image}
+                  srcSet={example.imageSrcSet}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   alt={example.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Dark overlay on hover */}
@@ -175,6 +185,8 @@ const ExamplesSection = () => {
                       <img 
                         src={example.image} 
                         alt={example.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full aspect-video object-cover rounded-lg"
                       />
                       <div className="flex gap-2">
