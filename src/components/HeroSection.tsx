@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Loader2, FileText, MessageSquare, Rocket, Monitor, Smartphone } from "lucide-react";
+import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,203 +11,94 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import useEmblaCarousel from "embla-carousel-react";
 
-// Mobile Hero Slides
-const MobileHeroSlides = ({ onStartBrief }: { onStartBrief: () => void }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    align: "start",
-    containScroll: "trimSnaps",
-    duration: 25, // Smooth animation speed (lower = faster, higher = slower)
-  });
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-    return () => { emblaApi.off("select", onSelect); };
-  }, [emblaApi, onSelect]);
-
-  const slides = [
-    // Slide 1: Value Proposition
-    {
-      id: 1,
-      content: (
-        <div className="flex flex-col justify-center h-full px-1">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] mb-5 self-start"
-          >
-            <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-            <span className="text-xs text-white/60 font-medium">Web Development Studio</span>
-          </motion.div>
-
-          <h1 className="text-3xl font-bold text-white leading-tight mb-4">
-            High-converting websites in{" "}
-            <span className="text-primary">5–10 days</span>
-          </h1>
-
-          <p className="text-white/50 text-sm leading-relaxed mb-6">
-            Fixed pricing. Transparent process. Crypto or card accepted.
-          </p>
-
-          <div className="flex flex-wrap gap-3 mb-6">
-            {["150+ projects", "100% satisfaction", "Real team"].map((item, i) => (
-              <div key={i} className="flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-primary" />
-                <span className="text-xs text-white/60">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-    // Slide 2: How it works
-    {
-      id: 2,
-      content: (
-        <div className="flex flex-col justify-center h-full px-1">
-          <h2 className="text-xl font-bold text-white mb-6">How it works</h2>
-          
-          <div className="space-y-4">
-            {[
-              { icon: FileText, title: "Submit your brief", desc: "2-min questionnaire" },
-              { icon: MessageSquare, title: "We validate", desc: "Scope & pricing confirmed" },
-              { icon: Rocket, title: "Delivery", desc: "Ready in 5-10 days" },
-            ].map((step, i) => (
-              <div key={i} className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
-                  <step.icon className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-white">{step.title}</div>
-                  <div className="text-xs text-white/50">{step.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-    // Slide 3: Outcome preview
-    {
-      id: 3,
-      content: (
-        <div className="flex flex-col justify-center h-full px-1">
-          <h2 className="text-xl font-bold text-white mb-4">Your site, delivered</h2>
-          <p className="text-white/50 text-sm mb-5">
-            Professional, responsive, ready to launch.
-          </p>
-          
-          {/* Visual mockup */}
-          <div className="relative bg-white/[0.03] border border-white/10 rounded-xl p-4 mb-4">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex items-center gap-1">
-                <Monitor className="w-4 h-4 text-primary" />
-                <span className="text-[10px] text-white/40">Desktop</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Smartphone className="w-3.5 h-3.5 text-primary" />
-                <span className="text-[10px] text-white/40">Mobile</span>
-              </div>
-            </div>
-            
-            <div className="flex gap-3">
-              {/* Desktop preview */}
-              <div className="flex-1 bg-white/[0.05] rounded-lg overflow-hidden">
-                <div className="h-4 bg-white/[0.05] flex items-center gap-1 px-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-400/60" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-400/60" />
-                </div>
-                <div className="p-2 space-y-1.5">
-                  <div className="h-8 bg-gradient-to-r from-primary/30 to-blue-500/20 rounded" />
-                  <div className="h-2 bg-white/10 rounded w-3/4" />
-                  <div className="h-2 bg-white/10 rounded w-1/2" />
-                  <div className="flex gap-1 mt-2">
-                    <div className="h-6 flex-1 bg-white/5 rounded" />
-                    <div className="h-6 flex-1 bg-white/5 rounded" />
-                  </div>
-                </div>
-              </div>
-              
-              {/* Mobile preview */}
-              <div className="w-12 bg-white/[0.05] rounded-lg overflow-hidden">
-                <div className="h-2 bg-white/[0.05] flex items-center justify-center">
-                  <div className="w-4 h-0.5 rounded-full bg-white/20" />
-                </div>
-                <div className="p-1 space-y-1">
-                  <div className="h-4 bg-primary/20 rounded" />
-                  <div className="h-1 bg-white/10 rounded" />
-                  <div className="h-1 bg-white/10 rounded w-3/4" />
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-2 mt-3">
-              <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
-                <Check className="w-3 h-3 text-green-400" />
-              </div>
-              <span className="text-xs text-green-400 font-medium">Ready to publish</span>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-  ];
-
+// Static Mobile Hero - Premium, no swipe
+const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
   return (
-    <div className="min-h-[calc(100vh-80px)] flex flex-col">
-      {/* Carousel */}
-      <div className="flex-1 overflow-hidden" ref={emblaRef}>
-        <div className="flex h-full">
-          {slides.map((slide) => (
-            <div 
-              key={slide.id} 
-              className="flex-[0_0_100%] min-w-0 px-4"
-            >
-              {slide.content}
+    <div className="min-h-[calc(100vh-80px)] flex flex-col justify-between px-5 py-6">
+      {/* Main content */}
+      <div className="flex-1 flex flex-col justify-center">
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] mb-5 self-start"
+        >
+          <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+          <span className="text-xs text-white/60 font-medium">Web Development Studio</span>
+        </motion.div>
+
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-[28px] leading-[1.15] font-bold text-white mb-4"
+        >
+          High-converting websites in{" "}
+          <span className="text-primary">5–10 days</span>
+        </motion.h1>
+
+        {/* Supporting line */}
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-white/50 text-sm leading-relaxed mb-6"
+        >
+          Fixed pricing. Transparent process.<br />
+          Crypto or card accepted.
+        </motion.p>
+
+        {/* Trust indicators */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-wrap gap-4 mb-8"
+        >
+          {[
+            { value: "150+", label: "projects" },
+            { value: "5-10", label: "days" },
+            { value: "100%", label: "satisfaction" },
+          ].map((stat, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <span className="text-xs font-bold text-primary">{stat.value}</span>
+              </div>
+              <span className="text-xs text-white/50">{stat.label}</span>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
-      {/* Fixed bottom: indicators + CTA */}
-      <div className="px-4 pb-6 pt-4 bg-gradient-to-t from-[hsl(220,20%,8%)] to-transparent">
-        {/* Swipe indicators */}
-        <div className="flex justify-center gap-2 mb-4">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                index === selectedIndex ? "w-8 bg-primary" : "w-2 bg-white/20"
-              }`}
-              onClick={() => emblaApi?.scrollTo(index)}
-            />
-          ))}
-        </div>
-
-        {/* CTA always visible */}
+      {/* CTA Section - Fixed at bottom */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="space-y-4"
+      >
+        {/* Primary CTA */}
         <Button 
           onClick={onStartBrief}
-          className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-xl"
+          className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base shadow-lg shadow-primary/20"
         >
           Start my brief
-          <ArrowRight className="w-4 h-4 ml-2" />
+          <ArrowRight className="w-5 h-5 ml-2" />
         </Button>
 
-        <p className="text-[10px] text-white/40 text-center mt-3">
-          Free • No payment required • 24h response
-        </p>
-      </div>
+        {/* Reassurance */}
+        <div className="flex items-center justify-center gap-4">
+          {["Free brief", "No payment required", "24h response"].map((item, i) => (
+            <div key={i} className="flex items-center gap-1.5">
+              <Check className="w-3 h-3 text-primary/70" />
+              <span className="text-[10px] text-white/40">{item}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 };
@@ -418,9 +309,9 @@ const HeroSection = () => {
         <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[200px]" />
       </div>
 
-      {/* Mobile: Swipe hero */}
+      {/* Mobile: Static hero */}
       <div className="sm:hidden w-full relative z-10 pt-20">
-        <MobileHeroSlides onStartBrief={scrollToForm} />
+        <MobileHeroStatic onStartBrief={scrollToForm} />
       </div>
 
       {/* Desktop: Original hero */}
