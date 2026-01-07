@@ -45,7 +45,7 @@ const steps = [
 
 const CryptoSection = () => {
   return (
-    <section className="py-32 relative overflow-hidden" style={{ backgroundColor: 'hsl(160 30% 10%)' }}>
+    <section className="py-32 relative overflow-hidden" style={{ backgroundColor: 'hsl(217 40% 12%)' }}>
       {/* Background with darker tone */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
       

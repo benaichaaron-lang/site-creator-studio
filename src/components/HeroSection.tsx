@@ -105,7 +105,7 @@ const HeroSection = () => {
             >
               High-converting websites
               <br />
-              delivered in <span className="text-primary font-extrabold drop-shadow-[0_0_20px_hsl(160,84%,22%,0.5)]">5–10 days</span>.
+              delivered in <span className="text-primary font-extrabold drop-shadow-[0_0_20px_hsl(217,91%,50%,0.5)]">5–10 days</span>.
             </motion.h1>
           </motion.div>
 
