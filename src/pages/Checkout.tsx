@@ -260,6 +260,17 @@ const Checkout = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* QR Code */}
+                <div className="flex justify-center">
+                  <div className="p-4 bg-white rounded-lg">
+                    <img 
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentData.pay_address)}`}
+                      alt="QR Code de paiement"
+                      className="w-48 h-48"
+                    />
+                  </div>
+                </div>
+
                 <div className="p-4 bg-muted rounded-lg space-y-4">
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">Montant à envoyer</p>
