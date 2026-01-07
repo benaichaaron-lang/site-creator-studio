@@ -36,7 +36,7 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <section id="how-it-works" className="py-28 relative bg-secondary/30">
+    <section id="how-it-works" className="py-16 lg:py-28 relative bg-secondary/30">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 

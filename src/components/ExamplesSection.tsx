@@ -94,7 +94,7 @@ const itemVariants = {
 
 const ExamplesSection = () => {
   return (
-    <section id="portfolio" className="py-28 relative bg-background">
+    <section id="portfolio" className="py-16 lg:py-28 relative bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 
