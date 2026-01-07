@@ -1,10 +1,48 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { crypto } from "https://deno.land/std@0.190.0/crypto/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-nowpayments-sig',
 };
+
+// Verify HMAC signature from NOWPayments
+async function verifySignature(body: string, signature: string, secret: string): Promise<boolean> {
+  try {
+    const encoder = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      "raw",
+      encoder.encode(secret),
+      { name: "HMAC", hash: "SHA-512" },
+      false,
+      ["sign"]
+    );
+    
+    const signatureBuffer = await crypto.subtle.sign(
+      "HMAC",
+      key,
+      encoder.encode(body)
+    );
+    
+    const computedSignature = Array.from(new Uint8Array(signatureBuffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+    
+    return computedSignature === signature.toLowerCase();
+  } catch (error) {
+    console.error('Error verifying signature:', error);
+    return false;
+  }
+}
+
+// Sort object keys for consistent signature
+function sortObject(obj: Record<string, any>): Record<string, any> {
+  return Object.keys(obj).sort().reduce((result: Record<string, any>, key) => {
+    result[key] = obj[key];
+    return result;
+  }, {});
+}
 
 serve(async (req: Request) => {
   // Handle CORS preflight
@@ -15,10 +53,42 @@ serve(async (req: Request) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const ipnSecret = Deno.env.get('NOWPAYMENTS_IPN_SECRET');
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const body = await req.json();
+    const bodyText = await req.text();
+    const body = JSON.parse(bodyText);
+    
     console.log('Webhook received:', body);
+
+    // Verify signature if IPN secret is configured
+    if (ipnSecret) {
+      const signature = req.headers.get('x-nowpayments-sig');
+      
+      if (!signature) {
+        console.error('Missing signature header');
+        return new Response(
+          JSON.stringify({ error: 'Missing signature' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      // NOWPayments requires sorted JSON for signature verification
+      const sortedBody = JSON.stringify(sortObject(body));
+      const isValid = await verifySignature(sortedBody, signature, ipnSecret);
+      
+      if (!isValid) {
+        console.error('Invalid signature');
+        return new Response(
+          JSON.stringify({ error: 'Invalid signature' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
+      console.log('Signature verified successfully');
+    } else {
+      console.warn('IPN secret not configured - skipping signature verification');
+    }
 
     const { payment_id, payment_status, order_id, actually_paid } = body;
 
