@@ -4,6 +4,13 @@ import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import heroVideo from "@/assets/hero-background.mp4";
 
 // Static Mobile Hero - Premium, no swipe
@@ -103,15 +110,21 @@ const DesktopHero = () => {
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [recommendation, setRecommendation] = useState("");
+  const [websiteType, setWebsiteType] = useState("");
+  const [budget, setBudget] = useState("");
+  const [timeline, setTimeline] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string}>({});
+  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string}>({});
 
   const validateForm = () => {
-    const newErrors: {firstName?: string; lastName?: string; phone?: string} = {};
+    const newErrors: {firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string} = {};
     if (!firstName.trim()) newErrors.firstName = "First name is required";
     if (!lastName.trim()) newErrors.lastName = "Last name is required";
     if (!phone.trim()) newErrors.phone = "Phone number is required";
+    if (!websiteType) newErrors.websiteType = "Please select a website type";
+    if (!budget) newErrors.budget = "Please select a budget range";
+    if (!timeline) newErrors.timeline = "Please select a timeline";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -133,6 +146,9 @@ const DesktopHero = () => {
           lastName: lastName.trim(),
           phone: phone.trim(),
           recommendation: recommendation.trim() || null,
+          websiteType,
+          budget,
+          timeline,
         }),
       });
 
@@ -265,6 +281,55 @@ const DesktopHero = () => {
                     onChange={(e) => setRecommendation(e.target.value)}
                     className="bg-white/5 border-white/10 text-white h-12"
                   />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block text-white/70">Website type <span className="text-red-400">*</span></label>
+                  <Select value={websiteType} onValueChange={(value) => { setWebsiteType(value); setErrors(prev => ({ ...prev, websiteType: undefined })); }}>
+                    <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.websiteType ? 'border-red-400' : ''}`}>
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border">
+                      <SelectItem value="landing">Landing page</SelectItem>
+                      <SelectItem value="ecommerce">E-commerce</SelectItem>
+                      <SelectItem value="business">Business site</SelectItem>
+                      <SelectItem value="portfolio">Portfolio</SelectItem>
+                      <SelectItem value="webapp">Web app</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.websiteType && <p className="text-red-400 text-xs mt-1">{errors.websiteType}</p>}
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block text-white/70">Budget range <span className="text-red-400">*</span></label>
+                  <Select value={budget} onValueChange={(value) => { setBudget(value); setErrors(prev => ({ ...prev, budget: undefined })); }}>
+                    <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.budget ? 'border-red-400' : ''}`}>
+                      <SelectValue placeholder="Select budget" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border">
+                      <SelectItem value="starter">Starter (~$500)</SelectItem>
+                      <SelectItem value="business">Business (~$1,200)</SelectItem>
+                      <SelectItem value="premium">Premium (~$2,000)</SelectItem>
+                      <SelectItem value="unsure">Not sure yet</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.budget && <p className="text-red-400 text-xs mt-1">{errors.budget}</p>}
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block text-white/70">Timeline <span className="text-red-400">*</span></label>
+                  <Select value={timeline} onValueChange={(value) => { setTimeline(value); setErrors(prev => ({ ...prev, timeline: undefined })); }}>
+                    <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.timeline ? 'border-red-400' : ''}`}>
+                      <SelectValue placeholder="Select timeline" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border">
+                      <SelectItem value="asap">As soon as possible</SelectItem>
+                      <SelectItem value="1week">Within 1 week</SelectItem>
+                      <SelectItem value="2weeks">Within 2 weeks</SelectItem>
+                      <SelectItem value="flexible">Flexible</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.timeline && <p className="text-red-400 text-xs mt-1">{errors.timeline}</p>}
                 </div>
 
                 <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm mt-2" disabled={isSubmitting}>

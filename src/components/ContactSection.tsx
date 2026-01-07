@@ -4,6 +4,13 @@ import { Send, Mail, MessageCircle, CheckCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -11,13 +18,16 @@ const ContactSection = () => {
     lastName: "",
     phone: "",
     recommendation: "",
+    websiteType: "",
+    budget: "",
+    timeline: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string}>({});
+  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string}>({});
 
   const validateForm = () => {
-    const newErrors: {firstName?: string; lastName?: string; phone?: string} = {};
+    const newErrors: {firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string} = {};
     
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required";
@@ -27,6 +37,15 @@ const ContactSection = () => {
     }
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
+    }
+    if (!formData.websiteType) {
+      newErrors.websiteType = "Please select a website type";
+    }
+    if (!formData.budget) {
+      newErrors.budget = "Please select a budget range";
+    }
+    if (!formData.timeline) {
+      newErrors.timeline = "Please select a timeline";
     }
     
     setErrors(newErrors);
@@ -56,6 +75,9 @@ const ContactSection = () => {
           lastName: formData.lastName.trim(),
           phone: formData.phone.trim(),
           recommendation: formData.recommendation.trim() || null,
+          websiteType: formData.websiteType,
+          budget: formData.budget,
+          timeline: formData.timeline,
         }),
       });
 
@@ -78,7 +100,7 @@ const ContactSection = () => {
 
       // Reset after delay
       setTimeout(() => {
-        setFormData({ firstName: "", lastName: "", phone: "", recommendation: "" });
+        setFormData({ firstName: "", lastName: "", phone: "", recommendation: "", websiteType: "", budget: "", timeline: "" });
         setIsSubmitted(false);
       }, 5000);
     } catch (err) {
@@ -284,13 +306,109 @@ const ContactSection = () => {
                       />
                     </motion.div>
 
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      <label className="text-sm font-medium mb-2 block">
+                        Website type <span className="text-red-400">*</span>
+                      </label>
+                      <Select 
+                        value={formData.websiteType} 
+                        onValueChange={(value) => {
+                          setFormData({ ...formData, websiteType: value });
+                          setErrors(prev => ({ ...prev, websiteType: undefined }));
+                        }}
+                      >
+                        <SelectTrigger className={`bg-secondary/50 border-border/50 ${errors.websiteType ? 'border-red-400' : ''}`}>
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border-border">
+                          <SelectItem value="landing">Landing page</SelectItem>
+                          <SelectItem value="ecommerce">E-commerce</SelectItem>
+                          <SelectItem value="business">Business site</SelectItem>
+                          <SelectItem value="portfolio">Portfolio</SelectItem>
+                          <SelectItem value="webapp">Web app</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {errors.websiteType && (
+                        <p className="text-red-400 text-xs mt-1">{errors.websiteType}</p>
+                      )}
+                    </motion.div>
+
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.55 }}
+                      >
+                        <label className="text-sm font-medium mb-2 block">
+                          Budget range <span className="text-red-400">*</span>
+                        </label>
+                        <Select 
+                          value={formData.budget} 
+                          onValueChange={(value) => {
+                            setFormData({ ...formData, budget: value });
+                            setErrors(prev => ({ ...prev, budget: undefined }));
+                          }}
+                        >
+                          <SelectTrigger className={`bg-secondary/50 border-border/50 ${errors.budget ? 'border-red-400' : ''}`}>
+                            <SelectValue placeholder="Select budget" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border-border">
+                            <SelectItem value="starter">Starter (~$500)</SelectItem>
+                            <SelectItem value="business">Business (~$1,200)</SelectItem>
+                            <SelectItem value="premium">Premium (~$2,000)</SelectItem>
+                            <SelectItem value="unsure">Not sure yet</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {errors.budget && (
+                          <p className="text-red-400 text-xs mt-1">{errors.budget}</p>
+                        )}
+                      </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.6 }}
+                      >
+                        <label className="text-sm font-medium mb-2 block">
+                          Timeline <span className="text-red-400">*</span>
+                        </label>
+                        <Select 
+                          value={formData.timeline} 
+                          onValueChange={(value) => {
+                            setFormData({ ...formData, timeline: value });
+                            setErrors(prev => ({ ...prev, timeline: undefined }));
+                          }}
+                        >
+                          <SelectTrigger className={`bg-secondary/50 border-border/50 ${errors.timeline ? 'border-red-400' : ''}`}>
+                            <SelectValue placeholder="Select timeline" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border-border">
+                            <SelectItem value="asap">As soon as possible</SelectItem>
+                            <SelectItem value="1week">Within 1 week</SelectItem>
+                            <SelectItem value="2weeks">Within 2 weeks</SelectItem>
+                            <SelectItem value="flexible">Flexible</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {errors.timeline && (
+                          <p className="text-red-400 text-xs mt-1">{errors.timeline}</p>
+                        )}
+                      </motion.div>
+                    </div>
+
                     <motion.div 
                       whileHover={{ scale: 1.02 }} 
                       whileTap={{ scale: 0.98 }}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: 0.5 }}
+                      transition={{ delay: 0.65 }}
                     >
                       <Button 
                         type="submit" 
