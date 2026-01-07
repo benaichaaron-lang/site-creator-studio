@@ -73,8 +73,10 @@ const Navbar = () => {
 
   return (
     <motion.nav 
-      className={`fixed top-0 left-0 right-0 z-50 bg-background border-b border-border transition-shadow duration-300 ${
-        hasScrolled ? 'shadow-md' : ''
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        hasScrolled 
+          ? 'bg-background border-b border-border shadow-md' 
+          : 'bg-transparent border-b border-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -88,7 +90,9 @@ const Navbar = () => {
             className="flex items-center gap-2 group"
             onClick={handleLogoClick}
           >
-            <span className="font-bold text-xl tracking-tight text-foreground">
+            <span className={`font-bold text-xl tracking-tight transition-colors duration-300 ${
+              hasScrolled ? 'text-foreground' : 'text-white'
+            }`}>
               mysite<span className="text-primary">factory</span>
               <span className="text-primary">.</span>
             </span>
@@ -101,7 +105,11 @@ const Navbar = () => {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium cursor-pointer"
+                className={`transition-colors text-sm font-medium cursor-pointer ${
+                  hasScrolled 
+                    ? 'text-muted-foreground hover:text-foreground' 
+                    : 'text-white/70 hover:text-white'
+                }`}
               >
                 {item.label}
               </a>
@@ -119,7 +127,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-foreground p-2"
+            className={`md:hidden p-2 transition-colors ${hasScrolled ? 'text-foreground' : 'text-white'}`}
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
