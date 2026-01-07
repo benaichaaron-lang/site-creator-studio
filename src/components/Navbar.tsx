@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +13,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,12 +24,12 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { label: "Packs", href: "/#packs" },
-    { label: "Custom", href: "/#custom" },
-    { label: "Portfolio", href: "/#portfolio" },
-    { label: "How it Works", href: "/#how-it-works" },
-    { label: "FAQ", href: "/#faq" },
-    { label: "Contact", href: "/#contact" },
+    { label: t("nav.packs"), href: "/#packs" },
+    { label: t("nav.custom"), href: "/#custom" },
+    { label: t("nav.portfolio"), href: "/#portfolio" },
+    { label: t("nav.howItWorks"), href: "/#how-it-works" },
+    { label: t("nav.faq"), href: "/#faq" },
+    { label: t("nav.contact"), href: "/#contact" },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -58,18 +60,6 @@ const Navbar = () => {
 
   const handleLogoClick = () => {
     if (location.pathname === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  const scrollToHeroForm = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 100);
-    } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -127,7 +117,7 @@ const Navbar = () => {
                 onClick={() => navigate('/dashboard')}
                 className="bg-foreground text-background hover:bg-foreground/90 rounded-md px-5 text-sm font-semibold"
               >
-                Dashboard
+                {t("nav.dashboard")}
               </Button>
             ) : (
               <>
@@ -137,14 +127,14 @@ const Navbar = () => {
                   className={`text-sm font-medium ${hasScrolled ? 'text-foreground hover:bg-muted' : 'text-white hover:bg-white/10'}`}
                 >
                   <LogIn className="w-4 h-4 mr-2" />
-                  Sign in
+                  {t("nav.signIn")}
                 </Button>
                 <Button 
                   onClick={() => navigate('/auth', { state: { isSignUp: true } })}
                   className="bg-primary hover:bg-primary/90 text-white rounded-md px-4 text-sm font-semibold"
                 >
                   <UserPlus className="w-4 h-4 mr-2" />
-                  Sign up
+                  {t("nav.signUp")}
                 </Button>
               </>
             )}
@@ -181,7 +171,7 @@ const Navbar = () => {
                   </a>
                 ))}
                 <div className="flex items-center gap-3 py-2">
-                  <span className="text-sm text-muted-foreground">Language:</span>
+                  <span className="text-sm text-muted-foreground">{t("nav.language")}:</span>
                   <LanguageSwitcher hasScrolled={true} isOpen={true} />
                 </div>
                 {user ? (
@@ -189,7 +179,7 @@ const Navbar = () => {
                     onClick={() => { setIsOpen(false); navigate('/dashboard'); }}
                     className="bg-foreground text-background hover:bg-foreground/90 mt-2 w-full"
                   >
-                    Dashboard
+                    {t("nav.dashboard")}
                   </Button>
                 ) : (
                   <div className="flex flex-col gap-2 mt-2">
@@ -199,14 +189,14 @@ const Navbar = () => {
                       className="w-full"
                     >
                       <LogIn className="w-4 h-4 mr-2" />
-                      Sign in
+                      {t("nav.signIn")}
                     </Button>
                     <Button 
                       onClick={() => { setIsOpen(false); navigate('/auth', { state: { isSignUp: true } }); }}
                       className="bg-primary hover:bg-primary/90 text-white w-full"
                     >
                       <UserPlus className="w-4 h-4 mr-2" />
-                      Sign up
+                      {t("nav.signUp")}
                     </Button>
                   </div>
                 )}
