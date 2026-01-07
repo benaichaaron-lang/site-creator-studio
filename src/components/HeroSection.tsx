@@ -18,6 +18,7 @@ const MobileHeroSlides = ({ onStartBrief }: { onStartBrief: () => void }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     align: "start",
     containScroll: "trimSnaps",
+    duration: 25, // Smooth animation speed (lower = faster, higher = slower)
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
