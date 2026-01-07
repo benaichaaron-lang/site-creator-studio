@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Send, Mail, MessageCircle, CheckCircle } from "lucide-react";
+import { Send, Mail, MessageCircle, CheckCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -23,32 +24,88 @@ const ContactSection = () => {
     consent: false,
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{name?: string; email?: string; message?: string; consent?: string}>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: {name?: string; email?: string; message?: string; consent?: string} = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    }
+    if (!formData.consent) {
+      newErrors.consent = "Please agree to be contacted";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.consent) {
+    if (!validateForm()) {
       toast({
-        title: "Consent required",
-        description: "Please agree to be contacted to submit the form.",
+        title: "Missing information",
+        description: "Please fill in all required fields.",
         variant: "destructive",
       });
       return;
     }
 
-    // Show success state
-    setIsSubmitted(true);
-    
-    toast({
-      title: "Message sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
+    setIsSubmitting(true);
 
-    // Reset after delay
-    setTimeout(() => {
-      setFormData({ name: "", email: "", topic: "", message: "", consent: false });
-      setIsSubmitted(false);
-    }, 5000);
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          topic: formData.topic || null,
+          message: formData.message.trim(),
+        });
+
+      if (error) {
+        console.error("Error submitting contact message:", error);
+        toast({
+          title: "Message failed to send",
+          description: "Something went wrong. Please try again or email us directly.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Show success state
+      setIsSubmitted(true);
+      
+      toast({
+        title: "Message sent!",
+        description: "We'll get back to you within 24 hours.",
+      });
+
+      // Reset after delay
+      setTimeout(() => {
+        setFormData({ name: "", email: "", topic: "", message: "", consent: false });
+        setIsSubmitted(false);
+      }, 5000);
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast({
+        title: "Message failed to send",
+        description: "Something went wrong. Please try again or email us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -162,14 +219,21 @@ const ContactSection = () => {
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 }}
                       >
-                        <label className="text-sm font-medium mb-2 block">Name</label>
+                        <label className="text-sm font-medium mb-2 block">
+                          Name <span className="text-red-400">*</span>
+                        </label>
                         <Input
                           placeholder="Your name"
                           value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
-                          required
+                          onChange={(e) => {
+                            setFormData({ ...formData, name: e.target.value });
+                            setErrors(prev => ({ ...prev, name: undefined }));
+                          }}
+                          className={`bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300 ${errors.name ? 'border-red-400' : ''}`}
                         />
+                        {errors.name && (
+                          <p className="text-red-400 text-xs mt-1">{errors.name}</p>
+                        )}
                       </motion.div>
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -177,15 +241,22 @@ const ContactSection = () => {
                         viewport={{ once: true }}
                         transition={{ delay: 0.35 }}
                       >
-                        <label className="text-sm font-medium mb-2 block">Email</label>
+                        <label className="text-sm font-medium mb-2 block">
+                          Email <span className="text-red-400">*</span>
+                        </label>
                         <Input
                           type="email"
                           placeholder="your@email.com"
                           value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
-                          required
+                          onChange={(e) => {
+                            setFormData({ ...formData, email: e.target.value });
+                            setErrors(prev => ({ ...prev, email: undefined }));
+                          }}
+                          className={`bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300 ${errors.email ? 'border-red-400' : ''}`}
                         />
+                        {errors.email && (
+                          <p className="text-red-400 text-xs mt-1">{errors.email}</p>
+                        )}
                       </motion.div>
                     </div>
 
@@ -217,14 +288,21 @@ const ContactSection = () => {
                       viewport={{ once: true }}
                       transition={{ delay: 0.45 }}
                     >
-                      <label className="text-sm font-medium mb-2 block">Message</label>
+                      <label className="text-sm font-medium mb-2 block">
+                        Message <span className="text-red-400">*</span>
+                      </label>
                       <Textarea
                         placeholder="Describe your project or ask us your question..."
                         value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="bg-secondary/50 border-border/50 focus:border-primary min-h-[120px] transition-all duration-300"
-                        required
+                        onChange={(e) => {
+                          setFormData({ ...formData, message: e.target.value });
+                          setErrors(prev => ({ ...prev, message: undefined }));
+                        }}
+                        className={`bg-secondary/50 border-border/50 focus:border-primary min-h-[120px] transition-all duration-300 ${errors.message ? 'border-red-400' : ''}`}
                       />
+                      {errors.message && (
+                        <p className="text-red-400 text-xs mt-1">{errors.message}</p>
+                      )}
                     </motion.div>
 
                     <motion.div
@@ -237,10 +315,11 @@ const ContactSection = () => {
                       <Checkbox
                         id="consent"
                         checked={formData.consent}
-                        onCheckedChange={(checked) => 
-                          setFormData({ ...formData, consent: checked as boolean })
-                        }
-                        className="mt-0.5"
+                        onCheckedChange={(checked) => {
+                          setFormData({ ...formData, consent: checked as boolean });
+                          setErrors(prev => ({ ...prev, consent: undefined }));
+                        }}
+                        className={`mt-0.5 ${errors.consent ? 'border-red-400' : ''}`}
                       />
                       <label 
                         htmlFor="consent" 
@@ -248,8 +327,12 @@ const ContactSection = () => {
                       >
                         I agree to be contacted by MySiteFactory regarding my request. 
                         Your data will be processed according to our privacy policy.
+                        <span className="text-red-400"> *</span>
                       </label>
                     </motion.div>
+                    {errors.consent && (
+                      <p className="text-red-400 text-xs -mt-4">{errors.consent}</p>
+                    )}
 
                     <motion.div 
                       whileHover={{ scale: 1.02 }} 
@@ -259,14 +342,29 @@ const ContactSection = () => {
                       viewport={{ once: true }}
                       transition={{ delay: 0.55 }}
                     >
-                      <Button type="submit" variant="hero" size="lg" className="w-full">
-                        Send message
-                        <motion.div
-                          whileHover={{ x: 5, rotate: -20 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
-                          <Send className="w-5 h-5" />
-                        </motion.div>
+                      <Button 
+                        type="submit" 
+                        variant="hero" 
+                        size="lg" 
+                        className="w-full"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            Send message
+                            <motion.div
+                              whileHover={{ x: 5, rotate: -20 }}
+                              transition={{ type: "spring", stiffness: 300 }}
+                            >
+                              <Send className="w-5 h-5" />
+                            </motion.div>
+                          </>
+                        )}
                       </Button>
                     </motion.div>
                   </motion.form>
