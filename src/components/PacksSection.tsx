@@ -139,7 +139,7 @@ const PacksSection = () => {
               }}
               className={`relative rounded-2xl p-8 transition-all duration-500 ${
                 pack.popular
-                  ? "bg-card border-2 border-primary shadow-[0_8px_40px_hsl(160,84%,22%,0.25)] scale-105 z-10"
+                  ? "bg-card border-2 border-primary shadow-[0_8px_40px_hsl(217,91%,50%,0.25)] scale-105 z-10"
                   : "bg-card border border-border/60 shadow-card hover:shadow-elevated"
               }`}
             >
