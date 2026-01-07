@@ -126,7 +126,8 @@ serve(async (req: Request) => {
         order_id: orderData.id,
         order_description: paymentData.order_description,
         price_amount: amount,
-        price_currency: currency
+        price_currency: currency,
+        expiration_estimate_date: paymentData.expiration_estimate_date
       }),
       { 
         status: 200, 

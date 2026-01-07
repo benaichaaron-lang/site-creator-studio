@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, UserPlus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -118,13 +120,34 @@ const Navbar = () => {
           </div>
 
           {/* Right Side */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
             <LanguageSwitcher hasScrolled={hasScrolled} isOpen={isOpen} />
-            <a href="/" onClick={scrollToHeroForm}>
-              <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-md px-5 text-sm font-semibold">
-                Start my brief
+            {user ? (
+              <Button 
+                onClick={() => navigate('/dashboard')}
+                className="bg-foreground text-background hover:bg-foreground/90 rounded-md px-5 text-sm font-semibold"
+              >
+                Dashboard
               </Button>
-            </a>
+            ) : (
+              <>
+                <Button 
+                  variant="ghost"
+                  onClick={() => navigate('/auth')}
+                  className={`text-sm font-medium ${hasScrolled ? 'text-foreground hover:bg-muted' : 'text-white hover:bg-white/10'}`}
+                >
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Sign in
+                </Button>
+                <Button 
+                  onClick={() => navigate('/auth', { state: { isSignUp: true } })}
+                  className="bg-primary hover:bg-primary/90 text-white rounded-md px-4 text-sm font-semibold"
+                >
+                  <UserPlus className="w-4 h-4 mr-2" />
+                  Sign up
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -161,11 +184,32 @@ const Navbar = () => {
                   <span className="text-sm text-muted-foreground">Language:</span>
                   <LanguageSwitcher hasScrolled={true} isOpen={true} />
                 </div>
-                <a href="/" onClick={scrollToHeroForm}>
-                  <Button className="bg-foreground text-background hover:bg-foreground/90 mt-2 w-full">
-                    Start my brief
+                {user ? (
+                  <Button 
+                    onClick={() => { setIsOpen(false); navigate('/dashboard'); }}
+                    className="bg-foreground text-background hover:bg-foreground/90 mt-2 w-full"
+                  >
+                    Dashboard
                   </Button>
-                </a>
+                ) : (
+                  <div className="flex flex-col gap-2 mt-2">
+                    <Button 
+                      variant="outline"
+                      onClick={() => { setIsOpen(false); navigate('/auth'); }}
+                      className="w-full"
+                    >
+                      <LogIn className="w-4 h-4 mr-2" />
+                      Sign in
+                    </Button>
+                    <Button 
+                      onClick={() => { setIsOpen(false); navigate('/auth', { state: { isSignUp: true } }); }}
+                      className="bg-primary hover:bg-primary/90 text-white w-full"
+                    >
+                      <UserPlus className="w-4 h-4 mr-2" />
+                      Sign up
+                    </Button>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}
