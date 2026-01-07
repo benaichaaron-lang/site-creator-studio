@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Check, Zap, Building2, Crown, ArrowRight, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 
 const packs = [
   {
@@ -11,16 +12,8 @@ const packs = [
     fiat: "~$500",
     delay: "5 days",
     popular: false,
-    keyFeatures: [
-      "One-page landing",
-      "Responsive design",
-      "Contact form",
-    ],
-    moreFeatures: [
-      "1 year hosting included",
-      "SSL certificate",
-      "Basic SEO setup",
-    ],
+    keyFeatures: ["One-page landing", "Responsive design", "Contact form"],
+    moreFeatures: ["1 year hosting", "SSL certificate", "Basic SEO"],
   },
   {
     name: "Business",
@@ -29,17 +22,8 @@ const packs = [
     fiat: "~$1,200",
     delay: "7 days",
     popular: true,
-    keyFeatures: [
-      "Up to 5 pages",
-      "Premium design",
-      "Advanced forms",
-    ],
-    moreFeatures: [
-      "1 year hosting included",
-      "SSL certificate",
-      "Full SEO optimization",
-      "Analytics integration",
-    ],
+    keyFeatures: ["Up to 5 pages", "Premium design", "Advanced forms"],
+    moreFeatures: ["1 year hosting", "SSL certificate", "Full SEO", "Analytics"],
   },
   {
     name: "Premium",
@@ -48,21 +32,12 @@ const packs = [
     fiat: "~$2,000",
     delay: "10 days",
     popular: false,
-    keyFeatures: [
-      "Unlimited pages",
-      "Custom design",
-      "All integrations",
-    ],
-    moreFeatures: [
-      "2 years hosting included",
-      "SSL certificate",
-      "Advanced SEO & performance",
-      "24/7 priority support (6 months)",
-    ],
+    keyFeatures: ["Unlimited pages", "Custom design", "All integrations"],
+    moreFeatures: ["2 years hosting", "SSL certificate", "Advanced SEO", "Priority support"],
   },
 ];
 
-const PackCard = ({ pack, index }: { pack: typeof packs[0]; index: number }) => {
+const MobilePackCard = ({ pack }: { pack: typeof packs[0] }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleChoosePack = () => {
@@ -70,62 +45,50 @@ const PackCard = ({ pack, index }: { pack: typeof packs[0]; index: number }) => 
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
-      className={`relative rounded-xl p-4 sm:p-5 lg:p-6 transition-all duration-300 ${
-        pack.popular
-          ? "bg-card border-2 border-primary shadow-[0_4px_20px_hsl(217,91%,50%,0.2)] z-10"
-          : "bg-card border border-border/60 shadow-card"
-      }`}
-    >
+    <div className={`bg-card rounded-2xl p-5 shadow-card relative h-full flex flex-col ${
+      pack.popular ? "border-2 border-primary" : "border border-border/40"
+    }`}>
       {pack.popular && (
         <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-gradient-primary rounded-full">
           <span className="text-primary-foreground text-xs font-semibold">Popular</span>
         </div>
       )}
 
-      {/* Header: Icon + Name + Delay */}
-      <div className="flex items-center gap-2.5 mb-3">
-        <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center ${
+      <div className="flex items-center gap-3 mb-3">
+        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
           pack.popular ? "bg-primary/20" : "bg-secondary"
         }`}>
-          <pack.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${pack.popular ? "text-primary" : "text-foreground"}`} />
+          <pack.icon className={`w-5 h-5 ${pack.popular ? "text-primary" : "text-foreground"}`} />
         </div>
         <div>
-          <h3 className="font-display text-base sm:text-lg font-bold leading-tight">{pack.name}</h3>
+          <h3 className="font-display text-lg font-bold">{pack.name}</h3>
           <span className="text-xs text-muted-foreground">{pack.delay}</span>
         </div>
       </div>
 
-      {/* Price - prominent */}
-      <div className="mb-3">
+      <div className="mb-4">
         <div className="flex items-baseline gap-2">
-          <span className={`font-display text-2xl sm:text-3xl font-extrabold ${pack.popular ? 'text-primary' : 'text-foreground'}`}>
+          <span className={`font-display text-2xl font-extrabold ${pack.popular ? 'text-primary' : 'text-foreground'}`}>
             {pack.price}
           </span>
-          <span className="text-muted-foreground text-xs sm:text-sm">{pack.fiat}</span>
+          <span className="text-muted-foreground text-sm">{pack.fiat}</span>
         </div>
       </div>
 
-      {/* Key Features - always visible */}
-      <ul className="space-y-1.5 mb-3">
+      <ul className="space-y-2 mb-3 flex-grow">
         {pack.keyFeatures.map((feature, i) => (
           <li key={i} className="flex items-center gap-2">
-            <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />
-            <span className="text-foreground text-xs sm:text-sm">{feature}</span>
+            <Check className="w-4 h-4 text-primary flex-shrink-0" />
+            <span className="text-foreground text-sm">{feature}</span>
           </li>
         ))}
       </ul>
 
-      {/* Expandable more features */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex items-center gap-1 text-xs text-primary font-medium mb-3 hover:underline"
+        className="flex items-center gap-1 text-xs text-primary font-medium mb-3"
       >
-        {expanded ? "Hide details" : `+${pack.moreFeatures.length} more features`}
+        {expanded ? "Hide" : `+${pack.moreFeatures.length} more`}
         <ChevronDown className={`w-3.5 h-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} />
       </button>
 
@@ -148,26 +111,143 @@ const PackCard = ({ pack, index }: { pack: typeof packs[0]; index: number }) => 
         )}
       </AnimatePresence>
 
-      {/* CTA Button */}
       <Button 
         variant={pack.popular ? "hero" : "outline"} 
-        className="w-full h-9 sm:h-10 text-sm"
+        className="w-full h-10 text-sm mt-auto"
         onClick={handleChoosePack}
       >
         Choose
-        <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+        <ArrowRight className="w-4 h-4 ml-1.5" />
+      </Button>
+    </div>
+  );
+};
+
+const DesktopPackCard = ({ pack, index }: { pack: typeof packs[0]; index: number }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleChoosePack = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      whileHover={{ y: -8 }}
+      className={`relative rounded-2xl p-6 lg:p-8 transition-all duration-300 ${
+        pack.popular
+          ? "bg-card border-2 border-primary shadow-[0_8px_40px_hsl(217,91%,50%,0.2)] lg:scale-105 z-10"
+          : "bg-card border border-border/60 shadow-card hover:shadow-elevated"
+      }`}
+    >
+      {pack.popular && (
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-primary rounded-full">
+          <span className="text-primary-foreground text-sm font-semibold">Most Popular</span>
+        </div>
+      )}
+
+      <div className="flex items-center gap-3 mb-4">
+        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+          pack.popular ? "bg-primary/20" : "bg-secondary"
+        }`}>
+          <pack.icon className={`w-6 h-6 ${pack.popular ? "text-primary" : "text-foreground"}`} />
+        </div>
+        <div>
+          <h3 className="font-display text-xl font-bold">{pack.name}</h3>
+          <span className="text-sm text-muted-foreground">Delivered in {pack.delay}</span>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <div className="flex items-baseline gap-3">
+          <span className={`font-display text-4xl font-extrabold ${pack.popular ? 'text-primary' : 'text-foreground'}`}>
+            {pack.price}
+          </span>
+          <span className="text-muted-foreground text-sm font-medium">{pack.fiat}</span>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <p className="text-sm font-semibold mb-3">What you get:</p>
+        <ul className="space-y-2.5">
+          {pack.keyFeatures.map((feature, i) => (
+            <li key={i} className="flex items-center gap-3">
+              <Check className="w-5 h-5 text-primary flex-shrink-0" />
+              <span className="text-foreground text-sm">{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="flex items-center gap-1 text-xs text-primary font-medium mb-4"
+      >
+        {expanded ? "Hide details" : `+${pack.moreFeatures.length} more features`}
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} />
+      </button>
+
+      <AnimatePresence>
+        {expanded && (
+          <motion.ul
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-2 mb-4 overflow-hidden"
+          >
+            {pack.moreFeatures.map((feature, i) => (
+              <li key={i} className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary/60 flex-shrink-0" />
+                <span className="text-muted-foreground text-sm">{feature}</span>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+
+      <Button 
+        variant={pack.popular ? "hero" : "outline"} 
+        className="w-full"
+        size="lg"
+        onClick={handleChoosePack}
+      >
+        Choose this pack
+        <ArrowRight className="w-4 h-4 ml-2" />
       </Button>
     </motion.div>
   );
 };
 
 const PacksSection = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    align: "center",
+    containScroll: "trimSnaps",
+    startIndex: 1, // Start on Business (popular)
+  });
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi, onSelect]);
+
   return (
     <section id="packs" className="py-12 sm:py-16 lg:py-28 relative bg-background">
       <div className="container mx-auto px-4">
-        {/* Header - compact on mobile */}
+        {/* Header */}
         <motion.div 
-          className="text-center max-w-2xl mx-auto mb-8 sm:mb-12"
+          className="text-center max-w-2xl mx-auto mb-6 sm:mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -182,14 +262,46 @@ const PacksSection = () => {
           </p>
         </motion.div>
 
-        {/* Packs Grid - 3 columns on mobile for compact view */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-6xl mx-auto">
+        {/* Mobile: Horizontal swipe carousel */}
+        <div className="sm:hidden">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex">
+              {packs.map((pack) => (
+                <div 
+                  key={pack.name} 
+                  className="flex-[0_0_85%] min-w-0 pl-3 first:pl-0"
+                >
+                  <MobilePackCard pack={pack} />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Swipe indicators */}
+          <div className="flex justify-center gap-1.5 mt-4">
+            {packs.map((_, index) => (
+              <button
+                key={index}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  index === selectedIndex ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/30"
+                }`}
+                onClick={() => emblaApi?.scrollTo(index)}
+              />
+            ))}
+          </div>
+          
+          <p className="text-center text-muted-foreground text-xs mt-4">
+            Swipe to compare packs
+          </p>
+        </div>
+
+        {/* Tablet/Desktop: Grid */}
+        <div className="hidden sm:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
           {packs.map((pack, index) => (
-            <PackCard key={pack.name} pack={pack} index={index} />
+            <DesktopPackCard key={pack.name} pack={pack} index={index} />
           ))}
         </div>
 
-        {/* Pack advice */}
         <motion.p
           className="text-center text-muted-foreground text-xs sm:text-sm mt-6 sm:mt-10"
           initial={{ opacity: 0 }}
