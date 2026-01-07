@@ -56,8 +56,10 @@ const HowItWorksSection = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="how-it-works" className="py-12 sm:py-16 lg:py-28 relative bg-secondary/30">
-      <div className="container mx-auto px-4">
+    <section id="how-it-works" className="py-12 sm:py-16 lg:py-28 relative bg-[hsl(35,30%,97%)]">
+      {/* Warm subtle pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,hsl(35,40%,92%),transparent_50%)]" />
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <motion.div 
           className="text-center max-w-2xl mx-auto mb-6 sm:mb-12"
@@ -115,38 +117,116 @@ const HowItWorksSection = () => {
           </div>
         </div>
 
-        {/* Tablet/Desktop: Grid layout */}
-        <div className="hidden sm:block max-w-5xl mx-auto relative">
-          <div className="absolute top-12 left-0 right-0 hidden lg:block">
-            <motion.div 
-              className="h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent"
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            />
-          </div>
-          
-          <div className="grid grid-cols-5 gap-4 lg:gap-6">
+        {/* Tablet/Desktop: Visual cards with mockups */}
+        <div className="hidden sm:block max-w-5xl mx-auto">
+          <div className="grid grid-cols-5 gap-4 lg:gap-5">
             {steps.map((step, index) => (
               <motion.div
                 key={step.number}
-                className="flex flex-col items-center text-center"
+                className="group"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
               >
-                <div className="relative mb-4">
-                  <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl glass flex items-center justify-center">
-                    <step.icon className="w-5 h-5 lg:w-6 lg:h-6 text-primary" />
-                  </div>
-                  <div className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-gradient-primary flex items-center justify-center">
-                    <span className="text-primary-foreground text-xs font-bold">{step.number}</span>
-                  </div>
+                {/* Visual mockup card */}
+                <div className="bg-card rounded-xl shadow-card border border-border/40 p-4 mb-4 h-32 flex flex-col justify-center group-hover:shadow-elevated group-hover:-translate-y-1 transition-all duration-300">
+                  {/* Step 1: Form mockup */}
+                  {step.number === "01" && (
+                    <div className="space-y-2">
+                      <div className="h-6 bg-muted/60 rounded flex items-center px-2">
+                        <div className="w-2 h-2 rounded-full bg-primary/40 mr-2" />
+                        <span className="text-[10px] text-muted-foreground">Select plan...</span>
+                      </div>
+                      <div className="h-6 bg-muted/60 rounded flex items-center px-2">
+                        <div className="w-2 h-2 rounded-full bg-primary/40 mr-2" />
+                        <span className="text-[10px] text-muted-foreground">Your budget</span>
+                      </div>
+                      <div className="h-6 bg-primary/20 rounded flex items-center justify-center">
+                        <span className="text-[10px] text-primary font-medium">Submit →</span>
+                      </div>
+                    </div>
+                  )}
+                  {/* Step 2: Brief document mockup */}
+                  {step.number === "02" && (
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center">
+                          <step.icon className="w-4 h-4 text-primary" />
+                        </div>
+                        <div className="h-2 flex-1 bg-muted/60 rounded" />
+                      </div>
+                      <div className="h-1.5 bg-muted/40 rounded w-full" />
+                      <div className="h-1.5 bg-muted/40 rounded w-3/4" />
+                      <div className="h-1.5 bg-muted/40 rounded w-5/6" />
+                    </div>
+                  )}
+                  {/* Step 3: Wallet/crypto mockup */}
+                  {step.number === "03" && (
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                        <step.icon className="w-6 h-6 text-primary" />
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs font-bold text-foreground">0.35</span>
+                        <span className="text-[10px] text-muted-foreground">ETH</span>
+                      </div>
+                    </div>
+                  )}
+                  {/* Step 4: Delivery mockup */}
+                  {step.number === "04" && (
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-7 bg-muted/60 rounded border border-muted" />
+                        <div className="w-5 h-10 bg-muted/60 rounded border border-muted" />
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                          <svg className="w-2.5 h-2.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-[10px] text-muted-foreground">Ready to launch</span>
+                      </div>
+                    </div>
+                  )}
+                  {/* Step 5: Revisions mockup */}
+                  {step.number === "05" && (
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-3 h-3 rounded-full bg-green-500/20 flex items-center justify-center">
+                          <svg className="w-2 h-2 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-[10px] text-muted-foreground line-through">Initial design</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-3 h-3 rounded-full bg-green-500/20 flex items-center justify-center">
+                          <svg className="w-2 h-2 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-[10px] text-muted-foreground line-through">Revision 1</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-3 h-3 rounded-full border border-primary animate-pulse" />
+                        <span className="text-[10px] text-foreground font-medium">Final version</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <h3 className="font-display font-bold text-sm lg:text-base mb-1">{step.title}</h3>
-                <p className="text-muted-foreground text-xs lg:text-sm">{step.description}</p>
+                
+                {/* Step info */}
+                <div className="text-center">
+                  <div className="inline-flex items-center gap-1.5 mb-2">
+                    <div className="w-5 h-5 rounded-full bg-gradient-primary flex items-center justify-center">
+                      <span className="text-primary-foreground text-[10px] font-bold">{step.number}</span>
+                    </div>
+                  </div>
+                  <h3 className="font-display font-bold text-sm lg:text-base mb-1">{step.title}</h3>
+                  <p className="text-muted-foreground text-xs">{step.description}</p>
+                </div>
               </motion.div>
             ))}
           </div>

@@ -94,8 +94,10 @@ const ExamplesSection = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="portfolio" className="py-12 sm:py-16 lg:py-28 relative bg-background">
-      <div className="container mx-auto px-4">
+    <section id="portfolio" className="py-12 sm:py-16 lg:py-28 relative bg-[hsl(210,25%,97%)]">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,hsl(var(--primary)/0.03),transparent_60%)]" />
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <motion.div 
           className="text-center max-w-2xl mx-auto mb-6 sm:mb-10"
@@ -210,18 +212,28 @@ const ExamplesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="group rounded-xl overflow-hidden bg-card border border-border/40 hover:shadow-lg transition-all"
+              whileHover={{ y: -8 }}
+              className="group rounded-xl overflow-hidden bg-card border border-border/40 shadow-card hover:shadow-elevated transition-all duration-300"
             >
               <div className="aspect-[4/3] overflow-hidden relative">
+                {/* Main image */}
                 <img
                   src={example.image}
                   alt={example.title}
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-5">
-                  <div className="text-white">
-                    <p className="text-sm font-medium mb-1">{example.industry}</p>
+                {/* Overlay with device mockup preview */}
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-5">
+                  <div className="text-white w-full">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-sm font-medium">{example.industry}</p>
+                      {/* Mini device mockup */}
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-6 h-4 bg-white/20 rounded-[2px] backdrop-blur-sm" />
+                        <div className="w-2.5 h-5 bg-white/20 rounded-[2px] backdrop-blur-sm" />
+                      </div>
+                    </div>
                     <div className="flex items-center gap-2 text-xs text-white/80">
                       <span>{example.deliveryTime}</span>
                       <span>•</span>

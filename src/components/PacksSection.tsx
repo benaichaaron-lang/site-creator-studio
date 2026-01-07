@@ -170,6 +170,32 @@ const DesktopPackCard = ({ pack, index }: { pack: typeof packs[0]; index: number
         </div>
       </div>
 
+      {/* Visual preview of what you get */}
+      <div className="mb-5 p-3 bg-muted/30 rounded-xl">
+        <div className="flex items-center gap-3 mb-3">
+          {/* Mini device mockups */}
+          <div className="flex-1 h-14 bg-card rounded border border-border/60 overflow-hidden">
+            <div className="h-2 bg-muted/60 flex items-center px-1 gap-0.5">
+              <div className="w-1 h-1 rounded-full bg-red-400/60" />
+              <div className="w-1 h-1 rounded-full bg-yellow-400/60" />
+              <div className="w-1 h-1 rounded-full bg-green-400/60" />
+            </div>
+            <div className="p-1.5">
+              <div className="h-1 bg-primary/20 rounded w-2/3 mb-1" />
+              <div className="h-0.5 bg-muted/60 rounded w-full" />
+            </div>
+          </div>
+          <div className="w-6 h-12 bg-card rounded border border-border/60 overflow-hidden">
+            <div className="h-1 bg-muted/60" />
+            <div className="p-0.5">
+              <div className="h-0.5 bg-primary/20 rounded mb-0.5" />
+              <div className="h-0.5 bg-muted/60 rounded" />
+            </div>
+          </div>
+        </div>
+        <p className="text-[10px] text-muted-foreground text-center">Responsive design included</p>
+      </div>
+
       <div className="mb-6">
         <p className="text-sm font-semibold mb-3">What you get:</p>
         <ul className="space-y-2.5">
@@ -243,8 +269,10 @@ const PacksSection = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="packs" className="py-12 sm:py-16 lg:py-28 relative bg-background">
-      <div className="container mx-auto px-4">
+    <section id="packs" className="py-12 sm:py-16 lg:py-28 relative bg-[hsl(210,30%,97%)]">
+      {/* Cool gradient background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.04),transparent_50%)]" />
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <motion.div 
           className="text-center max-w-2xl mx-auto mb-6 sm:mb-12"
