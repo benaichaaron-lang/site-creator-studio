@@ -1,0 +1,690 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { 
+  LayoutDashboard, 
+  Package, 
+  ShoppingCart, 
+  MessageSquare, 
+  LogOut,
+  User,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  CreditCard,
+  ChevronRight,
+  Menu,
+  X,
+  Plus,
+  Send,
+  Loader2
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+
+type TabType = 'overview' | 'orders' | 'packs' | 'tickets';
+
+interface Order {
+  id: string;
+  status: string;
+  progress: number;
+  total_amount: number;
+  currency: string;
+  created_at: string;
+  notes: string | null;
+  pack: { name: string } | null;
+}
+
+interface Pack {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number;
+  currency: string;
+  pack_type: string;
+  duration_months: number | null;
+  features: string[];
+}
+
+interface Ticket {
+  id: string;
+  subject: string;
+  status: string;
+  created_at: string;
+  order_id: string | null;
+}
+
+interface TicketMessage {
+  id: string;
+  message: string;
+  is_admin: boolean;
+  created_at: string;
+}
+
+interface Profile {
+  first_name: string | null;
+  last_name: string | null;
+  email: string;
+}
+
+const Dashboard = () => {
+  const [activeTab, setActiveTab] = useState<TabType>('overview');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [packs, setPacks] = useState<Pack[]>([]);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [ticketMessages, setTicketMessages] = useState<TicketMessage[]>([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [newTicketSubject, setNewTicketSubject] = useState('');
+  const [newTicketMessage, setNewTicketMessage] = useState('');
+  const [creatingTicket, setCreatingTicket] = useState(false);
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const [ticketDialogOpen, setTicketDialogOpen] = useState(false);
+  
+  const navigate = useNavigate();
+  const { user, signOut, isAdmin } = useAuth();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+    if (isAdmin) {
+      navigate('/admin');
+      return;
+    }
+    fetchData();
+  }, [user, isAdmin, navigate]);
+
+  const fetchData = async () => {
+    if (!user) return;
+    setLoading(true);
+    
+    try {
+      // Fetch profile
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('first_name, last_name, email')
+        .eq('user_id', user.id)
+        .single();
+      setProfile(profileData);
+
+      // Fetch orders with pack info
+      const { data: ordersData } = await supabase
+        .from('orders')
+        .select('*, pack:packs(name)')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      setOrders(ordersData || []);
+
+      // Fetch packs
+      const { data: packsData } = await supabase
+        .from('packs')
+        .select('*')
+        .eq('is_active', true)
+        .order('price', { ascending: true });
+      setPacks((packsData || []).map(pack => ({
+        ...pack,
+        features: Array.isArray(pack.features) ? pack.features : JSON.parse(pack.features as string || '[]')
+      })));
+
+      // Fetch tickets
+      const { data: ticketsData } = await supabase
+        .from('tickets')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      setTickets(ticketsData || []);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchTicketMessages = async (ticketId: string) => {
+    const { data } = await supabase
+      .from('ticket_messages')
+      .select('*')
+      .eq('ticket_id', ticketId)
+      .order('created_at', { ascending: true });
+    setTicketMessages(data || []);
+  };
+
+  const handleSelectTicket = (ticket: Ticket) => {
+    setSelectedTicket(ticket);
+    fetchTicketMessages(ticket.id);
+  };
+
+  const handleSendMessage = async () => {
+    if (!selectedTicket || !newMessage.trim() || !user) return;
+    
+    setSendingMessage(true);
+    try {
+      const { error } = await supabase
+        .from('ticket_messages')
+        .insert({
+          ticket_id: selectedTicket.id,
+          sender_id: user.id,
+          message: newMessage.trim(),
+          is_admin: false
+        });
+
+      if (error) throw error;
+      
+      setNewMessage('');
+      fetchTicketMessages(selectedTicket.id);
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible d'envoyer le message",
+        variant: "destructive"
+      });
+    } finally {
+      setSendingMessage(false);
+    }
+  };
+
+  const handleCreateTicket = async () => {
+    if (!newTicketSubject.trim() || !newTicketMessage.trim() || !user) return;
+    
+    setCreatingTicket(true);
+    try {
+      // Create ticket
+      const { data: ticketData, error: ticketError } = await supabase
+        .from('tickets')
+        .insert({
+          user_id: user.id,
+          subject: newTicketSubject.trim(),
+          status: 'open'
+        })
+        .select()
+        .single();
+
+      if (ticketError) throw ticketError;
+
+      // Create first message
+      const { error: messageError } = await supabase
+        .from('ticket_messages')
+        .insert({
+          ticket_id: ticketData.id,
+          sender_id: user.id,
+          message: newTicketMessage.trim(),
+          is_admin: false
+        });
+
+      if (messageError) throw messageError;
+
+      toast({
+        title: "Ticket créé",
+        description: "Votre demande a été envoyée au support"
+      });
+
+      setNewTicketSubject('');
+      setNewTicketMessage('');
+      setTicketDialogOpen(false);
+      fetchData();
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible de créer le ticket",
+        variant: "destructive"
+      });
+    } finally {
+      setCreatingTicket(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
+
+  const getStatusBadge = (status: string) => {
+    const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
+      pending: { label: 'En attente', variant: 'secondary' },
+      in_progress: { label: 'En cours', variant: 'default' },
+      review: { label: 'En révision', variant: 'outline' },
+      completed: { label: 'Terminé', variant: 'default' },
+      cancelled: { label: 'Annulé', variant: 'destructive' },
+      open: { label: 'Ouvert', variant: 'default' },
+      resolved: { label: 'Résolu', variant: 'secondary' },
+      closed: { label: 'Fermé', variant: 'outline' }
+    };
+    const config = statusConfig[status] || { label: status, variant: 'secondary' as const };
+    return <Badge variant={config.variant}>{config.label}</Badge>;
+  };
+
+  const menuItems = [
+    { id: 'overview' as TabType, label: 'Tableau de bord', icon: LayoutDashboard },
+    { id: 'orders' as TabType, label: 'Mes commandes', icon: ShoppingCart },
+    { id: 'packs' as TabType, label: 'Packs', icon: Package },
+    { id: 'tickets' as TabType, label: 'Support', icon: MessageSquare },
+  ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background flex">
+      {/* Mobile menu button */}
+      <button
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-card rounded-lg shadow-md"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+      </button>
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed lg:static inset-y-0 left-0 z-40
+        w-64 bg-card border-r border-border
+        transform transition-transform duration-300
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        <div className="flex flex-col h-full">
+          <div className="p-6 border-b border-border">
+            <h1 className="text-xl font-bold text-foreground">Mon Espace</h1>
+            {profile && (
+              <p className="text-sm text-muted-foreground mt-1">
+                {profile.first_name} {profile.last_name}
+              </p>
+            )}
+          </div>
+
+          <nav className="flex-1 p-4 space-y-2">
+            {menuItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  setSidebarOpen(false);
+                }}
+                className={`
+                  w-full flex items-center gap-3 px-4 py-3 rounded-lg
+                  transition-colors text-left
+                  ${activeTab === item.id 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'}
+                `}
+              >
+                <item.icon className="h-5 w-5" />
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="p-4 border-t border-border">
+            <button
+              onClick={handleSignOut}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            >
+              <LogOut className="h-5 w-5" />
+              Déconnexion
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main content */}
+      <main className="flex-1 p-4 lg:p-8 pt-16 lg:pt-8">
+        {activeTab === 'overview' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            <h2 className="text-2xl font-bold">Bienvenue, {profile?.first_name || 'Client'} !</h2>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-primary/10 rounded-lg">
+                      <ShoppingCart className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Commandes</p>
+                      <p className="text-2xl font-bold">{orders.length}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-success/10 rounded-lg">
+                      <CheckCircle className="h-6 w-6 text-success" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Terminées</p>
+                      <p className="text-2xl font-bold">
+                        {orders.filter(o => o.status === 'completed').length}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-accent/10 rounded-lg">
+                      <MessageSquare className="h-6 w-6 text-accent" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Tickets</p>
+                      <p className="text-2xl font-bold">
+                        {tickets.filter(t => t.status === 'open').length}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Current order */}
+            {orders.length > 0 && orders[0].status !== 'completed' && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="h-5 w-5 text-primary" />
+                    Commande en cours
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">{orders[0].pack?.name || 'Pack'}</span>
+                      {getStatusBadge(orders[0].status)}
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span>Progression</span>
+                        <span>{orders[0].progress}%</span>
+                      </div>
+                      <Progress value={orders[0].progress} className="h-2" />
+                    </div>
+                    {orders[0].notes && (
+                      <p className="text-sm text-muted-foreground">{orders[0].notes}</p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </motion.div>
+        )}
+
+        {activeTab === 'orders' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            <h2 className="text-2xl font-bold">Mes commandes</h2>
+            
+            {orders.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground">Aucune commande pour le moment</p>
+                  <Button 
+                    className="mt-4" 
+                    onClick={() => setActiveTab('packs')}
+                  >
+                    Découvrir nos packs
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-4">
+                {orders.map((order) => (
+                  <Card key={order.id}>
+                    <CardContent className="p-6">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="font-semibold">{order.pack?.name || 'Commande'}</h3>
+                            {getStatusBadge(order.status)}
+                          </div>
+                          <p className="text-sm text-muted-foreground">
+                            {new Date(order.created_at).toLocaleDateString('fr-FR')}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <p className="font-semibold">{order.total_amount} {order.currency}</p>
+                            <p className="text-sm text-muted-foreground">Progression: {order.progress}%</p>
+                          </div>
+                          <Progress value={order.progress} className="w-24 h-2" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {activeTab === 'packs' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            <h2 className="text-2xl font-bold">Nos Packs</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {packs.map((pack) => (
+                <Card key={pack.id} className="card-hover">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <Badge variant={pack.pack_type === 'subscription' ? 'default' : 'secondary'}>
+                        {pack.pack_type === 'subscription' ? 'Abonnement' : 'Unique'}
+                      </Badge>
+                    </div>
+                    <CardTitle className="mt-2">{pack.name}</CardTitle>
+                    <CardDescription>{pack.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="mb-4">
+                      <span className="text-3xl font-bold">{pack.price}</span>
+                      <span className="text-muted-foreground"> {pack.currency}</span>
+                      {pack.pack_type === 'subscription' && pack.duration_months && (
+                        <span className="text-muted-foreground">
+                          /{pack.duration_months === 1 ? 'mois' : `${pack.duration_months} mois`}
+                        </span>
+                      )}
+                    </div>
+                    <ul className="space-y-2 mb-6">
+                      {pack.features.map((feature, index) => (
+                        <li key={index} className="flex items-center gap-2 text-sm">
+                          <CheckCircle className="h-4 w-4 text-success" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <Button 
+                      className="w-full" 
+                      onClick={() => navigate(`/checkout/${pack.id}`)}
+                    >
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      Souscrire
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {activeTab === 'tickets' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Support</h2>
+              <Dialog open={ticketDialogOpen} onOpenChange={setTicketDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Nouveau ticket
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Créer un ticket</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4 mt-4">
+                    <div>
+                      <label className="text-sm font-medium">Sujet</label>
+                      <Input
+                        value={newTicketSubject}
+                        onChange={(e) => setNewTicketSubject(e.target.value)}
+                        placeholder="Décrivez brièvement votre problème"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Message</label>
+                      <Textarea
+                        value={newTicketMessage}
+                        onChange={(e) => setNewTicketMessage(e.target.value)}
+                        placeholder="Détaillez votre demande..."
+                        rows={4}
+                      />
+                    </div>
+                    <Button 
+                      onClick={handleCreateTicket} 
+                      disabled={creatingTicket || !newTicketSubject.trim() || !newTicketMessage.trim()}
+                      className="w-full"
+                    >
+                      {creatingTicket ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        'Envoyer'
+                      )}
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Tickets list */}
+              <Card className="lg:max-h-[600px] overflow-hidden">
+                <CardHeader>
+                  <CardTitle>Mes tickets</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="divide-y max-h-[500px] overflow-y-auto">
+                    {tickets.length === 0 ? (
+                      <div className="p-6 text-center text-muted-foreground">
+                        Aucun ticket
+                      </div>
+                    ) : (
+                      tickets.map((ticket) => (
+                        <button
+                          key={ticket.id}
+                          onClick={() => handleSelectTicket(ticket)}
+                          className={`w-full p-4 text-left hover:bg-muted/50 transition-colors ${
+                            selectedTicket?.id === ticket.id ? 'bg-muted' : ''
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium truncate">{ticket.subject}</span>
+                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                          </div>
+                          <div className="flex items-center gap-2 mt-1">
+                            {getStatusBadge(ticket.status)}
+                            <span className="text-xs text-muted-foreground">
+                              {new Date(ticket.created_at).toLocaleDateString('fr-FR')}
+                            </span>
+                          </div>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Messages */}
+              <Card className="lg:max-h-[600px] flex flex-col">
+                <CardHeader>
+                  <CardTitle>
+                    {selectedTicket ? selectedTicket.subject : 'Sélectionnez un ticket'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1 overflow-hidden flex flex-col">
+                  {selectedTicket ? (
+                    <>
+                      <div className="flex-1 overflow-y-auto space-y-4 mb-4 max-h-[350px]">
+                        {ticketMessages.map((msg) => (
+                          <div
+                            key={msg.id}
+                            className={`p-3 rounded-lg ${
+                              msg.is_admin 
+                                ? 'bg-muted ml-0 mr-8' 
+                                : 'bg-primary text-primary-foreground ml-8 mr-0'
+                            }`}
+                          >
+                            <p className="text-sm">{msg.message}</p>
+                            <p className={`text-xs mt-1 ${msg.is_admin ? 'text-muted-foreground' : 'opacity-70'}`}>
+                              {new Date(msg.created_at).toLocaleString('fr-FR')}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex gap-2">
+                        <Input
+                          value={newMessage}
+                          onChange={(e) => setNewMessage(e.target.value)}
+                          placeholder="Votre message..."
+                          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                        />
+                        <Button onClick={handleSendMessage} disabled={sendingMessage}>
+                          {sendingMessage ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Send className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex-1 flex items-center justify-center text-muted-foreground">
+                      Sélectionnez un ticket pour voir les messages
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </motion.div>
+        )}
+      </main>
+    </div>
+  );
+};
+
+export default Dashboard;
