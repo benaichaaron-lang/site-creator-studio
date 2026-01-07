@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 
-const CGV = () => {
+const Terms = () => {
   return (
     <Layout>
       <section className="pt-32 pb-24">
@@ -12,9 +12,9 @@ const CGV = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-primary text-sm font-semibold uppercase tracking-wider">Légal</span>
+            <span className="text-primary text-sm font-semibold uppercase tracking-wider">Legal</span>
             <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-8">
-              Conditions générales de vente
+              Terms of Service
             </h1>
 
             <div className="prose prose-invert max-w-none space-y-8">
@@ -24,10 +24,10 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">1. Objet</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">1. Purpose</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre 
-                  MySiteFactory et ses clients dans le cadre de la fourniture de services de création de sites web.
+                  These Terms of Service govern the contractual relationship between MySiteFactory 
+                  and its clients in the context of providing website creation services.
                 </p>
               </motion.div>
 
@@ -37,15 +37,15 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">2. Services proposés</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">2. Services Offered</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  MySiteFactory propose des services de création de sites web sous forme de :
+                  MySiteFactory offers website creation services in the form of:
                 </p>
                 <ul className="text-muted-foreground mt-4 space-y-2">
-                  <li>• <strong className="text-foreground">Pack Starter :</strong> Landing page one-page, livré en 5 jours</li>
-                  <li>• <strong className="text-foreground">Pack Business :</strong> Site jusqu'à 5 pages, livré en 7 jours</li>
-                  <li>• <strong className="text-foreground">Pack Premium :</strong> Site complet avec pages illimitées, livré en 10 jours</li>
-                  <li>• <strong className="text-foreground">Sur-mesure :</strong> Projets personnalisés selon devis</li>
+                  <li>• <strong className="text-foreground">Starter Pack:</strong> One-page landing page, delivered in 5 days</li>
+                  <li>• <strong className="text-foreground">Business Pack:</strong> Website up to 5 pages, delivered in 7 days</li>
+                  <li>• <strong className="text-foreground">Premium Pack:</strong> Complete website with unlimited pages, delivered in 10 days</li>
+                  <li>• <strong className="text-foreground">Custom:</strong> Personalized projects based on quote</li>
                 </ul>
               </motion.div>
 
@@ -55,14 +55,14 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">3. Prix et paiement</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">3. Pricing and Payment</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Les prix sont indiqués en cryptomonnaie (ETH) avec une indication en euros à titre informatif. 
-                  Le paiement s'effectue intégralement avant le début de la prestation. Nous acceptons : ETH, BTC, USDC, USDT.
+                  Prices are indicated in cryptocurrency (ETH) with an indication in euros for information purposes. 
+                  Payment is made in full before the start of the service. We accept: ETH, BTC, USDC, USDT.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  La transaction est considérée comme validée dès confirmation sur la blockchain. 
-                  Le projet démarre après réception et validation du brief client.
+                  The transaction is considered validated upon confirmation on the blockchain. 
+                  The project starts after receipt and validation of the client brief.
                 </p>
               </motion.div>
 
@@ -72,11 +72,11 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">4. Délais de livraison</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">4. Delivery Times</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Les délais de livraison sont garantis et démarrent après validation du brief client et 
-                  confirmation du paiement. En cas de retard imputable à MySiteFactory, une compensation 
-                  sera proposée au client.
+                  Delivery times are guaranteed and start after validation of the client brief and 
+                  confirmation of payment. In case of delay attributable to MySiteFactory, compensation 
+                  will be offered to the client.
                 </p>
               </motion.div>
 
@@ -86,17 +86,17 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">5. Révisions</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">5. Revisions</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Le nombre de révisions incluses dépend du pack choisi :
+                  The number of revisions included depends on the chosen pack:
                 </p>
                 <ul className="text-muted-foreground mt-4 space-y-2">
-                  <li>• Pack Starter : 1 révision</li>
-                  <li>• Pack Business : 3 révisions</li>
-                  <li>• Pack Premium : révisions illimitées</li>
+                  <li>• Starter Pack: 1 revision</li>
+                  <li>• Business Pack: 3 revisions</li>
+                  <li>• Premium Pack: unlimited revisions</li>
                 </ul>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  Les révisions supplémentaires sont facturées selon un tarif communiqué sur demande.
+                  Additional revisions are charged at a rate communicated upon request.
                 </p>
               </motion.div>
 
@@ -106,11 +106,11 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">6. Propriété intellectuelle</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">6. Intellectual Property</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  À la livraison complète et après paiement intégral, le client devient propriétaire des droits 
-                  sur le site web livré. MySiteFactory conserve le droit de mentionner le projet dans son portfolio, 
-                  sauf accord contraire.
+                  Upon complete delivery and after full payment, the client becomes the owner of the rights 
+                  to the delivered website. MySiteFactory reserves the right to mention the project in its portfolio, 
+                  unless otherwise agreed.
                 </p>
               </motion.div>
 
@@ -120,16 +120,16 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">7. Hébergement</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">7. Hosting</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  L'hébergement est inclus dans tous les packs :
+                  Hosting is included in all packs:
                 </p>
                 <ul className="text-muted-foreground mt-4 space-y-2">
-                  <li>• Pack Starter et Business : 1 an d'hébergement</li>
-                  <li>• Pack Premium : 2 ans d'hébergement</li>
+                  <li>• Starter and Business Pack: 1 year of hosting</li>
+                  <li>• Premium Pack: 2 years of hosting</li>
                 </ul>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  Le renouvellement de l'hébergement est proposé à l'issue de la période incluse.
+                  Hosting renewal is offered at the end of the included period.
                 </p>
               </motion.div>
 
@@ -139,11 +139,11 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">8. Annulation et remboursement</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">8. Cancellation and Refund</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  En raison de la nature des transactions en cryptomonnaie, aucun remboursement n'est possible 
-                  une fois le paiement confirmé et le projet démarré. En cas de litige, MySiteFactory s'engage 
-                  à trouver une solution amiable avec le client.
+                  Due to the nature of cryptocurrency transactions, no refund is possible once payment 
+                  is confirmed and the project has started. In case of dispute, MySiteFactory is committed 
+                  to finding an amicable solution with the client.
                 </p>
               </motion.div>
 
@@ -153,10 +153,10 @@ const CGV = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">9. Droit applicable</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">9. Applicable Law</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Les présentes CGV sont soumises au droit français. Tout litige relatif à leur interprétation 
-                  ou leur exécution relève de la compétence exclusive des tribunaux français.
+                  These Terms of Service are subject to French law. Any dispute relating to their interpretation 
+                  or execution falls under the exclusive jurisdiction of the French courts.
                 </p>
               </motion.div>
             </div>
@@ -167,4 +167,4 @@ const CGV = () => {
   );
 };
 
-export default CGV;
+export default Terms;

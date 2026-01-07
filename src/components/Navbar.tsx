@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -118,6 +119,7 @@ const Navbar = () => {
 
           {/* Right Side */}
           <div className="hidden md:flex items-center gap-4">
+            <LanguageSwitcher hasScrolled={hasScrolled} isOpen={isOpen} />
             <a href="/" onClick={scrollToHeroForm}>
               <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-md px-5 text-sm font-semibold">
                 Start my brief
@@ -155,6 +157,10 @@ const Navbar = () => {
                     {item.label}
                   </a>
                 ))}
+                <div className="flex items-center gap-3 py-2">
+                  <span className="text-sm text-muted-foreground">Language:</span>
+                  <LanguageSwitcher hasScrolled={true} isOpen={true} />
+                </div>
                 <a href="/" onClick={scrollToHeroForm}>
                   <Button className="bg-foreground text-background hover:bg-foreground/90 mt-2 w-full">
                     Start my brief
