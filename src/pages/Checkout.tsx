@@ -8,8 +8,8 @@ import {
   Loader2,
   Bitcoin,
   Copy,
-  ExternalLink,
-  Clock
+  Clock,
+  AlertTriangle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,16 +39,74 @@ interface PaymentData {
   order_description: string;
   price_amount: number;
   price_currency: string;
+  expiration_estimate_date?: string;
 }
 
 const CRYPTO_OPTIONS = [
-  { value: 'btc', label: 'Bitcoin (BTC)' },
-  { value: 'eth', label: 'Ethereum (ETH)' },
-  { value: 'ltc', label: 'Litecoin (LTC)' },
-  { value: 'usdttrc20', label: 'USDT (TRC20)' },
-  { value: 'usdterc20', label: 'USDT (ERC20)' },
-  { value: 'bnbbsc', label: 'BNB (BSC)' },
+  { value: 'btc', label: 'Bitcoin (BTC)', icon: '₿' },
+  { value: 'eth', label: 'Ethereum (ETH)', icon: 'Ξ' },
+  { value: 'ltc', label: 'Litecoin (LTC)', icon: 'Ł' },
+  { value: 'usdttrc20', label: 'USDT (TRC20)', icon: '₮' },
+  { value: 'usdterc20', label: 'USDT (ERC20)', icon: '₮' },
+  { value: 'bnbbsc', label: 'BNB (BSC)', icon: '◈' },
 ];
+
+const CountdownTimer = ({ expirationDate }: { expirationDate: string }) => {
+  const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 0 });
+  const [isExpired, setIsExpired] = useState(false);
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const expiration = new Date(expirationDate).getTime();
+      const now = Date.now();
+      const difference = expiration - now;
+
+      if (difference <= 0) {
+        setIsExpired(true);
+        return { minutes: 0, seconds: 0 };
+      }
+
+      return {
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    };
+
+    setTimeLeft(calculateTimeLeft());
+
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [expirationDate]);
+
+  if (isExpired) {
+    return (
+      <div className="flex items-center gap-2 p-4 bg-destructive/10 border border-destructive/20 rounded-xl">
+        <AlertTriangle className="h-5 w-5 text-destructive" />
+        <p className="text-sm font-medium text-destructive">Paiement expiré - Veuillez créer un nouveau paiement</p>
+      </div>
+    );
+  }
+
+  const totalSeconds = timeLeft.minutes * 60 + timeLeft.seconds;
+  const isUrgent = totalSeconds < 300; // Less than 5 minutes
+
+  return (
+    <div className={`p-4 rounded-xl border ${isUrgent ? 'bg-orange-500/10 border-orange-500/20' : 'bg-primary/5 border-primary/20'}`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Clock className={`h-5 w-5 ${isUrgent ? 'text-orange-500' : 'text-primary'}`} />
+          <span className="text-sm font-medium">Temps restant</span>
+        </div>
+        <div className={`font-mono text-2xl font-bold ${isUrgent ? 'text-orange-500' : 'text-primary'}`}>
+          {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Checkout = () => {
   const { packId } = useParams<{ packId: string }>();
@@ -61,7 +119,7 @@ const Checkout = () => {
   const [selectedCrypto, setSelectedCrypto] = useState('btc');
   const [processing, setProcessing] = useState(false);
   const [paymentData, setPaymentData] = useState<PaymentData | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -136,10 +194,10 @@ const Checkout = () => {
     }
   };
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopied(type);
+    setTimeout(() => setCopied(null), 2000);
     toast({ title: "Copié !" });
   };
 
@@ -206,121 +264,152 @@ const Checkout = () => {
 
           {/* Payment Section */}
           {!paymentData ? (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Bitcoin className="h-5 w-5" />
+            <Card className="overflow-hidden">
+              <CardHeader className="bg-gradient-to-br from-primary/5 to-primary/10 border-b border-border">
+                <CardTitle className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+                    <Bitcoin className="h-5 w-5 text-primary" />
+                  </div>
                   Paiement en Crypto
                 </CardTitle>
                 <CardDescription>
                   Sélectionnez votre cryptomonnaie préférée
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Cryptomonnaie</label>
-                  <Select value={selectedCrypto} onValueChange={setSelectedCrypto}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {CRYPTO_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+              <CardContent className="p-6 space-y-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {CRYPTO_OPTIONS.map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setSelectedCrypto(option.value)}
+                      className={`p-4 rounded-xl border-2 transition-all ${
+                        selectedCrypto === option.value
+                          ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
+                          : 'border-border hover:border-primary/50 hover:bg-muted/50'
+                      }`}
+                    >
+                      <div className="text-2xl mb-1">{option.icon}</div>
+                      <div className="text-xs font-medium truncate">{option.label.split(' ')[0]}</div>
+                    </button>
+                  ))}
                 </div>
 
                 <Button 
-                  className="w-full" 
+                  className="w-full h-14 text-base font-semibold" 
                   size="lg" 
                   onClick={handleCreatePayment}
                   disabled={processing}
                 >
                   {processing ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    <Loader2 className="h-5 w-5 animate-spin mr-2" />
                   ) : (
-                    <CreditCard className="h-4 w-4 mr-2" />
+                    <CreditCard className="h-5 w-5 mr-2" />
                   )}
                   Procéder au paiement
                 </Button>
+
+                <p className="text-xs text-muted-foreground text-center">
+                  Paiement sécurisé via NOWPayments • Confirmation automatique
+                </p>
               </CardContent>
             </Card>
           ) : (
-            <Card className="border-primary">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-primary">
-                  <Clock className="h-5 w-5" />
-                  En attente de paiement
-                </CardTitle>
-                <CardDescription>
-                  Envoyez le montant exact à l'adresse ci-dessous
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* QR Code */}
-                <div className="flex justify-center">
-                  <div className="p-4 bg-white rounded-lg">
-                    <img 
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentData.pay_address)}`}
-                      alt="QR Code de paiement"
-                      className="w-48 h-48"
-                    />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="border-2 border-primary/30 overflow-hidden">
+                <CardHeader className="bg-gradient-to-br from-primary/10 to-primary/5 border-b border-primary/20">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-3 text-primary">
+                      <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+                        <Clock className="h-5 w-5" />
+                      </div>
+                      En attente de paiement
+                    </CardTitle>
+                    <Badge variant="outline" className="border-primary/30 text-primary">
+                      {paymentData.pay_currency.toUpperCase()}
+                    </Badge>
                   </div>
-                </div>
+                </CardHeader>
+                <CardContent className="p-6 space-y-6">
+                  {/* Countdown Timer */}
+                  {paymentData.expiration_estimate_date && (
+                    <CountdownTimer expirationDate={paymentData.expiration_estimate_date} />
+                  )}
 
-                <div className="p-4 bg-muted rounded-lg space-y-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Montant à envoyer</p>
-                    <div className="flex items-center justify-between">
-                      <p className="text-2xl font-bold">
-                        {paymentData.pay_amount} {paymentData.pay_currency.toUpperCase()}
-                      </p>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => copyToClipboard(paymentData.pay_amount.toString())}
-                      >
-                        <Copy className="h-4 w-4" />
-                      </Button>
+                  {/* QR Code */}
+                  <div className="flex justify-center">
+                    <motion.div 
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="p-6 bg-white rounded-2xl shadow-xl"
+                    >
+                      <img 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentData.pay_address)}`}
+                        alt="QR Code de paiement"
+                        className="w-48 h-48"
+                      />
+                    </motion.div>
+                  </div>
+
+                  {/* Payment Details */}
+                  <div className="space-y-4">
+                    <div className="p-4 bg-muted/50 rounded-xl border border-border">
+                      <p className="text-xs text-muted-foreground mb-2 uppercase tracking-wide">Montant exact à envoyer</p>
+                      <div className="flex items-center justify-between gap-4">
+                        <p className="text-3xl font-bold text-foreground">
+                          {paymentData.pay_amount} <span className="text-lg text-muted-foreground">{paymentData.pay_currency.toUpperCase()}</span>
+                        </p>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="shrink-0"
+                          onClick={() => copyToClipboard(paymentData.pay_amount.toString(), 'amount')}
+                        >
+                          {copied === 'amount' ? <CheckCircle className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-muted/50 rounded-xl border border-border">
+                      <p className="text-xs text-muted-foreground mb-2 uppercase tracking-wide">Adresse de paiement</p>
+                      <div className="flex items-center gap-2">
+                        <code className="flex-1 p-3 bg-background rounded-lg text-xs break-all font-mono">
+                          {paymentData.pay_address}
+                        </code>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="shrink-0"
+                          onClick={() => copyToClipboard(paymentData.pay_address, 'address')}
+                        >
+                          {copied === 'address' ? <CheckCircle className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                        </Button>
+                      </div>
                     </div>
                   </div>
 
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Adresse de paiement</p>
-                    <div className="flex items-center gap-2">
-                      <code className="flex-1 p-2 bg-background rounded text-xs break-all">
-                        {paymentData.pay_address}
-                      </code>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => copyToClipboard(paymentData.pay_address)}
-                      >
-                        {copied ? <CheckCircle className="h-4 w-4 text-success" /> : <Copy className="h-4 w-4" />}
-                      </Button>
-                    </div>
+                  {/* Info */}
+                  <div className="flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10">
+                    <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <p className="text-sm text-muted-foreground">
+                      Le paiement sera vérifié automatiquement. Vous recevrez une confirmation une fois le paiement confirmé sur la blockchain.
+                    </p>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2 p-4 bg-primary/10 rounded-lg">
-                  <Clock className="h-5 w-5 text-primary" />
-                  <p className="text-sm">
-                    Le paiement sera vérifié automatiquement. Vous recevrez une confirmation une fois le paiement confirmé sur la blockchain.
-                  </p>
-                </div>
-
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={() => navigate('/dashboard')}
-                >
-                  Retour au dashboard
-                </Button>
-              </CardContent>
-            </Card>
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-12"
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    Retour au dashboard
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           )}
         </motion.div>
       </div>

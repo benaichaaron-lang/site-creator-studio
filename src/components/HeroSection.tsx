@@ -238,16 +238,14 @@ const DesktopHero = () => {
                 <h4 className="text-xl font-semibold text-white mb-2">Brief received!</h4>
                 <p className="text-sm text-white/60 leading-relaxed mb-6">Thank you. A real team member will review your request and contact you within 24 hours.</p>
                 
-                <div className="border-t border-white/10 pt-6">
-                  <p className="text-sm text-white/50 mb-4">Create an account to track your project in real-time</p>
-                  <Button 
-                    onClick={() => navigate('/auth', { state: { firstName, lastName, phone } })}
-                    className="w-full h-12 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg"
-                  >
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Create my account
-                  </Button>
-                </div>
+                <Button 
+                  onClick={() => navigate('/auth', { state: { firstName, lastName, phone } })}
+                  className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg"
+                >
+                  <UserPlus className="w-4 h-4 mr-2" />
+                  Create my account
+                </Button>
+                <p className="text-xs text-white/40 mt-3">Or <button onClick={() => navigate('/auth')} className="text-primary hover:underline">sign in</button> if you already have an account</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
