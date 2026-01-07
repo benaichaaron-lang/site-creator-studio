@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 
-const MentionsLegales = () => {
+const LegalNotice = () => {
   return (
     <Layout>
       <section className="pt-32 pb-24">
@@ -12,9 +12,9 @@ const MentionsLegales = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-primary text-sm font-semibold uppercase tracking-wider">Légal</span>
+            <span className="text-primary text-sm font-semibold uppercase tracking-wider">Legal</span>
             <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-8">
-              Mentions légales
+              Legal Notice
             </h1>
 
             <div className="prose prose-invert max-w-none space-y-8">
@@ -24,16 +24,16 @@ const MentionsLegales = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">1. Éditeur du site</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">1. Site Publisher</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Le site MySiteFactory est édité par la société MySiteFactory SAS, société par actions simplifiée 
-                  au capital de 10 000€, immatriculée au Registre du Commerce et des Sociétés de Paris sous le 
-                  numéro RCS PARIS XXX XXX XXX.
+                  The MySiteFactory website is published by MySiteFactory SAS, a simplified joint-stock company 
+                  with a capital of €10,000, registered in the Paris Trade and Companies Register under 
+                  number RCS PARIS XXX XXX XXX.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  <strong className="text-foreground">Siège social :</strong> [Adresse à compléter]<br />
-                  <strong className="text-foreground">Email :</strong> contact@mysitefactory.io<br />
-                  <strong className="text-foreground">Directeur de publication :</strong> [Nom à compléter]
+                  <strong className="text-foreground">Headquarters:</strong> [Address to be completed]<br />
+                  <strong className="text-foreground">Email:</strong> contact@mysitefactory.io<br />
+                  <strong className="text-foreground">Publication Director:</strong> [Name to be completed]
                 </p>
               </motion.div>
 
@@ -43,9 +43,9 @@ const MentionsLegales = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">2. Hébergement</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">2. Hosting</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Le site est hébergé par Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis.
+                  The website is hosted by Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, United States.
                 </p>
               </motion.div>
 
@@ -55,12 +55,12 @@ const MentionsLegales = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">3. Propriété intellectuelle</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">3. Intellectual Property</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes, sons, logiciels, etc.) 
-                  est la propriété exclusive de MySiteFactory ou de ses partenaires. Toute reproduction, représentation, 
-                  modification, publication, transmission ou dénaturation du site ou de son contenu, par quelque procédé 
-                  que ce soit, est interdite sans autorisation préalable.
+                  All content on this website (texts, images, graphics, logo, icons, sounds, software, etc.) 
+                  is the exclusive property of MySiteFactory or its partners. Any reproduction, representation, 
+                  modification, publication, transmission or alteration of the site or its content, by any means 
+                  whatsoever, is prohibited without prior authorization.
                 </p>
               </motion.div>
 
@@ -70,11 +70,11 @@ const MentionsLegales = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">4. Limitation de responsabilité</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">4. Limitation of Liability</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  MySiteFactory ne saurait être tenu responsable des dommages directs ou indirects causés au matériel 
-                  de l'utilisateur lors de l'accès au site. MySiteFactory décline toute responsabilité quant à 
-                  l'utilisation qui pourrait être faite des informations et contenus présents sur le site.
+                  MySiteFactory cannot be held responsible for direct or indirect damages caused to the user's 
+                  equipment when accessing the site. MySiteFactory declines all responsibility for the use 
+                  that may be made of the information and content present on the site.
                 </p>
               </motion.div>
 
@@ -84,10 +84,10 @@ const MentionsLegales = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <h2 className="font-display text-xl font-bold mb-4 text-foreground">5. Droit applicable</h2>
+                <h2 className="font-display text-xl font-bold mb-4 text-foreground">5. Applicable Law</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Le présent site et les mentions légales qui y figurent sont régis par le droit français. 
-                  En cas de litige, les tribunaux français seront seuls compétents.
+                  This website and its legal notices are governed by French law. 
+                  In case of dispute, the French courts will have sole jurisdiction.
                 </p>
               </motion.div>
             </div>
@@ -98,4 +98,4 @@ const MentionsLegales = () => {
   );
 };
 
-export default MentionsLegales;
+export default LegalNotice;
