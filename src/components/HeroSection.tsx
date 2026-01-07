@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -9,23 +9,89 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const HeroSection = () => {
   const [websiteType, setWebsiteType] = useState("");
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{websiteType?: string; budget?: string; timeline?: string}>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormSubmitted(true);
+  const validateForm = () => {
+    const newErrors: {websiteType?: string; budget?: string; timeline?: string} = {};
     
-    setTimeout(() => {
-      const packsSection = document.getElementById('packs');
-      if (packsSection) {
-        packsSection.scrollIntoView({ behavior: 'smooth' });
+    if (!websiteType) {
+      newErrors.websiteType = "Please select a website type";
+    }
+    if (!budget) {
+      newErrors.budget = "Please select a budget range";
+    }
+    if (!timeline) {
+      newErrors.timeline = "Please select a timeline";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      toast({
+        title: "Missing information",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      const { error } = await supabase
+        .from('leads')
+        .insert({
+          website_type: websiteType,
+          budget: budget,
+          timeline: timeline,
+        });
+
+      if (error) {
+        console.error("Error submitting lead:", error);
+        toast({
+          title: "Submission failed",
+          description: "Something went wrong. Please try again.",
+          variant: "destructive",
+        });
+        return;
       }
-    }, 1500);
+
+      setFormSubmitted(true);
+      toast({
+        title: "Brief submitted!",
+        description: "We'll review your request within 24 hours.",
+      });
+      
+      setTimeout(() => {
+        const packsSection = document.getElementById('packs');
+        if (packsSection) {
+          packsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 2000);
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast({
+        title: "Submission failed",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const stats = [
@@ -148,77 +214,115 @@ const HeroSection = () => {
                 <p className="text-white/50 text-sm">Get a free proposal within 24 hours</p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block text-white/70">Website type</label>
-                  <Select value={websiteType} onValueChange={setWebsiteType}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
-                      <SelectValue placeholder="Select type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="landing">Landing page</SelectItem>
-                      <SelectItem value="ecommerce">E-commerce</SelectItem>
-                      <SelectItem value="business">Business site</SelectItem>
-                      <SelectItem value="portfolio">Portfolio</SelectItem>
-                      <SelectItem value="webapp">Web app</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium mb-2 block text-white/70">Budget range</label>
-                  <Select value={budget} onValueChange={setBudget}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
-                      <SelectValue placeholder="Select budget" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="starter">Starter (~$500)</SelectItem>
-                      <SelectItem value="business">Business (~$1,200)</SelectItem>
-                      <SelectItem value="premium">Premium (~$2,000)</SelectItem>
-                      <SelectItem value="unsure">Not sure yet</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium mb-2 block text-white/70">Timeline</label>
-                  <Select value={timeline} onValueChange={setTimeline}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
-                      <SelectValue placeholder="Select timeline" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="asap">As soon as possible</SelectItem>
-                      <SelectItem value="1week">Within 1 week</SelectItem>
-                      <SelectItem value="2weeks">Within 2 weeks</SelectItem>
-                      <SelectItem value="flexible">Flexible</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <Button 
-                  type="submit" 
-                  className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm mt-2"
-                >
-                  Request a free proposal
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                
-                {/* Reassuring micro-copy */}
-                <p className="text-xs text-white/40 text-center pt-3 leading-relaxed">
-                  Free brief • No payment required • Reviewed by a real project manager
-                </p>
-              </form>
-
-              {formSubmitted && (
+              {formSubmitted ? (
                 <motion.div
-                  className="mt-4 p-4 bg-white/[0.03] border border-white/10 rounded-lg"
+                  className="py-8 text-center"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <p className="text-sm text-white/80 leading-relaxed">
+                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                    <Check className="w-8 h-8 text-primary" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white mb-2">Brief received!</h4>
+                  <p className="text-sm text-white/60 leading-relaxed">
                     Thank you. A real team member will review your request and contact you within 24 hours.
                   </p>
                 </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block text-white/70">
+                      Website type <span className="text-red-400">*</span>
+                    </label>
+                    <Select value={websiteType} onValueChange={(value) => {
+                      setWebsiteType(value);
+                      setErrors(prev => ({ ...prev, websiteType: undefined }));
+                    }}>
+                      <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.websiteType ? 'border-red-400' : ''}`}>
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="landing">Landing page</SelectItem>
+                        <SelectItem value="ecommerce">E-commerce</SelectItem>
+                        <SelectItem value="business">Business site</SelectItem>
+                        <SelectItem value="portfolio">Portfolio</SelectItem>
+                        <SelectItem value="webapp">Web app</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.websiteType && (
+                      <p className="text-red-400 text-xs mt-1">{errors.websiteType}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 block text-white/70">
+                      Budget range <span className="text-red-400">*</span>
+                    </label>
+                    <Select value={budget} onValueChange={(value) => {
+                      setBudget(value);
+                      setErrors(prev => ({ ...prev, budget: undefined }));
+                    }}>
+                      <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.budget ? 'border-red-400' : ''}`}>
+                        <SelectValue placeholder="Select budget" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="starter">Starter (~$500)</SelectItem>
+                        <SelectItem value="business">Business (~$1,200)</SelectItem>
+                        <SelectItem value="premium">Premium (~$2,000)</SelectItem>
+                        <SelectItem value="unsure">Not sure yet</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.budget && (
+                      <p className="text-red-400 text-xs mt-1">{errors.budget}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 block text-white/70">
+                      Timeline <span className="text-red-400">*</span>
+                    </label>
+                    <Select value={timeline} onValueChange={(value) => {
+                      setTimeline(value);
+                      setErrors(prev => ({ ...prev, timeline: undefined }));
+                    }}>
+                      <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.timeline ? 'border-red-400' : ''}`}>
+                        <SelectValue placeholder="Select timeline" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="asap">As soon as possible</SelectItem>
+                        <SelectItem value="1week">Within 1 week</SelectItem>
+                        <SelectItem value="2weeks">Within 2 weeks</SelectItem>
+                        <SelectItem value="flexible">Flexible</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.timeline && (
+                      <p className="text-red-400 text-xs mt-1">{errors.timeline}</p>
+                    )}
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm mt-2"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        Request a free proposal
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </>
+                    )}
+                  </Button>
+                  
+                  {/* Reassuring micro-copy */}
+                  <p className="text-xs text-white/40 text-center pt-3 leading-relaxed">
+                    Free brief • No payment required • Reviewed by a real project manager
+                  </p>
+                </form>
               )}
             </div>
 
