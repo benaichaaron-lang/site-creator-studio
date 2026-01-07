@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import heroVideo from "@/assets/hero-background.mp4";
 
 // Static Mobile Hero - Premium, no swipe
 const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
@@ -299,13 +300,22 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-[hsl(220,20%,8%)]">
-      {/* Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 opacity-[0.015]" style={{
-          backgroundImage: `linear-gradient(hsl(220,40%,50%) 1px, transparent 1px), linear-gradient(90deg, hsl(220,40%,50%) 1px, transparent 1px)`,
-          backgroundSize: '80px 80px'
-        }} />
-        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,25%,10%)] via-[hsl(220,20%,8%)] to-[hsl(220,20%,8%)]" />
+      {/* Background Video */}
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute w-full h-full object-cover opacity-30"
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-[hsl(220,20%,8%)]/70" />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(220,20%,8%)]/50 to-[hsl(220,20%,8%)]" />
+        {/* Subtle glow */}
         <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[200px]" />
       </div>
 
