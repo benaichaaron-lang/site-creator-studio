@@ -1,15 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import heroVideo from "@/assets/hero-background.mp4";
 
@@ -104,20 +97,21 @@ const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
   );
 };
 
-// Desktop Hero (unchanged)
+// Desktop Hero
 const DesktopHero = () => {
-  const [websiteType, setWebsiteType] = useState("");
-  const [budget, setBudget] = useState("");
-  const [timeline, setTimeline] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [recommendation, setRecommendation] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{websiteType?: string; budget?: string; timeline?: string}>({});
+  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string}>({});
 
   const validateForm = () => {
-    const newErrors: {websiteType?: string; budget?: string; timeline?: string} = {};
-    if (!websiteType) newErrors.websiteType = "Please select a website type";
-    if (!budget) newErrors.budget = "Please select a budget range";
-    if (!timeline) newErrors.timeline = "Please select a timeline";
+    const newErrors: {firstName?: string; lastName?: string; phone?: string} = {};
+    if (!firstName.trim()) newErrors.firstName = "First name is required";
+    if (!lastName.trim()) newErrors.lastName = "Last name is required";
+    if (!phone.trim()) newErrors.phone = "Phone number is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -131,8 +125,18 @@ const DesktopHero = () => {
 
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from('leads').insert({ website_type: websiteType, budget, timeline });
-      if (error) {
+      const response = await fetch("https://formspree.io/f/xvzgebre", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          phone: phone.trim(),
+          recommendation: recommendation.trim() || null,
+        }),
+      });
+
+      if (!response.ok) {
         toast({ title: "Submission failed", description: "Something went wrong. Please try again.", variant: "destructive" });
         return;
       }
@@ -218,53 +222,49 @@ const DesktopHero = () => {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block text-white/70">Website type <span className="text-red-400">*</span></label>
-                  <Select value={websiteType} onValueChange={(value) => { setWebsiteType(value); setErrors(prev => ({ ...prev, websiteType: undefined })); }}>
-                    <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.websiteType ? 'border-red-400' : ''}`}>
-                      <SelectValue placeholder="Select type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="landing">Landing page</SelectItem>
-                      <SelectItem value="ecommerce">E-commerce</SelectItem>
-                      <SelectItem value="business">Business site</SelectItem>
-                      <SelectItem value="portfolio">Portfolio</SelectItem>
-                      <SelectItem value="webapp">Web app</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {errors.websiteType && <p className="text-red-400 text-xs mt-1">{errors.websiteType}</p>}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block text-white/70">First name <span className="text-red-400">*</span></label>
+                    <Input
+                      placeholder="John"
+                      value={firstName}
+                      onChange={(e) => { setFirstName(e.target.value); setErrors(prev => ({ ...prev, firstName: undefined })); }}
+                      className={`bg-white/5 border-white/10 text-white h-12 ${errors.firstName ? 'border-red-400' : ''}`}
+                    />
+                    {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block text-white/70">Last name <span className="text-red-400">*</span></label>
+                    <Input
+                      placeholder="Doe"
+                      value={lastName}
+                      onChange={(e) => { setLastName(e.target.value); setErrors(prev => ({ ...prev, lastName: undefined })); }}
+                      className={`bg-white/5 border-white/10 text-white h-12 ${errors.lastName ? 'border-red-400' : ''}`}
+                    />
+                    {errors.lastName && <p className="text-red-400 text-xs mt-1">{errors.lastName}</p>}
+                  </div>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block text-white/70">Budget range <span className="text-red-400">*</span></label>
-                  <Select value={budget} onValueChange={(value) => { setBudget(value); setErrors(prev => ({ ...prev, budget: undefined })); }}>
-                    <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.budget ? 'border-red-400' : ''}`}>
-                      <SelectValue placeholder="Select budget" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="starter">Starter (~$500)</SelectItem>
-                      <SelectItem value="business">Business (~$1,200)</SelectItem>
-                      <SelectItem value="premium">Premium (~$2,000)</SelectItem>
-                      <SelectItem value="unsure">Not sure yet</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {errors.budget && <p className="text-red-400 text-xs mt-1">{errors.budget}</p>}
+                  <label className="text-sm font-medium mb-2 block text-white/70">Phone <span className="text-red-400">*</span></label>
+                  <Input
+                    type="tel"
+                    placeholder="+1 234 567 890"
+                    value={phone}
+                    onChange={(e) => { setPhone(e.target.value); setErrors(prev => ({ ...prev, phone: undefined })); }}
+                    className={`bg-white/5 border-white/10 text-white h-12 ${errors.phone ? 'border-red-400' : ''}`}
+                  />
+                  {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block text-white/70">Timeline <span className="text-red-400">*</span></label>
-                  <Select value={timeline} onValueChange={(value) => { setTimeline(value); setErrors(prev => ({ ...prev, timeline: undefined })); }}>
-                    <SelectTrigger className={`bg-white/5 border-white/10 text-white h-12 ${errors.timeline ? 'border-red-400' : ''}`}>
-                      <SelectValue placeholder="Select timeline" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="asap">As soon as possible</SelectItem>
-                      <SelectItem value="1week">Within 1 week</SelectItem>
-                      <SelectItem value="2weeks">Within 2 weeks</SelectItem>
-                      <SelectItem value="flexible">Flexible</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {errors.timeline && <p className="text-red-400 text-xs mt-1">{errors.timeline}</p>}
+                  <label className="text-sm font-medium mb-2 block text-white/70">Recommendation <span className="text-white/40">(optional)</span></label>
+                  <Input
+                    placeholder="Who referred you to us?"
+                    value={recommendation}
+                    onChange={(e) => setRecommendation(e.target.value)}
+                    className="bg-white/5 border-white/10 text-white h-12"
+                  />
                 </div>
 
                 <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm mt-2" disabled={isSubmitting}>

@@ -1,48 +1,32 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Send, Mail, MessageCircle, CheckCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    topic: "",
-    message: "",
-    consent: false,
+    firstName: "",
+    lastName: "",
+    phone: "",
+    recommendation: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{name?: string; email?: string; message?: string; consent?: string}>({});
+  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string}>({});
 
   const validateForm = () => {
-    const newErrors: {name?: string; email?: string; message?: string; consent?: string} = {};
+    const newErrors: {firstName?: string; lastName?: string; phone?: string} = {};
     
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
     }
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
     }
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    }
-    if (!formData.consent) {
-      newErrors.consent = "Please agree to be contacted";
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
     }
     
     setErrors(newErrors);
@@ -64,17 +48,18 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase
-        .from('contact_messages')
-        .insert({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          topic: formData.topic || null,
-          message: formData.message.trim(),
-        });
+      const response = await fetch("https://formspree.io/f/xvzgebre", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          phone: formData.phone.trim(),
+          recommendation: formData.recommendation.trim() || null,
+        }),
+      });
 
-      if (error) {
-        console.error("Error submitting contact message:", error);
+      if (!response.ok) {
         toast({
           title: "Message failed to send",
           description: "Something went wrong. Please try again or email us directly.",
@@ -93,11 +78,10 @@ const ContactSection = () => {
 
       // Reset after delay
       setTimeout(() => {
-        setFormData({ name: "", email: "", topic: "", message: "", consent: false });
+        setFormData({ firstName: "", lastName: "", phone: "", recommendation: "" });
         setIsSubmitted(false);
       }, 5000);
     } catch (err) {
-      console.error("Unexpected error:", err);
       toast({
         title: "Message failed to send",
         description: "Something went wrong. Please try again or email us directly.",
@@ -220,19 +204,19 @@ const ContactSection = () => {
                         transition={{ delay: 0.3 }}
                       >
                         <label className="text-sm font-medium mb-2 block">
-                          Name <span className="text-red-400">*</span>
+                          First name <span className="text-red-400">*</span>
                         </label>
                         <Input
-                          placeholder="Your name"
-                          value={formData.name}
+                          placeholder="John"
+                          value={formData.firstName}
                           onChange={(e) => {
-                            setFormData({ ...formData, name: e.target.value });
-                            setErrors(prev => ({ ...prev, name: undefined }));
+                            setFormData({ ...formData, firstName: e.target.value });
+                            setErrors(prev => ({ ...prev, firstName: undefined }));
                           }}
-                          className={`bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300 ${errors.name ? 'border-red-400' : ''}`}
+                          className={`bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300 ${errors.firstName ? 'border-red-400' : ''}`}
                         />
-                        {errors.name && (
-                          <p className="text-red-400 text-xs mt-1">{errors.name}</p>
+                        {errors.firstName && (
+                          <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>
                         )}
                       </motion.div>
                       <motion.div
@@ -242,20 +226,19 @@ const ContactSection = () => {
                         transition={{ delay: 0.35 }}
                       >
                         <label className="text-sm font-medium mb-2 block">
-                          Email <span className="text-red-400">*</span>
+                          Last name <span className="text-red-400">*</span>
                         </label>
                         <Input
-                          type="email"
-                          placeholder="your@email.com"
-                          value={formData.email}
+                          placeholder="Doe"
+                          value={formData.lastName}
                           onChange={(e) => {
-                            setFormData({ ...formData, email: e.target.value });
-                            setErrors(prev => ({ ...prev, email: undefined }));
+                            setFormData({ ...formData, lastName: e.target.value });
+                            setErrors(prev => ({ ...prev, lastName: undefined }));
                           }}
-                          className={`bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300 ${errors.email ? 'border-red-400' : ''}`}
+                          className={`bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300 ${errors.lastName ? 'border-red-400' : ''}`}
                         />
-                        {errors.email && (
-                          <p className="text-red-400 text-xs mt-1">{errors.email}</p>
+                        {errors.lastName && (
+                          <p className="text-red-400 text-xs mt-1">{errors.lastName}</p>
                         )}
                       </motion.div>
                     </div>
@@ -266,20 +249,22 @@ const ContactSection = () => {
                       viewport={{ once: true }}
                       transition={{ delay: 0.4 }}
                     >
-                      <label className="text-sm font-medium mb-2 block">Topic</label>
-                      <Select 
-                        value={formData.topic} 
-                        onValueChange={(value) => setFormData({ ...formData, topic: value })}
-                      >
-                        <SelectTrigger className="bg-secondary/50 border-border/50">
-                          <SelectValue placeholder="What can we help you with?" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="quote">Request a quote</SelectItem>
-                          <SelectItem value="support">Support / Question</SelectItem>
-                          <SelectItem value="partnership">Partnership</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <label className="text-sm font-medium mb-2 block">
+                        Phone <span className="text-red-400">*</span>
+                      </label>
+                      <Input
+                        type="tel"
+                        placeholder="+1 234 567 890"
+                        value={formData.phone}
+                        onChange={(e) => {
+                          setFormData({ ...formData, phone: e.target.value });
+                          setErrors(prev => ({ ...prev, phone: undefined }));
+                        }}
+                        className={`bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300 ${errors.phone ? 'border-red-400' : ''}`}
+                      />
+                      {errors.phone && (
+                        <p className="text-red-400 text-xs mt-1">{errors.phone}</p>
+                      )}
                     </motion.div>
 
                     <motion.div
@@ -289,50 +274,15 @@ const ContactSection = () => {
                       transition={{ delay: 0.45 }}
                     >
                       <label className="text-sm font-medium mb-2 block">
-                        Message <span className="text-red-400">*</span>
+                        Recommendation <span className="text-muted-foreground">(optional)</span>
                       </label>
-                      <Textarea
-                        placeholder="Describe your project or ask us your question..."
-                        value={formData.message}
-                        onChange={(e) => {
-                          setFormData({ ...formData, message: e.target.value });
-                          setErrors(prev => ({ ...prev, message: undefined }));
-                        }}
-                        className={`bg-secondary/50 border-border/50 focus:border-primary min-h-[120px] transition-all duration-300 ${errors.message ? 'border-red-400' : ''}`}
+                      <Input
+                        placeholder="Who referred you to us?"
+                        value={formData.recommendation}
+                        onChange={(e) => setFormData({ ...formData, recommendation: e.target.value })}
+                        className="bg-secondary/50 border-border/50 focus:border-primary transition-all duration-300"
                       />
-                      {errors.message && (
-                        <p className="text-red-400 text-xs mt-1">{errors.message}</p>
-                      )}
                     </motion.div>
-
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.5 }}
-                      className="flex items-start gap-3"
-                    >
-                      <Checkbox
-                        id="consent"
-                        checked={formData.consent}
-                        onCheckedChange={(checked) => {
-                          setFormData({ ...formData, consent: checked as boolean });
-                          setErrors(prev => ({ ...prev, consent: undefined }));
-                        }}
-                        className={`mt-0.5 ${errors.consent ? 'border-red-400' : ''}`}
-                      />
-                      <label 
-                        htmlFor="consent" 
-                        className="text-sm text-muted-foreground cursor-pointer leading-relaxed"
-                      >
-                        I agree to be contacted by MySiteFactory regarding my request. 
-                        Your data will be processed according to our privacy policy.
-                        <span className="text-red-400"> *</span>
-                      </label>
-                    </motion.div>
-                    {errors.consent && (
-                      <p className="text-red-400 text-xs -mt-4">{errors.consent}</p>
-                    )}
 
                     <motion.div 
                       whileHover={{ scale: 1.02 }} 
@@ -340,7 +290,7 @@ const ContactSection = () => {
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: 0.55 }}
+                      transition={{ delay: 0.5 }}
                     >
                       <Button 
                         type="submit" 
