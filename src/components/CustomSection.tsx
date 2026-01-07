@@ -34,30 +34,25 @@ const listItems = [
 
 const CustomSection = () => {
   return (
-    <section id="custom" className="py-24 relative overflow-hidden">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
-      
+    <section id="custom" className="py-28 relative overflow-hidden bg-secondary/20">
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-primary text-sm font-semibold uppercase tracking-wider">Custom</span>
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-                Need a project
-                <br />
-                <span className="text-gradient-accent">that's truly unique?</span>
+              <span className="text-primary text-sm font-medium uppercase tracking-wider">Custom Projects</span>
+              <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-6">
+                Need something more specific?
               </h2>
-              <p className="text-muted-foreground text-lg mb-8">
-                Have specific needs that don't fit our packs? 
-                Our custom option is made for you. We develop exactly 
-                what you need, without compromise.
+              <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+                For projects that require custom features, unique integrations, 
+                or specialized development, we provide tailored solutions with 
+                a dedicated quote.
               </p>
 
               <div className="space-y-4 mb-10">
@@ -80,29 +75,17 @@ const CustomSection = () => {
                 ))}
               </div>
 
-              <motion.div 
-                whileHover={{ scale: 1.05 }} 
-                whileTap={{ scale: 0.98 }}
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="mt-2"
               >
-                <a href="#contact">
-                  <Button 
-                    variant="accent" 
-                    size="xl"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                  >
-                    Request a custom quote
-                    <motion.div
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.div>
-                  </Button>
-                </a>
-              </motion.div>
+                Discuss your project
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
             </motion.div>
 
             {/* Right Content - Benefits Grid */}

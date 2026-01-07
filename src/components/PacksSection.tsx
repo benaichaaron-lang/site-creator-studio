@@ -87,38 +87,23 @@ const PacksSection = () => {
   };
 
   return (
-    <section id="packs" className="py-32 relative bg-background">
+    <section id="packs" className="py-28 relative bg-background">
       <div className="container mx-auto px-4">
-        {/* Header */}
+        {/* Header - cleaner */}
         <motion.div 
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="text-center max-w-2xl mx-auto mb-14"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <motion.span 
-            className="text-primary text-sm font-semibold uppercase tracking-wider"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            Our Offers
-          </motion.span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-            Choose the pack
-            <br />
-            <span className="text-gradient">that fits your needs</span>
+          <span className="text-primary text-sm font-medium uppercase tracking-wider">Pricing</span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-5">
+            Transparent pricing
           </h2>
-          <p className="text-muted-foreground mb-4">
-            Clear and transparent pricing. No surprises, no hidden fees.
+          <p className="text-muted-foreground">
+            Fixed prices. No hidden fees. Choose the pack that fits your project.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-muted-foreground">
-            <span>💱 USD estimate updates with market rate</span>
-            <span className="hidden sm:inline">•</span>
-            <span>💵 Prefer stablecoins? Pay in USDC/USDT</span>
-          </div>
         </motion.div>
 
         {/* Packs Grid */}
@@ -240,15 +225,15 @@ const PacksSection = () => {
           ))}
         </motion.div>
 
-        {/* Pack advice */}
+        {/* Pack advice - reassuring */}
         <motion.p
-          className="text-center text-muted-foreground text-sm mt-10 max-w-xl mx-auto"
+          className="text-center text-muted-foreground text-sm mt-12 max-w-lg mx-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          Not sure which pack to choose? Start the brief and we'll advise you.
+          Not sure which pack fits? Start the brief and we'll guide you.
         </motion.p>
       </div>
     </section>

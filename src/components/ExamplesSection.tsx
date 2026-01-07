@@ -94,24 +94,22 @@ const itemVariants = {
 
 const ExamplesSection = () => {
   return (
-    <section id="portfolio" className="py-32 relative bg-background">
+    <section id="portfolio" className="py-28 relative bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="text-center max-w-2xl mx-auto mb-14"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider">Portfolio</span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-6">
-            Real results for
-            <br />
-            <span className="text-gradient">real businesses</span>
+          <span className="text-primary text-sm font-medium uppercase tracking-wider">Portfolio</span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-5">
+            Recent projects
           </h2>
           <p className="text-muted-foreground">
-            Every project is unique. Here are some examples of what we've delivered.
+            A selection of websites delivered to clients across industries.
           </p>
         </motion.div>
 
@@ -127,42 +125,39 @@ const ExamplesSection = () => {
             <motion.div
               key={example.title}
               variants={itemVariants}
-              className="group relative rounded-2xl overflow-hidden bg-card border border-border/50 shadow-card hover:shadow-elevated hover:-translate-y-2 transition-all duration-500"
+              className="group relative rounded-xl overflow-hidden bg-card border border-border/40 hover:border-border hover:shadow-lg hover:-translate-y-1 transition-all duration-400"
             >
-              {/* Image with hover overlay */}
+              {/* Image with subtle hover overlay */}
               <div className="aspect-[4/3] overflow-hidden relative">
-                <motion.img
+                <img
                   src={example.image}
                   alt={example.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.6 }}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                {/* Hover overlay with details */}
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-5">
+                {/* Dark overlay on hover */}
+                <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-end p-5">
                   <div className="text-white">
-                    <p className="text-sm font-medium">{example.industry}</p>
-                    <p className="text-xs opacity-80">{example.deliveryTime} • {example.pack} Pack</p>
+                    <p className="text-sm font-medium mb-1">{example.industry}</p>
+                    <div className="flex items-center gap-3 text-xs text-white/80">
+                      <span>{example.deliveryTime}</span>
+                      <span>•</span>
+                      <span>{example.pack} Pack</span>
+                      <span>•</span>
+                      <span>{example.location}</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Content */}
+              {/* Content - cleaner */}
               <div className="p-5">
-                <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <span className="text-primary text-xs font-medium bg-primary/10 px-2 py-1 rounded-full">
-                    {example.industry}
-                  </span>
-                  <span className="text-muted-foreground text-xs bg-secondary px-2 py-1 rounded-full">
-                    {example.pack} Pack
-                  </span>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs text-muted-foreground">{example.industry}</span>
+                  <span className="text-muted-foreground/40">•</span>
+                  <span className="text-xs text-muted-foreground">{example.pack}</span>
                 </div>
-                <h3 className="font-display text-lg font-bold mb-1">{example.title}</h3>
-                <p className="text-muted-foreground text-sm mb-2">{example.outcome}</p>
-                <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
-                  <span>⏱️ {example.deliveryTime}</span>
-                  <span>📍 {example.location}</span>
-                </div>
+                <h3 className="font-display text-lg font-semibold mb-1">{example.title}</h3>
+                <p className="text-muted-foreground text-sm mb-4">{example.outcome}</p>
                 
                 {/* View Case Study Button */}
                 <Dialog>
