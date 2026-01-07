@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Clock, CreditCard, RefreshCw, DollarSign } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -20,7 +20,6 @@ const HeroSection = () => {
     e.preventDefault();
     setFormSubmitted(true);
     
-    // Scroll to packs section after showing confirmation
     setTimeout(() => {
       const packsSection = document.getElementById('packs');
       if (packsSection) {
@@ -29,119 +28,149 @@ const HeroSection = () => {
     }, 1500);
   };
 
-  const valueProps = [
-    { icon: Clock, text: "5–10 days delivery" },
-    { icon: DollarSign, text: "Fixed pricing" },
-    { icon: CreditCard, text: "Crypto or card" },
-    { icon: RefreshCw, text: "Clear revisions" },
+  const stats = [
+    { value: "150+", label: "Projects Delivered" },
+    { value: "5-10", label: "Days Delivery" },
+    { value: "100%", label: "Satisfaction Rate" },
+  ];
+
+  const features = [
+    "Fixed transparent pricing",
+    "Crypto & card payments",
+    "No upfront commitment",
   ];
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-hero pt-24 pb-16">
-      {/* Background Pattern - deeper and more immersive */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-hero" />
-        {/* Central glow behind headline */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-primary/8 rounded-full blur-[120px]" />
-        <motion.div 
-          className="absolute top-1/4 -left-32 w-[700px] h-[700px] bg-primary/6 rounded-full blur-[100px]"
-          animate={{ 
-            scale: [1, 1.15, 1],
-            opacity: [0.06, 0.12, 0.06]
-          }}
-          transition={{ 
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-[hsl(220,25%,6%)]">
+      {/* Sophisticated grid background */}
+      <div className="absolute inset-0">
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(hsl(220,60%,60%) 1px, transparent 1px), linear-gradient(90deg, hsl(220,60%,60%) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px'
           }}
         />
-        <motion.div 
-          className="absolute -bottom-48 right-0 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[100px]"
-          animate={{ 
-            scale: [1.1, 1, 1.1],
-            opacity: [0.08, 0.15, 0.08]
-          }}
-          transition={{ 
-            duration: 14,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(220,25%,6%)] to-[hsl(220,25%,6%)]" />
+        <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-primary/5 to-transparent" />
+        
+        {/* Accent glows */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/8 rounded-full blur-[120px]" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Value Props */}
-          <motion.div 
-            className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {valueProps.map((prop, index) => (
-              <motion.div
-                key={prop.text}
-                className="flex items-center gap-2 text-hero-foreground/80 text-sm"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <prop.icon className="w-4 h-4 text-primary" />
-                <span>{prop.text}</span>
-              </motion.div>
-            ))}
-          </motion.div>
+      {/* Floating elements */}
+      <motion.div
+        className="absolute top-32 right-20 w-2 h-2 bg-primary rounded-full"
+        animate={{ y: [0, -20, 0], opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 4, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute top-1/2 left-16 w-1.5 h-1.5 bg-blue-400 rounded-full"
+        animate={{ y: [0, 20, 0], opacity: [0.3, 0.8, 0.3] }}
+        transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+      />
+      <motion.div
+        className="absolute bottom-40 right-1/4 w-1 h-1 bg-white rounded-full"
+        animate={{ y: [0, -15, 0], opacity: [0.2, 0.6, 0.2] }}
+        transition={{ duration: 3, repeat: Infinity, delay: 2 }}
+      />
 
-          {/* Main Title with glow effect */}
-          <motion.div className="relative">
-            {/* Subtle glow behind text */}
-            <div className="absolute inset-0 blur-3xl bg-primary/10 scale-150" />
-            <motion.h1 
-              className="relative text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-[1.05] tracking-tight text-hero-foreground"
+      <div className="container mx-auto px-4 relative z-10 pt-32 pb-24">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left content */}
+          <div className="max-w-2xl">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8"
+            >
+              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+              <span className="text-sm text-white/80 font-medium">Premium Web Development Agency</span>
+            </motion.div>
+
+            {/* Main headline */}
+            <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-6"
             >
-              High-converting websites
+              We build websites
               <br />
-              delivered in <span className="text-primary font-extrabold drop-shadow-[0_0_20px_hsl(217,91%,50%,0.5)]">5–10 days</span>.
+              <span className="bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent">
+                that convert.
+              </span>
             </motion.h1>
-          </motion.div>
 
-          {/* Subtitle */}
-          <motion.p 
-            className="text-lg md:text-xl text-hero-foreground/70 max-w-2xl mx-auto mb-4 leading-relaxed italic"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Pay in crypto. Simple and transparent.
-          </motion.p>
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl text-white/60 leading-relaxed mb-8 max-w-lg"
+            >
+              High-performance websites delivered in 5–10 days. 
+              Transparent pricing. Pay in crypto or card.
+            </motion.p>
 
-          {/* Reassurance line */}
-          <motion.p 
-            className="text-sm text-primary font-medium mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-          >
-            Free project brief • No upfront commitment • Response within 24h
-          </motion.p>
+            {/* Feature list */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-wrap gap-x-6 gap-y-3 mb-10"
+            >
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary" />
+                  </div>
+                  <span className="text-sm text-white/70">{feature}</span>
+                </div>
+              ))}
+            </motion.div>
 
-          {/* Mini Quote Form */}
-          <motion.div 
-            className="max-w-3xl mx-auto mb-8"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex gap-10"
+            >
+              {stats.map((stat, index) => (
+                <div key={index}>
+                  <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
+                  <div className="text-sm text-white/50">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right form card */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="relative"
           >
-            <form onSubmit={handleSubmit} className="bg-background rounded-2xl p-6 shadow-elevated">
-              <div className="grid sm:grid-cols-3 gap-4 mb-4">
+            {/* Card glow */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 rounded-3xl blur-xl opacity-50" />
+            
+            <div className="relative bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+              <div className="mb-6">
+                <h3 className="text-2xl font-semibold text-white mb-2">Start your project</h3>
+                <p className="text-white/50 text-sm">Get a free proposal within 24 hours</p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium mb-2 block text-left text-muted-foreground">Website type</label>
+                  <label className="text-sm font-medium mb-2 block text-white/70">Website type</label>
                   <Select value={websiteType} onValueChange={setWebsiteType}>
-                    <SelectTrigger className="bg-secondary/50 border-border/50">
+                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -155,71 +184,88 @@ const HeroSection = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block text-left text-muted-foreground">Budget</label>
+                  <label className="text-sm font-medium mb-2 block text-white/70">Budget range</label>
                   <Select value={budget} onValueChange={setBudget}>
-                    <SelectTrigger className="bg-secondary/50 border-border/50">
+                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
                       <SelectValue placeholder="Select budget" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="starter">Starter (~$500)</SelectItem>
                       <SelectItem value="business">Business (~$1,200)</SelectItem>
                       <SelectItem value="premium">Premium (~$2,000)</SelectItem>
-                      <SelectItem value="unsure">Not sure</SelectItem>
+                      <SelectItem value="unsure">Not sure yet</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block text-left text-muted-foreground">Timeline</label>
+                  <label className="text-sm font-medium mb-2 block text-white/70">Timeline</label>
                   <Select value={timeline} onValueChange={setTimeline}>
-                    <SelectTrigger className="bg-secondary/50 border-border/50">
+                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
                       <SelectValue placeholder="Select timeline" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="asap">ASAP</SelectItem>
-                      <SelectItem value="1week">1 week</SelectItem>
-                      <SelectItem value="2weeks">2 weeks</SelectItem>
+                      <SelectItem value="asap">As soon as possible</SelectItem>
+                      <SelectItem value="1week">Within 1 week</SelectItem>
+                      <SelectItem value="2weeks">Within 2 weeks</SelectItem>
+                      <SelectItem value="flexible">Flexible</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
 
-              <Button 
-                type="submit" 
-                className="w-full sm:w-auto px-8 py-6 bg-foreground text-background hover:bg-foreground/90 font-semibold rounded-full"
-              >
-                Start my brief
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-              
-              {/* Micro-copy under button */}
-              <p className="text-xs text-muted-foreground mt-3">
-                You'll speak with a real project manager. No payment required at this step.
-              </p>
-            </form>
-
-            {/* Confirmation message state */}
-            {formSubmitted && (
-              <motion.div
-                className="mt-4 p-4 bg-primary/10 border border-primary/20 rounded-xl"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <p className="text-sm text-foreground">
-                  ✓ Thanks! We'll review your request and send you a clear proposal with timeline and payment options.
+                <Button 
+                  type="submit" 
+                  className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base mt-2"
+                >
+                  Get my free proposal
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+                
+                <p className="text-xs text-white/40 text-center pt-2">
+                  No payment required • Response within 24h
                 </p>
-              </motion.div>
-            )}
+              </form>
+
+              {formSubmitted && (
+                <motion.div
+                  className="mt-4 p-4 bg-primary/10 border border-primary/20 rounded-xl"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <p className="text-sm text-white">
+                    ✓ Thanks! We'll review your request and send you a proposal within 24h.
+                  </p>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Trust badges under form */}
+            <div className="flex items-center justify-center gap-6 mt-6">
+              <div className="flex items-center gap-2 text-white/40 text-xs">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>Secure</span>
+              </div>
+              <div className="flex items-center gap-2 text-white/40 text-xs">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>No spam</span>
+              </div>
+              <div className="flex items-center gap-2 text-white/40 text-xs">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span>5-star rated</span>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Wave Bottom */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 120L60 110C120 100 240 80 360 75C480 70 600 80 720 85C840 90 960 90 1080 85C1200 80 1320 70 1380 65L1440 60V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))"/>
-        </svg>
-      </div>
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 };
