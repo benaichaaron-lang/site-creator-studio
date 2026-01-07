@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Mail, MessageCircle, CheckCircle, Loader2 } from "lucide-react";
+import { Send, Mail, MessageCircle, CheckCircle, Loader2, UserPlus } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/select";
 
 const ContactSection = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -205,9 +207,21 @@ const ContactSection = () => {
                       <CheckCircle className="w-10 h-10 text-primary" />
                     </motion.div>
                     <h3 className="font-display text-2xl font-bold mb-2">Message sent!</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground mb-6">
                       Thank you for reaching out. We'll get back to you within 24 hours.
                     </p>
+                    
+                    <div className="w-full border-t border-border pt-6">
+                      <p className="text-sm text-muted-foreground mb-4">Create an account to track your project in real-time</p>
+                      <Button 
+                        onClick={() => navigate('/auth', { state: { firstName: formData.firstName, lastName: formData.lastName, phone: formData.phone } })}
+                        className="w-full"
+                        variant="outline"
+                      >
+                        <UserPlus className="w-4 h-4 mr-2" />
+                        Create my account
+                      </Button>
+                    </div>
                   </motion.div>
                 ) : (
                   <motion.form 

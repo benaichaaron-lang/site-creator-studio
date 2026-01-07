@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Check, Loader2 } from "lucide-react";
+import { ArrowRight, Check, Loader2, UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import {
   Select,
@@ -106,6 +107,7 @@ const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
 
 // Desktop Hero
 const DesktopHero = () => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -234,7 +236,18 @@ const DesktopHero = () => {
                   <Check className="w-8 h-8 text-primary" />
                 </div>
                 <h4 className="text-xl font-semibold text-white mb-2">Brief received!</h4>
-                <p className="text-sm text-white/60 leading-relaxed">Thank you. A real team member will review your request and contact you within 24 hours.</p>
+                <p className="text-sm text-white/60 leading-relaxed mb-6">Thank you. A real team member will review your request and contact you within 24 hours.</p>
+                
+                <div className="border-t border-white/10 pt-6">
+                  <p className="text-sm text-white/50 mb-4">Create an account to track your project in real-time</p>
+                  <Button 
+                    onClick={() => navigate('/auth', { state: { firstName, lastName, phone } })}
+                    className="w-full h-12 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg"
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Create my account
+                  </Button>
+                </div>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
