@@ -4,112 +4,114 @@ import { Star, Quote } from "lucide-react";
 const testimonials = [
   {
     id: 1,
-    name: "Marie Dupont",
+    name: "Marie D.",
     role: "Fondatrice",
     company: "Studio Bloom",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
-    content: "Un travail exceptionnel ! Notre nouveau site a boosté notre visibilité et nos demandes ont augmenté de 40% en 2 mois. L'équipe est réactive et à l'écoute.",
+    content: "Nouveau site = +40% de demandes en 2 mois. Équipe réactive !",
+    fullContent: "Un travail exceptionnel ! Notre nouveau site a boosté notre visibilité et nos demandes ont augmenté de 40% en 2 mois. L'équipe est réactive et à l'écoute.",
     rating: 5,
   },
   {
     id: 2,
-    name: "Thomas Bernard",
+    name: "Thomas B.",
     role: "Directeur",
     company: "Tech Solutions",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    content: "Processus fluide et résultat au-delà de nos attentes. Le site a été livré en 8 jours, parfaitement fonctionnel. Je recommande vivement.",
+    content: "Livré en 8 jours, parfaitement fonctionnel. Je recommande !",
+    fullContent: "Processus fluide et résultat au-delà de nos attentes. Le site a été livré en 8 jours, parfaitement fonctionnel. Je recommande vivement.",
     rating: 5,
   },
   {
     id: 3,
-    name: "Sophie Martin",
+    name: "Sophie M.",
     role: "CEO",
     company: "Éco Habitat",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-    content: "Très professionnel. Ils ont compris notre vision dès le premier brief et l'ont traduite parfaitement. Notre taux de conversion a doublé.",
+    content: "Vision comprise dès le brief. Taux de conversion doublé.",
+    fullContent: "Très professionnel. Ils ont compris notre vision dès le premier brief et l'ont traduite parfaitement. Notre taux de conversion a doublé.",
     rating: 5,
   },
   {
     id: 4,
-    name: "Lucas Moreau",
+    name: "Lucas M.",
     role: "Co-fondateur",
     company: "FitLife Pro",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    content: "Rapport qualité-prix imbattable. Le site est moderne, rapide et nos clients adorent l'expérience utilisateur. Merci à toute l'équipe !",
+    content: "Qualité-prix imbattable. Site moderne et rapide.",
+    fullContent: "Rapport qualité-prix imbattable. Le site est moderne, rapide et nos clients adorent l'expérience utilisateur. Merci à toute l'équipe !",
     rating: 5,
   },
 ];
 
 const TestimonialsSection = () => {
   return (
-    <section id="testimonials" className="py-16 lg:py-28 bg-background relative overflow-hidden">
-      {/* Subtle background */}
+    <section id="testimonials" className="py-12 sm:py-16 lg:py-28 bg-background relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(var(--primary)/0.04),transparent_50%)]" />
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
+        {/* Header - compact */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 lg:mb-16"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-6 sm:mb-10"
         >
-          <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary text-sm font-medium rounded-full mb-4">
+          <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs sm:text-sm font-medium rounded-full mb-2 sm:mb-3">
             Témoignages
           </span>
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
             Ce que nos clients disent
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Des entreprises qui nous font confiance pour leur présence en ligne.
+          <p className="text-muted-foreground text-sm sm:text-base">
+            +50 entreprises nous font confiance.
           </p>
         </motion.div>
 
-        {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+        {/* Testimonials Grid - 2 columns on mobile */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 max-w-5xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group"
+              transition={{ duration: 0.4, delay: index * 0.08 }}
             >
-              <div className="bg-card rounded-2xl p-6 lg:p-8 shadow-card hover:shadow-elevated transition-shadow duration-300 h-full flex flex-col relative">
-                {/* Quote icon */}
-                <div className="absolute -top-3 -left-3 w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <Quote className="w-5 h-5 text-primary" />
+              <div className="bg-card rounded-xl p-3 sm:p-4 lg:p-5 shadow-card h-full flex flex-col relative">
+                {/* Quote icon - smaller on mobile */}
+                <div className="absolute -top-2 -left-2 w-6 h-6 sm:w-8 sm:h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Quote className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                 </div>
 
                 {/* Stars */}
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-0.5 mb-2">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
 
-                {/* Content */}
-                <p className="text-foreground leading-relaxed flex-grow mb-6">
-                  "{testimonial.content}"
+                {/* Content - short on mobile, full on desktop */}
+                <p className="text-foreground text-xs sm:text-sm leading-relaxed flex-grow mb-3">
+                  <span className="sm:hidden">"{testimonial.content}"</span>
+                  <span className="hidden sm:inline">"{testimonial.fullContent}"</span>
                 </p>
 
-                {/* Author */}
-                <div className="flex items-center gap-4 pt-4 border-t border-border">
+                {/* Author - compact */}
+                <div className="flex items-center gap-2 pt-2 border-t border-border">
                   <img
                     src={testimonial.avatar}
                     alt={testimonial.name}
                     loading="lazy"
-                    decoding="async"
-                    className="w-12 h-12 rounded-full object-cover ring-2 ring-background shadow-sm"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
                   />
-                  <div>
-                    <div className="font-semibold text-foreground">
+                  <div className="min-w-0">
+                    <div className="font-semibold text-foreground text-xs sm:text-sm truncate">
                       {testimonial.name}
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      {testimonial.role}, {testimonial.company}
+                    <div className="text-[10px] sm:text-xs text-muted-foreground truncate">
+                      {testimonial.company}
                     </div>
                   </div>
                 </div>
@@ -118,46 +120,27 @@ const TestimonialsSection = () => {
           ))}
         </div>
 
-        {/* Trust indicators */}
+        {/* Trust indicators - more compact */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 lg:mt-16 text-center"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-6 sm:mt-10 text-center"
         >
-          <div className="inline-flex flex-wrap items-center justify-center gap-6 lg:gap-10 px-6 py-4 bg-muted/30 rounded-2xl">
-            <div className="flex items-center gap-2">
-              <div className="flex -space-x-2">
-                {testimonials.slice(0, 4).map((t, i) => (
-                  <img
-                    key={t.id}
-                    src={t.avatar}
-                    alt=""
-                    className="w-8 h-8 rounded-full border-2 border-background object-cover"
-                    loading="lazy"
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-muted-foreground ml-2">
-                +50 clients satisfaits
-              </span>
-            </div>
-            <div className="h-8 w-px bg-border hidden sm:block" />
-            <div className="flex items-center gap-2">
+          <div className="inline-flex flex-wrap items-center justify-center gap-4 sm:gap-6 lg:gap-8 px-4 py-3 bg-muted/30 rounded-xl text-xs sm:text-sm">
+            <div className="flex items-center gap-1.5">
               <div className="flex gap-0.5">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <span className="text-sm text-muted-foreground">
-                4.9/5 note moyenne
-              </span>
+              <span className="text-muted-foreground">4.9/5</span>
             </div>
-            <div className="h-8 w-px bg-border hidden sm:block" />
-            <div className="text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">98%</span> taux de satisfaction
-            </div>
+            <div className="h-4 w-px bg-border" />
+            <span className="text-muted-foreground">
+              <span className="font-semibold text-foreground">98%</span> satisfaction
+            </span>
           </div>
         </motion.div>
       </div>
