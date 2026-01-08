@@ -162,9 +162,9 @@ const DesktopHero = () => {
 
   return (
     <div className="container mx-auto px-4 lg:px-6 xl:px-8 relative z-10 pt-28 pb-20 md:pt-32 md:pb-24 lg:pt-36 lg:pb-32 xl:pt-40 xl:pb-36 2xl:pt-44 2xl:pb-40 max-w-7xl">
-      <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 xl:gap-16 2xl:gap-20 items-start">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-10 lg:gap-8 xl:gap-12 2xl:gap-16 items-start">
         {/* Left content */}
-        <div className="max-w-xl lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
+        <div className="flex-1 max-w-xl lg:max-w-[50%] xl:max-w-[55%] lg:pr-4">
           {/* Title with elegant sizing - responsive */}
           <motion.h1 
             initial={{ opacity: 0, y: 30 }} 
@@ -241,7 +241,7 @@ const DesktopHero = () => {
           initial={{ opacity: 0, x: 40 }} 
           animate={{ opacity: 1, x: 0 }} 
           transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-          className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl"
+          className="relative w-full lg:w-auto lg:flex-shrink-0 lg:max-w-[420px] xl:max-w-[460px]"
         >
           {/* Subtle glow behind */}
           <div className="absolute -inset-4 lg:-inset-6 bg-gradient-to-br from-primary/12 via-transparent to-primary/8 rounded-3xl blur-3xl" />
