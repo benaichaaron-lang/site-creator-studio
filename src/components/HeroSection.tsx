@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Select,
   SelectContent,
@@ -27,6 +28,8 @@ const TrustBadge = ({ icon: Icon, label }: { icon: React.ElementType; label: str
 
 // Mobile Hero - Clean and conversion-focused
 const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => void; onSeePacks: () => void }) => {
+  const { t } = useLanguage();
+  
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col justify-center px-5 py-8">
       <div className="flex-1 flex flex-col justify-center max-w-md mx-auto">
@@ -37,7 +40,7 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
           transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
           className="font-bebas text-[clamp(2.75rem,11vw,4rem)] leading-[0.92] text-white tracking-tight"
         >
-          Sites web professionnels
+          {t("hero.title")}
         </motion.h1>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -45,7 +48,7 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
           transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
           className="font-bebas text-[clamp(2.25rem,9vw,3.25rem)] text-primary leading-[0.92] tracking-tight mt-1 mb-6"
         >
-          livrés en 5–10 jours
+          {t("hero.titleHighlight")}
         </motion.h2>
 
         {/* Value subtitle - more readable */}
@@ -55,7 +58,7 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-white/50 text-base leading-relaxed mb-8 font-heebo"
         >
-          Prix fixe • Processus transparent • Paiement crypto ou carte
+          {t("hero.subtitle")}
         </motion.p>
 
         {/* Two CTAs - stacked on mobile */}
@@ -69,7 +72,7 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
             onClick={onStartBrief}
             className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base shadow-[0_4px_20px_hsl(217,91%,50%,0.25)]"
           >
-            Démarrer mon brief
+            {t("hero.cta.startBrief")}
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
           <Button 
@@ -77,7 +80,7 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
             variant="outline"
             className="w-full h-12 bg-white/[0.02] border-white/[0.1] text-white/90 hover:bg-white/[0.05] hover:border-white/20 font-medium rounded-xl text-sm backdrop-blur-sm"
           >
-            Voir les packs
+            {t("hero.cta.seePacks")}
           </Button>
         </motion.div>
 
@@ -88,9 +91,9 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
           transition={{ duration: 0.5, delay: 0.4 }}
           className="flex flex-wrap gap-2.5"
         >
-          <TrustBadge icon={Clock} label="5–10 jours" />
-          <TrustBadge icon={CreditCard} label="Prix fixe" />
-          <TrustBadge icon={Wallet} label="Crypto/carte" />
+          <TrustBadge icon={Clock} label={t("hero.trustBadges.delivery")} />
+          <TrustBadge icon={CreditCard} label={t("hero.trustBadges.fixedPrice")} />
+          <TrustBadge icon={Wallet} label={t("hero.trustBadges.cryptoCard")} />
         </motion.div>
       </div>
     </div>
@@ -100,6 +103,7 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
 // Desktop Hero - Premium with animated gradient and form
 const DesktopHero = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -113,12 +117,12 @@ const DesktopHero = () => {
 
   const validateForm = () => {
     const newErrors: typeof errors = {};
-    if (!firstName.trim()) newErrors.firstName = "Prénom requis";
-    if (!lastName.trim()) newErrors.lastName = "Nom requis";
-    if (!phone.trim()) newErrors.phone = "Téléphone requis";
-    if (!websiteType) newErrors.websiteType = "Sélectionnez un type";
-    if (!budget) newErrors.budget = "Sélectionnez un budget";
-    if (!timeline) newErrors.timeline = "Sélectionnez un délai";
+    if (!firstName.trim()) newErrors.firstName = t("hero.errors.firstName");
+    if (!lastName.trim()) newErrors.lastName = t("hero.errors.lastName");
+    if (!phone.trim()) newErrors.phone = t("hero.errors.phone");
+    if (!websiteType) newErrors.websiteType = t("hero.errors.websiteType");
+    if (!budget) newErrors.budget = t("hero.errors.budget");
+    if (!timeline) newErrors.timeline = t("hero.errors.timeline");
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -126,7 +130,7 @@ const DesktopHero = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
-      toast({ title: "Informations manquantes", description: "Veuillez remplir tous les champs requis.", variant: "destructive" });
+      toast({ title: t("hero.errors.missing"), description: t("hero.errors.missingDesc"), variant: "destructive" });
       return;
     }
 
@@ -139,14 +143,14 @@ const DesktopHero = () => {
       });
 
       if (!response.ok) {
-        toast({ title: "Erreur", description: "Une erreur est survenue. Veuillez réessayer.", variant: "destructive" });
+        toast({ title: t("hero.errors.failed"), description: t("hero.errors.failedDesc"), variant: "destructive" });
         return;
       }
       setFormSubmitted(true);
-      toast({ title: "Brief envoyé !", description: "Nous reviendrons vers vous sous 24h." });
+      toast({ title: t("hero.toasts.submitted"), description: t("hero.toasts.submittedDesc") });
       setTimeout(() => document.getElementById('packs')?.scrollIntoView({ behavior: 'smooth' }), 2000);
     } catch {
-      toast({ title: "Erreur", description: "Une erreur est survenue.", variant: "destructive" });
+      toast({ title: t("hero.errors.failed"), description: t("hero.errors.failedDesc"), variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
@@ -168,7 +172,7 @@ const DesktopHero = () => {
             transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
             className="font-bebas text-[clamp(3.5rem,5.5vw,5.5rem)] text-white leading-[0.9] tracking-tight"
           >
-            Sites web professionnels
+            {t("hero.title")}
           </motion.h1>
           <motion.h2 
             initial={{ opacity: 0, y: 30 }} 
@@ -176,7 +180,7 @@ const DesktopHero = () => {
             transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
             className="font-bebas text-[clamp(2.75rem,4.5vw,4.5rem)] text-primary leading-[0.9] tracking-tight mt-1 mb-8"
           >
-            livrés en 5–10 jours
+            {t("hero.titleHighlight")}
           </motion.h2>
 
           {/* Value subtitle - cleaner */}
@@ -186,7 +190,7 @@ const DesktopHero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/50 text-lg mb-10 font-heebo leading-relaxed"
           >
-            Prix fixe • Processus transparent • Paiement crypto ou carte
+            {t("hero.subtitle")}
           </motion.p>
 
           {/* Two CTAs - horizontal on desktop */}
@@ -207,7 +211,7 @@ const DesktopHero = () => {
               }}
               className="h-14 px-8 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base shadow-[0_4px_24px_hsl(217,91%,50%,0.3)] transition-all hover:shadow-[0_8px_32px_hsl(217,91%,50%,0.4)]"
             >
-              Démarrer mon brief
+              {t("hero.cta.startBrief")}
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             <Button 
@@ -215,7 +219,7 @@ const DesktopHero = () => {
               variant="outline"
               className="h-14 px-8 bg-white/[0.02] border-white/[0.1] text-white/90 hover:bg-white/[0.05] hover:border-white/20 font-medium rounded-xl text-base backdrop-blur-sm"
             >
-              Voir les packs
+              {t("hero.cta.seePacks")}
             </Button>
           </motion.div>
 
@@ -226,9 +230,9 @@ const DesktopHero = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-wrap gap-3"
           >
-            <TrustBadge icon={Clock} label="Livré en 5–10 jours" />
-            <TrustBadge icon={CreditCard} label="Prix fixe" />
-            <TrustBadge icon={Wallet} label="Crypto/carte" />
+            <TrustBadge icon={Clock} label={t("hero.trustBadges.deliveryLong")} />
+            <TrustBadge icon={CreditCard} label={t("hero.trustBadges.fixedPrice")} />
+            <TrustBadge icon={Wallet} label={t("hero.trustBadges.cryptoCard")} />
           </motion.div>
         </div>
 
@@ -244,8 +248,8 @@ const DesktopHero = () => {
           
           <div className="relative bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-7 lg:p-8">
             <div className="mb-6">
-              <h3 className="font-bebas text-2xl text-white mb-1.5 tracking-tight">Démarrez votre projet</h3>
-              <p className="text-white/40 text-sm font-heebo">Devis gratuit • Réponse sous 24h</p>
+              <h3 className="font-bebas text-2xl text-white mb-1.5 tracking-tight">{t("hero.form.title")}</h3>
+              <p className="text-white/40 text-sm font-heebo">{t("hero.form.subtitle")}</p>
             </div>
 
             {formSubmitted ? (
@@ -253,23 +257,23 @@ const DesktopHero = () => {
                 <div className="w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center mx-auto mb-5">
                   <Check className="w-8 h-8 text-primary" />
                 </div>
-                <h4 className="font-bebas text-2xl text-white mb-2 tracking-tight">Brief reçu !</h4>
+                <h4 className="font-bebas text-2xl text-white mb-2 tracking-tight">{t("hero.form.success.title")}</h4>
                 <p className="text-sm text-white/50 leading-relaxed mb-6 font-heebo">
-                  Un membre de notre équipe vous contactera sous 24h.
+                  {t("hero.form.success.message")}
                 </p>
                 <Button 
                   onClick={() => navigate('/auth', { state: { firstName, lastName, phone } })}
                   className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-xl"
                 >
                   <UserPlus className="w-4 h-4 mr-2" />
-                  Créer mon compte
+                  {t("hero.form.success.createAccount")}
                 </Button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">Prénom *</label>
+                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.firstName")} {t("hero.form.required")}</label>
                     <Input
                       placeholder="Jean"
                       value={firstName}
@@ -278,7 +282,7 @@ const DesktopHero = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">Nom *</label>
+                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.lastName")} {t("hero.form.required")}</label>
                     <Input
                       placeholder="Dupont"
                       value={lastName}
@@ -289,7 +293,7 @@ const DesktopHero = () => {
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">Téléphone *</label>
+                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.phone")} {t("hero.form.required")}</label>
                   <Input
                     type="tel"
                     placeholder="+33 6 12 34 56 78"
@@ -300,9 +304,9 @@ const DesktopHero = () => {
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">Recommandation <span className="text-white/30">(optionnel)</span></label>
+                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.recommendation")} <span className="text-white/30">({t("hero.form.optional")})</span></label>
                   <Input
-                    placeholder="Qui vous a parlé de nous ?"
+                    placeholder={t("hero.form.recommendationPlaceholder")}
                     value={recommendation}
                     onChange={(e) => setRecommendation(e.target.value)}
                     className="bg-white/[0.03] border-white/[0.08] text-white h-11 placeholder:text-white/25 focus:border-primary/50 transition-colors"
@@ -310,58 +314,58 @@ const DesktopHero = () => {
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">Type de site *</label>
+                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.websiteType")} {t("hero.form.required")}</label>
                   <Select value={websiteType} onValueChange={(value) => { setWebsiteType(value); setErrors(prev => ({ ...prev, websiteType: undefined })); }}>
                     <SelectTrigger className={`bg-white/[0.03] border-white/[0.08] text-white h-11 ${errors.websiteType ? 'border-red-400/60' : ''}`}>
-                      <SelectValue placeholder="Sélectionner" />
+                      <SelectValue placeholder={t("hero.form.selectType")} />
                     </SelectTrigger>
                     <SelectContent className="bg-card border-border">
-                      <SelectItem value="landing">Landing page</SelectItem>
-                      <SelectItem value="ecommerce">E-commerce</SelectItem>
-                      <SelectItem value="business">Site vitrine</SelectItem>
-                      <SelectItem value="portfolio">Portfolio</SelectItem>
-                      <SelectItem value="webapp">Web app</SelectItem>
+                      <SelectItem value="landing">{t("hero.websiteTypes.landing")}</SelectItem>
+                      <SelectItem value="ecommerce">{t("hero.websiteTypes.ecommerce")}</SelectItem>
+                      <SelectItem value="business">{t("hero.websiteTypes.business")}</SelectItem>
+                      <SelectItem value="portfolio">{t("hero.websiteTypes.portfolio")}</SelectItem>
+                      <SelectItem value="webapp">{t("hero.websiteTypes.webapp")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">Budget *</label>
+                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.budget")} {t("hero.form.required")}</label>
                     <Select value={budget} onValueChange={(value) => { setBudget(value); setErrors(prev => ({ ...prev, budget: undefined })); }}>
                       <SelectTrigger className={`bg-white/[0.03] border-white/[0.08] text-white h-11 ${errors.budget ? 'border-red-400/60' : ''}`}>
-                        <SelectValue placeholder="Budget" />
+                        <SelectValue placeholder={t("hero.form.selectBudget")} />
                       </SelectTrigger>
                       <SelectContent className="bg-card border-border">
-                        <SelectItem value="starter">~500€</SelectItem>
-                        <SelectItem value="business">~1 200€</SelectItem>
-                        <SelectItem value="premium">~2 000€</SelectItem>
-                        <SelectItem value="unsure">À définir</SelectItem>
+                        <SelectItem value="starter">{t("hero.budgetOptions.starter")}</SelectItem>
+                        <SelectItem value="business">{t("hero.budgetOptions.business")}</SelectItem>
+                        <SelectItem value="premium">{t("hero.budgetOptions.premium")}</SelectItem>
+                        <SelectItem value="unsure">{t("hero.budgetOptions.unsure")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">Délai *</label>
+                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.timeline")} {t("hero.form.required")}</label>
                     <Select value={timeline} onValueChange={(value) => { setTimeline(value); setErrors(prev => ({ ...prev, timeline: undefined })); }}>
                       <SelectTrigger className={`bg-white/[0.03] border-white/[0.08] text-white h-11 ${errors.timeline ? 'border-red-400/60' : ''}`}>
-                        <SelectValue placeholder="Délai" />
+                        <SelectValue placeholder={t("hero.form.selectTimeline")} />
                       </SelectTrigger>
                       <SelectContent className="bg-card border-border">
-                        <SelectItem value="asap">Dès que possible</SelectItem>
-                        <SelectItem value="1week">Sous 1 semaine</SelectItem>
-                        <SelectItem value="2weeks">Sous 2 semaines</SelectItem>
-                        <SelectItem value="flexible">Flexible</SelectItem>
+                        <SelectItem value="asap">{t("hero.timelineOptions.asap")}</SelectItem>
+                        <SelectItem value="1week">{t("hero.timelineOptions.oneWeek")}</SelectItem>
+                        <SelectItem value="2weeks">{t("hero.timelineOptions.twoWeeks")}</SelectItem>
+                        <SelectItem value="flexible">{t("hero.timelineOptions.flexible")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
                 <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl mt-3 shadow-[0_4px_16px_hsl(217,91%,50%,0.25)]" disabled={isSubmitting}>
-                  {isSubmitting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />Envoi...</>) : (<>Demander un devis gratuit<ArrowRight className="w-4 h-4 ml-2" /></>)}
+                  {isSubmitting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("hero.form.submitting")}</>) : (<>{t("hero.form.submit")}<ArrowRight className="w-4 h-4 ml-2" /></>)}
                 </Button>
                 
                 <p className="text-[11px] text-white/35 text-center pt-2 font-heebo">
-                  Sans engagement • Sans paiement initial
+                  {t("hero.form.footer")}
                 </p>
               </form>
             )}

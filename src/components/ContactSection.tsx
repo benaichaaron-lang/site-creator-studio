@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Select,
   SelectContent,
@@ -15,6 +16,7 @@ import {
 
 const ContactSection = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -41,22 +43,22 @@ const ContactSection = () => {
     const newErrors: {firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string} = {};
     
     if (!formData.firstName.trim()) {
-      newErrors.firstName = "Prénom requis";
+      newErrors.firstName = t("contact.errors.firstName");
     }
     if (!formData.lastName.trim()) {
-      newErrors.lastName = "Nom requis";
+      newErrors.lastName = t("contact.errors.lastName");
     }
     if (!formData.phone.trim()) {
-      newErrors.phone = "Téléphone requis";
+      newErrors.phone = t("contact.errors.phone");
     }
     if (!formData.websiteType) {
-      newErrors.websiteType = "Sélectionnez un type de site";
+      newErrors.websiteType = t("contact.errors.websiteType");
     }
     if (!formData.budget) {
-      newErrors.budget = "Sélectionnez un budget";
+      newErrors.budget = t("contact.errors.budget");
     }
     if (!formData.timeline) {
-      newErrors.timeline = "Sélectionnez un délai";
+      newErrors.timeline = t("contact.errors.timeline");
     }
     
     setErrors(newErrors);
@@ -68,8 +70,8 @@ const ContactSection = () => {
     
     if (!validateForm()) {
       toast({
-        title: "Informations manquantes",
-        description: "Veuillez remplir tous les champs requis.",
+        title: t("hero.errors.missing"),
+        description: t("hero.errors.missingDesc"),
         variant: "destructive",
       });
       return;
@@ -94,8 +96,8 @@ const ContactSection = () => {
 
       if (!response.ok) {
         toast({
-          title: "Échec de l'envoi",
-          description: "Une erreur est survenue. Veuillez réessayer ou nous contacter directement.",
+          title: t("contact.toasts.failed"),
+          description: t("contact.toasts.failedDesc"),
           variant: "destructive",
         });
         return;
@@ -104,8 +106,8 @@ const ContactSection = () => {
       setIsSubmitted(true);
       
       toast({
-        title: "Message envoyé !",
-        description: "Nous vous recontacterons sous 24h.",
+        title: t("contact.toasts.sent"),
+        description: t("contact.toasts.sentDesc"),
       });
 
       setTimeout(() => {
@@ -114,8 +116,8 @@ const ContactSection = () => {
       }, 5000);
     } catch (err) {
       toast({
-        title: "Échec de l'envoi",
-        description: "Une erreur est survenue. Veuillez réessayer.",
+        title: t("contact.toasts.failed"),
+        description: t("contact.toasts.failedDesc"),
         variant: "destructive",
       });
     } finally {
@@ -138,15 +140,14 @@ const ContactSection = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-primary text-sm font-semibold uppercase tracking-wider">Contact</span>
+              <span className="text-primary text-sm font-semibold uppercase tracking-wider">{t("contact.badge")}</span>
               <h2 className="font-bebas text-3xl md:text-4xl lg:text-5xl mt-4 mb-6 text-white">
-                Une question ?
+                {t("contact.title")}
                 <br />
-                <span className="text-primary">Parlons-en</span>
+                <span className="text-primary">{t("contact.titleHighlight")}</span>
               </h2>
               <p className="text-white/60 text-lg mb-10 font-heebo">
-                Vous avez des questions sur nos offres ou besoin de conseils ? 
-                Notre équipe est là pour vous aider à concrétiser votre projet.
+                {t("contact.subtitle")}
               </p>
 
               {/* Contact Options */}
@@ -164,7 +165,7 @@ const ContactSection = () => {
                     <Mail className="w-6 h-6 text-primary" />
                   </motion.div>
                   <div>
-                    <h4 className="font-semibold text-white">Email</h4>
+                    <h4 className="font-semibold text-white">{t("contact.email")}</h4>
                     <p className="text-white/60 text-sm">contact@mysitefactory.io</p>
                   </div>
                 </motion.a>
@@ -184,8 +185,8 @@ const ContactSection = () => {
                     <MessageCircle className="w-6 h-6 text-green-500" />
                   </motion.div>
                   <div>
-                    <h4 className="font-semibold text-white">WhatsApp</h4>
-                    <p className="text-white/60 text-sm">Réponse rapide sous 24h</p>
+                    <h4 className="font-semibold text-white">{t("contact.whatsapp")}</h4>
+                    <p className="text-white/60 text-sm">{t("contact.whatsappDesc")}</p>
                   </div>
                 </motion.a>
               </div>
@@ -216,20 +217,20 @@ const ContactSection = () => {
                     >
                       <CheckCircle className="w-10 h-10 text-primary" />
                     </motion.div>
-                    <h3 className="font-bebas text-2xl text-white mb-2">Message envoyé !</h3>
+                    <h3 className="font-bebas text-2xl text-white mb-2">{t("contact.form.success.title")}</h3>
                     <p className="text-white/60 mb-6 font-heebo">
-                      Merci de nous avoir contactés. Nous vous répondrons sous 24h.
+                      {t("contact.form.success.message")}
                     </p>
                     
                     <div className="w-full border-t border-white/10 pt-6">
-                      <p className="text-sm text-white/60 mb-4 font-heebo">Créez un compte pour suivre votre projet en temps réel</p>
+                      <p className="text-sm text-white/60 mb-4 font-heebo">{t("contact.form.success.createAccount")}</p>
                       <Button 
                         onClick={() => navigate('/auth', { state: { firstName: formData.firstName, lastName: formData.lastName, phone: formData.phone } })}
                         className="w-full"
                         variant="outline"
                       >
                         <UserPlus className="w-4 h-4 mr-2" />
-                        Créer mon compte
+                        {t("contact.form.success.createAccountBtn")}
                       </Button>
                     </div>
                   </motion.div>
@@ -250,7 +251,7 @@ const ContactSection = () => {
                         transition={{ delay: 0.3 }}
                       >
                         <label className="text-sm font-medium mb-2 block text-white/80 font-heebo">
-                          Prénom <span className="text-red-400">*</span>
+                          {t("contact.form.firstName")} <span className="text-red-400">*</span>
                         </label>
                         <Input
                           placeholder="Jean"
@@ -272,7 +273,7 @@ const ContactSection = () => {
                         transition={{ delay: 0.35 }}
                       >
                         <label className="text-sm font-medium mb-2 block text-white/80 font-heebo">
-                          Nom <span className="text-red-400">*</span>
+                          {t("contact.form.lastName")} <span className="text-red-400">*</span>
                         </label>
                         <Input
                           placeholder="Dupont"
@@ -296,7 +297,7 @@ const ContactSection = () => {
                       transition={{ delay: 0.4 }}
                     >
                       <label className="text-sm font-medium mb-2 block text-white/80 font-heebo">
-                        Téléphone <span className="text-red-400">*</span>
+                        {t("contact.form.phone")} <span className="text-red-400">*</span>
                       </label>
                       <Input
                         type="tel"
@@ -320,10 +321,10 @@ const ContactSection = () => {
                       transition={{ delay: 0.45 }}
                     >
                       <label className="text-sm font-medium mb-2 block text-white/80 font-heebo">
-                        Recommandation <span className="text-white/40">(optionnel)</span>
+                        {t("contact.form.recommendation")} <span className="text-white/40">({t("contact.form.optional")})</span>
                       </label>
                       <Input
-                        placeholder="Qui vous a parlé de nous ?"
+                        placeholder={t("contact.form.recommendationPlaceholder")}
                         value={formData.recommendation}
                         onChange={(e) => setFormData({ ...formData, recommendation: e.target.value })}
                         className="bg-white/5 border-white/10 text-white focus:border-primary transition-all duration-300"
@@ -337,7 +338,7 @@ const ContactSection = () => {
                       transition={{ delay: 0.5 }}
                     >
                       <label className="text-sm font-medium mb-2 block text-white/80 font-heebo">
-                        Type de site <span className="text-red-400">*</span>
+                        {t("contact.form.websiteType")} <span className="text-red-400">*</span>
                       </label>
                       <Select 
                         value={formData.websiteType} 
@@ -347,14 +348,14 @@ const ContactSection = () => {
                         }}
                       >
                         <SelectTrigger className={`bg-white/5 border-white/10 text-white ${errors.websiteType ? 'border-red-400' : ''}`}>
-                          <SelectValue placeholder="Sélectionner" />
+                          <SelectValue placeholder={t("contact.form.selectType")} />
                         </SelectTrigger>
                         <SelectContent className="bg-background border-border">
-                          <SelectItem value="landing">Landing page</SelectItem>
-                          <SelectItem value="ecommerce">E-commerce</SelectItem>
-                          <SelectItem value="business">Site vitrine</SelectItem>
-                          <SelectItem value="portfolio">Portfolio</SelectItem>
-                          <SelectItem value="webapp">Web app</SelectItem>
+                          <SelectItem value="landing">{t("hero.websiteTypes.landing")}</SelectItem>
+                          <SelectItem value="ecommerce">{t("hero.websiteTypes.ecommerce")}</SelectItem>
+                          <SelectItem value="business">{t("hero.websiteTypes.business")}</SelectItem>
+                          <SelectItem value="portfolio">{t("hero.websiteTypes.portfolio")}</SelectItem>
+                          <SelectItem value="webapp">{t("hero.websiteTypes.webapp")}</SelectItem>
                         </SelectContent>
                       </Select>
                       {errors.websiteType && (
@@ -370,7 +371,7 @@ const ContactSection = () => {
                         transition={{ delay: 0.55 }}
                       >
                         <label className="text-sm font-medium mb-2 block text-white/80 font-heebo">
-                          Budget <span className="text-red-400">*</span>
+                          {t("contact.form.budget")} <span className="text-red-400">*</span>
                         </label>
                         <Select 
                           value={formData.budget} 
@@ -380,13 +381,13 @@ const ContactSection = () => {
                           }}
                         >
                           <SelectTrigger className={`bg-white/5 border-white/10 text-white ${errors.budget ? 'border-red-400' : ''}`}>
-                            <SelectValue placeholder="Budget" />
+                            <SelectValue placeholder={t("contact.form.budget")} />
                           </SelectTrigger>
                           <SelectContent className="bg-background border-border">
-                            <SelectItem value="starter">Starter (~500€)</SelectItem>
-                            <SelectItem value="business">Business (~1 200€)</SelectItem>
-                            <SelectItem value="premium">Premium (~2 000€)</SelectItem>
-                            <SelectItem value="unsure">À définir</SelectItem>
+                            <SelectItem value="starter">Starter ({t("hero.budgetOptions.starter")})</SelectItem>
+                            <SelectItem value="business">Business ({t("hero.budgetOptions.business")})</SelectItem>
+                            <SelectItem value="premium">Premium ({t("hero.budgetOptions.premium")})</SelectItem>
+                            <SelectItem value="unsure">{t("hero.budgetOptions.unsure")}</SelectItem>
                           </SelectContent>
                         </Select>
                         {errors.budget && (
@@ -401,7 +402,7 @@ const ContactSection = () => {
                         transition={{ delay: 0.6 }}
                       >
                         <label className="text-sm font-medium mb-2 block text-white/80 font-heebo">
-                          Délai <span className="text-red-400">*</span>
+                          {t("contact.form.timeline")} <span className="text-red-400">*</span>
                         </label>
                         <Select 
                           value={formData.timeline} 
@@ -411,13 +412,13 @@ const ContactSection = () => {
                           }}
                         >
                           <SelectTrigger className={`bg-white/5 border-white/10 text-white ${errors.timeline ? 'border-red-400' : ''}`}>
-                            <SelectValue placeholder="Délai" />
+                            <SelectValue placeholder={t("contact.form.timeline")} />
                           </SelectTrigger>
                           <SelectContent className="bg-background border-border">
-                            <SelectItem value="asap">Dès que possible</SelectItem>
-                            <SelectItem value="1week">Sous 1 semaine</SelectItem>
-                            <SelectItem value="2weeks">Sous 2 semaines</SelectItem>
-                            <SelectItem value="flexible">Flexible</SelectItem>
+                            <SelectItem value="asap">{t("hero.timelineOptions.asap")}</SelectItem>
+                            <SelectItem value="1week">{t("hero.timelineOptions.oneWeek")}</SelectItem>
+                            <SelectItem value="2weeks">{t("hero.timelineOptions.twoWeeks")}</SelectItem>
+                            <SelectItem value="flexible">{t("hero.timelineOptions.flexible")}</SelectItem>
                           </SelectContent>
                         </Select>
                         {errors.timeline && (
@@ -440,11 +441,11 @@ const ContactSection = () => {
                         {isSubmitting ? (
                           <>
                             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            Envoi en cours...
+                            {t("contact.form.submitting")}
                           </>
                         ) : (
                           <>
-                            Envoyer le message
+                            {t("contact.form.submit")}
                             <Send className="w-4 h-4 ml-2" />
                           </>
                         )}
