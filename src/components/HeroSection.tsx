@@ -157,11 +157,11 @@ const DesktopHero = () => {
   };
 
   const scrollToPacks = () => {
-    document.getElementById('packs')?.scrollIntoView({ behavior: 'smooth' });
+    navigate('/packs');
   };
 
   return (
-    <div className="container mx-auto px-4 relative z-10 pt-28 pb-20">
+    <div className="container mx-auto px-4 relative z-10 pt-32 pb-24 lg:pt-36 lg:pb-28">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         {/* Left content */}
         <div className="max-w-xl">
@@ -377,12 +377,14 @@ const DesktopHero = () => {
 };
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  
   const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    navigate('/contact');
   };
 
   const scrollToPacks = () => {
-    document.getElementById('packs')?.scrollIntoView({ behavior: 'smooth' });
+    navigate('/packs');
   };
 
   return (
@@ -395,24 +397,41 @@ const HeroSection = () => {
         {/* Subtle noise texture */}
         <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }} />
         
-        {/* Animated gradient orbs */}
+        {/* Animated gradient orbs - more subtle and elegant */}
         <motion.div 
-          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/[0.06] rounded-full blur-[150px]"
+          className="absolute top-1/4 left-1/4 w-[800px] h-[800px] bg-primary/[0.04] rounded-full blur-[180px]"
           animate={{ 
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-            scale: [1, 1.05, 1]
+            x: [0, 50, 0],
+            y: [0, -30, 0],
+            scale: [1, 1.08, 1]
           }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div 
-          className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-primary/[0.04] rounded-full blur-[120px]"
+          className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-primary/[0.03] rounded-full blur-[150px]"
           animate={{ 
-            x: [0, -25, 0],
-            y: [0, 25, 0],
-            scale: [1, 0.95, 1]
+            x: [0, -40, 0],
+            y: [0, 40, 0],
+            scale: [1, 0.92, 1]
           }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
+        
+        {/* Floating geometric shapes */}
+        <motion.div
+          className="absolute top-20 right-20 w-3 h-3 bg-primary/20 rounded-full hidden lg:block"
+          animate={{ y: [0, -15, 0], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute top-40 left-32 w-2 h-2 bg-primary/30 rounded-full hidden lg:block"
+          animate={{ y: [0, 10, 0], opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+        <motion.div
+          className="absolute bottom-40 left-20 w-4 h-4 bg-primary/10 rounded-full hidden lg:block"
+          animate={{ y: [0, -20, 0], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         />
         
         {/* Top gradient line */}
@@ -433,7 +452,7 @@ const HeroSection = () => {
       </div>
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
     </section>
   );
 };

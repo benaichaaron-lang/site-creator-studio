@@ -3,15 +3,10 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import LazySection from "@/components/LazySection";
 
-// Lazy load des sections non-critiques
+// Lazy load des sections
 const TrustSection = lazy(() => import("@/components/TrustSection"));
 const DemoTabsSection = lazy(() => import("@/components/DemoTabsSection"));
-const HowItWorksSection = lazy(() => import("@/components/HowItWorksSection"));
-const PacksSection = lazy(() => import("@/components/PacksSection"));
-const CryptoSection = lazy(() => import("@/components/CryptoSection"));
-const CustomSection = lazy(() => import("@/components/CustomSection"));
-const FAQSection = lazy(() => import("@/components/FAQSection"));
-const ContactSection = lazy(() => import("@/components/ContactSection"));
+const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
 const Footer = lazy(() => import("@/components/Footer"));
 
 const SectionLoader = () => (
@@ -33,52 +28,17 @@ const Index = () => {
         </Suspense>
       </LazySection>
       
-      {/* Demo tabs - Shopify style */}
+      {/* Demo tabs - Preview of what we create */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <DemoTabsSection />
         </Suspense>
       </LazySection>
       
-      {/* How it works */}
+      {/* Testimonials */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
-          <HowItWorksSection />
-        </Suspense>
-      </LazySection>
-      
-      {/* Pricing packs */}
-      <LazySection>
-        <Suspense fallback={<SectionLoader />}>
-          <PacksSection />
-        </Suspense>
-      </LazySection>
-      
-      {/* Crypto payment */}
-      <LazySection>
-        <Suspense fallback={<SectionLoader />}>
-          <CryptoSection />
-        </Suspense>
-      </LazySection>
-      
-      {/* Custom projects */}
-      <LazySection>
-        <Suspense fallback={<SectionLoader />}>
-          <CustomSection />
-        </Suspense>
-      </LazySection>
-      
-      {/* FAQ */}
-      <LazySection>
-        <Suspense fallback={<SectionLoader />}>
-          <FAQSection />
-        </Suspense>
-      </LazySection>
-      
-      {/* Contact */}
-      <LazySection>
-        <Suspense fallback={<SectionLoader />}>
-          <ContactSection />
+          <TestimonialsSection />
         </Suspense>
       </LazySection>
       

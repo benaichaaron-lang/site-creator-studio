@@ -15,6 +15,12 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Checkout from "./pages/Checkout";
+import Packs from "./pages/Packs";
+import HowItWorks from "./pages/HowItWorks";
+import Portfolio from "./pages/Portfolio";
+import Custom from "./pages/Custom";
+import FAQ from "./pages/FAQ";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +34,12 @@ const App = () => (
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/packs" element={<Packs />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/custom" element={<Custom />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
               <Route path="/legal-notice" element={<LegalNotice />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />

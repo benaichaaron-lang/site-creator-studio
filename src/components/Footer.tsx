@@ -12,16 +12,17 @@ const Footer = () => {
 
   const footerLinks = {
     services: [
-      { label: t("footer.links.starterPack"), href: "/#packs" },
-      { label: t("footer.links.businessPack"), href: "/#packs" },
-      { label: t("footer.links.premiumPack"), href: "/#packs" },
-      { label: t("footer.links.custom"), href: "/#custom" },
+      { label: t("footer.links.starterPack"), href: "/packs" },
+      { label: t("footer.links.businessPack"), href: "/packs" },
+      { label: t("footer.links.premiumPack"), href: "/packs" },
+      { label: t("footer.links.custom"), href: "/custom" },
     ],
     company: [
       { label: t("footer.links.about"), href: "/about" },
-      { label: t("footer.links.howItWorks"), href: "/#how-it-works" },
-      { label: t("footer.links.faq"), href: "/#faq" },
-      { label: t("footer.links.contact"), href: "/#contact" },
+      { label: t("footer.links.portfolio"), href: "/portfolio" },
+      { label: t("footer.links.howItWorks"), href: "/how-it-works" },
+      { label: t("footer.links.faq"), href: "/faq" },
+      { label: t("footer.links.contact"), href: "/contact" },
     ],
     legal: [
       { label: t("footer.links.legalNotice"), href: "/legal-notice" },
@@ -32,20 +33,8 @@ const Footer = () => {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    if (href.startsWith("/#")) {
-      const sectionId = href.substring(2);
-      if (location.pathname !== "/") {
-        navigate("/");
-        setTimeout(() => {
-          document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-      } else {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      navigate(href);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    navigate(href);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const scrollToHeroForm = (e: React.MouseEvent) => {

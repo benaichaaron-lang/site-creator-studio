@@ -442,7 +442,34 @@ export const en = {
   testimonials: {
     badge: "Testimonials",
     title: "What our clients say",
-    subtitle: "Trusted by entrepreneurs and businesses.",
+    subtitle: "+50 businesses trust us.",
+    satisfaction: "satisfaction",
+    list: [
+      {
+        name: "Marie Dupont",
+        role: "Founder",
+        company: "Studio Bloom",
+        content: "Exceptional work! Our new website boosted our visibility and inquiries increased by 40% in 2 months.",
+      },
+      {
+        name: "Thomas Bernard",
+        role: "Director",
+        company: "Tech Solutions",
+        content: "Smooth process and results beyond our expectations. The site was delivered in 8 days. Highly recommend.",
+      },
+      {
+        name: "Sophie Martin",
+        role: "CEO",
+        company: "Éco Habitat",
+        content: "Very professional. They understood our vision from the first brief. Our conversion rate doubled.",
+      },
+      {
+        name: "Lucas Moreau",
+        role: "Co-founder",
+        company: "FitLife Pro",
+        content: "Unbeatable value for money. The site is modern, fast and our customers love the user experience.",
+      },
+    ],
   },
 
   // Portfolio
@@ -454,6 +481,22 @@ export const en = {
     viewCaseStudy: "View case study",
     startSimilar: "Start a similar project",
     pack: "Pack",
+    project: "Project",
+    categories: {
+      ecommerce: "E-commerce",
+      business: "Business",
+      landing: "Landing Page",
+      webapp: "Web App",
+    },
+    delays: {
+      days5: "5 days",
+      days7: "7 days",
+      days10: "10 days",
+    },
+    cta: {
+      text: "Want a website like these?",
+      button: "Start my project",
+    },
   },
 
   // Footer

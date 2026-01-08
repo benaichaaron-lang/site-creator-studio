@@ -24,37 +24,18 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { label: t("nav.packs"), href: "/#packs" },
-    { label: t("nav.custom"), href: "/#custom" },
-    { label: t("nav.howItWorks"), href: "/#how-it-works" },
-    { label: t("nav.faq"), href: "/#faq" },
-    { label: t("nav.contact"), href: "/#contact" },
+    { label: t("nav.packs"), href: "/packs" },
+    { label: t("nav.portfolio"), href: "/portfolio" },
+    { label: t("nav.howItWorks"), href: "/how-it-works" },
+    { label: t("nav.faq"), href: "/faq" },
+    { label: t("nav.contact"), href: "/contact" },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsOpen(false);
-
-    if (href.startsWith("/#")) {
-      const sectionId = href.substring(2);
-      
-      if (location.pathname !== "/") {
-        navigate("/");
-        setTimeout(() => {
-          const element = document.getElementById(sectionId);
-          if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-          }
-        }, 100);
-      } else {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }
-    } else {
-      navigate(href);
-    }
+    navigate(href);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleLogoClick = () => {
