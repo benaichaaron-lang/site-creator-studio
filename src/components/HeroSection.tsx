@@ -197,7 +197,14 @@ const DesktopHero = () => {
             className="flex flex-wrap gap-4 mb-12"
           >
             <Button 
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => {
+                // Focus on first form field instead of scrolling
+                const firstInput = document.querySelector('form input') as HTMLInputElement;
+                if (firstInput) {
+                  firstInput.focus();
+                  firstInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }}
               className="h-14 px-8 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base shadow-[0_4px_24px_hsl(217,91%,50%,0.3)] transition-all hover:shadow-[0_8px_32px_hsl(217,91%,50%,0.4)]"
             >
               Démarrer mon brief

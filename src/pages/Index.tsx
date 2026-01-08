@@ -6,7 +6,6 @@ import LazySection from "@/components/LazySection";
 // Lazy load des sections non-critiques
 const TrustSection = lazy(() => import("@/components/TrustSection"));
 const DemoTabsSection = lazy(() => import("@/components/DemoTabsSection"));
-const ServicesSection = lazy(() => import("@/components/ServicesSection"));
 const HowItWorksSection = lazy(() => import("@/components/HowItWorksSection"));
 const PacksSection = lazy(() => import("@/components/PacksSection"));
 const CryptoSection = lazy(() => import("@/components/CryptoSection"));
@@ -38,13 +37,6 @@ const Index = () => {
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <DemoTabsSection />
-        </Suspense>
-      </LazySection>
-      
-      {/* Services grid */}
-      <LazySection>
-        <Suspense fallback={<SectionLoader />}>
-          <ServicesSection />
         </Suspense>
       </LazySection>
       

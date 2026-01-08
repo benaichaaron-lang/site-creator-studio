@@ -47,6 +47,19 @@ const PacksSection = () => {
     const [expanded, setExpanded] = useState(false);
 
     const handleChoosePack = () => {
+      // Scroll to contact and pre-fill budget based on pack
+      const budgetMap: Record<string, string> = {
+        'Starter': 'starter',
+        'Business': 'business',
+        'Premium': 'premium',
+      };
+      const budgetValue = budgetMap[pack.name] || '';
+      
+      // Store in sessionStorage for ContactSection to read
+      if (budgetValue) {
+        sessionStorage.setItem('selectedPack', budgetValue);
+      }
+      
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     };
 
@@ -133,6 +146,19 @@ const PacksSection = () => {
     const [expanded, setExpanded] = useState(false);
 
     const handleChoosePack = () => {
+      // Scroll to contact and pre-fill budget based on pack
+      const budgetMap: Record<string, string> = {
+        'Starter': 'starter',
+        'Business': 'business',
+        'Premium': 'premium',
+      };
+      const budgetValue = budgetMap[pack.name] || '';
+      
+      // Store in sessionStorage for ContactSection to read
+      if (budgetValue) {
+        sessionStorage.setItem('selectedPack', budgetValue);
+      }
+      
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     };
 
