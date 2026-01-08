@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Check, Loader2, UserPlus } from "lucide-react";
+import { ArrowRight, Check, Loader2, UserPlus, Clock, CreditCard, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,96 +12,89 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import TextMarquee from "@/components/TextMarquee";
 
-const marqueeItems = [
-  "Web Design",
-  "E-commerce", 
-  "Landing Page",
-  "Portfolio",
-  "Web App",
-  "Site Vitrine",
-  "Sur-mesure",
-];
+// Badge component for trust indicators
+const TrustBadge = ({ icon: Icon, label }: { icon: React.ElementType; label: string }) => (
+  <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+    <Icon className="w-4 h-4 text-primary" />
+    <span className="text-sm text-white/80 font-heebo">{label}</span>
+  </div>
+);
 
-// Mobile Hero - LP Digital Style
-const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
+// Mobile Hero - Clean and conversion-focused
+const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => void; onSeePacks: () => void }) => {
   return (
-    <div className="min-h-[calc(100vh-80px)] flex flex-col justify-between px-5 py-6">
+    <div className="min-h-[calc(100vh-80px)] flex flex-col justify-between px-5 py-8">
       <div className="flex-1 flex flex-col justify-center">
-        {/* Title */}
+        {/* Main Title - Responsive clamp */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="font-bebas text-5xl leading-[0.95] text-white mb-2"
+          className="font-bebas text-[clamp(2.5rem,10vw,3.5rem)] leading-[0.95] text-white mb-1"
         >
-          Sites web professionnels,
+          Sites web professionnels
         </motion.h1>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="font-bebas text-4xl text-primary leading-[0.95] mb-6"
+          className="font-bebas text-[clamp(2rem,8vw,2.75rem)] text-primary leading-[0.95] mb-6"
         >
-          livrés en 5-10 jours
+          livrés en 5–10 jours
         </motion.h2>
 
+        {/* Value subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-white/50 text-sm leading-relaxed mb-8 font-heebo"
+          className="text-white/60 text-base leading-relaxed mb-8 font-heebo max-w-sm"
         >
-          Prix fixes. Processus transparent.<br />
+          Prix fixe. Processus transparent.<br />
           Paiement crypto ou carte.
         </motion.p>
 
-        {/* Features instead of fake stats */}
+        {/* Two CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-col gap-3 mb-8"
+        >
+          <Button 
+            onClick={onStartBrief}
+            className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base"
+          >
+            Démarrer mon brief
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Button>
+          <Button 
+            onClick={onSeePacks}
+            variant="outline"
+            className="w-full h-12 bg-transparent border-white/20 text-white hover:bg-white/5 font-medium rounded-xl text-sm"
+          >
+            Voir les packs
+          </Button>
+        </motion.div>
+
+        {/* Trust badges */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-wrap gap-3 mb-8"
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="flex flex-wrap gap-2"
         >
-          {["5-10 jours", "Prix fixe", "Crypto accepté"].map((item, i) => (
-            <div key={i} className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2">
-              <Check className="w-3 h-3 text-primary" />
-              <span className="text-xs text-white/70 font-heebo">{item}</span>
-            </div>
-          ))}
+          <TrustBadge icon={Clock} label="Livré en 5–10 jours" />
+          <TrustBadge icon={CreditCard} label="Prix fixe" />
+          <TrustBadge icon={Wallet} label="Crypto/carte" />
         </motion.div>
       </div>
-
-      {/* CTA */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="space-y-4"
-      >
-        <Button 
-          onClick={onStartBrief}
-          className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base"
-        >
-          Démarrer mon brief
-          <ArrowRight className="w-5 h-5 ml-2" />
-        </Button>
-
-        <div className="flex items-center justify-center gap-4">
-          {["Brief gratuit", "Sans engagement", "Réponse 24h"].map((item, i) => (
-            <div key={i} className="flex items-center gap-1.5">
-              <Check className="w-3 h-3 text-primary/70" />
-              <span className="text-[10px] text-white/40 font-heebo">{item}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
     </div>
   );
 };
 
-// Desktop Hero - LP Digital Style
+// Desktop Hero - Premium with form
 const DesktopHero = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
@@ -156,54 +149,76 @@ const DesktopHero = () => {
     }
   };
 
+  const scrollToPacks = () => {
+    document.getElementById('packs')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <div className="container mx-auto px-4 relative z-10 pt-32 pb-16">
+    <div className="container mx-auto px-4 relative z-10 pt-28 pb-16">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* Left content - Titles */}
+        {/* Left content */}
         <div>
+          {/* Title with responsive clamp - never cut */}
           <motion.h1 
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6 }}
-            className="font-bebas text-6xl lg:text-7xl xl:text-8xl text-white leading-[0.9] mb-2"
+            className="font-bebas text-[clamp(3rem,6vw,5rem)] text-white leading-[0.95] mb-1"
           >
-            Sites web professionnels,
+            Sites web professionnels
           </motion.h1>
           <motion.h2 
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-bebas text-5xl lg:text-6xl xl:text-7xl text-primary leading-[0.9] mb-8"
+            className="font-bebas text-[clamp(2.5rem,5vw,4rem)] text-primary leading-[0.95] mb-6"
           >
-            livrés en 5-10 jours
+            livrés en 5–10 jours
           </motion.h2>
 
+          {/* Value subtitle */}
           <motion.p 
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-white/50 text-lg mb-8 max-w-lg font-heebo"
+            className="text-white/60 text-lg mb-8 max-w-md font-heebo"
           >
-            Prix fixes. Processus transparent. Paiement crypto ou carte. Chaque projet géré par une vraie équipe.
+            Prix fixe. Processus transparent. Paiement crypto ou carte.
           </motion.p>
 
-          {/* Features instead of carousel */}
+          {/* Two CTAs side by side on desktop */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="flex flex-wrap gap-4 mb-10"
+          >
+            <Button 
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="h-13 px-8 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base"
+            >
+              Démarrer mon brief
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+            <Button 
+              onClick={scrollToPacks}
+              variant="outline"
+              className="h-13 px-8 bg-transparent border-white/20 text-white hover:bg-white/5 font-medium rounded-xl text-base"
+            >
+              Voir les packs
+            </Button>
+          </motion.div>
+
+          {/* Trust badges - horizontal on desktop */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-wrap gap-4"
+            className="flex flex-wrap gap-3"
           >
-            {[
-              { label: "5-10 jours", desc: "Délai de livraison" },
-              { label: "Prix fixe", desc: "Sans surprise" },
-              { label: "Crypto", desc: "Paiement accepté" },
-            ].map((item, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 flex-1 min-w-[140px]">
-                <div className="font-bebas text-2xl text-white mb-1">{item.label}</div>
-                <div className="text-xs text-white/40 font-heebo">{item.desc}</div>
-              </div>
-            ))}
+            <TrustBadge icon={Clock} label="Livré en 5–10 jours" />
+            <TrustBadge icon={CreditCard} label="Prix fixe" />
+            <TrustBadge icon={Wallet} label="Crypto/carte" />
           </motion.div>
         </div>
 
@@ -214,11 +229,11 @@ const DesktopHero = () => {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="relative"
         >
-          <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 rounded-3xl blur-xl opacity-50" />
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/15 via-primary/5 to-primary/15 rounded-3xl blur-xl opacity-50" />
           
           <div className="relative bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-6 lg:p-8">
             <div className="mb-6">
-              <h3 className="font-bebas text-3xl text-white mb-2">Démarrez votre projet</h3>
+              <h3 className="font-bebas text-2xl text-white mb-1">Démarrez votre projet</h3>
               <p className="text-white/50 text-sm font-heebo">Devis gratuit sous 24h</p>
             </div>
 
@@ -248,7 +263,7 @@ const DesktopHero = () => {
                       placeholder="Jean"
                       value={firstName}
                       onChange={(e) => { setFirstName(e.target.value); setErrors(prev => ({ ...prev, firstName: undefined })); }}
-                      className={`bg-white/5 border-white/10 text-white h-11 ${errors.firstName ? 'border-red-400' : ''}`}
+                      className={`bg-white/5 border-white/10 text-white h-11 placeholder:text-white/30 ${errors.firstName ? 'border-red-400' : ''}`}
                     />
                   </div>
                   <div>
@@ -257,7 +272,7 @@ const DesktopHero = () => {
                       placeholder="Dupont"
                       value={lastName}
                       onChange={(e) => { setLastName(e.target.value); setErrors(prev => ({ ...prev, lastName: undefined })); }}
-                      className={`bg-white/5 border-white/10 text-white h-11 ${errors.lastName ? 'border-red-400' : ''}`}
+                      className={`bg-white/5 border-white/10 text-white h-11 placeholder:text-white/30 ${errors.lastName ? 'border-red-400' : ''}`}
                     />
                   </div>
                 </div>
@@ -269,7 +284,7 @@ const DesktopHero = () => {
                     placeholder="+33 6 12 34 56 78"
                     value={phone}
                     onChange={(e) => { setPhone(e.target.value); setErrors(prev => ({ ...prev, phone: undefined })); }}
-                    className={`bg-white/5 border-white/10 text-white h-11 ${errors.phone ? 'border-red-400' : ''}`}
+                    className={`bg-white/5 border-white/10 text-white h-11 placeholder:text-white/30 ${errors.phone ? 'border-red-400' : ''}`}
                   />
                 </div>
 
@@ -279,7 +294,7 @@ const DesktopHero = () => {
                     placeholder="Qui vous a parlé de nous ?"
                     value={recommendation}
                     onChange={(e) => setRecommendation(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white h-11"
+                    className="bg-white/5 border-white/10 text-white h-11 placeholder:text-white/30"
                   />
                 </div>
 
@@ -334,7 +349,9 @@ const DesktopHero = () => {
                   {isSubmitting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />Envoi...</>) : (<>Demander un devis gratuit<ArrowRight className="w-4 h-4 ml-2" /></>)}
                 </Button>
                 
-                <p className="text-[11px] text-white/40 text-center pt-2 font-heebo">Brief gratuit • Sans paiement • Étudié par un chef de projet</p>
+                <p className="text-[11px] text-white/40 text-center pt-2 font-heebo">
+                  Brief gratuit • Sans paiement • Réponse sous 24h
+                </p>
               </form>
             )}
           </div>
@@ -345,29 +362,28 @@ const DesktopHero = () => {
 };
 
 const HeroSection = () => {
-  const scrollToForm = () => {
+  const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToPacks = () => {
+    document.getElementById('packs')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <section id="hero" className="relative min-h-screen flex flex-col overflow-hidden bg-black">
-      {/* Text Marquee at top */}
-      <div className="absolute top-20 left-0 right-0 z-10 py-4 border-y border-white/5">
-        <TextMarquee items={marqueeItems} speed={25} />
-      </div>
-
-      {/* Background */}
+      {/* Subtle background - no marquee */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-black" />
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[200px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[150px]" />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[180px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-primary/5 rounded-full blur-[140px]" />
       </div>
 
       {/* Content */}
       <div className="flex-1 flex items-center">
         {/* Mobile */}
-        <div className="sm:hidden w-full relative z-10 pt-32">
-          <MobileHeroStatic onStartBrief={scrollToForm} />
+        <div className="sm:hidden w-full relative z-10 pt-20">
+          <MobileHeroStatic onStartBrief={scrollToContact} onSeePacks={scrollToPacks} />
         </div>
 
         {/* Desktop */}
@@ -377,7 +393,7 @@ const HeroSection = () => {
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent" />
     </section>
   );
 };

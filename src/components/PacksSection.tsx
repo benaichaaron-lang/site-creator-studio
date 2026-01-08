@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Check, Zap, Building2, Crown, ArrowRight, ChevronDown } from "lucide-react";
+import { Check, Zap, Building2, Crown, ArrowRight, ChevronDown, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -7,13 +7,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const PacksSection = () => {
   const { t } = useLanguage();
+  const [showComparison, setShowComparison] = useState(false);
   
   const packs = [
     {
       name: t("packs.starter.name"),
       icon: Zap,
       price: "0.15 ETH",
-      fiat: "~$500",
+      fiat: "~500€",
       delay: t("packs.starter.delay"),
       popular: false,
       keyFeatures: [t("packs.starter.features.0"), t("packs.starter.features.1"), t("packs.starter.features.2")],
@@ -23,7 +24,7 @@ const PacksSection = () => {
       name: t("packs.business.name"),
       icon: Building2,
       price: "0.35 ETH",
-      fiat: "~$1,200",
+      fiat: "~1 200€",
       delay: t("packs.business.delay"),
       popular: true,
       keyFeatures: [t("packs.business.features.0"), t("packs.business.features.1"), t("packs.business.features.2")],
@@ -33,7 +34,7 @@ const PacksSection = () => {
       name: t("packs.premium.name"),
       icon: Crown,
       price: "0.6 ETH",
-      fiat: "~$2,000",
+      fiat: "~2 000€",
       delay: t("packs.premium.delay"),
       popular: false,
       keyFeatures: [t("packs.premium.features.0"), t("packs.premium.features.1"), t("packs.premium.features.2")],
@@ -332,7 +333,58 @@ const PacksSection = () => {
             <DesktopPackCard key={pack.name} pack={pack} index={index} />
           ))}
         </div>
+        {/* Mobile compare button */}
+        <div className="sm:hidden text-center mt-6">
+          <button
+            onClick={() => setShowComparison(true)}
+            className="text-primary text-sm font-medium underline underline-offset-4"
+          >
+            Comparer les packs
+          </button>
+        </div>
 
+        {/* Comparison Modal */}
+        <AnimatePresence>
+          {showComparison && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+              onClick={() => setShowComparison(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                className="bg-card border border-border rounded-2xl p-4 max-w-lg w-full max-h-[80vh] overflow-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-bebas text-xl text-white">Comparaison des packs</h3>
+                  <button onClick={() => setShowComparison(false)} className="text-white/50 hover:text-white">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                  <div className="font-bold text-primary">Starter</div>
+                  <div className="font-bold text-primary">Business</div>
+                  <div className="font-bold text-primary">Premium</div>
+                  <div className="text-white/60">~500€</div>
+                  <div className="text-white/60">~1 200€</div>
+                  <div className="text-white/60">~2 000€</div>
+                  <div className="text-white/60">5 jours</div>
+                  <div className="text-white/60">7 jours</div>
+                  <div className="text-white/60">10 jours</div>
+                  <div className="text-white/60">1 page</div>
+                  <div className="text-white/60">5 pages</div>
+                  <div className="text-white/60">Illimité</div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
         <motion.p
           className="text-center text-muted-foreground text-xs sm:text-sm mt-6 sm:mt-10"
           initial={{ opacity: 0 }}
@@ -341,6 +393,7 @@ const PacksSection = () => {
           transition={{ delay: 0.3 }}
         >
           {t("packs.notSure")}
+        </motion.p>
         </motion.p>
       </div>
     </section>
