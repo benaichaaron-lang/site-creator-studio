@@ -3,10 +3,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, Globe, ShoppingCart, Briefcase, Code, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ProjectStarterModal from "./ProjectStarterModal";
 
 const DemoTabsSection = () => {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState("landing");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<{
+    id: string;
+    title: string;
+    price: string;
+    delay: string;
+    features?: string[];
+  } | null>(null);
 
   const tabs = [
     {
@@ -65,8 +74,15 @@ const DemoTabsSection = () => {
 
   const activeContent = tabs.find((tab) => tab.id === activeTab)!;
 
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  const handleStartProject = () => {
+    setSelectedProject({
+      id: activeContent.id,
+      title: activeContent.label,
+      price: activeContent.price,
+      delay: activeContent.delay,
+      features: activeContent.bullets,
+    });
+    setIsModalOpen(true);
   };
 
   return (
@@ -170,7 +186,7 @@ const DemoTabsSection = () => {
                 </ul>
 
                 <Button
-                  onClick={scrollToContact}
+                  onClick={handleStartProject}
                   className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-12 px-6"
                 >
                   {t("demoTabs.cta")}
@@ -181,6 +197,15 @@ const DemoTabsSection = () => {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Project Starter Modal */}
+      {selectedProject && (
+        <ProjectStarterModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          projectType={selectedProject}
+        />
+      )}
     </section>
   );
 };

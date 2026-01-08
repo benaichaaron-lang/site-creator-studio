@@ -1003,6 +1003,7 @@ export const fr = {
     subtitle: "Du site vitrine à l'application web complexe, nous créons des expériences digitales sur-mesure.",
     deliveredIn: "Livré en",
     from: "À partir de",
+    startProject: "Démarrer ce projet",
     landing: {
       title: "Landing Page",
       description: "Page d'atterrissage optimisée pour convertir vos visiteurs en clients.",
@@ -1125,6 +1126,34 @@ export const fr = {
       title: "Prêt à commencer ?",
       subtitle: "Démarrez votre projet dès maintenant avec un brief gratuit.",
       button: "Démarrer mon brief",
+    },
+  },
+
+  // Project Starter Modal
+  projectStarter: {
+    title: "Comment souhaitez-vous démarrer ?",
+    back: "Retour",
+    briefOption: {
+      title: "Envoyer un brief gratuit",
+      description: "Décrivez votre projet et recevez une proposition personnalisée sous 24h.",
+    },
+    payOption: {
+      title: "Payer et démarrer maintenant",
+      description: "Connectez-vous pour réserver votre place et démarrer immédiatement.",
+      secure: "Paiement 100% sécurisé",
+    },
+    benefits: {
+      response: "Réponse sous 24h",
+      noCommitment: "Sans engagement",
+    },
+    briefForm: {
+      title: "Parlez-nous de votre projet",
+      name: "Votre nom",
+      email: "Votre email",
+      phone: "Téléphone (optionnel)",
+      details: "Décrivez votre projet",
+      detailsPlaceholder: "Décrivez brièvement votre projet, vos objectifs et vos besoins...",
+      submit: "Envoyer mon brief",
     },
   },
 };

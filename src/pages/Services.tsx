@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Zap, ShoppingCart, Building2, Palette, Code2, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,10 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ProjectStarterModal from "@/components/ProjectStarterModal";
 
 const Services = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<{
+    id: string;
+    title: string;
+    price: string;
+    delay: string;
+    features?: string[];
+  } | null>(null);
 
   const services = [
     {
@@ -72,6 +82,17 @@ const Services = () => {
       iconColor: "text-indigo-400",
     },
   ];
+
+  const handleStartProject = (service: typeof services[0]) => {
+    setSelectedService({
+      id: service.title.toLowerCase().replace(/\s+/g, '-'),
+      title: service.title,
+      price: service.price,
+      delay: service.delay,
+      features: Array.isArray(service.features) ? service.features : [],
+    });
+    setIsModalOpen(true);
+  };
 
   return (
     <main className="min-h-screen bg-black">
@@ -138,6 +159,14 @@ const Services = () => {
                     <p className="text-primary font-semibold text-lg">{service.price}</p>
                   </div>
                 </div>
+
+                <Button
+                  onClick={() => handleStartProject(service)}
+                  className="w-full mt-6 bg-white/10 hover:bg-primary text-white font-medium h-11 transition-all"
+                >
+                  {t("services.startProject")}
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
               </motion.div>
             ))}
           </div>
@@ -180,6 +209,15 @@ const Services = () => {
       </section>
 
       <Footer />
+
+      {/* Project Starter Modal */}
+      {selectedService && (
+        <ProjectStarterModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          projectType={selectedService}
+        />
+      )}
     </main>
   );
 };

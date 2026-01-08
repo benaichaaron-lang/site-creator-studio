@@ -1003,6 +1003,7 @@ export const en = {
     subtitle: "From landing pages to complex web applications, we create tailored digital experiences.",
     deliveredIn: "Delivered in",
     from: "Starting at",
+    startProject: "Start this project",
     landing: {
       title: "Landing Page",
       description: "Conversion-optimized landing page to turn visitors into customers.",
@@ -1125,6 +1126,34 @@ export const en = {
       title: "Ready to get started?",
       subtitle: "Start your project now with a free brief.",
       button: "Start my brief",
+    },
+  },
+
+  // Project Starter Modal
+  projectStarter: {
+    title: "How would you like to start?",
+    back: "Back",
+    briefOption: {
+      title: "Send a free brief",
+      description: "Describe your project and receive a personalized proposal within 24h.",
+    },
+    payOption: {
+      title: "Pay and start now",
+      description: "Sign in to reserve your spot and start immediately.",
+      secure: "100% secure payment",
+    },
+    benefits: {
+      response: "Response within 24h",
+      noCommitment: "No commitment",
+    },
+    briefForm: {
+      title: "Tell us about your project",
+      name: "Your name",
+      email: "Your email",
+      phone: "Phone (optional)",
+      details: "Describe your project",
+      detailsPlaceholder: "Briefly describe your project, goals and needs...",
+      submit: "Send my brief",
     },
   },
 };
