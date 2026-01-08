@@ -518,4 +518,265 @@ export const en = {
     more: "More",
     less: "Less",
   },
+
+  // About Page
+  about: {
+    badge: "About",
+    title: "Who are we?",
+    intro: "MySiteFactory was born from a simple vision: to make professional website creation accessible, fast, and transparent.",
+    mission: {
+      title: "Our Mission",
+      content: "We believe every business deserves a quality online presence, without the usual complications of traditional agencies. Our productized approach allows us to deliver modern and performant websites in record time, with a simple process and transparent pricing.",
+    },
+    values: {
+      title: "Our Values",
+      speed: {
+        title: "Speed",
+        description: "Guaranteed delivery times so you can launch your project quickly.",
+      },
+      transparency: {
+        title: "Transparency",
+        description: "Clear pricing, simple process, and direct communication at every step.",
+      },
+      innovation: {
+        title: "Innovation",
+        description: "We embrace new technologies: crypto, web3, and the latest web trends.",
+      },
+      proximity: {
+        title: "Proximity",
+        description: "A team that listens and supports you from A to Z in your project.",
+      },
+    },
+    whyCrypto: {
+      title: "Why Crypto?",
+      content: "We chose to accept cryptocurrency payments because we believe in the future of this technology. It offers secure, transparent, and borderless transactions, perfectly aligned with our vision of a modern and accessible web.",
+      cta: "Discover our offers",
+    },
+  },
+
+  // Auth Page
+  authPage: {
+    signIn: "Sign in",
+    signUp: "Create an account",
+    accessClient: "Access your client area",
+    joinUs: "Join us to track your projects",
+    firstName: "First name",
+    lastName: "Last name",
+    phoneOptional: "Phone (optional)",
+    email: "Email",
+    password: "Password",
+    signInBtn: "Sign in",
+    signUpBtn: "Sign up",
+    noAccount: "Don't have an account? Sign up",
+    hasAccount: "Already have an account? Sign in",
+    backToSite: "← Back to site",
+    errors: {
+      invalidEmail: "Invalid email",
+      passwordMin: "Password must be at least 6 characters",
+      firstNameRequired: "First name is required",
+      lastNameRequired: "Last name is required",
+      passwordRequired: "Password is required",
+    },
+    toasts: {
+      loginError: "Login error",
+      wrongCredentials: "Incorrect email or password",
+      error: "Error",
+      loginSuccess: "Login successful",
+      welcome: "Welcome!",
+      accountExists: "Account exists",
+      accountExistsDesc: "An account already exists with this email. Please sign in.",
+      signUpError: "Sign up error",
+      signUpSuccess: "Sign up successful!",
+      accountCreated: "Your account has been created.",
+      unexpectedError: "An unexpected error occurred",
+    },
+  },
+
+  // Dashboard
+  dashboard: {
+    mySpace: "My Space",
+    menu: {
+      overview: "Dashboard",
+      orders: "My orders",
+      packs: "Packs",
+      tickets: "Support",
+    },
+    signOut: "Sign out",
+    welcome: "Welcome,",
+    client: "Client",
+    stats: {
+      orders: "Orders",
+      completed: "Completed",
+      tickets: "Tickets",
+    },
+    currentOrder: "Current order",
+    progression: "Progress",
+    myOrders: "My orders",
+    noOrders: "No orders yet",
+    discoverPacks: "Discover our packs",
+    ourPacks: "Our Packs",
+    choosePack: "Choose this pack",
+    support: "Support",
+    newTicket: "New ticket",
+    noTickets: "No tickets yet",
+    createTicket: "Create a ticket",
+    ticketSubject: "Ticket subject",
+    ticketMessage: "Your message",
+    send: "Send",
+    sending: "Sending...",
+    creating: "Creating...",
+    writeMessage: "Write a message...",
+    selectTicket: "Select a ticket to view the conversation",
+    toasts: {
+      error: "Error",
+      cantSend: "Unable to send message",
+      ticketCreated: "Ticket created",
+      ticketSent: "Your request has been sent to support",
+      cantCreate: "Unable to create ticket",
+    },
+    status: {
+      pending: "Pending",
+      in_progress: "In progress",
+      review: "In review",
+      completed: "Completed",
+      cancelled: "Cancelled",
+      open: "Open",
+      resolved: "Resolved",
+      closed: "Closed",
+    },
+  },
+
+  // Terms Page
+  terms: {
+    badge: "Legal",
+    title: "Terms of Service",
+    sections: {
+      purpose: {
+        title: "1. Purpose",
+        content: "These Terms of Service govern the contractual relationship between MySiteFactory and its clients in the context of providing website creation services.",
+      },
+      services: {
+        title: "2. Services Offered",
+        intro: "MySiteFactory offers website creation services in the form of:",
+        starter: "Starter Pack: One-page landing page, delivered in 5 days",
+        business: "Business Pack: Website up to 5 pages, delivered in 7 days",
+        premium: "Premium Pack: Complete website with unlimited pages, delivered in 10 days",
+        custom: "Custom: Personalized projects based on quote",
+      },
+      pricing: {
+        title: "3. Pricing and Payment",
+        content1: "Prices are indicated in cryptocurrency (ETH) with an indication in euros for information purposes. Payment is made in full before the start of the service. We accept: ETH, BTC, USDC, USDT.",
+        content2: "The transaction is considered validated upon confirmation on the blockchain. The project starts after receipt and validation of the client brief.",
+      },
+      delivery: {
+        title: "4. Delivery Times",
+        content: "Delivery times are guaranteed and start after validation of the client brief and confirmation of payment. In case of delay attributable to MySiteFactory, compensation will be offered to the client.",
+      },
+      revisions: {
+        title: "5. Revisions",
+        intro: "The number of revisions included depends on the chosen pack:",
+        starter: "Starter Pack: 1 revision",
+        business: "Business Pack: 3 revisions",
+        premium: "Premium Pack: unlimited revisions",
+        additional: "Additional revisions are charged at a rate communicated upon request.",
+      },
+      ip: {
+        title: "6. Intellectual Property",
+        content: "Upon complete delivery and after full payment, the client becomes the owner of the rights to the delivered website. MySiteFactory reserves the right to mention the project in its portfolio, unless otherwise agreed.",
+      },
+      hosting: {
+        title: "7. Hosting",
+        intro: "Hosting is included in all packs:",
+        starterBusiness: "Starter and Business Pack: 1 year of hosting",
+        premium: "Premium Pack: 2 years of hosting",
+        renewal: "Hosting renewal is offered at the end of the included period.",
+      },
+      refund: {
+        title: "8. Cancellation and Refund",
+        content: "Due to the nature of cryptocurrency transactions, no refund is possible once payment is confirmed and the project has started. In case of dispute, MySiteFactory is committed to finding an amicable solution with the client.",
+      },
+      law: {
+        title: "9. Applicable Law",
+        content: "These Terms of Service are subject to French law. Any dispute relating to their interpretation or execution falls under the exclusive jurisdiction of the French courts.",
+      },
+    },
+  },
+
+  // Privacy Policy Page
+  privacy: {
+    badge: "Legal",
+    title: "Privacy Policy",
+    sections: {
+      collection: {
+        title: "1. Data Collection",
+        content: "We collect personal data that you voluntarily provide when using our services: name, email address, project information. This data is necessary for the execution of our services and the management of our business relationship.",
+      },
+      use: {
+        title: "2. Use of Data",
+        intro: "Your personal data is used to:",
+        purposes: [
+          "Process your orders and deliver your projects",
+          "Communicate with you regarding your project",
+          "Improve our services and your user experience",
+          "Comply with our legal and regulatory obligations",
+        ],
+      },
+      protection: {
+        title: "3. Data Protection",
+        content: "We implement appropriate security measures to protect your personal data against unauthorized access, modification, disclosure or destruction. Cryptocurrency transactions are secured by blockchain technology.",
+      },
+      cookies: {
+        title: "4. Cookies",
+        content: "Our website uses cookies to improve your browsing experience. Cookies are small text files stored on your device. You can configure your browser to refuse cookies, but this may affect some features of the site.",
+      },
+      rights: {
+        title: "5. Your Rights",
+        intro: "In accordance with GDPR, you have the following rights:",
+        list: [
+          "Right of access to your personal data",
+          "Right to rectification of inaccurate data",
+          "Right to erasure of your data",
+          "Right to data portability",
+          "Right to object to processing",
+        ],
+        contact: "To exercise these rights, contact us at: contact@mysitefactory.io",
+      },
+      retention: {
+        title: "6. Data Retention",
+        content: "Your personal data is retained for the duration necessary to fulfill the purposes for which it was collected, and in compliance with applicable legal obligations.",
+      },
+    },
+  },
+
+  // Legal Notice Page
+  legal: {
+    badge: "Legal",
+    title: "Legal Notice",
+    sections: {
+      publisher: {
+        title: "1. Site Publisher",
+        content: "The MySiteFactory website is published by MySiteFactory SAS, a simplified joint-stock company with a capital of €10,000, registered in the Paris Trade and Companies Register under number RCS PARIS XXX XXX XXX.",
+        headquarters: "Headquarters:",
+        email: "Email:",
+        director: "Publication Director:",
+        toComplete: "[To be completed]",
+      },
+      hosting: {
+        title: "2. Hosting",
+        content: "The website is hosted by Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, United States.",
+      },
+      ip: {
+        title: "3. Intellectual Property",
+        content: "All content on this website (texts, images, graphics, logo, icons, sounds, software, etc.) is the exclusive property of MySiteFactory or its partners. Any reproduction, representation, modification, publication, transmission or alteration of the site or its content, by any means whatsoever, is prohibited without prior authorization.",
+      },
+      liability: {
+        title: "4. Limitation of Liability",
+        content: "MySiteFactory cannot be held responsible for direct or indirect damages caused to the user's equipment when accessing the site. MySiteFactory declines all responsibility for the use that may be made of the information and content present on the site.",
+      },
+      law: {
+        title: "5. Applicable Law",
+        content: "This website and its legal notices are governed by French law. In case of dispute, the French courts will have sole jurisdiction.",
+      },
+    },
+  },
 };
