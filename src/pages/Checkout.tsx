@@ -14,8 +14,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -51,7 +51,7 @@ const CRYPTO_OPTIONS = [
   { value: 'bnbbsc', label: 'BNB (BSC)', icon: '◈' },
 ];
 
-const CountdownTimer = ({ expirationDate }: { expirationDate: string }) => {
+const CountdownTimer = ({ expirationDate, t }: { expirationDate: string; t: (key: string) => string }) => {
   const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 0 });
   const [isExpired, setIsExpired] = useState(false);
 
@@ -85,20 +85,20 @@ const CountdownTimer = ({ expirationDate }: { expirationDate: string }) => {
     return (
       <div className="flex items-center gap-2 p-4 bg-destructive/10 border border-destructive/20 rounded-xl">
         <AlertTriangle className="h-5 w-5 text-destructive" />
-        <p className="text-sm font-medium text-destructive">Paiement expiré - Veuillez créer un nouveau paiement</p>
+        <p className="text-sm font-medium text-destructive">{t("checkout.paymentExpired")}</p>
       </div>
     );
   }
 
   const totalSeconds = timeLeft.minutes * 60 + timeLeft.seconds;
-  const isUrgent = totalSeconds < 300; // Less than 5 minutes
+  const isUrgent = totalSeconds < 300;
 
   return (
     <div className={`p-4 rounded-xl border ${isUrgent ? 'bg-orange-500/10 border-orange-500/20' : 'bg-primary/5 border-primary/20'}`}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Clock className={`h-5 w-5 ${isUrgent ? 'text-orange-500' : 'text-primary'}`} />
-          <span className="text-sm font-medium">Temps restant</span>
+          <span className="text-sm font-medium">{t("checkout.timeRemaining")}</span>
         </div>
         <div className={`font-mono text-2xl font-bold ${isUrgent ? 'text-orange-500' : 'text-primary'}`}>
           {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
@@ -112,6 +112,7 @@ const Checkout = () => {
   const { packId } = useParams<{ packId: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const { toast } = useToast();
 
   const [pack, setPack] = useState<Pack | null>(null);
@@ -147,8 +148,8 @@ const Checkout = () => {
       });
     } catch (error) {
       toast({
-        title: "Erreur",
-        description: "Pack introuvable",
+        title: t("checkout.toasts.error"),
+        description: t("checkout.toasts.packNotFound"),
         variant: "destructive"
       });
       navigate('/dashboard');
@@ -180,13 +181,13 @@ const Checkout = () => {
 
       setPaymentData(data);
       toast({
-        title: "Paiement créé",
-        description: "Envoyez le montant exact à l'adresse indiquée"
+        title: t("checkout.toasts.paymentCreated"),
+        description: t("checkout.toasts.sendExactAmount")
       });
     } catch (error: any) {
       toast({
-        title: "Erreur",
-        description: error.message || "Impossible de créer le paiement",
+        title: t("checkout.toasts.error"),
+        description: error.message || t("checkout.toasts.cantCreatePayment"),
         variant: "destructive"
       });
     } finally {
@@ -198,7 +199,7 @@ const Checkout = () => {
     navigator.clipboard.writeText(text);
     setCopied(type);
     setTimeout(() => setCopied(null), 2000);
-    toast({ title: "Copié !" });
+    toast({ title: t("checkout.copied") });
   };
 
   if (loading) {
@@ -222,7 +223,7 @@ const Checkout = () => {
           className="mb-6"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Retour au dashboard
+          {t("checkout.backToDashboard")}
         </Button>
 
         <motion.div
@@ -235,7 +236,7 @@ const Checkout = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <Badge variant={pack.pack_type === 'subscription' ? 'default' : 'secondary'}>
-                  {pack.pack_type === 'subscription' ? 'Abonnement' : 'Paiement unique'}
+                  {pack.pack_type === 'subscription' ? t("checkout.subscription") : t("checkout.oneTimePayment")}
                 </Badge>
               </div>
               <CardTitle className="text-2xl">{pack.name}</CardTitle>
@@ -247,7 +248,7 @@ const Checkout = () => {
                 <span className="text-muted-foreground">{pack.currency}</span>
                 {pack.pack_type === 'subscription' && pack.duration_months && (
                   <span className="text-muted-foreground">
-                    /{pack.duration_months === 1 ? 'mois' : `${pack.duration_months} mois`}
+                    /{pack.duration_months === 1 ? t("checkout.perMonth") : `${pack.duration_months} ${t("checkout.perMonths")}`}
                   </span>
                 )}
               </div>
@@ -270,10 +271,10 @@ const Checkout = () => {
                   <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
                     <Bitcoin className="h-5 w-5 text-primary" />
                   </div>
-                  Paiement en Crypto
+                  {t("checkout.cryptoPayment")}
                 </CardTitle>
                 <CardDescription>
-                  Sélectionnez votre cryptomonnaie préférée
+                  {t("checkout.selectCrypto")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
@@ -305,11 +306,11 @@ const Checkout = () => {
                   ) : (
                     <CreditCard className="h-5 w-5 mr-2" />
                   )}
-                  Procéder au paiement
+                  {t("checkout.proceedToPayment")}
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center">
-                  Paiement sécurisé via NOWPayments • Confirmation automatique
+                  {t("checkout.securePayment")}
                 </p>
               </CardContent>
             </Card>
@@ -326,7 +327,7 @@ const Checkout = () => {
                       <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
                         <Clock className="h-5 w-5" />
                       </div>
-                      En attente de paiement
+                      {t("checkout.awaitingPayment")}
                     </CardTitle>
                     <Badge variant="outline" className="border-primary/30 text-primary">
                       {paymentData.pay_currency.toUpperCase()}
@@ -336,7 +337,7 @@ const Checkout = () => {
                 <CardContent className="p-6 space-y-6">
                   {/* Countdown Timer */}
                   {paymentData.expiration_estimate_date && (
-                    <CountdownTimer expirationDate={paymentData.expiration_estimate_date} />
+                    <CountdownTimer expirationDate={paymentData.expiration_estimate_date} t={t} />
                   )}
 
                   {/* QR Code */}
@@ -349,7 +350,7 @@ const Checkout = () => {
                     >
                       <img 
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentData.pay_address)}`}
-                        alt="QR Code de paiement"
+                        alt="QR Code"
                         className="w-48 h-48"
                       />
                     </motion.div>
@@ -358,7 +359,7 @@ const Checkout = () => {
                   {/* Payment Details */}
                   <div className="space-y-4">
                     <div className="p-4 bg-muted/50 rounded-xl border border-border">
-                      <p className="text-xs text-muted-foreground mb-2 uppercase tracking-wide">Montant exact à envoyer</p>
+                      <p className="text-xs text-muted-foreground mb-2 uppercase tracking-wide">{t("checkout.exactAmount")}</p>
                       <div className="flex items-center justify-between gap-4">
                         <p className="text-3xl font-bold text-foreground">
                           {paymentData.pay_amount} <span className="text-lg text-muted-foreground">{paymentData.pay_currency.toUpperCase()}</span>
@@ -375,7 +376,7 @@ const Checkout = () => {
                     </div>
 
                     <div className="p-4 bg-muted/50 rounded-xl border border-border">
-                      <p className="text-xs text-muted-foreground mb-2 uppercase tracking-wide">Adresse de paiement</p>
+                      <p className="text-xs text-muted-foreground mb-2 uppercase tracking-wide">{t("checkout.paymentAddress")}</p>
                       <div className="flex items-center gap-2">
                         <code className="flex-1 p-3 bg-background rounded-lg text-xs break-all font-mono">
                           {paymentData.pay_address}
@@ -396,7 +397,7 @@ const Checkout = () => {
                   <div className="flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10">
                     <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                     <p className="text-sm text-muted-foreground">
-                      Le paiement sera vérifié automatiquement. Vous recevrez une confirmation une fois le paiement confirmé sur la blockchain.
+                      {t("checkout.paymentVerification")}
                     </p>
                   </div>
 
@@ -405,7 +406,7 @@ const Checkout = () => {
                     className="w-full h-12"
                     onClick={() => navigate('/dashboard')}
                   >
-                    Retour au dashboard
+                    {t("checkout.backToDashboard")}
                   </Button>
                 </CardContent>
               </Card>

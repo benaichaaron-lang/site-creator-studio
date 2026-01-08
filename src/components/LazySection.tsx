@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode, forwardRef } from "react";
 import { motion } from "framer-motion";
 
 interface LazySectionProps {
@@ -8,12 +8,12 @@ interface LazySectionProps {
   rootMargin?: string;
 }
 
-const LazySection = ({ 
+const LazySection = forwardRef<HTMLDivElement, LazySectionProps>(({ 
   children, 
   className = "", 
   threshold = 0.1,
   rootMargin = "100px"
-}: LazySectionProps) => {
+}, ref) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -50,6 +50,8 @@ const LazySection = ({
       )}
     </div>
   );
-};
+});
+
+LazySection.displayName = "LazySection";
 
 export default LazySection;

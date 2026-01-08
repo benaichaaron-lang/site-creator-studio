@@ -27,6 +27,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -94,6 +95,7 @@ const Dashboard = () => {
   
   const navigate = useNavigate();
   const { user, signOut, isAdmin } = useAuth();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -188,8 +190,8 @@ const Dashboard = () => {
       fetchTicketMessages(selectedTicket.id);
     } catch (error) {
       toast({
-        title: "Erreur",
-        description: "Impossible d'envoyer le message",
+        title: t("dashboard.toasts.error"),
+        description: t("dashboard.toasts.cantSend"),
         variant: "destructive"
       });
     } finally {
@@ -228,8 +230,8 @@ const Dashboard = () => {
       if (messageError) throw messageError;
 
       toast({
-        title: "Ticket créé",
-        description: "Votre demande a été envoyée au support"
+        title: t("dashboard.toasts.ticketCreated"),
+        description: t("dashboard.toasts.ticketSent")
       });
 
       setNewTicketSubject('');
@@ -238,8 +240,8 @@ const Dashboard = () => {
       fetchData();
     } catch (error) {
       toast({
-        title: "Erreur",
-        description: "Impossible de créer le ticket",
+        title: t("dashboard.toasts.error"),
+        description: t("dashboard.toasts.cantCreate"),
         variant: "destructive"
       });
     } finally {
@@ -254,25 +256,27 @@ const Dashboard = () => {
 
   const getStatusBadge = (status: string) => {
     const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
-      pending: { label: 'En attente', variant: 'secondary' },
-      in_progress: { label: 'En cours', variant: 'default' },
-      review: { label: 'En révision', variant: 'outline' },
-      completed: { label: 'Terminé', variant: 'default' },
-      cancelled: { label: 'Annulé', variant: 'destructive' },
-      open: { label: 'Ouvert', variant: 'default' },
-      resolved: { label: 'Résolu', variant: 'secondary' },
-      closed: { label: 'Fermé', variant: 'outline' }
+      pending: { label: t("dashboard.status.pending"), variant: 'secondary' },
+      in_progress: { label: t("dashboard.status.in_progress"), variant: 'default' },
+      review: { label: t("dashboard.status.review"), variant: 'outline' },
+      completed: { label: t("dashboard.status.completed"), variant: 'default' },
+      cancelled: { label: t("dashboard.status.cancelled"), variant: 'destructive' },
+      open: { label: t("dashboard.status.open"), variant: 'default' },
+      resolved: { label: t("dashboard.status.resolved"), variant: 'secondary' },
+      closed: { label: t("dashboard.status.closed"), variant: 'outline' }
     };
     const config = statusConfig[status] || { label: status, variant: 'secondary' as const };
     return <Badge variant={config.variant}>{config.label}</Badge>;
   };
 
   const menuItems = [
-    { id: 'overview' as TabType, label: 'Tableau de bord', icon: LayoutDashboard },
-    { id: 'orders' as TabType, label: 'Mes commandes', icon: ShoppingCart },
-    { id: 'packs' as TabType, label: 'Packs', icon: Package },
-    { id: 'tickets' as TabType, label: 'Support', icon: MessageSquare },
+    { id: 'overview' as TabType, label: t("dashboard.menu.overview"), icon: LayoutDashboard },
+    { id: 'orders' as TabType, label: t("dashboard.menu.orders"), icon: ShoppingCart },
+    { id: 'packs' as TabType, label: t("dashboard.menu.packs"), icon: Package },
+    { id: 'tickets' as TabType, label: t("dashboard.menu.tickets"), icon: MessageSquare },
   ];
+
+  const dateLocale = language === 'fr' ? 'fr-FR' : 'en-US';
 
   if (loading) {
     return (
@@ -301,7 +305,7 @@ const Dashboard = () => {
       `}>
         <div className="flex flex-col h-full">
           <div className="p-6 border-b border-border">
-            <h1 className="text-xl font-bold text-foreground">Mon Espace</h1>
+            <h1 className="text-xl font-bold text-foreground">{t("dashboard.mySpace")}</h1>
             {profile && (
               <p className="text-sm text-muted-foreground mt-1">
                 {profile.first_name} {profile.last_name}
@@ -337,7 +341,7 @@ const Dashboard = () => {
               className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               <LogOut className="h-5 w-5" />
-              Déconnexion
+              {t("dashboard.signOut")}
             </button>
           </div>
         </div>
@@ -351,7 +355,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-bold">Bienvenue, {profile?.first_name || 'Client'} !</h2>
+            <h2 className="text-2xl font-bold">{t("dashboard.welcome")} {profile?.first_name || t("dashboard.client")} !</h2>
             
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -362,7 +366,7 @@ const Dashboard = () => {
                       <ShoppingCart className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Commandes</p>
+                      <p className="text-sm text-muted-foreground">{t("dashboard.stats.orders")}</p>
                       <p className="text-2xl font-bold">{orders.length}</p>
                     </div>
                   </div>
@@ -376,7 +380,7 @@ const Dashboard = () => {
                       <CheckCircle className="h-6 w-6 text-success" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Terminées</p>
+                      <p className="text-sm text-muted-foreground">{t("dashboard.stats.completed")}</p>
                       <p className="text-2xl font-bold">
                         {orders.filter(o => o.status === 'completed').length}
                       </p>
@@ -392,7 +396,7 @@ const Dashboard = () => {
                       <MessageSquare className="h-6 w-6 text-accent" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Tickets</p>
+                      <p className="text-sm text-muted-foreground">{t("dashboard.stats.tickets")}</p>
                       <p className="text-2xl font-bold">
                         {tickets.filter(t => t.status === 'open').length}
                       </p>
@@ -408,7 +412,7 @@ const Dashboard = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Clock className="h-5 w-5 text-primary" />
-                    Commande en cours
+                    {t("dashboard.currentOrder")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -419,7 +423,7 @@ const Dashboard = () => {
                     </div>
                     <div>
                       <div className="flex justify-between text-sm mb-2">
-                        <span>Progression</span>
+                        <span>{t("dashboard.progression")}</span>
                         <span>{orders[0].progress}%</span>
                       </div>
                       <Progress value={orders[0].progress} className="h-2" />
@@ -440,18 +444,18 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-bold">Mes commandes</h2>
+            <h2 className="text-2xl font-bold">{t("dashboard.myOrders")}</h2>
             
             {orders.length === 0 ? (
               <Card>
                 <CardContent className="p-8 text-center">
                   <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground">Aucune commande pour le moment</p>
+                  <p className="text-muted-foreground">{t("dashboard.noOrders")}</p>
                   <Button 
                     className="mt-4" 
                     onClick={() => setActiveTab('packs')}
                   >
-                    Découvrir nos packs
+                    {t("dashboard.discoverPacks")}
                   </Button>
                 </CardContent>
               </Card>
@@ -463,17 +467,17 @@ const Dashboard = () => {
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="font-semibold">{order.pack?.name || 'Commande'}</h3>
+                            <h3 className="font-semibold">{order.pack?.name || t("dashboard.stats.orders")}</h3>
                             {getStatusBadge(order.status)}
                           </div>
                           <p className="text-sm text-muted-foreground">
-                            {new Date(order.created_at).toLocaleDateString('fr-FR')}
+                            {new Date(order.created_at).toLocaleDateString(dateLocale)}
                           </p>
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="text-right">
                             <p className="font-semibold">{order.total_amount} {order.currency}</p>
-                            <p className="text-sm text-muted-foreground">Progression: {order.progress}%</p>
+                            <p className="text-sm text-muted-foreground">{t("dashboard.progression")}: {order.progress}%</p>
                           </div>
                           <Progress value={order.progress} className="w-24 h-2" />
                         </div>
@@ -492,7 +496,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-bold">Nos Packs</h2>
+            <h2 className="text-2xl font-bold">{t("dashboard.ourPacks")}</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {packs.map((pack) => (
@@ -500,7 +504,7 @@ const Dashboard = () => {
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <Badge variant={pack.pack_type === 'subscription' ? 'default' : 'secondary'}>
-                        {pack.pack_type === 'subscription' ? 'Abonnement' : 'Unique'}
+                        {pack.pack_type === 'subscription' ? t("dashboard.packType.subscription") : t("dashboard.packType.oneTime")}
                       </Badge>
                     </div>
                     <CardTitle className="mt-2">{pack.name}</CardTitle>
@@ -512,7 +516,7 @@ const Dashboard = () => {
                       <span className="text-muted-foreground"> {pack.currency}</span>
                       {pack.pack_type === 'subscription' && pack.duration_months && (
                         <span className="text-muted-foreground">
-                          /{pack.duration_months === 1 ? 'mois' : `${pack.duration_months} mois`}
+                          /{pack.duration_months === 1 ? t("dashboard.perMonth") : `${pack.duration_months} ${t("dashboard.perMonths")}`}
                         </span>
                       )}
                     </div>
@@ -529,7 +533,7 @@ const Dashboard = () => {
                       onClick={() => navigate(`/checkout/${pack.id}`)}
                     >
                       <CreditCard className="mr-2 h-4 w-4" />
-                      Souscrire
+                      {t("dashboard.subscribe")}
                     </Button>
                   </CardContent>
                 </Card>
@@ -545,33 +549,33 @@ const Dashboard = () => {
             className="space-y-6"
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Support</h2>
+              <h2 className="text-2xl font-bold">{t("dashboard.support")}</h2>
               <Dialog open={ticketDialogOpen} onOpenChange={setTicketDialogOpen}>
                 <DialogTrigger asChild>
                   <Button>
                     <Plus className="mr-2 h-4 w-4" />
-                    Nouveau ticket
+                    {t("dashboard.newTicket")}
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Créer un ticket</DialogTitle>
+                    <DialogTitle>{t("dashboard.createTicket")}</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4 mt-4">
                     <div>
-                      <label className="text-sm font-medium">Sujet</label>
+                      <label className="text-sm font-medium">{t("dashboard.ticketSubject")}</label>
                       <Input
                         value={newTicketSubject}
                         onChange={(e) => setNewTicketSubject(e.target.value)}
-                        placeholder="Décrivez brièvement votre problème"
+                        placeholder={t("dashboard.selectTicketPlaceholder")}
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium">Message</label>
+                      <label className="text-sm font-medium">{t("dashboard.ticketMessage")}</label>
                       <Textarea
                         value={newTicketMessage}
                         onChange={(e) => setNewTicketMessage(e.target.value)}
-                        placeholder="Détaillez votre demande..."
+                        placeholder={t("dashboard.detailRequest")}
                         rows={4}
                       />
                     </div>
@@ -583,7 +587,7 @@ const Dashboard = () => {
                       {creatingTicket ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
                       ) : (
-                        'Envoyer'
+                        t("dashboard.send")
                       )}
                     </Button>
                   </div>
@@ -595,13 +599,13 @@ const Dashboard = () => {
               {/* Tickets list */}
               <Card className="lg:max-h-[600px] overflow-hidden">
                 <CardHeader>
-                  <CardTitle>Mes tickets</CardTitle>
+                  <CardTitle>{t("dashboard.myTickets")}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="divide-y max-h-[500px] overflow-y-auto">
                     {tickets.length === 0 ? (
                       <div className="p-6 text-center text-muted-foreground">
-                        Aucun ticket
+                        {t("dashboard.noTickets")}
                       </div>
                     ) : (
                       tickets.map((ticket) => (
@@ -619,7 +623,7 @@ const Dashboard = () => {
                           <div className="flex items-center gap-2 mt-1">
                             {getStatusBadge(ticket.status)}
                             <span className="text-xs text-muted-foreground">
-                              {new Date(ticket.created_at).toLocaleDateString('fr-FR')}
+                              {new Date(ticket.created_at).toLocaleDateString(dateLocale)}
                             </span>
                           </div>
                         </button>
@@ -633,7 +637,7 @@ const Dashboard = () => {
               <Card className="lg:max-h-[600px] flex flex-col">
                 <CardHeader>
                   <CardTitle>
-                    {selectedTicket ? selectedTicket.subject : 'Sélectionnez un ticket'}
+                    {selectedTicket ? selectedTicket.subject : t("dashboard.selectTicket")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="flex-1 overflow-hidden flex flex-col">
@@ -651,7 +655,7 @@ const Dashboard = () => {
                           >
                             <p className="text-sm">{msg.message}</p>
                             <p className={`text-xs mt-1 ${msg.is_admin ? 'text-muted-foreground' : 'opacity-70'}`}>
-                              {new Date(msg.created_at).toLocaleString('fr-FR')}
+                              {new Date(msg.created_at).toLocaleString(dateLocale)}
                             </p>
                           </div>
                         ))}
@@ -660,7 +664,7 @@ const Dashboard = () => {
                         <Input
                           value={newMessage}
                           onChange={(e) => setNewMessage(e.target.value)}
-                          placeholder="Votre message..."
+                          placeholder={t("dashboard.writeMessage")}
                           onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                         />
                         <Button onClick={handleSendMessage} disabled={sendingMessage}>
@@ -674,7 +678,7 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <div className="flex-1 flex items-center justify-center text-muted-foreground">
-                      Sélectionnez un ticket pour voir les messages
+                      {t("dashboard.selectTicket")}
                     </div>
                   )}
                 </CardContent>

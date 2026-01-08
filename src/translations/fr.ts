@@ -644,6 +644,52 @@ export const fr = {
       resolved: "Résolu",
       closed: "Fermé",
     },
+    packType: {
+      subscription: "Abonnement",
+      oneTime: "Unique",
+    },
+    perMonth: "mois",
+    perMonths: "mois",
+    subscribe: "Souscrire",
+    myTickets: "Mes tickets",
+    selectTicketPlaceholder: "Décrivez brièvement votre problème",
+    detailRequest: "Détaillez votre demande...",
+  },
+
+  // Checkout Page
+  checkout: {
+    backToDashboard: "Retour au dashboard",
+    subscription: "Abonnement",
+    oneTimePayment: "Paiement unique",
+    perMonth: "mois",
+    perMonths: "mois",
+    cryptoPayment: "Paiement en Crypto",
+    selectCrypto: "Sélectionnez votre cryptomonnaie préférée",
+    proceedToPayment: "Procéder au paiement",
+    securePayment: "Paiement sécurisé via NOWPayments • Confirmation automatique",
+    paymentCreated: "Paiement créé",
+    sendExactAmount: "Envoyez le montant exact à l'adresse indiquée",
+    awaitingPayment: "En attente de paiement",
+    timeRemaining: "Temps restant",
+    paymentExpired: "Paiement expiré - Veuillez créer un nouveau paiement",
+    exactAmount: "Montant exact à envoyer",
+    paymentAddress: "Adresse de paiement",
+    paymentVerification: "Le paiement sera vérifié automatiquement. Vous recevrez une confirmation une fois le paiement confirmé sur la blockchain.",
+    copied: "Copié !",
+    toasts: {
+      error: "Erreur",
+      packNotFound: "Pack introuvable",
+      paymentCreated: "Paiement créé",
+      sendExactAmount: "Envoyez le montant exact à l'adresse indiquée",
+      cantCreatePayment: "Impossible de créer le paiement",
+    },
+  },
+
+  // NotFound Page
+  notFound: {
+    title: "404",
+    message: "Oups ! Page introuvable",
+    backHome: "Retour à l'accueil",
   },
 
   // Terms Page
