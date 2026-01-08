@@ -1,33 +1,35 @@
 import { motion } from "framer-motion";
 import { Clock, Users, Headphones, Briefcase, ShoppingBag, Rocket, Building } from "lucide-react";
-
-const stats = [
-  {
-    icon: Users,
-    value: "+150",
-    label: "Projets livrés",
-  },
-  {
-    icon: Clock,
-    value: "5-10",
-    label: "Jours de livraison",
-  },
-  {
-    icon: Headphones,
-    value: "<24h",
-    label: "Temps de réponse",
-  },
-];
-
-// Sector icons instead of fake logos
-const sectors = [
-  { name: "E-commerce", icon: ShoppingBag },
-  { name: "Startups", icon: Rocket },
-  { name: "PME", icon: Building },
-  { name: "Services", icon: Briefcase },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const TrustSection = () => {
+  const { t } = useLanguage();
+
+  const stats = [
+    {
+      icon: Users,
+      value: "+150",
+      label: t("trust.stats.projects"),
+    },
+    {
+      icon: Clock,
+      value: "5-10",
+      label: t("trust.stats.delivery"),
+    },
+    {
+      icon: Headphones,
+      value: "<24h",
+      label: t("trust.stats.response"),
+    },
+  ];
+
+  const sectors = [
+    { name: t("trust.sectors.ecommerce"), icon: ShoppingBag },
+    { name: t("trust.sectors.startups"), icon: Rocket },
+    { name: t("trust.sectors.sme"), icon: Building },
+    { name: t("trust.sectors.services"), icon: Briefcase },
+  ];
+
   return (
     <section className="py-14 md:py-20 bg-black border-t border-b border-white/[0.05]">
       <div className="container mx-auto px-4">
@@ -62,7 +64,7 @@ const TrustSection = () => {
           className="text-center"
         >
           <p className="text-white/50 text-sm mb-6 font-heebo max-w-md mx-auto">
-            Entrepreneurs, e-commerçants et PME nous font confiance.
+            {t("trust.credibility")}
           </p>
           
           {/* Sector icons - premium monochrome */}
