@@ -57,7 +57,8 @@ const PacksSection = () => {
         sessionStorage.setItem('selectedPack', budgetValue);
       }
       
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+      // Navigate to contact page
+      window.location.href = '/contact';
     };
 
     return (
@@ -153,7 +154,8 @@ const PacksSection = () => {
         sessionStorage.setItem('selectedPack', budgetValue);
       }
       
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+      // Navigate to contact page
+      window.location.href = '/contact';
     };
 
     return (
@@ -349,7 +351,7 @@ const PacksSection = () => {
         </div>
 
         {/* Tablet/Desktop: Grid */}
-        <div className="hidden sm:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+        <div className="hidden sm:grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 max-w-6xl mx-auto">
           {packs.map((pack, index) => (
             <DesktopPackCard key={pack.name} pack={pack} index={index} />
           ))}
