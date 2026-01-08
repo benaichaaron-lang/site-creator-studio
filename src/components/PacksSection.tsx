@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Check, Zap, Building2, Crown, ArrowRight, ChevronDown, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useEmblaCarousel from "embla-carousel-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-
 const PacksSection = () => {
   const { t } = useLanguage();
   const [showComparison, setShowComparison] = useState(false);
@@ -43,6 +43,8 @@ const PacksSection = () => {
     },
   ];
 
+  const navigate = useNavigate();
+
   const MobilePackCard = ({ pack }: { pack: typeof packs[0] }) => {
     const [expanded, setExpanded] = useState(false);
 
@@ -57,8 +59,8 @@ const PacksSection = () => {
         sessionStorage.setItem('selectedPack', budgetValue);
       }
       
-      // Navigate to contact page
-      window.location.href = '/contact';
+      // Navigate to contact page using React Router
+      navigate('/contact');
     };
 
     return (
@@ -154,8 +156,8 @@ const PacksSection = () => {
         sessionStorage.setItem('selectedPack', budgetValue);
       }
       
-      // Navigate to contact page
-      window.location.href = '/contact';
+      // Navigate to contact page using React Router
+      navigate('/contact');
     };
 
     return (
