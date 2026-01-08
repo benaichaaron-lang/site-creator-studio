@@ -65,31 +65,34 @@ const Navbar = () => {
           >
             {/* Circle icon with M */}
             <div className="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center bg-transparent">
-              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
-                {/* M shape: two vertical lines + V in middle + horizontal top bar */}
+              <svg viewBox="0 0 32 32" className="w-6 h-6" fill="none">
+                {/* Left arrow/pillar shape */}
                 <path 
-                  d="M5 17V8M19 17V8" 
-                  stroke="url(#logoGradientNav)" 
-                  strokeWidth="2" 
-                  strokeLinecap="round"
+                  d="M6 24V12L10 8L14 12V16L10 12"
+                  fill="url(#logoGradientNavLeft)"
                 />
+                {/* Center V chevron */}
                 <path 
-                  d="M5 8L12 15L19 8" 
-                  stroke="url(#logoGradientNav)" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
+                  d="M10 12L16 18L22 12L16 16L10 12"
+                  fill="url(#logoGradientNavCenter)"
                 />
+                {/* Right vertical pillar */}
                 <path 
-                  d="M5 8H19" 
-                  stroke="url(#logoGradientNav)" 
-                  strokeWidth="2" 
-                  strokeLinecap="round"
+                  d="M22 12V24H18V16L22 12"
+                  fill="url(#logoGradientNavRight)"
                 />
                 <defs>
-                  <linearGradient id="logoGradientNav" x1="5" y1="8" x2="19" y2="17" gradientUnits="userSpaceOnUse">
+                  <linearGradient id="logoGradientNavLeft" x1="6" y1="8" x2="14" y2="24" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#e0e7ff" />
+                    <stop offset="1" stopColor="#93c5fd" />
+                  </linearGradient>
+                  <linearGradient id="logoGradientNavCenter" x1="10" y1="12" x2="22" y2="18" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#60a5fa" />
+                    <stop offset="1" stopColor="#3b82f6" />
+                  </linearGradient>
+                  <linearGradient id="logoGradientNavRight" x1="18" y1="12" x2="22" y2="24" gradientUnits="userSpaceOnUse">
                     <stop stopColor="#3b82f6" />
-                    <stop offset="1" stopColor="#60a5fa" />
+                    <stop offset="1" stopColor="#2563eb" />
                   </linearGradient>
                 </defs>
               </svg>
