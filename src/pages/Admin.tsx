@@ -34,6 +34,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -142,6 +143,7 @@ const Admin = () => {
   
   const navigate = useNavigate();
   const { user, signOut, isAdmin } = useAuth();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -240,11 +242,11 @@ const Admin = () => {
 
       if (error) throw error;
 
-      toast({ title: "Commande mise à jour" });
+      toast({ title: t("admin.orders.toasts.updated") });
       setEditingOrder(null);
       fetchData();
     } catch (error) {
-      toast({ title: "Erreur", description: "Impossible de mettre à jour", variant: "destructive" });
+      toast({ title: t("admin.orders.toasts.error"), description: t("admin.orders.toasts.cantUpdate"), variant: "destructive" });
     } finally {
       setSavingOrder(false);
     }
@@ -269,20 +271,20 @@ const Admin = () => {
           .update(packData)
           .eq('id', editingPack.id);
         if (error) throw error;
-        toast({ title: "Pack mis à jour" });
+        toast({ title: t("admin.packs.toasts.updated") });
       } else {
         const { error } = await supabase
           .from('packs')
           .insert(packData);
         if (error) throw error;
-        toast({ title: "Pack créé" });
+        toast({ title: t("admin.packs.toasts.created") });
       }
 
       setEditingPack(null);
       resetPackForm();
       fetchData();
     } catch (error) {
-      toast({ title: "Erreur", description: "Impossible de sauvegarder", variant: "destructive" });
+      toast({ title: t("admin.packs.toasts.error"), description: t("admin.packs.toasts.cantSave"), variant: "destructive" });
     } finally {
       setSavingPack(false);
     }
@@ -351,7 +353,7 @@ const Admin = () => {
       setNewMessage('');
       fetchTicketMessages(selectedTicket.id);
     } catch (error) {
-      toast({ title: "Erreur", description: "Impossible d'envoyer", variant: "destructive" });
+      toast({ title: t("admin.tickets.toasts.error"), description: t("admin.tickets.toasts.cantSend"), variant: "destructive" });
     } finally {
       setSendingMessage(false);
     }
@@ -365,13 +367,13 @@ const Admin = () => {
         .eq('id', ticketId);
       
       if (error) throw error;
-      toast({ title: "Statut mis à jour" });
+      toast({ title: t("admin.tickets.toasts.statusUpdated") });
       fetchData();
       if (selectedTicket?.id === ticketId) {
         setSelectedTicket({ ...selectedTicket, status });
       }
     } catch (error) {
-      toast({ title: "Erreur", variant: "destructive" });
+      toast({ title: t("admin.tickets.toasts.error"), variant: "destructive" });
     }
   };
 
@@ -381,21 +383,21 @@ const Admin = () => {
   };
 
   const getStatusBadge = (status: string) => {
-    const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
-      pending: { label: 'En attente', variant: 'secondary' },
-      in_progress: { label: 'En cours', variant: 'default' },
-      review: { label: 'Révision', variant: 'outline' },
-      completed: { label: 'Terminé', variant: 'default' },
-      cancelled: { label: 'Annulé', variant: 'destructive' },
-      confirming: { label: 'Confirmation', variant: 'secondary' },
-      confirmed: { label: 'Confirmé', variant: 'default' },
-      failed: { label: 'Échoué', variant: 'destructive' },
-      open: { label: 'Ouvert', variant: 'default' },
-      resolved: { label: 'Résolu', variant: 'secondary' },
-      closed: { label: 'Fermé', variant: 'outline' }
+    const statusConfig: Record<string, { labelKey: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
+      pending: { labelKey: 'admin.status.pending', variant: 'secondary' },
+      in_progress: { labelKey: 'admin.status.in_progress', variant: 'default' },
+      review: { labelKey: 'admin.status.review', variant: 'outline' },
+      completed: { labelKey: 'admin.status.completed', variant: 'default' },
+      cancelled: { labelKey: 'admin.status.cancelled', variant: 'destructive' },
+      confirming: { labelKey: 'admin.status.confirming', variant: 'secondary' },
+      confirmed: { labelKey: 'admin.status.confirmed', variant: 'default' },
+      failed: { labelKey: 'admin.status.failed', variant: 'destructive' },
+      open: { labelKey: 'admin.status.open', variant: 'default' },
+      resolved: { labelKey: 'admin.status.resolved', variant: 'secondary' },
+      closed: { labelKey: 'admin.status.closed', variant: 'outline' }
     };
-    const config = statusConfig[status] || { label: status, variant: 'secondary' as const };
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+    const config = statusConfig[status] || { labelKey: status, variant: 'secondary' as const };
+    return <Badge variant={config.variant}>{t(config.labelKey)}</Badge>;
   };
 
   const filteredUsers = users.filter(u => 
@@ -405,11 +407,11 @@ const Admin = () => {
   );
 
   const menuItems = [
-    { id: 'overview' as TabType, label: 'Vue d\'ensemble', icon: LayoutDashboard },
-    { id: 'users' as TabType, label: 'Utilisateurs', icon: Users },
-    { id: 'orders' as TabType, label: 'Commandes', icon: ShoppingCart },
-    { id: 'packs' as TabType, label: 'Packs', icon: Package },
-    { id: 'tickets' as TabType, label: 'Support', icon: MessageSquare },
+    { id: 'overview' as TabType, labelKey: 'admin.menu.overview', icon: LayoutDashboard },
+    { id: 'users' as TabType, labelKey: 'admin.menu.users', icon: Users },
+    { id: 'orders' as TabType, labelKey: 'admin.menu.orders', icon: ShoppingCart },
+    { id: 'packs' as TabType, labelKey: 'admin.menu.packs', icon: Package },
+    { id: 'tickets' as TabType, labelKey: 'admin.menu.tickets', icon: MessageSquare },
   ];
 
   if (loading) {
@@ -439,8 +441,8 @@ const Admin = () => {
       `}>
         <div className="flex flex-col h-full">
           <div className="p-6 border-b border-border">
-            <h1 className="text-xl font-bold text-foreground">Admin</h1>
-            <p className="text-sm text-muted-foreground mt-1">Panneau de gestion</p>
+            <h1 className="text-xl font-bold text-foreground">{t("admin.title")}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{t("admin.subtitle")}</p>
           </div>
 
           <nav className="flex-1 p-4 space-y-2">
@@ -461,7 +463,7 @@ const Admin = () => {
                 `}
               >
                 <item.icon className="h-5 w-5" />
-                {item.label}
+                {t(item.labelKey)}
               </button>
             ))}
           </nav>
@@ -472,7 +474,7 @@ const Admin = () => {
               className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               <LogOut className="h-5 w-5" />
-              Déconnexion
+              {t("admin.signOut")}
             </button>
           </div>
         </div>
@@ -486,7 +488,7 @@ const Admin = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-bold">Vue d'ensemble</h2>
+            <h2 className="text-2xl font-bold">{t("admin.menu.overview")}</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card>
@@ -496,7 +498,7 @@ const Admin = () => {
                       <Users className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Utilisateurs</p>
+                      <p className="text-sm text-muted-foreground">{t("admin.stats.users")}</p>
                       <p className="text-2xl font-bold">{users.length}</p>
                     </div>
                   </div>
@@ -510,7 +512,7 @@ const Admin = () => {
                       <ShoppingCart className="h-6 w-6 text-accent" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Commandes</p>
+                      <p className="text-sm text-muted-foreground">{t("admin.stats.orders")}</p>
                       <p className="text-2xl font-bold">{orders.length}</p>
                     </div>
                   </div>
@@ -524,7 +526,7 @@ const Admin = () => {
                       <Package className="h-6 w-6 text-success" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Packs actifs</p>
+                      <p className="text-sm text-muted-foreground">{t("admin.stats.activePacks")}</p>
                       <p className="text-2xl font-bold">{packs.filter(p => p.is_active).length}</p>
                     </div>
                   </div>
@@ -538,7 +540,7 @@ const Admin = () => {
                       <MessageSquare className="h-6 w-6 text-destructive" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Tickets ouverts</p>
+                      <p className="text-sm text-muted-foreground">{t("admin.stats.openTickets")}</p>
                       <p className="text-2xl font-bold">{tickets.filter(t => t.status === 'open').length}</p>
                     </div>
                   </div>
@@ -549,17 +551,17 @@ const Admin = () => {
             {/* Recent orders */}
             <Card>
               <CardHeader>
-                <CardTitle>Commandes récentes</CardTitle>
+                <CardTitle>{t("admin.recentOrders")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Client</TableHead>
-                      <TableHead>Pack</TableHead>
-                      <TableHead>Statut</TableHead>
-                      <TableHead>Montant</TableHead>
-                      <TableHead>Date</TableHead>
+                      <TableHead>{t("admin.table.client")}</TableHead>
+                      <TableHead>{t("admin.table.pack")}</TableHead>
+                      <TableHead>{t("admin.table.status")}</TableHead>
+                      <TableHead>{t("admin.table.amount")}</TableHead>
+                      <TableHead>{t("admin.table.date")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -571,7 +573,7 @@ const Admin = () => {
                         <TableCell>{order.pack?.name || '-'}</TableCell>
                         <TableCell>{getStatusBadge(order.status)}</TableCell>
                         <TableCell>{order.total_amount} {order.currency}</TableCell>
-                        <TableCell>{new Date(order.created_at).toLocaleDateString('fr-FR')}</TableCell>
+                        <TableCell>{new Date(order.created_at).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US')}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -588,13 +590,13 @@ const Admin = () => {
             className="space-y-6"
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Utilisateurs</h2>
+              <h2 className="text-2xl font-bold">{t("admin.users.title")}</h2>
             </div>
 
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Rechercher un utilisateur..."
+                placeholder={t("admin.users.search")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -606,11 +608,11 @@ const Admin = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Nom</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Téléphone</TableHead>
-                      <TableHead>Inscription</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead>{t("admin.table.name")}</TableHead>
+                      <TableHead>{t("admin.table.email")}</TableHead>
+                      <TableHead>{t("admin.table.phone")}</TableHead>
+                      <TableHead>{t("admin.table.registration")}</TableHead>
+                      <TableHead>{t("admin.table.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -619,7 +621,7 @@ const Admin = () => {
                         <TableCell>{userProfile.first_name} {userProfile.last_name}</TableCell>
                         <TableCell>{userProfile.email}</TableCell>
                         <TableCell>{userProfile.phone || '-'}</TableCell>
-                        <TableCell>{new Date(userProfile.created_at).toLocaleDateString('fr-FR')}</TableCell>
+                        <TableCell>{new Date(userProfile.created_at).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US')}</TableCell>
                         <TableCell>
                           <Button
                             variant="ghost"
@@ -645,7 +647,7 @@ const Admin = () => {
             className="space-y-6"
           >
             <Button variant="ghost" onClick={() => setSelectedUser(null)}>
-              ← Retour à la liste
+              {t("admin.users.backToList")}
             </Button>
 
             <Card>
@@ -656,12 +658,12 @@ const Admin = () => {
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-muted-foreground">Téléphone</p>
+                    <p className="text-sm text-muted-foreground">{t("admin.table.phone")}</p>
                     <p className="font-medium">{selectedUser.phone || '-'}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Inscription</p>
-                    <p className="font-medium">{new Date(selectedUser.created_at).toLocaleDateString('fr-FR')}</p>
+                    <p className="text-sm text-muted-foreground">{t("admin.table.registration")}</p>
+                    <p className="font-medium">{new Date(selectedUser.created_at).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -670,17 +672,17 @@ const Admin = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Commandes ({userOrders.length})</CardTitle>
+                  <CardTitle>{t("admin.users.orders")} ({userOrders.length})</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {userOrders.length === 0 ? (
-                    <p className="text-muted-foreground">Aucune commande</p>
+                    <p className="text-muted-foreground">{t("admin.users.noOrders")}</p>
                   ) : (
                     <div className="space-y-3">
                       {userOrders.map((order) => (
                         <div key={order.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
                           <div>
-                            <p className="font-medium">{order.pack?.name || 'Commande'}</p>
+                            <p className="font-medium">{order.pack?.name || t("admin.stats.orders")}</p>
                             <p className="text-sm text-muted-foreground">{order.total_amount} {order.currency}</p>
                           </div>
                           {getStatusBadge(order.status)}
@@ -693,11 +695,11 @@ const Admin = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Paiements ({userPayments.length})</CardTitle>
+                  <CardTitle>{t("admin.users.payments")} ({userPayments.length})</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {userPayments.length === 0 ? (
-                    <p className="text-muted-foreground">Aucun paiement</p>
+                    <p className="text-muted-foreground">{t("admin.users.noPayments")}</p>
                   ) : (
                     <div className="space-y-3">
                       {userPayments.map((payment) => (
@@ -705,7 +707,7 @@ const Admin = () => {
                           <div>
                             <p className="font-medium">{payment.amount} {payment.currency}</p>
                             <p className="text-sm text-muted-foreground">
-                              {new Date(payment.created_at).toLocaleDateString('fr-FR')}
+                              {new Date(payment.created_at).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US')}
                             </p>
                           </div>
                           {getStatusBadge(payment.payment_status)}
@@ -718,11 +720,11 @@ const Admin = () => {
 
               <Card className="lg:col-span-2">
                 <CardHeader>
-                  <CardTitle>Tickets ({userTickets.length})</CardTitle>
+                  <CardTitle>{t("admin.users.tickets")} ({userTickets.length})</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {userTickets.length === 0 ? (
-                    <p className="text-muted-foreground">Aucun ticket</p>
+                    <p className="text-muted-foreground">{t("admin.users.noTickets")}</p>
                   ) : (
                     <div className="space-y-3">
                       {userTickets.map((ticket) => (
@@ -745,20 +747,20 @@ const Admin = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-bold">Commandes</h2>
+            <h2 className="text-2xl font-bold">{t("admin.orders.title")}</h2>
 
             <Card>
               <CardContent className="p-0">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Client</TableHead>
-                      <TableHead>Pack</TableHead>
-                      <TableHead>Statut</TableHead>
-                      <TableHead>Progression</TableHead>
-                      <TableHead>Montant</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead>{t("admin.table.client")}</TableHead>
+                      <TableHead>{t("admin.table.pack")}</TableHead>
+                      <TableHead>{t("admin.table.status")}</TableHead>
+                      <TableHead>{t("admin.table.progress")}</TableHead>
+                      <TableHead>{t("admin.table.amount")}</TableHead>
+                      <TableHead>{t("admin.table.date")}</TableHead>
+                      <TableHead>{t("admin.table.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -774,7 +776,7 @@ const Admin = () => {
                           </div>
                         </TableCell>
                         <TableCell>{order.total_amount} {order.currency}</TableCell>
-                        <TableCell>{new Date(order.created_at).toLocaleDateString('fr-FR')}</TableCell>
+                        <TableCell>{new Date(order.created_at).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US')}</TableCell>
                         <TableCell>
                           <Dialog>
                             <DialogTrigger asChild>
@@ -793,26 +795,26 @@ const Admin = () => {
                             </DialogTrigger>
                             <DialogContent>
                               <DialogHeader>
-                                <DialogTitle>Modifier la commande</DialogTitle>
+                                <DialogTitle>{t("admin.orders.edit")}</DialogTitle>
                               </DialogHeader>
                               <div className="space-y-4 mt-4">
                                 <div>
-                                  <label className="text-sm font-medium">Statut</label>
+                                  <label className="text-sm font-medium">{t("admin.orders.status")}</label>
                                   <Select value={orderStatus} onValueChange={setOrderStatus}>
                                     <SelectTrigger>
                                       <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
-                                      <SelectItem value="pending">En attente</SelectItem>
-                                      <SelectItem value="in_progress">En cours</SelectItem>
-                                      <SelectItem value="review">En révision</SelectItem>
-                                      <SelectItem value="completed">Terminé</SelectItem>
-                                      <SelectItem value="cancelled">Annulé</SelectItem>
+                                      <SelectItem value="pending">{t("admin.orders.statusOptions.pending")}</SelectItem>
+                                      <SelectItem value="in_progress">{t("admin.orders.statusOptions.in_progress")}</SelectItem>
+                                      <SelectItem value="review">{t("admin.orders.statusOptions.review")}</SelectItem>
+                                      <SelectItem value="completed">{t("admin.orders.statusOptions.completed")}</SelectItem>
+                                      <SelectItem value="cancelled">{t("admin.orders.statusOptions.cancelled")}</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </div>
                                 <div>
-                                  <label className="text-sm font-medium">Progression ({orderProgress}%)</label>
+                                  <label className="text-sm font-medium">{t("admin.orders.progress")} ({orderProgress}%)</label>
                                   <Input
                                     type="range"
                                     min="0"
@@ -823,16 +825,16 @@ const Admin = () => {
                                   />
                                 </div>
                                 <div>
-                                  <label className="text-sm font-medium">Notes</label>
+                                  <label className="text-sm font-medium">{t("admin.orders.notes")}</label>
                                   <Textarea
                                     value={orderNotes}
                                     onChange={(e) => setOrderNotes(e.target.value)}
-                                    placeholder="Notes internes..."
+                                    placeholder={t("admin.orders.notesPlaceholder")}
                                     rows={3}
                                   />
                                 </div>
                                 <Button onClick={handleUpdateOrder} disabled={savingOrder} className="w-full">
-                                  {savingOrder ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Enregistrer'}
+                                  {savingOrder ? <Loader2 className="h-4 w-4 animate-spin" /> : t("admin.orders.save")}
                                 </Button>
                               </div>
                             </DialogContent>
@@ -854,28 +856,28 @@ const Admin = () => {
             className="space-y-6"
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Packs</h2>
+              <h2 className="text-2xl font-bold">{t("admin.packs.title")}</h2>
               <Dialog>
                 <DialogTrigger asChild>
                   <Button onClick={() => openPackEditor()}>
                     <Plus className="mr-2 h-4 w-4" />
-                    Nouveau pack
+                    {t("admin.packs.newPack")}
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-lg">
                   <DialogHeader>
-                    <DialogTitle>{editingPack ? 'Modifier le pack' : 'Nouveau pack'}</DialogTitle>
+                    <DialogTitle>{editingPack ? t("admin.packs.editPack") : t("admin.packs.newPack")}</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4 mt-4">
                     <div>
-                      <label className="text-sm font-medium">Nom</label>
+                      <label className="text-sm font-medium">{t("admin.packs.name")}</label>
                       <Input
                         value={packForm.name}
                         onChange={(e) => setPackForm({ ...packForm, name: e.target.value })}
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium">Description</label>
+                      <label className="text-sm font-medium">{t("admin.packs.description")}</label>
                       <Textarea
                         value={packForm.description}
                         onChange={(e) => setPackForm({ ...packForm, description: e.target.value })}
@@ -884,7 +886,7 @@ const Admin = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm font-medium">Prix (USD)</label>
+                        <label className="text-sm font-medium">{t("admin.packs.price")}</label>
                         <Input
                           type="number"
                           value={packForm.price}
@@ -892,7 +894,7 @@ const Admin = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-sm font-medium">Type</label>
+                        <label className="text-sm font-medium">{t("admin.packs.type")}</label>
                         <Select 
                           value={packForm.pack_type} 
                           onValueChange={(v) => setPackForm({ ...packForm, pack_type: v })}
@@ -901,15 +903,15 @@ const Admin = () => {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="one_time">Paiement unique</SelectItem>
-                            <SelectItem value="subscription">Abonnement</SelectItem>
+                            <SelectItem value="one_time">{t("admin.packs.typeOptions.one_time")}</SelectItem>
+                            <SelectItem value="subscription">{t("admin.packs.typeOptions.subscription")}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
                     {packForm.pack_type === 'subscription' && (
                       <div>
-                        <label className="text-sm font-medium">Durée (mois)</label>
+                        <label className="text-sm font-medium">{t("admin.packs.duration")}</label>
                         <Input
                           type="number"
                           value={packForm.duration_months}
@@ -918,7 +920,7 @@ const Admin = () => {
                       </div>
                     )}
                     <div>
-                      <label className="text-sm font-medium">Fonctionnalités (une par ligne)</label>
+                      <label className="text-sm font-medium">{t("admin.packs.features")}</label>
                       <Textarea
                         value={packForm.features}
                         onChange={(e) => setPackForm({ ...packForm, features: e.target.value })}
@@ -927,7 +929,7 @@ const Admin = () => {
                       />
                     </div>
                     <Button onClick={handleSavePack} disabled={savingPack} className="w-full">
-                      {savingPack ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Enregistrer'}
+                      {savingPack ? <Loader2 className="h-4 w-4 animate-spin" /> : t("admin.packs.save")}
                     </Button>
                   </div>
                 </DialogContent>
@@ -940,9 +942,9 @@ const Admin = () => {
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <Badge variant={pack.pack_type === 'subscription' ? 'default' : 'secondary'}>
-                        {pack.pack_type === 'subscription' ? 'Abonnement' : 'Unique'}
+                        {pack.pack_type === 'subscription' ? t("admin.packs.typeOptions.subscription") : t("admin.packs.typeOptions.one_time")}
                       </Badge>
-                      {!pack.is_active && <Badge variant="outline">Inactif</Badge>}
+                      {!pack.is_active && <Badge variant="outline">{t("admin.packs.inactive")}</Badge>}
                     </div>
                     <CardTitle className="mt-2">{pack.name}</CardTitle>
                     <CardDescription>{pack.description}</CardDescription>
@@ -956,23 +958,23 @@ const Admin = () => {
                       <DialogTrigger asChild>
                         <Button variant="outline" className="w-full" onClick={() => openPackEditor(pack)}>
                           <Edit className="mr-2 h-4 w-4" />
-                          Modifier
+                          {t("admin.packs.editPack")}
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="max-w-lg">
                         <DialogHeader>
-                          <DialogTitle>Modifier le pack</DialogTitle>
+                          <DialogTitle>{t("admin.packs.editPack")}</DialogTitle>
                         </DialogHeader>
                         <div className="space-y-4 mt-4">
                           <div>
-                            <label className="text-sm font-medium">Nom</label>
+                            <label className="text-sm font-medium">{t("admin.packs.name")}</label>
                             <Input
                               value={packForm.name}
                               onChange={(e) => setPackForm({ ...packForm, name: e.target.value })}
                             />
                           </div>
                           <div>
-                            <label className="text-sm font-medium">Description</label>
+                            <label className="text-sm font-medium">{t("admin.packs.description")}</label>
                             <Textarea
                               value={packForm.description}
                               onChange={(e) => setPackForm({ ...packForm, description: e.target.value })}
@@ -981,7 +983,7 @@ const Admin = () => {
                           </div>
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <label className="text-sm font-medium">Prix (USD)</label>
+                              <label className="text-sm font-medium">{t("admin.packs.price")}</label>
                               <Input
                                 type="number"
                                 value={packForm.price}
@@ -989,7 +991,7 @@ const Admin = () => {
                               />
                             </div>
                             <div>
-                              <label className="text-sm font-medium">Type</label>
+                              <label className="text-sm font-medium">{t("admin.packs.type")}</label>
                               <Select 
                                 value={packForm.pack_type} 
                                 onValueChange={(v) => setPackForm({ ...packForm, pack_type: v })}
@@ -998,15 +1000,15 @@ const Admin = () => {
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="one_time">Paiement unique</SelectItem>
-                                  <SelectItem value="subscription">Abonnement</SelectItem>
+                                  <SelectItem value="one_time">{t("admin.packs.typeOptions.one_time")}</SelectItem>
+                                  <SelectItem value="subscription">{t("admin.packs.typeOptions.subscription")}</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
                           </div>
                           {packForm.pack_type === 'subscription' && (
                             <div>
-                              <label className="text-sm font-medium">Durée (mois)</label>
+                              <label className="text-sm font-medium">{t("admin.packs.duration")}</label>
                               <Input
                                 type="number"
                                 value={packForm.duration_months}
@@ -1015,7 +1017,7 @@ const Admin = () => {
                             </div>
                           )}
                           <div>
-                            <label className="text-sm font-medium">Fonctionnalités (une par ligne)</label>
+                            <label className="text-sm font-medium">{t("admin.packs.features")}</label>
                             <Textarea
                               value={packForm.features}
                               onChange={(e) => setPackForm({ ...packForm, features: e.target.value })}
@@ -1023,7 +1025,7 @@ const Admin = () => {
                             />
                           </div>
                           <Button onClick={handleSavePack} disabled={savingPack} className="w-full">
-                            {savingPack ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Enregistrer'}
+                            {savingPack ? <Loader2 className="h-4 w-4 animate-spin" /> : t("admin.packs.save")}
                           </Button>
                         </div>
                       </DialogContent>
@@ -1041,13 +1043,13 @@ const Admin = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-bold">Support</h2>
+            <h2 className="text-2xl font-bold">{t("admin.tickets.title")}</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Tickets list */}
               <Card className="lg:max-h-[700px] overflow-hidden">
                 <CardHeader>
-                  <CardTitle>Tickets ({tickets.filter(t => t.status === 'open').length} ouverts)</CardTitle>
+                  <CardTitle>{t("admin.users.tickets")} ({tickets.filter(t => t.status === 'open').length} {t("admin.tickets.statusOptions.open").toLowerCase()})</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="divide-y max-h-[600px] overflow-y-auto">
@@ -1069,7 +1071,7 @@ const Admin = () => {
                         <div className="flex items-center gap-2 mt-1">
                           {getStatusBadge(ticket.status)}
                           <span className="text-xs text-muted-foreground">
-                            {new Date(ticket.created_at).toLocaleDateString('fr-FR')}
+                            {new Date(ticket.created_at).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US')}
                           </span>
                         </div>
                       </button>
@@ -1083,7 +1085,7 @@ const Admin = () => {
                 <CardHeader className="flex-shrink-0">
                   <div className="flex items-center justify-between">
                     <CardTitle>
-                      {selectedTicket ? selectedTicket.subject : 'Sélectionnez un ticket'}
+                      {selectedTicket ? selectedTicket.subject : t("admin.tickets.selectTicket")}
                     </CardTitle>
                     {selectedTicket && (
                       <Select 
@@ -1094,10 +1096,10 @@ const Admin = () => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="open">Ouvert</SelectItem>
-                          <SelectItem value="in_progress">En cours</SelectItem>
-                          <SelectItem value="resolved">Résolu</SelectItem>
-                          <SelectItem value="closed">Fermé</SelectItem>
+                          <SelectItem value="open">{t("admin.tickets.statusOptions.open")}</SelectItem>
+                          <SelectItem value="in_progress">{t("admin.tickets.statusOptions.in_progress")}</SelectItem>
+                          <SelectItem value="resolved">{t("admin.tickets.statusOptions.resolved")}</SelectItem>
+                          <SelectItem value="closed">{t("admin.tickets.statusOptions.closed")}</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -1118,7 +1120,7 @@ const Admin = () => {
                           >
                             <p className="text-sm">{msg.message}</p>
                             <p className={`text-xs mt-1 ${msg.is_admin ? 'opacity-70' : 'text-muted-foreground'}`}>
-                              {msg.is_admin ? 'Support' : 'Client'} • {new Date(msg.created_at).toLocaleString('fr-FR')}
+                              {msg.is_admin ? 'Support' : 'Client'} • {new Date(msg.created_at).toLocaleString(language === 'fr' ? 'fr-FR' : 'en-US')}
                             </p>
                           </div>
                         ))}
@@ -1127,7 +1129,7 @@ const Admin = () => {
                         <Input
                           value={newMessage}
                           onChange={(e) => setNewMessage(e.target.value)}
-                          placeholder="Votre réponse..."
+                          placeholder={t("admin.tickets.writeReply")}
                           onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                         />
                         <Button onClick={handleSendMessage} disabled={sendingMessage}>
@@ -1141,7 +1143,7 @@ const Admin = () => {
                     </>
                   ) : (
                     <div className="flex-1 flex items-center justify-center text-muted-foreground">
-                      Sélectionnez un ticket pour voir les messages
+                      {t("admin.tickets.selectTicket")}
                     </div>
                   )}
                 </CardContent>
