@@ -272,9 +272,9 @@ const PacksSection = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="packs" className="py-12 sm:py-16 lg:py-28 relative bg-[hsl(210,30%,97%)]">
-      {/* Cool gradient background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.04),transparent_50%)]" />
+    <section id="packs" className="py-16 md:py-24 lg:py-32 relative bg-black">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(217,91%,50%,0.05),transparent_50%)]" />
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <motion.div 
