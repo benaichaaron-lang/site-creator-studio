@@ -2,74 +2,67 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Globe, ShoppingCart, Briefcase, Code, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface TabContent {
-  id: string;
-  label: string;
-  icon: React.ElementType;
-  image: string;
-  bullets: string[];
-  delay: string;
-  price: string;
-}
-
-const tabs: TabContent[] = [
-  {
-    id: "landing",
-    label: "Landing Page",
-    icon: Globe,
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop",
-    bullets: [
-      "Design moderne et responsive",
-      "Optimisé pour la conversion",
-      "Formulaires de contact intégrés",
-    ],
-    delay: "5 jours",
-    price: "~500€",
-  },
-  {
-    id: "ecommerce",
-    label: "E-commerce",
-    icon: ShoppingCart,
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
-    bullets: [
-      "Catalogue produits complet",
-      "Paiement sécurisé intégré",
-      "Gestion des stocks automatisée",
-    ],
-    delay: "7-10 jours",
-    price: "~1 200€",
-  },
-  {
-    id: "vitrine",
-    label: "Site Vitrine",
-    icon: Briefcase,
-    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=500&fit=crop",
-    bullets: [
-      "Présentation professionnelle",
-      "Jusqu'à 5 pages personnalisées",
-      "SEO optimisé dès le départ",
-    ],
-    delay: "7 jours",
-    price: "~1 200€",
-  },
-  {
-    id: "webapp",
-    label: "Web App",
-    icon: Code,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
-    bullets: [
-      "Architecture sur-mesure",
-      "Fonctionnalités avancées",
-      "Évolutif et maintenable",
-    ],
-    delay: "10+ jours",
-    price: "Sur devis",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const DemoTabsSection = () => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState("landing");
+
+  const tabs = [
+    {
+      id: "landing",
+      label: t("demoTabs.tabs.landing.label"),
+      icon: Globe,
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop",
+      bullets: [
+        t("demoTabs.tabs.landing.bullets.0") || "Modern responsive design",
+        t("demoTabs.tabs.landing.bullets.1") || "Optimized for conversion",
+        t("demoTabs.tabs.landing.bullets.2") || "Integrated contact forms",
+      ],
+      delay: t("demoTabs.tabs.landing.delay"),
+      price: t("demoTabs.tabs.landing.price"),
+    },
+    {
+      id: "ecommerce",
+      label: t("demoTabs.tabs.ecommerce.label"),
+      icon: ShoppingCart,
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
+      bullets: [
+        t("demoTabs.tabs.ecommerce.bullets.0") || "Complete product catalog",
+        t("demoTabs.tabs.ecommerce.bullets.1") || "Secure payment integrated",
+        t("demoTabs.tabs.ecommerce.bullets.2") || "Automated stock management",
+      ],
+      delay: t("demoTabs.tabs.ecommerce.delay"),
+      price: t("demoTabs.tabs.ecommerce.price"),
+    },
+    {
+      id: "vitrine",
+      label: t("demoTabs.tabs.vitrine.label"),
+      icon: Briefcase,
+      image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=500&fit=crop",
+      bullets: [
+        t("demoTabs.tabs.vitrine.bullets.0") || "Professional presentation",
+        t("demoTabs.tabs.vitrine.bullets.1") || "Up to 5 custom pages",
+        t("demoTabs.tabs.vitrine.bullets.2") || "SEO optimized from start",
+      ],
+      delay: t("demoTabs.tabs.vitrine.delay"),
+      price: t("demoTabs.tabs.vitrine.price"),
+    },
+    {
+      id: "webapp",
+      label: t("demoTabs.tabs.webapp.label"),
+      icon: Code,
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
+      bullets: [
+        t("demoTabs.tabs.webapp.bullets.0") || "Custom architecture",
+        t("demoTabs.tabs.webapp.bullets.1") || "Advanced features",
+        t("demoTabs.tabs.webapp.bullets.2") || "Scalable and maintainable",
+      ],
+      delay: t("demoTabs.tabs.webapp.delay"),
+      price: t("demoTabs.tabs.webapp.price"),
+    },
+  ];
+
   const activeContent = tabs.find((tab) => tab.id === activeTab)!;
 
   const scrollToContact = () => {
@@ -78,11 +71,9 @@ const DemoTabsSection = () => {
 
   return (
     <section className="py-16 md:py-24 bg-black relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(217,91%,50%,0.04),transparent_60%)]" />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,17 +82,16 @@ const DemoTabsSection = () => {
           className="text-center mb-10 md:mb-14"
         >
           <span className="font-montserrat text-primary text-xs md:text-sm uppercase tracking-widest">
-            Aperçu
+            {t("demoTabs.badge")}
           </span>
           <h2 className="font-bebas text-3xl md:text-4xl lg:text-5xl text-white mt-3 mb-3">
-            Ce que nous créons
+            {t("demoTabs.title")}
           </h2>
           <p className="text-white/50 max-w-xl mx-auto font-heebo text-sm md:text-base">
-            Découvrez le type de site qui correspond à vos besoins.
+            {t("demoTabs.subtitle")}
           </p>
         </motion.div>
 
-        {/* Tabs - chips style */}
         <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -123,7 +113,6 @@ const DemoTabsSection = () => {
           })}
         </div>
 
-        {/* Content */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -134,11 +123,9 @@ const DemoTabsSection = () => {
             className="max-w-5xl mx-auto"
           >
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Image with browser mockup */}
               <div className="relative group order-2 md:order-1">
                 <div className="absolute -inset-2 bg-gradient-to-r from-primary/15 to-primary/5 rounded-2xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity" />
                 <div className="relative rounded-xl overflow-hidden border border-white/10 bg-black">
-                  {/* Browser bar */}
                   <div className="h-8 bg-white/5 flex items-center px-3 gap-1.5 border-b border-white/5">
                     <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
                     <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
@@ -149,7 +136,6 @@ const DemoTabsSection = () => {
                       </div>
                     </div>
                   </div>
-                  {/* Screenshot */}
                   <div className="aspect-[16/10]">
                     <img
                       src={activeContent.image}
@@ -160,7 +146,6 @@ const DemoTabsSection = () => {
                 </div>
               </div>
 
-              {/* Info */}
               <div className="space-y-6 order-1 md:order-2">
                 <div>
                   <h3 className="font-bebas text-3xl md:text-4xl text-white mb-3">
@@ -169,7 +154,7 @@ const DemoTabsSection = () => {
                   <div className="flex items-center gap-4 text-sm">
                     <span className="text-primary font-bold text-lg">{activeContent.price}</span>
                     <span className="text-white/20">•</span>
-                    <span className="text-white/60">Livré en {activeContent.delay}</span>
+                    <span className="text-white/60">{t("demoTabs.deliveredIn")} {activeContent.delay}</span>
                   </div>
                 </div>
 
@@ -188,7 +173,7 @@ const DemoTabsSection = () => {
                   onClick={scrollToContact}
                   className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-12 px-6"
                 >
-                  Démarrer ce type de projet
+                  {t("demoTabs.cta")}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>

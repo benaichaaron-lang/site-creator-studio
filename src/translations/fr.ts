@@ -16,67 +16,60 @@ export const fr = {
   // Hero Section
   hero: {
     badge: "Studio de Développement Web",
-    title: "Sites web professionnels,",
-    titleHighlight: "livrés en 5-10 jours",
-    subtitle: "Prix fixes. Processus transparent. Paiement crypto ou carte.",
+    title: "Sites web professionnels",
+    titleHighlight: "livrés en 5–10 jours",
+    subtitle: "Prix fixe • Processus transparent • Paiement crypto ou carte",
     subtitleTeam: "Chaque projet géré par une vraie équipe.",
     mobileTitle: "Sites web performants en",
     mobileSubtitle: "Prix fixes. Processus transparent.",
     mobileSubtitle2: "Paiement crypto ou carte.",
-    features: {
-      fixedPricing: "Prix fixes et transparents",
-      cryptoCard: "Paiement crypto & carte",
-      noCommitment: "Sans engagement initial",
+    trustBadges: {
+      delivery: "5–10 jours",
+      fixedPrice: "Prix fixe",
+      cryptoCard: "Crypto/carte",
+      deliveryLong: "Livré en 5–10 jours",
     },
-    stats: {
-      projects: "Projets livrés",
-      days: "Jours de livraison",
-      satisfaction: "Taux de satisfaction",
+    cta: {
+      startBrief: "Démarrer mon brief",
+      seePacks: "Voir les packs",
     },
     form: {
       title: "Démarrez votre projet",
-      subtitle: "Obtenez une proposition gratuite sous 24h",
+      subtitle: "Devis gratuit • Réponse sous 24h",
       firstName: "Prénom",
       lastName: "Nom",
       phone: "Téléphone",
       recommendation: "Recommandation",
       recommendationPlaceholder: "Qui vous a parlé de nous ?",
       websiteType: "Type de site",
-      selectType: "Sélectionnez le type",
+      selectType: "Sélectionner",
       budget: "Budget",
-      selectBudget: "Sélectionnez le budget",
+      selectBudget: "Budget",
       timeline: "Délai",
-      selectTimeline: "Sélectionnez le délai",
-      submit: "Demander une proposition gratuite",
-      submitting: "Envoi en cours...",
-      required: "Champ requis",
+      selectTimeline: "Délai",
+      submit: "Demander un devis gratuit",
+      submitting: "Envoi...",
+      required: "*",
       optional: "optionnel",
+      footer: "Sans engagement • Sans paiement initial",
       success: {
         title: "Brief reçu !",
-        message: "Merci. Un membre de notre équipe examinera votre demande et vous contactera sous 24h.",
+        message: "Un membre de notre équipe vous contactera sous 24h.",
         createAccount: "Créer mon compte",
-        orSignIn: "Ou",
-        signIn: "connectez-vous",
-        ifAccount: "si vous avez déjà un compte",
       },
-      footer: "Brief gratuit • Sans paiement requis • Examiné par un vrai chef de projet",
-      trustBadges: ["Brief gratuit", "Sans paiement requis", "Réponse sous 24h"],
-    },
-    cta: {
-      startBrief: "Démarrer mon brief",
     },
     websiteTypes: {
       landing: "Landing page",
       ecommerce: "E-commerce",
       business: "Site vitrine",
       portfolio: "Portfolio",
-      webapp: "Application web",
+      webapp: "Web app",
     },
     budgetOptions: {
-      starter: "Starter (~500€)",
-      business: "Business (~1 200€)",
-      premium: "Premium (~2 000€)",
-      unsure: "Pas encore sûr",
+      starter: "~500€",
+      business: "~1 200€",
+      premium: "~2 000€",
+      unsure: "À définir",
     },
     timelineOptions: {
       asap: "Dès que possible",
@@ -85,20 +78,87 @@ export const fr = {
       flexible: "Flexible",
     },
     errors: {
-      firstName: "Le prénom est requis",
-      lastName: "Le nom est requis",
-      phone: "Le téléphone est requis",
-      websiteType: "Veuillez sélectionner un type de site",
-      budget: "Veuillez sélectionner un budget",
-      timeline: "Veuillez sélectionner un délai",
+      firstName: "Prénom requis",
+      lastName: "Nom requis",
+      phone: "Téléphone requis",
+      websiteType: "Sélectionnez un type",
+      budget: "Sélectionnez un budget",
+      timeline: "Sélectionnez un délai",
       missing: "Informations manquantes",
       missingDesc: "Veuillez remplir tous les champs requis.",
-      failed: "Échec de l'envoi",
-      failedDesc: "Une erreur s'est produite. Veuillez réessayer.",
+      failed: "Erreur",
+      failedDesc: "Une erreur est survenue. Veuillez réessayer.",
     },
     toasts: {
       submitted: "Brief envoyé !",
-      submittedDesc: "Nous examinerons votre demande sous 24h.",
+      submittedDesc: "Nous reviendrons vers vous sous 24h.",
+    },
+  },
+
+  // Trust Section
+  trust: {
+    stats: {
+      projects: "Projets livrés",
+      delivery: "Jours de livraison",
+      response: "Temps de réponse",
+    },
+    credibility: "Entrepreneurs, e-commerçants et PME nous font confiance.",
+    sectors: {
+      ecommerce: "E-commerce",
+      startups: "Startups",
+      sme: "PME",
+      services: "Services",
+    },
+  },
+
+  // Demo Tabs Section
+  demoTabs: {
+    badge: "Aperçu",
+    title: "Ce que nous créons",
+    subtitle: "Découvrez le type de site qui correspond à vos besoins.",
+    cta: "Démarrer ce type de projet",
+    deliveredIn: "Livré en",
+    tabs: {
+      landing: {
+        label: "Landing Page",
+        bullets: [
+          "Design moderne et responsive",
+          "Optimisé pour la conversion",
+          "Formulaires de contact intégrés",
+        ],
+        delay: "5 jours",
+        price: "~500€",
+      },
+      ecommerce: {
+        label: "E-commerce",
+        bullets: [
+          "Catalogue produits complet",
+          "Paiement sécurisé intégré",
+          "Gestion des stocks automatisée",
+        ],
+        delay: "7-10 jours",
+        price: "~1 200€",
+      },
+      vitrine: {
+        label: "Site Vitrine",
+        bullets: [
+          "Présentation professionnelle",
+          "Jusqu'à 5 pages personnalisées",
+          "SEO optimisé dès le départ",
+        ],
+        delay: "7 jours",
+        price: "~1 200€",
+      },
+      webapp: {
+        label: "Web App",
+        bullets: [
+          "Architecture sur-mesure",
+          "Fonctionnalités avancées",
+          "Évolutif et maintenable",
+        ],
+        delay: "10+ jours",
+        price: "Sur devis",
+      },
     },
   },
 
@@ -139,28 +199,33 @@ export const fr = {
     },
   },
 
-  // Examples/Portfolio Section
-  portfolio: {
-    badge: "Portfolio",
-    title: "Projets récents",
-    subtitle: "Sites livrés dans différents secteurs.",
-    viewDetails: "Voir les détails",
-    viewCaseStudy: "Voir l'étude de cas",
-    startSimilar: "Démarrer un projet similaire",
-    pack: "Pack",
-  },
-
-  // Service Demo / How it Works
+  // How It Works Section
   howItWorks: {
-    badge: "Notre processus",
-    title: "Comment ça fonctionne",
-    subtitle: "Du brief à la livraison en 4 étapes simples.",
+    badge: "Processus",
+    title: "Comment ça marche",
+    subtitle: "Un processus simple du brief à la livraison.",
     step: "Étape",
     startBrief: "Commencer mon brief",
     steps: {
+      choosePack: {
+        title: "Choisissez votre pack",
+        description: "Pack ou sur-mesure, sélectionnez l'offre qui correspond à vos besoins.",
+      },
       brief: {
-        title: "Soumettez votre brief",
-        description: "Décrivez votre projet en quelques minutes.",
+        title: "Remplissez le brief",
+        description: "Un questionnaire simple pour bien comprendre votre projet.",
+      },
+      payment: {
+        title: "Paiement crypto ou carte",
+        description: "Payez en toute sécurité avec ETH, BTC, USDC, ou par carte.",
+      },
+      delivery: {
+        title: "Livraison",
+        description: "Recevez votre site dans le délai annoncé.",
+      },
+      revisions: {
+        title: "Révisions",
+        description: "Demandez des ajustements selon votre pack.",
       },
       validation: {
         title: "Nous analysons & validons",
@@ -169,10 +234,6 @@ export const fr = {
       development: {
         title: "Design & développement",
         description: "Notre équipe conçoit et développe votre site.",
-      },
-      delivery: {
-        title: "Livraison",
-        description: "Votre site est livré en 5-10 jours, prêt à l'emploi.",
       },
     },
     demo: {
@@ -183,7 +244,141 @@ export const fr = {
       delay: "Délai: 7 jours",
       price: "Tarif: 0.35 ETH",
       siteDelivered: "Site livré !",
+      choosePack: "Choisir le pack...",
+      yourBudget: "Votre budget",
+      submit: "Envoyer →",
+      readyToLaunch: "Prêt à lancer",
+      initialDesign: "Design initial",
+      revision1: "Révision 1",
+      finalVersion: "Version finale",
     },
+    footer: {
+      title: "Une vraie équipe sur chaque projet.",
+      subtitle: "Pas de templates. Uniquement des développeurs expérimentés.",
+    },
+  },
+
+  // Custom Section
+  custom: {
+    badge: "Projets sur-mesure",
+    title: "Besoin de quelque chose de plus spécifique ?",
+    subtitle: "Pour les projets nécessitant des fonctionnalités personnalisées, des intégrations uniques ou un développement spécialisé, nous proposons des solutions sur-mesure avec un devis dédié.",
+    discuss: "Discuter de votre projet",
+    getQuote: "Obtenir un devis sur-mesure",
+    responseTime: "Réponse sous 24h",
+    benefits: {
+      design: {
+        title: "Design unique",
+        description: "Un design créé spécifiquement pour votre marque et vos besoins.",
+      },
+      features: {
+        title: "Fonctionnalités sur-mesure",
+        description: "Développement de fonctionnalités personnalisées sans limites.",
+      },
+      scalable: {
+        title: "Évolutivité",
+        description: "Architecture conçue pour accompagner votre croissance.",
+      },
+      support: {
+        title: "Support dédié",
+        description: "Un chef de projet vous accompagne tout au long du processus.",
+      },
+    },
+    projectTypes: [
+      "E-commerce complet",
+      "Applications web complexes",
+      "Plateformes SaaS",
+      "Intégrations API avancées",
+    ],
+  },
+
+  // Crypto Section
+  crypto: {
+    badge: "Paiement",
+    title: "Paiement crypto accepté",
+    subtitle: "Nous acceptons les principales cryptomonnaies pour une expérience de paiement fluide et sans frontières.",
+    supported: "Cryptos acceptées",
+    wallets: "Wallets supportés",
+    howItWorks: "Comment ça marche",
+    steps: {
+      choosePack: {
+        title: "Choisissez votre pack",
+        description: "Sélectionnez l'offre qui vous convient",
+      },
+      connect: {
+        title: "Connectez votre wallet",
+        description: "MetaMask, WalletConnect, ou Coinbase Wallet",
+      },
+      confirm: {
+        title: "Confirmez la transaction",
+        description: "Validez et nous démarrons votre projet",
+      },
+    },
+    features: {
+      secure: {
+        title: "Sécurisé",
+        description: "Transactions vérifiées sur la blockchain avec une transparence totale.",
+      },
+      fast: {
+        title: "Rapide",
+        description: "Confirmation rapide de votre paiement. Nous démarrons dès validation.",
+      },
+      borderless: {
+        title: "Sans frontières",
+        description: "Payez de n'importe où dans le monde, sans frais bancaires traditionnels.",
+      },
+      transparent: {
+        title: "Transparent",
+        description: "Chaque transaction est traçable. Facture et référence incluses.",
+      },
+    },
+    trust: {
+      invoice: "Facture officielle fournie",
+      proof: "Preuve de transaction blockchain",
+      support: "Support dédié pendant le paiement",
+    },
+    important: "Le paiement s'effectue uniquement après validation du brief. Aucun paiement initial requis.",
+  },
+
+  // FAQ Section
+  faq: {
+    badge: "FAQ",
+    title: "Questions fréquentes",
+    subtitle: "Des réponses claires pour vous aider à décider.",
+    needHelp: "Besoin d'aide ?",
+    avgResponse: "Réponse moyenne",
+    under24h: "sous 24h",
+    satisfaction: "Satisfaction garantie",
+    satisfactionDesc: "ou on continue gratuitement",
+    guaranteedDelivery: "Délais garantis",
+    deliveryDesc: "5-10 jours selon le pack",
+    anotherQuestion: "Une autre question ?",
+    questions: [
+      {
+        question: "Quelle est la différence entre les packs et le sur-mesure ?",
+        answer: "Les packs sont des formules prédéfinies avec contenu et tarif fixes, parfaits pour les projets standards. Starter est une landing page (5 jours), Business couvre jusqu'à 5 pages (7 jours), et Premium offre des pages illimitées avec fonctionnalités avancées (10 jours). Le sur-mesure est pour les projets complexes nécessitant des fonctionnalités spécifiques, un design unique ou des intégrations particulières—nous fournissons un devis personnalisé après étude de vos besoins.",
+      },
+      {
+        question: "Quels sont les délais de livraison exacts ?",
+        answer: "Les délais sont garantis et démarrent après validation du brief et confirmation du paiement. Starter Pack : 5 jours ouvrés. Business Pack : 7 jours ouvrés. Premium Pack : 10 jours ouvrés. Pour les projets sur-mesure, le délai est estimé lors du devis selon la complexité du projet.",
+      },
+      {
+        question: "Comment fonctionne le paiement crypto ?",
+        answer: "Le paiement intervient uniquement après validation du brief—jamais avant. Nous acceptons ETH, BTC, USDC et USDT. Après validation du brief, vous recevez une adresse de paiement unique. Connectez votre wallet (MetaMask, WalletConnect, Coinbase Wallet), envoyez le montant indiqué, et une fois confirmé sur la blockchain (10-30 minutes généralement), nous démarrons immédiatement votre projet.",
+      },
+      {
+        question: "Combien de révisions sont incluses ?",
+        answer: "Starter : 1 cycle de révision. Business : 3 cycles de révision. Premium : révisions illimitées. Une révision est un lot de retours soumis ensemble—vous pouvez demander plusieurs modifications en une révision. Les corrections de fautes de frappe ou liens cassés sont corrigés gratuitement et ne comptent pas comme révisions.",
+      },
+      {
+        question: "Que se passe-t-il si je ne suis pas satisfait ?",
+        answer: "Votre satisfaction est notre priorité. D'abord, utilisez vos révisions incluses pour demander des ajustements—la plupart des clients sont satisfaits après 1-2 cycles. Si le livrable final ne correspond pas au brief validé malgré les révisions, nous continuons à travailler sans coût supplémentaire jusqu'à satisfaction.",
+      },
+      {
+        question: "L'hébergement est-il inclus ?",
+        answer: "Oui, l'hébergement est inclus : 1 an pour Starter et Business, 2 ans pour Premium. Nous gérons le déploiement, le certificat SSL, les sauvegardes quotidiennes et le monitoring. Avant expiration, nous vous contactons pour le renouvellement (généralement 50-100€/an selon le trafic).",
+      },
+    ],
   },
 
   // Contact Section
@@ -193,9 +388,23 @@ export const fr = {
     titleHighlight: "Parlons-en",
     subtitle: "Vous avez des questions sur nos offres ou besoin de conseils ? Notre équipe est là pour vous aider à concrétiser votre projet.",
     email: "Email",
+    whatsapp: "WhatsApp",
+    whatsappDesc: "Réponse rapide sous 24h",
     liveChat: "Chat en direct",
     avgResponse: "Réponse moyenne sous 24h",
     form: {
+      firstName: "Prénom",
+      lastName: "Nom",
+      phone: "Téléphone",
+      recommendation: "Recommandation",
+      recommendationPlaceholder: "Qui vous a parlé de nous ?",
+      websiteType: "Type de site",
+      selectType: "Sélectionner",
+      budget: "Budget",
+      timeline: "Délai",
+      submit: "Envoyer",
+      submitting: "Envoi...",
+      optional: "optionnel",
       success: {
         title: "Message envoyé !",
         message: "Merci de nous avoir contactés. Nous vous répondrons sous 24h.",
@@ -203,11 +412,19 @@ export const fr = {
         createAccountBtn: "Créer mon compte",
       },
     },
+    errors: {
+      firstName: "Prénom requis",
+      lastName: "Nom requis",
+      phone: "Téléphone requis",
+      websiteType: "Sélectionnez un type de site",
+      budget: "Sélectionnez un budget",
+      timeline: "Sélectionnez un délai",
+    },
     toasts: {
       sent: "Message envoyé !",
-      sentDesc: "Nous vous répondrons sous 24h.",
+      sentDesc: "Nous vous recontacterons sous 24h.",
       failed: "Échec de l'envoi",
-      failedDesc: "Une erreur s'est produite. Veuillez réessayer ou nous contacter directement par email.",
+      failedDesc: "Une erreur est survenue. Veuillez réessayer ou nous contacter directement.",
     },
   },
 
@@ -218,37 +435,15 @@ export const fr = {
     subtitle: "Des entrepreneurs et entreprises nous font confiance.",
   },
 
-  // FAQ
-  faq: {
-    badge: "FAQ",
-    title: "Questions fréquentes",
-    subtitle: "Tout ce que vous devez savoir sur nos services.",
-    questions: [
-      {
-        question: "Quels types de sites web créez-vous ?",
-        answer: "Nous créons des landing pages, sites vitrines, e-commerce, portfolios et applications web. Chaque projet est personnalisé selon vos besoins spécifiques.",
-      },
-      {
-        question: "Combien de temps faut-il pour créer un site ?",
-        answer: "Les délais varient selon le pack : 5 jours pour le Starter, 7 jours pour le Business et 10 jours pour le Premium. Nous garantissons ces délais après validation du brief.",
-      },
-      {
-        question: "Quels modes de paiement acceptez-vous ?",
-        answer: "Nous acceptons les paiements en crypto (ETH, BTC, USDC, USDT) et par carte bancaire. Le paiement s'effectue après validation du brief et avant le début du développement.",
-      },
-      {
-        question: "Que se passe-t-il après la livraison ?",
-        answer: "Vous recevez votre site avec 1 à 2 ans d'hébergement inclus selon le pack. Nous offrons également un support pour les modifications mineures pendant 30 jours.",
-      },
-      {
-        question: "Puis-je demander des modifications ?",
-        answer: "Oui, chaque pack inclut un nombre de révisions. Les modifications majeures peuvent être discutées et facturées séparément si nécessaire.",
-      },
-      {
-        question: "Proposez-vous un service de maintenance ?",
-        answer: "Oui, nous proposons des packs de maintenance mensuelle pour les mises à jour, la sécurité et le support continu. Contactez-nous pour plus de détails.",
-      },
-    ],
+  // Portfolio
+  portfolio: {
+    badge: "Portfolio",
+    title: "Projets récents",
+    subtitle: "Sites livrés dans différents secteurs.",
+    viewDetails: "Voir les détails",
+    viewCaseStudy: "Voir l'étude de cas",
+    startSimilar: "Démarrer un projet similaire",
+    pack: "Pack",
   },
 
   // Footer
@@ -282,82 +477,6 @@ export const fr = {
     },
     copyright: "Tous droits réservés.",
     acceptedPayments: "Paiements acceptés :",
-  },
-
-  // Custom Section
-  custom: {
-    badge: "Sur-mesure",
-    title: "Projet personnalisé ?",
-    subtitle: "Pour les projets complexes ou spécifiques, nous proposons des solutions sur-mesure adaptées à vos besoins.",
-    discuss: "Discuter de votre projet",
-    benefits: {
-      dedicated: {
-        title: "Équipe dédiée",
-        description: "Un chef de projet et des développeurs dédiés à votre projet.",
-      },
-      flexible: {
-        title: "Flexibilité totale",
-        description: "Fonctionnalités sur-mesure, intégrations spécifiques, design unique.",
-      },
-      support: {
-        title: "Support prioritaire",
-        description: "Accès direct à l'équipe et support réactif.",
-      },
-      scalable: {
-        title: "Évolutif",
-        description: "Architecture pensée pour grandir avec votre business.",
-      },
-    },
-    projectTypes: [
-      "Application web complexe",
-      "Marketplace",
-      "Plateforme SaaS",
-      "Site e-commerce avancé",
-      "Intégrations API",
-      "Dashboard personnalisé",
-    ],
-  },
-
-  // Crypto Section
-  crypto: {
-    badge: "Paiement Crypto",
-    title: "Payez en crypto",
-    subtitle: "Nous acceptons les principales cryptomonnaies pour des transactions rapides et sécurisées.",
-    supported: "Cryptos acceptées",
-    wallets: "Wallets compatibles",
-    steps: {
-      title: "Comment payer en crypto",
-      choose: {
-        title: "Choisissez votre crypto",
-        description: "Sélectionnez parmi ETH, BTC, USDC ou USDT.",
-      },
-      send: {
-        title: "Effectuez le paiement",
-        description: "Envoyez le montant à l'adresse fournie.",
-      },
-      confirm: {
-        title: "Confirmation automatique",
-        description: "Le paiement est validé automatiquement sur la blockchain.",
-      },
-    },
-    features: {
-      secure: {
-        title: "Sécurisé",
-        description: "Transactions vérifiées sur la blockchain.",
-      },
-      fast: {
-        title: "Rapide",
-        description: "Confirmation en quelques minutes.",
-      },
-      borderless: {
-        title: "Sans frontières",
-        description: "Payez de n'importe où dans le monde.",
-      },
-      transparent: {
-        title: "Transparent",
-        description: "Suivez votre transaction en temps réel.",
-      },
-    },
   },
 
   // Auth
