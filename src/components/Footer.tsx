@@ -3,7 +3,6 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -72,8 +71,31 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center mb-4">
-              <img src={logo} alt="MySiteFactory" className="h-10 w-auto" />
+            <Link to="/" className="flex items-center gap-3 mb-4">
+              {/* Circle icon with M */}
+              <div className="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center bg-transparent">
+                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
+                  <path 
+                    d="M4 18V6L12 14L20 6V18" 
+                    stroke="url(#footerLogoGradient)" 
+                    strokeWidth="2.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
+                  <defs>
+                    <linearGradient id="footerLogoGradient" x1="4" y1="6" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="hsl(var(--primary))" />
+                      <stop offset="1" stopColor="#60a5fa" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              {/* Text */}
+              <span className="font-semibold text-xl tracking-tight">
+                <span className="text-white">MySite</span>
+                <span className="text-primary">Factory</span>
+              </span>
             </Link>
             <p className="text-white/60 text-sm mb-4 max-w-xs">{t("footer.description")}</p>
             <p className="text-white/40 text-xs mb-6 max-w-xs italic">{t("footer.trusted")}</p>
