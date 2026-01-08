@@ -75,25 +75,37 @@ const Footer = () => {
               {/* Circle icon with M */}
               <div className="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center bg-transparent">
                 <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
+                  {/* M shape: two vertical lines + V in middle + horizontal top bar */}
                   <path 
-                    d="M4 18V6L12 14L20 6V18" 
-                    stroke="url(#footerLogoGradient)" 
-                    strokeWidth="2.5" 
+                    d="M5 17V8M19 17V8" 
+                    stroke="url(#logoGradientFooter)" 
+                    strokeWidth="2" 
+                    strokeLinecap="round"
+                  />
+                  <path 
+                    d="M5 8L12 15L19 8" 
+                    stroke="url(#logoGradientFooter)" 
+                    strokeWidth="2" 
                     strokeLinecap="round" 
                     strokeLinejoin="round"
-                    fill="none"
+                  />
+                  <path 
+                    d="M5 8H19" 
+                    stroke="url(#logoGradientFooter)" 
+                    strokeWidth="2" 
+                    strokeLinecap="round"
                   />
                   <defs>
-                    <linearGradient id="footerLogoGradient" x1="4" y1="6" x2="20" y2="18" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="hsl(var(--primary))" />
+                    <linearGradient id="logoGradientFooter" x1="5" y1="8" x2="19" y2="17" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#3b82f6" />
                       <stop offset="1" stopColor="#60a5fa" />
                     </linearGradient>
                   </defs>
                 </svg>
               </div>
               {/* Text */}
-              <span className="font-semibold text-xl tracking-tight">
-                <span className="text-white">MySite</span>
+              <span className="font-medium text-xl tracking-tight">
+                <span className="text-white/90">MySite</span>
                 <span className="text-primary">Factory</span>
               </span>
             </Link>
