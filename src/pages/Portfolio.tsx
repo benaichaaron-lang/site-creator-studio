@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ArrowUpRight, Clock, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 const Portfolio = () => {
   const { t } = useLanguage();
@@ -83,11 +84,10 @@ const Portfolio = () => {
                 <div className="relative overflow-hidden rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/30 transition-all duration-500">
                   {/* Image */}
                   <div className="aspect-[16/10] overflow-hidden">
-                    <img
+                    <OptimizedImage
                       src={project.image}
                       alt={`${t("portfolio.project")} ${project.id}`}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
+                      className="w-full h-full transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
                   </div>

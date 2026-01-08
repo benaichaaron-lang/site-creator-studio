@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 const examples = [
   {
@@ -124,7 +125,7 @@ const ExamplesSection = () => {
                 <div key={example.title} className="flex-[0_0_85%] min-w-0 pl-3 first:pl-0">
                   <div className="rounded-xl overflow-hidden bg-white/[0.02] border border-white/10">
                     <div className="aspect-[16/10] overflow-hidden">
-                      <img src={example.image} alt={example.title} loading="lazy" className="w-full h-full object-cover" />
+                      <OptimizedImage src={example.image} alt={example.title} className="w-full h-full" />
                     </div>
                     <div className="p-4">
                       <div className="flex items-center gap-2 mb-2">
@@ -194,7 +195,7 @@ const ExamplesSection = () => {
               className="group rounded-xl overflow-hidden bg-white/[0.02] border border-white/10 hover:border-primary/50 transition-all duration-500"
             >
               <div className="aspect-[4/3] overflow-hidden relative">
-                <img src={example.image} alt={example.title} loading="lazy" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
+                <OptimizedImage src={example.image} alt={example.title} className="w-full h-full transition-all duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-5">
                   <div className="text-white w-full">
                     <p className="text-sm font-medium font-montserrat mb-2">{example.industry}</p>
