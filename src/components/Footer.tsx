@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import logoIcon from "@/assets/logo-icon.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -72,40 +73,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-4">
-              {/* Circle icon with M */}
-              <div className="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center bg-transparent">
-                <svg viewBox="0 0 32 32" className="w-6 h-6" fill="none">
-                  {/* Left arrow/pillar shape */}
-                  <path 
-                    d="M6 24V12L10 8L14 12V16L10 12"
-                    fill="url(#logoGradientFooterLeft)"
-                  />
-                  {/* Center V chevron */}
-                  <path 
-                    d="M10 12L16 18L22 12L16 16L10 12"
-                    fill="url(#logoGradientFooterCenter)"
-                  />
-                  {/* Right vertical pillar */}
-                  <path 
-                    d="M22 12V24H18V16L22 12"
-                    fill="url(#logoGradientFooterRight)"
-                  />
-                  <defs>
-                    <linearGradient id="logoGradientFooterLeft" x1="6" y1="8" x2="14" y2="24" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#e0e7ff" />
-                      <stop offset="1" stopColor="#93c5fd" />
-                    </linearGradient>
-                    <linearGradient id="logoGradientFooterCenter" x1="10" y1="12" x2="22" y2="18" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#60a5fa" />
-                      <stop offset="1" stopColor="#3b82f6" />
-                    </linearGradient>
-                    <linearGradient id="logoGradientFooterRight" x1="18" y1="12" x2="22" y2="24" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#3b82f6" />
-                      <stop offset="1" stopColor="#2563eb" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
+              {/* Logo icon */}
+              <img src={logoIcon} alt="MySiteFactory" className="w-10 h-10 object-contain" />
               {/* Text */}
               <span className="font-medium text-xl tracking-tight">
                 <span className="text-white/90">MySite</span>
