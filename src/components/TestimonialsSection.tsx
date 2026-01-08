@@ -62,8 +62,8 @@ const TestimonialsSection = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="testimonials" className="py-12 sm:py-16 lg:py-28 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(var(--primary)/0.04),transparent_50%)]" />
+    <section id="testimonials" className="py-16 md:py-24 lg:py-32 bg-black relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(217,91%,50%,0.05),transparent_50%)]" />
       
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
@@ -72,30 +72,27 @@ const TestimonialsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-6 sm:mb-10"
+          className="text-center mb-10 md:mb-16"
         >
-          <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs sm:text-sm font-medium rounded-full mb-2 sm:mb-3">
+          <span className="font-montserrat text-primary text-xs md:text-sm uppercase tracking-widest">
             Témoignages
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
+          <h2 className="font-bebas text-4xl md:text-5xl lg:text-6xl text-white mt-4 mb-4">
             Ce que nos clients disent
           </h2>
-          <p className="text-muted-foreground text-sm sm:text-base">
+          <p className="text-white/50 font-heebo">
             +50 entreprises nous font confiance.
           </p>
         </motion.div>
 
-        {/* Mobile: Horizontal swipe carousel */}
+        {/* Mobile: Horizontal swipe */}
         <div className="sm:hidden">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
               {testimonials.map((testimonial) => (
-                <div 
-                  key={testimonial.id} 
-                  className="flex-[0_0_90%] min-w-0 pl-3 first:pl-0"
-                >
-                  <div className="bg-card rounded-2xl p-5 shadow-card h-full relative">
-                    <div className="absolute -top-2 -left-2 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                <div key={testimonial.id} className="flex-[0_0_90%] min-w-0 pl-3 first:pl-0">
+                  <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-5 h-full relative">
+                    <div className="absolute -top-2 -left-2 w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center">
                       <Quote className="w-4 h-4 text-primary" />
                     </div>
                     
@@ -105,20 +102,15 @@ const TestimonialsSection = () => {
                       ))}
                     </div>
                     
-                    <p className="text-foreground text-sm leading-relaxed mb-4">
+                    <p className="text-white text-sm leading-relaxed mb-4 font-heebo">
                       "{testimonial.content}"
                     </p>
                     
-                    <div className="flex items-center gap-3 pt-3 border-t border-border">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        loading="lazy"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
+                    <div className="flex items-center gap-3 pt-3 border-t border-white/10">
+                      <img src={testimonial.avatar} alt={testimonial.name} loading="lazy" className="w-10 h-10 rounded-full object-cover" />
                       <div>
-                        <div className="font-semibold text-foreground text-sm">{testimonial.name}</div>
-                        <div className="text-xs text-muted-foreground">{testimonial.role}, {testimonial.company}</div>
+                        <div className="font-semibold text-white text-sm font-heebo">{testimonial.name}</div>
+                        <div className="text-xs text-white/50 font-heebo">{testimonial.role}, {testimonial.company}</div>
                       </div>
                     </div>
                   </div>
@@ -127,22 +119,20 @@ const TestimonialsSection = () => {
             </div>
           </div>
           
-          {/* Swipe indicators */}
+          {/* Indicators */}
           <div className="flex justify-center gap-1.5 mt-4">
             {testimonials.map((_, index) => (
               <button
                 key={index}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  index === selectedIndex ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/30"
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${index === selectedIndex ? "w-6 bg-primary" : "w-1.5 bg-white/20"}`}
                 onClick={() => emblaApi?.scrollTo(index)}
               />
             ))}
           </div>
         </div>
 
-        {/* Tablet/Desktop: Grid */}
-        <div className="hidden sm:grid md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-5xl mx-auto">
+        {/* Desktop: Grid */}
+        <div className="hidden sm:grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
@@ -151,8 +141,8 @@ const TestimonialsSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
             >
-              <div className="bg-card rounded-xl p-4 lg:p-5 shadow-card h-full flex flex-col relative">
-                <div className="absolute -top-2 -left-2 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+              <div className="bg-white/[0.02] border border-white/10 hover:border-primary/30 rounded-xl p-5 h-full flex flex-col relative transition-all duration-300">
+                <div className="absolute -top-2 -left-2 w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center">
                   <Quote className="w-4 h-4 text-primary" />
                 </div>
 
@@ -162,20 +152,15 @@ const TestimonialsSection = () => {
                   ))}
                 </div>
 
-                <p className="text-foreground text-sm leading-relaxed flex-grow mb-4">
+                <p className="text-white text-sm leading-relaxed flex-grow mb-4 font-heebo">
                   "{testimonial.content}"
                 </p>
 
-                <div className="flex items-center gap-2 pt-3 border-t border-border">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    loading="lazy"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
+                <div className="flex items-center gap-2 pt-3 border-t border-white/10">
+                  <img src={testimonial.avatar} alt={testimonial.name} loading="lazy" className="w-10 h-10 rounded-full object-cover" />
                   <div className="min-w-0">
-                    <div className="font-semibold text-foreground text-sm truncate">{testimonial.name}</div>
-                    <div className="text-xs text-muted-foreground truncate">{testimonial.company}</div>
+                    <div className="font-semibold text-white text-sm truncate font-heebo">{testimonial.name}</div>
+                    <div className="text-xs text-white/50 truncate font-heebo">{testimonial.company}</div>
                   </div>
                 </div>
               </div>
@@ -189,20 +174,20 @@ const TestimonialsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-6 sm:mt-10 text-center"
+          className="mt-10 md:mt-16 text-center"
         >
-          <div className="inline-flex flex-wrap items-center justify-center gap-4 sm:gap-6 lg:gap-8 px-4 py-3 bg-muted/30 rounded-xl text-xs sm:text-sm">
-            <div className="flex items-center gap-1.5">
+          <div className="inline-flex flex-wrap items-center justify-center gap-6 px-6 py-4 bg-white/[0.02] border border-white/10 rounded-xl">
+            <div className="flex items-center gap-2">
               <div className="flex gap-0.5">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <span className="text-muted-foreground">4.9/5</span>
+              <span className="text-white/60 font-heebo">4.9/5</span>
             </div>
-            <div className="h-4 w-px bg-border" />
-            <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">98%</span> satisfaction
+            <div className="h-4 w-px bg-white/20" />
+            <span className="text-white/60 font-heebo">
+              <span className="font-semibold text-white">98%</span> satisfaction
             </span>
           </div>
         </motion.div>
