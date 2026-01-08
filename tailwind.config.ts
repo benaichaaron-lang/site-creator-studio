@@ -14,8 +14,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
-        display: ['DM Sans', 'system-ui', 'sans-serif'],
+        sans: ['Heebo', 'system-ui', 'sans-serif'],
+        display: ['"Bebas Neue"', 'system-ui', 'sans-serif'],
+        heebo: ['Heebo', 'system-ui', 'sans-serif'],
+        bebas: ['"Bebas Neue"', 'sans-serif'],
+        montserrat: ['Montserrat', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
