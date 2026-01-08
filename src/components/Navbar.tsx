@@ -61,13 +61,13 @@ const Navbar = () => {
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2.5 group"
             onClick={handleLogoClick}
           >
             {/* Logo icon */}
-            <img src={logoIcon} alt="MySiteFactory" className="w-10 h-10 object-contain" />
+            <img src={logoIcon} alt="MySiteFactory" className="h-8 w-auto object-contain" />
             {/* Text */}
-            <span className="font-medium text-xl tracking-tight">
+            <span className="font-medium text-lg tracking-tight">
               <span className="text-white/90">MySite</span>
               <span className="text-primary">Factory</span>
             </span>
