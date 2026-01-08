@@ -161,16 +161,16 @@ const DesktopHero = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 relative z-10 pt-40 pb-32 lg:pt-48 lg:pb-40">
-      <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+    <div className="container mx-auto px-4 lg:px-6 xl:px-8 relative z-10 pt-28 pb-20 md:pt-32 md:pb-24 lg:pt-36 lg:pb-32 xl:pt-40 xl:pb-36 2xl:pt-44 2xl:pb-40 max-w-7xl">
+      <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 xl:gap-16 2xl:gap-20 items-start">
         {/* Left content */}
-        <div className="max-w-2xl">
-          {/* Title with elegant sizing - BIGGER */}
+        <div className="max-w-xl lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
+          {/* Title with elegant sizing - responsive */}
           <motion.h1 
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-            className="font-bebas text-[clamp(4.5rem,8vw,7.5rem)] text-white leading-[0.88] tracking-tight"
+            className="font-bebas text-[clamp(3rem,6vw,5.5rem)] text-white leading-[0.9] tracking-tight"
           >
             {t("hero.title")}
           </motion.h1>
@@ -178,7 +178,7 @@ const DesktopHero = () => {
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-            className="font-bebas text-[clamp(3.5rem,6.5vw,6rem)] text-primary leading-[0.88] tracking-tight mt-2 mb-10"
+            className="font-bebas text-[clamp(2.5rem,5vw,4.5rem)] text-primary leading-[0.9] tracking-tight mt-1 mb-6 lg:mb-8"
           >
             {t("hero.titleHighlight")}
           </motion.h2>
@@ -188,7 +188,7 @@ const DesktopHero = () => {
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-white/55 text-xl mb-12 font-heebo leading-relaxed max-w-lg"
+            className="text-white/55 text-base lg:text-lg xl:text-xl mb-8 lg:mb-10 font-heebo leading-relaxed max-w-md lg:max-w-lg"
           >
             {t("hero.subtitle")}
           </motion.p>
@@ -198,7 +198,7 @@ const DesktopHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="flex flex-wrap gap-5 mb-14"
+            className="flex flex-wrap gap-3 lg:gap-4 mb-8 lg:mb-10"
           >
             <Button 
               onClick={() => {
@@ -209,15 +209,15 @@ const DesktopHero = () => {
                   firstInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
               }}
-              className="h-16 px-10 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-lg shadow-[0_4px_24px_hsl(217,91%,50%,0.3)] transition-all hover:shadow-[0_8px_32px_hsl(217,91%,50%,0.4)]"
+              className="h-12 lg:h-14 px-6 lg:px-8 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base lg:text-lg shadow-[0_4px_24px_hsl(217,91%,50%,0.3)] transition-all hover:shadow-[0_8px_32px_hsl(217,91%,50%,0.4)]"
             >
               {t("hero.cta.startBrief")}
-              <ArrowRight className="w-6 h-6 ml-2" />
+              <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6 ml-2" />
             </Button>
             <Button 
               onClick={scrollToPacks}
               variant="outline"
-              className="h-16 px-10 bg-white/[0.02] border-white/[0.1] text-white/90 hover:bg-white/[0.05] hover:border-white/20 font-medium rounded-xl text-lg backdrop-blur-sm"
+              className="h-12 lg:h-14 px-6 lg:px-8 bg-white/[0.02] border-white/[0.1] text-white/90 hover:bg-white/[0.05] hover:border-white/20 font-medium rounded-xl text-base lg:text-lg backdrop-blur-sm"
             >
               {t("hero.cta.seePacks")}
             </Button>
@@ -228,7 +228,7 @@ const DesktopHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-wrap gap-4"
+            className="flex flex-wrap gap-2 lg:gap-3"
           >
             <TrustBadge icon={Clock} label={t("hero.trustBadges.deliveryLong")} />
             <TrustBadge icon={CreditCard} label={t("hero.trustBadges.fixedPrice")} />
@@ -241,15 +241,15 @@ const DesktopHero = () => {
           initial={{ opacity: 0, x: 40 }} 
           animate={{ opacity: 1, x: 0 }} 
           transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-          className="relative"
+          className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl"
         >
           {/* Subtle glow behind */}
-          <div className="absolute -inset-6 bg-gradient-to-br from-primary/12 via-transparent to-primary/8 rounded-3xl blur-3xl" />
+          <div className="absolute -inset-4 lg:-inset-6 bg-gradient-to-br from-primary/12 via-transparent to-primary/8 rounded-3xl blur-3xl" />
           
-          <div className="relative bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-8 lg:p-10">
-            <div className="mb-8">
-              <h3 className="font-bebas text-3xl text-white mb-2 tracking-tight">{t("hero.form.title")}</h3>
-              <p className="text-white/45 text-base font-heebo">{t("hero.form.subtitle")}</p>
+          <div className="relative bg-white/[0.03] backdrop-blur-xl border border-white/[0.1] rounded-2xl p-6 lg:p-8">
+            <div className="mb-6">
+              <h3 className="font-bebas text-2xl lg:text-3xl text-white mb-1.5 tracking-tight">{t("hero.form.title")}</h3>
+              <p className="text-white/50 text-sm lg:text-base font-heebo">{t("hero.form.subtitle")}</p>
             </div>
 
             {formSubmitted ? (

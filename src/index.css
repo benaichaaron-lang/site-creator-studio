@@ -473,3 +473,19 @@
 .font-montserrat {
   font-family: "Montserrat", sans-serif;
 }
+
+/* Tawk.to Widget positioning - avoid overlapping CTAs */
+#tawk-bubble-container,
+.tawk-min-container {
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 40 !important;
+}
+
+@media (max-width: 768px) {
+  #tawk-bubble-container,
+  .tawk-min-container {
+    bottom: 10px !important;
+    right: 10px !important;
+  }
+}

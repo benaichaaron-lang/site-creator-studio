@@ -57,31 +57,31 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 lg:px-6 xl:px-8">
         <div className="flex items-center justify-between h-16 md:h-[72px]">
-          {/* Logo */}
+          {/* Logo - flex-shrink-0 prevents compression */}
           <Link 
             to="/" 
-            className="flex items-center gap-2.5 group"
+            className="flex items-center gap-2 flex-shrink-0 group"
             onClick={handleLogoClick}
           >
             {/* Logo icon */}
-            <img src={logoIcon} alt="MySiteFactory" className="h-8 w-auto object-contain" />
-            {/* Text */}
-            <span className="font-medium text-lg tracking-tight">
+            <img src={logoIcon} alt="MySiteFactory" className="h-7 md:h-8 w-auto object-contain" />
+            {/* Text - hidden on very small screens */}
+            <span className="font-medium text-base md:text-lg tracking-tight whitespace-nowrap">
               <span className="text-white/90">MySite</span>
               <span className="text-primary">Factory</span>
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation - better spacing */}
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-8">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className={`transition-colors text-sm font-medium cursor-pointer ${
+                className={`transition-colors text-sm font-medium cursor-pointer whitespace-nowrap ${
                   hasScrolled 
                     ? 'text-muted-foreground hover:text-foreground' 
                     : 'text-white/70 hover:text-white'
@@ -92,13 +92,13 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right Side */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right Side - hidden on mobile/tablet */}
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 flex-shrink-0">
             <LanguageSwitcher hasScrolled={hasScrolled} isOpen={isOpen} />
             {user ? (
               <Button 
                 onClick={() => navigate('/dashboard')}
-                className="bg-foreground text-background hover:bg-foreground/90 rounded-md px-5 text-sm font-semibold"
+                className="bg-foreground text-background hover:bg-foreground/90 rounded-md px-4 xl:px-5 text-sm font-semibold"
               >
                 {t("nav.dashboard")}
               </Button>
@@ -107,36 +107,36 @@ const Navbar = () => {
                 <Button 
                   variant="ghost"
                   onClick={() => navigate('/auth')}
-                  className={`text-sm font-medium ${hasScrolled ? 'text-foreground hover:bg-muted' : 'text-white hover:bg-white/10'}`}
+                  className={`text-sm font-medium px-3 ${hasScrolled ? 'text-foreground hover:bg-muted' : 'text-white hover:bg-white/10'}`}
                 >
-                  <LogIn className="w-4 h-4 mr-2" />
+                  <LogIn className="w-4 h-4 mr-1.5" />
                   {t("nav.signIn")}
                 </Button>
                 <Button 
                   onClick={() => navigate('/auth', { state: { isSignUp: true } })}
-                  className="bg-primary hover:bg-primary/90 text-white rounded-md px-4 text-sm font-semibold"
+                  className="bg-primary hover:bg-primary/90 text-white rounded-md px-3 xl:px-4 text-sm font-semibold"
                 >
-                  <UserPlus className="w-4 h-4 mr-2" />
+                  <UserPlus className="w-4 h-4 mr-1.5" />
                   {t("nav.signUp")}
                 </Button>
               </>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile/Tablet Menu Button - visible until lg */}
           <button
-            className={`md:hidden p-2 transition-colors ${hasScrolled || isOpen ? 'text-foreground' : 'text-white'}`}
+            className={`lg:hidden p-2 transition-colors ${hasScrolled || isOpen ? 'text-foreground' : 'text-white'}`}
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile/Tablet Navigation */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="md:hidden py-4 border-t border-border bg-background"
+              className="lg:hidden py-4 border-t border-border bg-background"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
