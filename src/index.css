@@ -4,6 +4,27 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Macan:wght@400;500;600;700&family=Domaine+Display:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Heebo:100,200,300,400,500,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bebas+Neue:400&display=swap');
+
+@font-face { 
+  font-family:"Font Awesome 5 Free";
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-regular-400.eot);
+  src:url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-regular-400.eot?#iefix) format("embedded-opentype"),url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-regular-400.woff2) format("woff2"),url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-regular-400.woff) format("woff"),url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-regular-400.ttf) format("truetype"),url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-regular-400.svg#fontawesome) format("svg");
+} 
+
+@font-face { 
+  font-family:"Font Awesome 5 Free";
+  font-style:normal;
+  font-weight:900;
+  font-display:swap;
+  src:url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-solid-900.eot);
+  src:url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-solid-900.eot?#iefix) format("embedded-opentype"),url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-solid-900.woff2) format("woff2"),url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-solid-900.woff) format("woff"),url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-solid-900.ttf) format("truetype"),url(https://lpdigital.co.il/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-solid-900.svg#fontawesome) format("svg");
+}
 
 @layer base {
   :root {
@@ -238,4 +259,192 @@
   to {
     box-shadow: 0 8px 32px hsl(217 91% 50% / 0.25);
   }
+}
+
+/* Vertical Carousel */
+.vertical-carousel {
+  perspective: 1000px;
+  width: 300px;
+  height: 600px;
+  margin: auto;
+  position: relative;
+  transform: rotateX(-25deg);
+}
+
+.carousel-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: 15s linear infinite rotateVertical;
+  transform: rotateY(-15deg);
+}
+
+.carousel-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.carousel-item {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  transform-origin: center 0px;
+  transform-style: preserve-3d;
+}
+
+.carousel-item:first-child {
+  transform: rotateX(0) translateZ(0);
+}
+
+.carousel-item:nth-child(2) {
+  transform: rotateX(45deg) translateZ(0);
+}
+
+.carousel-item:nth-child(3) {
+  transform: rotateX(90deg) translateZ(0);
+}
+
+.carousel-item:nth-child(4) {
+  transform: rotateX(135deg) translateZ(0);
+}
+
+.carousel-item:nth-child(5) {
+  transform: rotateX(180deg) translateZ(0);
+}
+
+.carousel-item:nth-child(6) {
+  transform: rotateX(225deg) translateZ(0);
+}
+
+.carousel-item:nth-child(7) {
+  transform: rotateX(270deg) translateZ(0);
+}
+
+.carousel-item:nth-child(8) {
+  transform: rotateX(315deg) translateZ(0);
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+@keyframes rotateVertical {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(360deg);
+  }
+}
+
+/* Text Marquee */
+.qodef-qi-text-marquee {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.qodef-qi-text-marquee .qodef-m-content {
+  display: flex;
+  white-space: nowrap;
+  font-size: 0;
+  overflow: hidden;
+}
+
+.qodef-qi-text-marquee .qodef-m-text {
+  display: flex;
+  align-items: baseline;
+}
+
+.qodef-qi-text-marquee .qodef-m-text.qodef-text--original {
+  animation: 20s linear infinite qode-move-horizontal-normal-text-marquee;
+}
+
+.qodef-qi-text-marquee .qodef-m-text.qodef-text--copy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateX(100%) translateZ(0);
+  animation: 20s linear infinite qode-move-horizontal-normal-text-marquee-copy;
+}
+
+.qodef-qi-text-marquee .qodef-m-text-item {
+  font-size: 100px;
+  line-height: 1.1em;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+}
+
+.qodef-qi-text-marquee .qodef-e-icon-holder {
+  display: flex;
+  font-size: 30px;
+  align-self: center;
+  align-items: center;
+}
+
+@keyframes qode-move-horizontal-normal-text-marquee {
+  0% {
+    transform: translateX(0px) translateZ(0px);
+  }
+  100% {
+    transform: translateX(-100%) translateZ(0px);
+  }
+}
+
+@keyframes qode-move-horizontal-normal-text-marquee-copy {
+  0% {
+    transform: translateX(100%) translateZ(0px);
+  }
+  100% {
+    transform: translateX(0px) translateZ(0px);
+  }
+}
+
+/* Font Awesome */
+.fas {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.fa-caret-right:before {
+  content: "\f0da";
+}
+
+/* Elementor-style components */
+.elementor-heading-title {
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+/* Bebas Neue headings */
+.font-bebas {
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.font-heebo {
+  font-family: "Heebo", sans-serif;
+}
+
+.font-montserrat {
+  font-family: "Montserrat", sans-serif;
 }
