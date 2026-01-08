@@ -13,15 +13,15 @@ const Footer = () => {
 
   const footerLinks = {
     services: [
-      { label: t("footer.links.starterPack"), href: "/packs" },
-      { label: t("footer.links.businessPack"), href: "/packs" },
-      { label: t("footer.links.premiumPack"), href: "/packs" },
-      { label: t("footer.links.custom"), href: "/custom" },
+      { label: t("footer.links.starterPack"), href: "/pricing" },
+      { label: t("footer.links.businessPack"), href: "/pricing" },
+      { label: t("footer.links.premiumPack"), href: "/pricing" },
+      { label: t("footer.links.custom"), href: "/services" },
     ],
     company: [
-      { label: t("footer.links.about"), href: "/about" },
+      { label: t("footer.links.about"), href: "/agency" },
       { label: t("footer.links.portfolio"), href: "/portfolio" },
-      { label: t("footer.links.howItWorks"), href: "/how-it-works" },
+      { label: t("footer.links.howItWorks"), href: "/process" },
       { label: t("footer.links.faq"), href: "/faq" },
       { label: t("footer.links.contact"), href: "/contact" },
     ],

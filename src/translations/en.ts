@@ -1,11 +1,12 @@
 export const en = {
   // Navbar
   nav: {
-    packs: "Packs",
-    custom: "Custom",
-    portfolio: "Portfolio",
-    howItWorks: "How it Works",
-    faq: "FAQ",
+    home: "Home",
+    services: "Services",
+    agency: "Agency",
+    portfolio: "Projects",
+    process: "Process",
+    pricing: "Pricing",
     contact: "Contact",
     signIn: "Sign in",
     signUp: "Sign up",
@@ -992,6 +993,138 @@ export const en = {
         title: "5. Applicable Law",
         content: "This website and its legal notices are governed by French law. In case of dispute, the French courts will have sole jurisdiction.",
       },
+    },
+  },
+
+  // Services Page
+  services: {
+    badge: "Our Services",
+    title: "Web solutions for every need",
+    subtitle: "From landing pages to complex web applications, we create tailored digital experiences.",
+    deliveredIn: "Delivered in",
+    from: "Starting at",
+    landing: {
+      title: "Landing Page",
+      description: "Conversion-optimized landing page to turn visitors into customers.",
+      features: ["Modern responsive design", "Conversion optimized", "Integrated forms", "Basic SEO included"],
+      delay: "5 days",
+      price: "$500",
+    },
+    ecommerce: {
+      title: "E-commerce",
+      description: "Complete online store with product management and secure payments.",
+      features: ["Product catalog", "Secure payments", "Stock management", "Admin dashboard"],
+      delay: "7-10 days",
+      price: "$1,200",
+    },
+    vitrine: {
+      title: "Business Website",
+      description: "Professional presentation of your company with up to 5 pages.",
+      features: ["Up to 5 pages", "Custom design", "Contact form", "SEO optimized"],
+      delay: "7 days",
+      price: "$1,200",
+    },
+    portfolio: {
+      title: "Portfolio",
+      description: "Showcase your projects and achievements with an elegant design.",
+      features: ["Project gallery", "Smooth animations", "Category filters", "Perfect responsive"],
+      delay: "5-7 days",
+      price: "$800",
+    },
+    webapp: {
+      title: "Web Application",
+      description: "Complex web applications with advanced features and database.",
+      features: ["Custom architecture", "Database", "Authentication", "Integrated API"],
+      delay: "10+ days",
+      price: "On quote",
+    },
+    custom: {
+      title: "Custom Project",
+      description: "Unique project with specific needs? We create your solution.",
+      features: ["Complete analysis", "Unique solution", "Dedicated support", "Guaranteed scalability"],
+      delay: "Variable",
+      price: "On quote",
+    },
+    cta: {
+      title: "Ready to start your project?",
+      subtitle: "Discover our transparent pricing or contact us for a custom quote.",
+      seePricing: "See pricing",
+      contact: "Contact us",
+    },
+  },
+
+  // Agency Page
+  agency: {
+    badge: "Our Agency",
+    title: "A team passionate about the web",
+    subtitle: "We transform your ideas into performant and memorable digital experiences.",
+    mission: {
+      badge: "Our Mission",
+      text: "Make professional web development accessible to everyone, with short deadlines, fair prices and impeccable quality.",
+    },
+    valuesTitle: "Our Values",
+    valuesSubtitle: "The principles that guide each of our projects.",
+    values: {
+      precision: {
+        title: "Precision",
+        description: "Every detail matters. We care about the pixel, the code and the user experience.",
+      },
+      quality: {
+        title: "Quality",
+        description: "We don't compromise on quality. Every project is delivered with pride.",
+      },
+      trust: {
+        title: "Trust",
+        description: "Total transparency on prices, deadlines and process. No bad surprises.",
+      },
+      speed: {
+        title: "Speed",
+        description: "Your time is precious. We deliver fast without sacrificing quality.",
+      },
+    },
+    approach: {
+      title: "Our Approach",
+      text: "We believe a good website is born from close collaboration with our clients. From the first discussion to launch, we guide you through every step to create a product that looks like you and performs.",
+      cta: "Discover our process",
+      portfolio: "See our projects",
+    },
+  },
+
+  // Process Page
+  process: {
+    badge: "Our Process",
+    title: "From idea to launch",
+    subtitle: "A clear and transparent process to transform your vision into reality.",
+    steps: {
+      brief: {
+        title: "Brief & Discussion",
+        description: "We discuss your project, goals and needs to define the best approach together.",
+        details: ["Discovery call", "Needs analysis", "Custom proposal", "Detailed quote"],
+        duration: "24-48h",
+      },
+      design: {
+        title: "Design & Mockups",
+        description: "We create mockups of your site respecting your visual identity and preferences.",
+        details: ["Moodboard & inspiration", "Wireframes", "High-fidelity mockups", "Revisions included"],
+        duration: "2-3 days",
+      },
+      development: {
+        title: "Development",
+        description: "Our team codes your site with the most modern technologies to guarantee performance and scalability.",
+        details: ["Clean & optimized code", "Responsive design", "Quality testing", "SEO optimization"],
+        duration: "3-7 days",
+      },
+      launch: {
+        title: "Launch & Support",
+        description: "We put your site online and support you to ensure a successful start.",
+        details: ["Production deployment", "Usage training", "30-day support", "Optional maintenance"],
+        duration: "1 day",
+      },
+    },
+    cta: {
+      title: "Ready to get started?",
+      subtitle: "Start your project now with a free brief.",
+      button: "Start my brief",
     },
   },
 };

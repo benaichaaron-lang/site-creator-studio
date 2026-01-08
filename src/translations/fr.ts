@@ -1,11 +1,12 @@
 export const fr = {
   // Navbar
   nav: {
-    packs: "Packs",
-    custom: "Sur-mesure",
-    portfolio: "Portfolio",
-    howItWorks: "Comment ça marche",
-    faq: "FAQ",
+    home: "Accueil",
+    services: "Services",
+    agency: "Agence",
+    portfolio: "Projets",
+    process: "Process",
+    pricing: "Tarifs",
     contact: "Contact",
     signIn: "Connexion",
     signUp: "Inscription",
@@ -992,6 +993,138 @@ export const fr = {
         title: "5. Loi Applicable",
         content: "Le présent site et ses mentions légales sont régis par le droit français. En cas de litige, les tribunaux français seront seuls compétents.",
       },
+    },
+  },
+
+  // Services Page
+  services: {
+    badge: "Nos Services",
+    title: "Des solutions web pour chaque besoin",
+    subtitle: "Du site vitrine à l'application web complexe, nous créons des expériences digitales sur-mesure.",
+    deliveredIn: "Livré en",
+    from: "À partir de",
+    landing: {
+      title: "Landing Page",
+      description: "Page d'atterrissage optimisée pour convertir vos visiteurs en clients.",
+      features: ["Design moderne et responsive", "Optimisé pour la conversion", "Formulaires intégrés", "SEO de base inclus"],
+      delay: "5 jours",
+      price: "500€",
+    },
+    ecommerce: {
+      title: "E-commerce",
+      description: "Boutique en ligne complète avec gestion des produits et paiements sécurisés.",
+      features: ["Catalogue produits", "Paiement sécurisé", "Gestion des stocks", "Dashboard admin"],
+      delay: "7-10 jours",
+      price: "1 200€",
+    },
+    vitrine: {
+      title: "Site Vitrine",
+      description: "Présentation professionnelle de votre entreprise avec jusqu'à 5 pages.",
+      features: ["Jusqu'à 5 pages", "Design sur-mesure", "Formulaire de contact", "SEO optimisé"],
+      delay: "7 jours",
+      price: "1 200€",
+    },
+    portfolio: {
+      title: "Portfolio",
+      description: "Mettez en valeur vos projets et réalisations avec un design élégant.",
+      features: ["Galerie projets", "Animations fluides", "Filtres par catégorie", "Responsive parfait"],
+      delay: "5-7 jours",
+      price: "800€",
+    },
+    webapp: {
+      title: "Web Application",
+      description: "Applications web complexes avec fonctionnalités avancées et base de données.",
+      features: ["Architecture sur-mesure", "Base de données", "Authentification", "API intégrée"],
+      delay: "10+ jours",
+      price: "Sur devis",
+    },
+    custom: {
+      title: "Sur-Mesure",
+      description: "Projet unique avec des besoins spécifiques ? Nous créons votre solution.",
+      features: ["Analyse complète", "Solution unique", "Support dédié", "Évolutivité garantie"],
+      delay: "Variable",
+      price: "Sur devis",
+    },
+    cta: {
+      title: "Prêt à démarrer votre projet ?",
+      subtitle: "Découvrez nos tarifs transparents ou contactez-nous pour un devis personnalisé.",
+      seePricing: "Voir les tarifs",
+      contact: "Nous contacter",
+    },
+  },
+
+  // Agency Page
+  agency: {
+    badge: "Notre Agence",
+    title: "Une équipe passionnée par le web",
+    subtitle: "Nous transformons vos idées en expériences digitales performantes et mémorables.",
+    mission: {
+      badge: "Notre Mission",
+      text: "Rendre le développement web professionnel accessible à tous, avec des délais courts, des prix justes et une qualité irréprochable.",
+    },
+    valuesTitle: "Nos Valeurs",
+    valuesSubtitle: "Les principes qui guident chacun de nos projets.",
+    values: {
+      precision: {
+        title: "Précision",
+        description: "Chaque détail compte. Nous soignons le pixel, le code et l'expérience utilisateur.",
+      },
+      quality: {
+        title: "Qualité",
+        description: "Nous ne faisons pas de compromis sur la qualité. Chaque projet est livré avec fierté.",
+      },
+      trust: {
+        title: "Confiance",
+        description: "Transparence totale sur les prix, les délais et le processus. Pas de mauvaises surprises.",
+      },
+      speed: {
+        title: "Rapidité",
+        description: "Votre temps est précieux. Nous livrons vite sans sacrifier la qualité.",
+      },
+    },
+    approach: {
+      title: "Notre Approche",
+      text: "Nous croyons qu'un bon site web naît d'une collaboration étroite avec nos clients. De la première discussion à la mise en ligne, nous vous accompagnons à chaque étape pour créer un produit qui vous ressemble et qui performe.",
+      cta: "Découvrir notre process",
+      portfolio: "Voir nos projets",
+    },
+  },
+
+  // Process Page
+  process: {
+    badge: "Notre Process",
+    title: "De l'idée au lancement",
+    subtitle: "Un processus clair et transparent pour transformer votre vision en réalité.",
+    steps: {
+      brief: {
+        title: "Brief & Échange",
+        description: "Nous discutons de votre projet, vos objectifs et vos besoins pour définir ensemble la meilleure approche.",
+        details: ["Appel découverte", "Analyse des besoins", "Proposition personnalisée", "Devis détaillé"],
+        duration: "24-48h",
+      },
+      design: {
+        title: "Design & Maquettes",
+        description: "Nous créons les maquettes de votre site en respectant votre identité visuelle et vos préférences.",
+        details: ["Moodboard & inspiration", "Wireframes", "Maquettes haute-fidélité", "Révisions incluses"],
+        duration: "2-3 jours",
+      },
+      development: {
+        title: "Développement",
+        description: "Notre équipe code votre site avec les technologies les plus modernes pour garantir performance et évolutivité.",
+        details: ["Code propre & optimisé", "Responsive design", "Tests qualité", "Optimisation SEO"],
+        duration: "3-7 jours",
+      },
+      launch: {
+        title: "Lancement & Support",
+        description: "Nous mettons votre site en ligne et vous accompagnons pour assurer un démarrage réussi.",
+        details: ["Mise en production", "Formation utilisation", "Support 30 jours", "Maintenance optionnelle"],
+        duration: "1 jour",
+      },
+    },
+    cta: {
+      title: "Prêt à commencer ?",
+      subtitle: "Démarrez votre projet dès maintenant avec un brief gratuit.",
+      button: "Démarrer mon brief",
     },
   },
 };

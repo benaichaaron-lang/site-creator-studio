@@ -25,10 +25,11 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { label: t("nav.packs"), href: "/packs" },
+    { label: t("nav.services"), href: "/services" },
+    { label: t("nav.agency"), href: "/agency" },
     { label: t("nav.portfolio"), href: "/portfolio" },
-    { label: t("nav.howItWorks"), href: "/how-it-works" },
-    { label: t("nav.faq"), href: "/faq" },
+    { label: t("nav.process"), href: "/process" },
+    { label: t("nav.pricing"), href: "/pricing" },
     { label: t("nav.contact"), href: "/contact" },
   ];
 
