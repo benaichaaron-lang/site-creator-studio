@@ -3,14 +3,14 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import LazySection from "@/components/LazySection";
 
-// Lazy load des sections
+// Lazy load sections
 const TrustSection = lazy(() => import("@/components/TrustSection"));
 const DemoTabsSection = lazy(() => import("@/components/DemoTabsSection"));
 const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
 const Footer = lazy(() => import("@/components/Footer"));
 
 const SectionLoader = () => (
-  <div className="min-h-[150px] flex items-center justify-center">
+  <div className="min-h-[100px] flex items-center justify-center">
     <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
   </div>
 );
@@ -21,14 +21,14 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       
-      {/* Trust section - stats + client logos */}
+      {/* Trust section - stats + credibility */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <TrustSection />
         </Suspense>
       </LazySection>
       
-      {/* Demo tabs - Preview of what we create */}
+      {/* Demo tabs - Preview of services */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <DemoTabsSection />

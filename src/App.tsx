@@ -15,12 +15,14 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Checkout from "./pages/Checkout";
-import Packs from "./pages/Packs";
-import HowItWorks from "./pages/HowItWorks";
+import Services from "./pages/Services";
+import Agency from "./pages/Agency";
 import Portfolio from "./pages/Portfolio";
-import Custom from "./pages/Custom";
+import Process from "./pages/Process";
+import Packs from "./pages/Packs";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
+import Custom from "./pages/Custom";
 
 const queryClient = new QueryClient();
 
@@ -34,12 +36,15 @@ const App = () => (
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/packs" element={<Packs />} />
-              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/agency" element={<Agency />} />
               <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/custom" element={<Custom />} />
-              <Route path="/faq" element={<FAQ />} />
+              <Route path="/process" element={<Process />} />
+              <Route path="/packs" element={<Packs />} />
+              <Route path="/pricing" element={<Packs />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/custom" element={<Custom />} />
               <Route path="/about" element={<About />} />
               <Route path="/legal-notice" element={<LegalNotice />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
