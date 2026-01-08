@@ -81,7 +81,7 @@ const Footer = () => {
       </motion.div>
 
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-4">
               <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center"><span className="text-primary-foreground font-bold text-lg">M</span></div>
