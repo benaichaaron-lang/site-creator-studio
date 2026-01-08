@@ -2,46 +2,48 @@ import { MousePointerClick, FileText, Wallet, Truck, RefreshCw } from "lucide-re
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
-
-const steps = [
-  {
-    icon: MousePointerClick,
-    number: "01",
-    title: "Choisissez votre pack",
-    description: "Pack ou sur-mesure, sélectionnez l'offre qui correspond à vos besoins.",
-  },
-  {
-    icon: FileText,
-    number: "02",
-    title: "Remplissez le brief",
-    description: "Un questionnaire simple pour bien comprendre votre projet.",
-  },
-  {
-    icon: Wallet,
-    number: "03",
-    title: "Paiement crypto ou carte",
-    description: "Payez en toute sécurité avec ETH, BTC, USDC, ou par carte.",
-  },
-  {
-    icon: Truck,
-    number: "04",
-    title: "Livraison",
-    description: "Recevez votre site dans le délai annoncé.",
-  },
-  {
-    icon: RefreshCw,
-    number: "05",
-    title: "Révisions",
-    description: "Demandez des ajustements selon votre pack.",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const HowItWorksSection = () => {
+  const { t } = useLanguage();
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     align: "center",
     containScroll: "trimSnaps",
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const steps = [
+    {
+      icon: MousePointerClick,
+      number: "01",
+      titleKey: "howItWorks.steps.choosePack.title",
+      descKey: "howItWorks.steps.choosePack.description",
+    },
+    {
+      icon: FileText,
+      number: "02",
+      titleKey: "howItWorks.steps.brief.title",
+      descKey: "howItWorks.steps.brief.description",
+    },
+    {
+      icon: Wallet,
+      number: "03",
+      titleKey: "howItWorks.steps.payment.title",
+      descKey: "howItWorks.steps.payment.description",
+    },
+    {
+      icon: Truck,
+      number: "04",
+      titleKey: "howItWorks.steps.delivery.title",
+      descKey: "howItWorks.steps.delivery.description",
+    },
+    {
+      icon: RefreshCw,
+      number: "05",
+      titleKey: "howItWorks.steps.revisions.title",
+      descKey: "howItWorks.steps.revisions.description",
+    },
+  ];
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -68,12 +70,12 @@ const HowItWorksSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-primary text-xs sm:text-sm font-medium uppercase tracking-wider">Processus</span>
+          <span className="text-primary text-xs sm:text-sm font-medium uppercase tracking-wider">{t("howItWorks.badge")}</span>
           <h2 className="font-bebas text-3xl sm:text-4xl md:text-5xl mt-2 sm:mt-4 mb-2 sm:mb-4 text-white">
-            Comment ça marche
+            {t("howItWorks.title")}
           </h2>
           <p className="text-white/60 text-sm sm:text-base font-heebo">
-            Un processus simple du brief à la livraison.
+            {t("howItWorks.subtitle")}
           </p>
         </motion.div>
 
@@ -81,7 +83,7 @@ const HowItWorksSection = () => {
         <div className="sm:hidden">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {steps.map((step, index) => (
+              {steps.map((step) => (
                 <div 
                   key={step.number} 
                   className="flex-[0_0_85%] min-w-0 pl-4 first:pl-0"
@@ -95,8 +97,8 @@ const HowItWorksSection = () => {
                         <span className="text-white text-sm font-bold">{step.number}</span>
                       </div>
                     </div>
-                    <h3 className="font-bebas text-xl text-white mb-2">{step.title}</h3>
-                    <p className="text-white/60 text-sm leading-relaxed font-heebo">{step.description}</p>
+                    <h3 className="font-bebas text-xl text-white mb-2">{t(step.titleKey)}</h3>
+                    <p className="text-white/60 text-sm leading-relaxed font-heebo">{t(step.descKey)}</p>
                   </div>
                 </div>
               ))}
@@ -136,14 +138,14 @@ const HowItWorksSection = () => {
                     <div className="space-y-2">
                       <div className="h-6 bg-white/10 rounded flex items-center px-2">
                         <div className="w-2 h-2 rounded-full bg-primary/40 mr-2" />
-                        <span className="text-[10px] text-white/40">Choisir le pack...</span>
+                        <span className="text-[10px] text-white/40">{t("howItWorks.demo.choosePack")}</span>
                       </div>
                       <div className="h-6 bg-white/10 rounded flex items-center px-2">
                         <div className="w-2 h-2 rounded-full bg-primary/40 mr-2" />
-                        <span className="text-[10px] text-white/40">Votre budget</span>
+                        <span className="text-[10px] text-white/40">{t("howItWorks.demo.yourBudget")}</span>
                       </div>
                       <div className="h-6 bg-primary/20 rounded flex items-center justify-center">
-                        <span className="text-[10px] text-primary font-medium">Envoyer →</span>
+                        <span className="text-[10px] text-primary font-medium">{t("howItWorks.demo.submit")}</span>
                       </div>
                     </div>
                   )}
@@ -186,7 +188,7 @@ const HowItWorksSection = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
-                        <span className="text-[10px] text-white/40">Prêt à lancer</span>
+                        <span className="text-[10px] text-white/40">{t("howItWorks.demo.readyToLaunch")}</span>
                       </div>
                     </div>
                   )}
@@ -199,7 +201,7 @@ const HowItWorksSection = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
-                        <span className="text-[10px] text-white/40 line-through">Design initial</span>
+                        <span className="text-[10px] text-white/40 line-through">{t("howItWorks.demo.initialDesign")}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <div className="w-3 h-3 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -207,11 +209,11 @@ const HowItWorksSection = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
-                        <span className="text-[10px] text-white/40 line-through">Révision 1</span>
+                        <span className="text-[10px] text-white/40 line-through">{t("howItWorks.demo.revision1")}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <div className="w-3 h-3 rounded-full border border-primary animate-pulse" />
-                        <span className="text-[10px] text-white font-medium">Version finale</span>
+                        <span className="text-[10px] text-white font-medium">{t("howItWorks.demo.finalVersion")}</span>
                       </div>
                     </div>
                   )}
@@ -224,8 +226,8 @@ const HowItWorksSection = () => {
                       <span className="text-white text-[10px] font-bold">{step.number}</span>
                     </div>
                   </div>
-                  <h3 className="font-bebas text-base lg:text-lg text-white mb-1">{step.title}</h3>
-                  <p className="text-white/50 text-xs font-heebo">{step.description}</p>
+                  <h3 className="font-bebas text-base lg:text-lg text-white mb-1">{t(step.titleKey)}</h3>
+                  <p className="text-white/50 text-xs font-heebo">{t(step.descKey)}</p>
                 </div>
               </motion.div>
             ))}
@@ -239,10 +241,10 @@ const HowItWorksSection = () => {
             transition={{ delay: 0.4 }}
           >
             <p className="text-white font-medium text-sm sm:text-base mb-1 font-heebo">
-              Une vraie équipe sur chaque projet.
+              {t("howItWorks.footer.title")}
             </p>
             <p className="text-white/50 text-xs sm:text-sm font-heebo">
-              Pas de templates. Uniquement des développeurs expérimentés.
+              {t("howItWorks.footer.subtitle")}
             </p>
           </motion.div>
         </div>
