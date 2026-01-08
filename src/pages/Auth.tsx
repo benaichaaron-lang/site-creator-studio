@@ -7,22 +7,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { z } from 'zod';
 
-const signUpSchema = z.object({
-  email: z.string().email("Email invalide").max(255),
-  password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères"),
-  firstName: z.string().min(1, "Le prénom est requis").max(100),
-  lastName: z.string().min(1, "Le nom est requis").max(100),
-  phone: z.string().optional(),
-});
-
-const signInSchema = z.object({
-  email: z.string().email("Email invalide"),
-  password: z.string().min(1, "Le mot de passe est requis"),
-});
-
 const Auth = () => {
+  const { t } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,14 +27,27 @@ const Auth = () => {
   const { signIn, signUp, user, isAdmin } = useAuth();
   const { toast } = useToast();
 
+  const signUpSchema = z.object({
+    email: z.string().email(t("authPage.errors.invalidEmail")).max(255),
+    password: z.string().min(6, t("authPage.errors.passwordMin")),
+    firstName: z.string().min(1, t("authPage.errors.firstNameRequired")).max(100),
+    lastName: z.string().min(1, t("authPage.errors.lastNameRequired")).max(100),
+    phone: z.string().optional(),
+  });
+
+  const signInSchema = z.object({
+    email: z.string().email(t("authPage.errors.invalidEmail")),
+    password: z.string().min(1, t("authPage.errors.passwordRequired")),
+  });
+
   // Pre-fill data from form submission
   useEffect(() => {
-    const state = location.state as { firstName?: string; lastName?: string; phone?: string } | null;
+    const state = location.state as { firstName?: string; lastName?: string; phone?: string; isSignUp?: boolean } | null;
     if (state) {
       if (state.firstName) setFirstName(state.firstName);
       if (state.lastName) setLastName(state.lastName);
       if (state.phone) setPhone(state.phone);
-      setIsLogin(false); // Switch to signup mode
+      if (state.isSignUp) setIsLogin(false);
     }
   }, [location.state]);
 
@@ -84,21 +86,21 @@ const Auth = () => {
         if (error) {
           if (error.message.includes('Invalid login credentials')) {
             toast({
-              title: "Erreur de connexion",
-              description: "Email ou mot de passe incorrect",
+              title: t("authPage.toasts.loginError"),
+              description: t("authPage.toasts.wrongCredentials"),
               variant: "destructive",
             });
           } else {
             toast({
-              title: "Erreur",
+              title: t("authPage.toasts.error"),
               description: error.message,
               variant: "destructive",
             });
           }
         } else {
           toast({
-            title: "Connexion réussie",
-            description: "Bienvenue !",
+            title: t("authPage.toasts.loginSuccess"),
+            description: t("authPage.toasts.welcome"),
           });
         }
       } else {
@@ -124,29 +126,29 @@ const Auth = () => {
         if (error) {
           if (error.message.includes('already registered')) {
             toast({
-              title: "Compte existant",
-              description: "Un compte existe déjà avec cet email. Veuillez vous connecter.",
+              title: t("authPage.toasts.accountExists"),
+              description: t("authPage.toasts.accountExistsDesc"),
               variant: "destructive",
             });
             setIsLogin(true);
           } else {
             toast({
-              title: "Erreur d'inscription",
+              title: t("authPage.toasts.signUpError"),
               description: error.message,
               variant: "destructive",
             });
           }
         } else {
           toast({
-            title: "Inscription réussie !",
-            description: "Votre compte a été créé.",
+            title: t("authPage.toasts.signUpSuccess"),
+            description: t("authPage.toasts.accountCreated"),
           });
         }
       }
     } catch (err) {
       toast({
-        title: "Erreur",
-        description: "Une erreur inattendue s'est produite",
+        title: t("authPage.toasts.error"),
+        description: t("authPage.toasts.unexpectedError"),
         variant: "destructive",
       });
     } finally {
@@ -165,12 +167,12 @@ const Auth = () => {
         <div className="bg-card rounded-2xl shadow-elevated p-8">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-foreground mb-2">
-              {isLogin ? 'Connexion' : 'Créer un compte'}
+              {isLogin ? t("authPage.signIn") : t("authPage.signUp")}
             </h1>
             <p className="text-muted-foreground">
               {isLogin 
-                ? 'Accédez à votre espace client' 
-                : 'Rejoignez-nous pour suivre vos projets'}
+                ? t("authPage.accessClient")
+                : t("authPage.joinUs")}
             </p>
           </div>
 
@@ -179,7 +181,7 @@ const Auth = () => {
               <>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">Prénom</Label>
+                    <Label htmlFor="firstName">{t("authPage.firstName")}</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -196,7 +198,7 @@ const Auth = () => {
                     )}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Nom</Label>
+                    <Label htmlFor="lastName">{t("authPage.lastName")}</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -215,7 +217,7 @@ const Auth = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Téléphone (optionnel)</Label>
+                  <Label htmlFor="phone">{t("authPage.phoneOptional")}</Label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -232,7 +234,7 @@ const Auth = () => {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("authPage.email")}</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -250,7 +252,7 @@ const Auth = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
+              <Label htmlFor="password">{t("authPage.password")}</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -283,7 +285,7 @@ const Auth = () => {
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 <>
-                  {isLogin ? 'Se connecter' : "S'inscrire"}
+                  {isLogin ? t("authPage.signInBtn") : t("authPage.signUpBtn")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </>
               )}
@@ -300,8 +302,8 @@ const Auth = () => {
               className="text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               {isLogin 
-                ? "Pas encore de compte ? S'inscrire" 
-                : 'Déjà un compte ? Se connecter'}
+                ? t("authPage.noAccount")
+                : t("authPage.hasAccount")}
             </button>
           </div>
 
@@ -311,7 +313,7 @@ const Auth = () => {
               onClick={() => navigate('/')}
               className="text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              ← Retour au site
+              {t("authPage.backToSite")}
             </button>
           </div>
         </div>

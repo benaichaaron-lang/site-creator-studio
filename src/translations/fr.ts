@@ -518,4 +518,265 @@ export const fr = {
     more: "Plus",
     less: "Moins",
   },
+
+  // About Page
+  about: {
+    badge: "À propos",
+    title: "Qui sommes-nous ?",
+    intro: "MySiteFactory est né d'une vision simple : rendre la création de sites web professionnels accessible, rapide et transparente.",
+    mission: {
+      title: "Notre Mission",
+      content: "Nous croyons que chaque entreprise mérite une présence en ligne de qualité, sans les complications habituelles des agences traditionnelles. Notre approche produit nous permet de livrer des sites modernes et performants en un temps record, avec un processus simple et des tarifs transparents.",
+    },
+    values: {
+      title: "Nos Valeurs",
+      speed: {
+        title: "Rapidité",
+        description: "Des délais de livraison garantis pour lancer votre projet rapidement.",
+      },
+      transparency: {
+        title: "Transparence",
+        description: "Des prix clairs, un processus simple et une communication directe à chaque étape.",
+      },
+      innovation: {
+        title: "Innovation",
+        description: "Nous adoptons les nouvelles technologies : crypto, web3 et les dernières tendances du web.",
+      },
+      proximity: {
+        title: "Proximité",
+        description: "Une équipe à l'écoute qui vous accompagne de A à Z dans votre projet.",
+      },
+    },
+    whyCrypto: {
+      title: "Pourquoi la Crypto ?",
+      content: "Nous avons choisi d'accepter les paiements en cryptomonnaie car nous croyons en l'avenir de cette technologie. Elle offre des transactions sécurisées, transparentes et sans frontières, parfaitement alignées avec notre vision d'un web moderne et accessible.",
+      cta: "Découvrir nos offres",
+    },
+  },
+
+  // Auth Page
+  authPage: {
+    signIn: "Connexion",
+    signUp: "Créer un compte",
+    accessClient: "Accédez à votre espace client",
+    joinUs: "Rejoignez-nous pour suivre vos projets",
+    firstName: "Prénom",
+    lastName: "Nom",
+    phoneOptional: "Téléphone (optionnel)",
+    email: "Email",
+    password: "Mot de passe",
+    signInBtn: "Se connecter",
+    signUpBtn: "S'inscrire",
+    noAccount: "Pas encore de compte ? S'inscrire",
+    hasAccount: "Déjà un compte ? Se connecter",
+    backToSite: "← Retour au site",
+    errors: {
+      invalidEmail: "Email invalide",
+      passwordMin: "Le mot de passe doit contenir au moins 6 caractères",
+      firstNameRequired: "Le prénom est requis",
+      lastNameRequired: "Le nom est requis",
+      passwordRequired: "Le mot de passe est requis",
+    },
+    toasts: {
+      loginError: "Erreur de connexion",
+      wrongCredentials: "Email ou mot de passe incorrect",
+      error: "Erreur",
+      loginSuccess: "Connexion réussie",
+      welcome: "Bienvenue !",
+      accountExists: "Compte existant",
+      accountExistsDesc: "Un compte existe déjà avec cet email. Veuillez vous connecter.",
+      signUpError: "Erreur d'inscription",
+      signUpSuccess: "Inscription réussie !",
+      accountCreated: "Votre compte a été créé.",
+      unexpectedError: "Une erreur inattendue s'est produite",
+    },
+  },
+
+  // Dashboard
+  dashboard: {
+    mySpace: "Mon Espace",
+    menu: {
+      overview: "Tableau de bord",
+      orders: "Mes commandes",
+      packs: "Packs",
+      tickets: "Support",
+    },
+    signOut: "Déconnexion",
+    welcome: "Bienvenue,",
+    client: "Client",
+    stats: {
+      orders: "Commandes",
+      completed: "Terminées",
+      tickets: "Tickets",
+    },
+    currentOrder: "Commande en cours",
+    progression: "Progression",
+    myOrders: "Mes commandes",
+    noOrders: "Aucune commande pour le moment",
+    discoverPacks: "Découvrir nos packs",
+    ourPacks: "Nos Packs",
+    choosePack: "Choisir ce pack",
+    support: "Support",
+    newTicket: "Nouveau ticket",
+    noTickets: "Aucun ticket pour le moment",
+    createTicket: "Créer un ticket",
+    ticketSubject: "Sujet du ticket",
+    ticketMessage: "Votre message",
+    send: "Envoyer",
+    sending: "Envoi...",
+    creating: "Création...",
+    writeMessage: "Écrire un message...",
+    selectTicket: "Sélectionnez un ticket pour voir la conversation",
+    toasts: {
+      error: "Erreur",
+      cantSend: "Impossible d'envoyer le message",
+      ticketCreated: "Ticket créé",
+      ticketSent: "Votre demande a été envoyée au support",
+      cantCreate: "Impossible de créer le ticket",
+    },
+    status: {
+      pending: "En attente",
+      in_progress: "En cours",
+      review: "En révision",
+      completed: "Terminé",
+      cancelled: "Annulé",
+      open: "Ouvert",
+      resolved: "Résolu",
+      closed: "Fermé",
+    },
+  },
+
+  // Terms Page
+  terms: {
+    badge: "Légal",
+    title: "Conditions Générales de Vente",
+    sections: {
+      purpose: {
+        title: "1. Objet",
+        content: "Les présentes Conditions Générales de Vente régissent les relations contractuelles entre MySiteFactory et ses clients dans le cadre de la fourniture de services de création de sites web.",
+      },
+      services: {
+        title: "2. Services Proposés",
+        intro: "MySiteFactory propose des services de création de sites web sous forme de :",
+        starter: "Pack Starter : Landing page une page, livré en 5 jours",
+        business: "Pack Business : Site web jusqu'à 5 pages, livré en 7 jours",
+        premium: "Pack Premium : Site web complet avec pages illimitées, livré en 10 jours",
+        custom: "Sur-mesure : Projets personnalisés sur devis",
+      },
+      pricing: {
+        title: "3. Tarification et Paiement",
+        content1: "Les prix sont indiqués en cryptomonnaie (ETH) avec une indication en euros à titre indicatif. Le paiement est effectué en totalité avant le démarrage de la prestation. Nous acceptons : ETH, BTC, USDC, USDT.",
+        content2: "La transaction est considérée comme validée dès confirmation sur la blockchain. Le projet démarre après réception et validation du brief client.",
+      },
+      delivery: {
+        title: "4. Délais de Livraison",
+        content: "Les délais de livraison sont garantis et démarrent après validation du brief client et confirmation du paiement. En cas de retard imputable à MySiteFactory, une compensation sera proposée au client.",
+      },
+      revisions: {
+        title: "5. Révisions",
+        intro: "Le nombre de révisions incluses dépend du pack choisi :",
+        starter: "Pack Starter : 1 révision",
+        business: "Pack Business : 3 révisions",
+        premium: "Pack Premium : révisions illimitées",
+        additional: "Les révisions supplémentaires sont facturées à un tarif communiqué sur demande.",
+      },
+      ip: {
+        title: "6. Propriété Intellectuelle",
+        content: "À la livraison complète et après paiement intégral, le client devient propriétaire des droits sur le site livré. MySiteFactory se réserve le droit de mentionner le projet dans son portfolio, sauf accord contraire.",
+      },
+      hosting: {
+        title: "7. Hébergement",
+        intro: "L'hébergement est inclus dans tous les packs :",
+        starterBusiness: "Pack Starter et Business : 1 an d'hébergement",
+        premium: "Pack Premium : 2 ans d'hébergement",
+        renewal: "Le renouvellement de l'hébergement est proposé à l'issue de la période incluse.",
+      },
+      refund: {
+        title: "8. Annulation et Remboursement",
+        content: "En raison de la nature des transactions en cryptomonnaie, aucun remboursement n'est possible une fois le paiement confirmé et le projet démarré. En cas de litige, MySiteFactory s'engage à trouver une solution amiable avec le client.",
+      },
+      law: {
+        title: "9. Loi Applicable",
+        content: "Les présentes CGV sont soumises au droit français. Tout litige relatif à leur interprétation ou leur exécution relève de la compétence exclusive des tribunaux français.",
+      },
+    },
+  },
+
+  // Privacy Policy Page
+  privacy: {
+    badge: "Légal",
+    title: "Politique de Confidentialité",
+    sections: {
+      collection: {
+        title: "1. Collecte des Données",
+        content: "Nous collectons les données personnelles que vous nous fournissez volontairement lors de l'utilisation de nos services : nom, adresse email, informations sur votre projet. Ces données sont nécessaires à l'exécution de nos prestations et à la gestion de notre relation commerciale.",
+      },
+      use: {
+        title: "2. Utilisation des Données",
+        intro: "Vos données personnelles sont utilisées pour :",
+        purposes: [
+          "Traiter vos commandes et livrer vos projets",
+          "Communiquer avec vous concernant votre projet",
+          "Améliorer nos services et votre expérience utilisateur",
+          "Respecter nos obligations légales et réglementaires",
+        ],
+      },
+      protection: {
+        title: "3. Protection des Données",
+        content: "Nous mettons en œuvre des mesures de sécurité appropriées pour protéger vos données personnelles contre tout accès non autorisé, modification, divulgation ou destruction. Les transactions en cryptomonnaie sont sécurisées par la technologie blockchain.",
+      },
+      cookies: {
+        title: "4. Cookies",
+        content: "Notre site utilise des cookies pour améliorer votre expérience de navigation. Les cookies sont de petits fichiers texte stockés sur votre appareil. Vous pouvez configurer votre navigateur pour refuser les cookies, mais cela peut affecter certaines fonctionnalités du site.",
+      },
+      rights: {
+        title: "5. Vos Droits",
+        intro: "Conformément au RGPD, vous disposez des droits suivants :",
+        list: [
+          "Droit d'accès à vos données personnelles",
+          "Droit de rectification des données inexactes",
+          "Droit à l'effacement de vos données",
+          "Droit à la portabilité des données",
+          "Droit d'opposition au traitement",
+        ],
+        contact: "Pour exercer ces droits, contactez-nous à : contact@mysitefactory.io",
+      },
+      retention: {
+        title: "6. Conservation des Données",
+        content: "Vos données personnelles sont conservées pendant la durée nécessaire à l'accomplissement des finalités pour lesquelles elles ont été collectées, et dans le respect des obligations légales applicables.",
+      },
+    },
+  },
+
+  // Legal Notice Page
+  legal: {
+    badge: "Légal",
+    title: "Mentions Légales",
+    sections: {
+      publisher: {
+        title: "1. Éditeur du Site",
+        content: "Le site MySiteFactory est édité par MySiteFactory SAS, société par actions simplifiée au capital de 10 000 €, immatriculée au Registre du Commerce et des Sociétés de Paris sous le numéro RCS PARIS XXX XXX XXX.",
+        headquarters: "Siège social :",
+        email: "Email :",
+        director: "Directeur de la publication :",
+        toComplete: "[À compléter]",
+      },
+      hosting: {
+        title: "2. Hébergement",
+        content: "Le site est hébergé par Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis.",
+      },
+      ip: {
+        title: "3. Propriété Intellectuelle",
+        content: "L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes, sons, logiciels, etc.) est la propriété exclusive de MySiteFactory ou de ses partenaires. Toute reproduction, représentation, modification, publication, transmission ou dénaturation du site ou de son contenu, par quelque moyen que ce soit, est interdite sans autorisation préalable.",
+      },
+      liability: {
+        title: "4. Limitation de Responsabilité",
+        content: "MySiteFactory ne saurait être tenu responsable des dommages directs ou indirects causés au matériel de l'utilisateur lors de l'accès au site. MySiteFactory décline toute responsabilité quant à l'utilisation qui pourrait être faite des informations et contenus présents sur le site.",
+      },
+      law: {
+        title: "5. Loi Applicable",
+        content: "Le présent site et ses mentions légales sont régis par le droit français. En cas de litige, les tribunaux français seront seuls compétents.",
+      },
+    },
+  },
 };
