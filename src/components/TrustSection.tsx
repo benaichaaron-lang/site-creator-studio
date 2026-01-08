@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Clock, Users, Headphones } from "lucide-react";
+import { Clock, Users, Headphones, Briefcase, ShoppingBag, Rocket, Building } from "lucide-react";
 
 const stats = [
   {
@@ -19,60 +19,69 @@ const stats = [
   },
 ];
 
-const clientLogos = [
-  { name: "Client 1", initials: "AB" },
-  { name: "Client 2", initials: "CD" },
-  { name: "Client 3", initials: "EF" },
-  { name: "Client 4", initials: "GH" },
-  { name: "Client 5", initials: "IJ" },
+// Sector icons instead of fake logos
+const sectors = [
+  { name: "E-commerce", icon: ShoppingBag },
+  { name: "Startups", icon: Rocket },
+  { name: "PME", icon: Building },
+  { name: "Services", icon: Briefcase },
 ];
 
 const TrustSection = () => {
   return (
-    <section className="py-12 md:py-16 bg-black border-t border-b border-white/5">
+    <section className="py-14 md:py-20 bg-black border-t border-b border-white/[0.05]">
       <div className="container mx-auto px-4">
         {/* Stats */}
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16 mb-10 md:mb-14">
+        <div className="flex flex-wrap justify-center gap-10 md:gap-20 mb-12 md:mb-16">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
               className="text-center"
             >
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <stat.icon className="w-5 h-5 text-primary" />
-                <span className="font-bebas text-3xl md:text-4xl text-white">{stat.value}</span>
+              <div className="flex items-center justify-center gap-2.5 mb-2">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="w-5 h-5 text-primary" />
+                </div>
+                <span className="font-bebas text-4xl md:text-5xl text-white tracking-tight">{stat.value}</span>
               </div>
-              <p className="text-white/50 text-sm font-heebo">{stat.label}</p>
+              <p className="text-white/40 text-sm font-heebo">{stat.label}</p>
             </motion.div>
           ))}
         </div>
 
-        {/* Client logos */}
+        {/* Credibility phrase + sectors */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
           className="text-center"
         >
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-6 font-montserrat">
-            Ils nous font confiance
+          <p className="text-white/50 text-sm mb-6 font-heebo max-w-md mx-auto">
+            Entrepreneurs, e-commerçants et PME nous font confiance.
           </p>
+          
+          {/* Sector icons - premium monochrome */}
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-            {clientLogos.map((client, index) => (
+            {sectors.map((sector, index) => (
               <motion.div
-                key={client.name}
-                initial={{ opacity: 0, scale: 0.8 }}
+                key={sector.name}
+                initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                whileHover={{ scale: 1.1 }}
-                className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-primary/30 transition-all cursor-default"
+                transition={{ delay: 0.3 + index * 0.08, duration: 0.4 }}
+                className="group"
               >
-                <span className="font-bebas text-lg text-white/60">{client.initials}</span>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center group-hover:bg-white/[0.05] group-hover:border-white/[0.1] transition-all duration-300">
+                    <sector.icon className="w-6 h-6 text-white/40 group-hover:text-white/60 transition-colors" />
+                  </div>
+                  <span className="text-[11px] text-white/30 font-heebo group-hover:text-white/50 transition-colors">{sector.name}</span>
+                </div>
               </motion.div>
             ))}
           </div>

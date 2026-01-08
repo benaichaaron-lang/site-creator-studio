@@ -9,12 +9,13 @@ const PacksSection = () => {
   const { t } = useLanguage();
   const [showComparison, setShowComparison] = useState(false);
   
+  // EUR prices primary, crypto secondary
   const packs = [
     {
       name: t("packs.starter.name"),
       icon: Zap,
-      price: "0.15 ETH",
-      fiat: "~500€",
+      price: "500€",
+      crypto: "~0.15 ETH",
       delay: t("packs.starter.delay"),
       popular: false,
       keyFeatures: [t("packs.starter.features.0"), t("packs.starter.features.1"), t("packs.starter.features.2")],
@@ -23,8 +24,8 @@ const PacksSection = () => {
     {
       name: t("packs.business.name"),
       icon: Building2,
-      price: "0.35 ETH",
-      fiat: "~1 200€",
+      price: "1 200€",
+      crypto: "~0.35 ETH",
       delay: t("packs.business.delay"),
       popular: true,
       keyFeatures: [t("packs.business.features.0"), t("packs.business.features.1"), t("packs.business.features.2")],
@@ -33,8 +34,8 @@ const PacksSection = () => {
     {
       name: t("packs.premium.name"),
       icon: Crown,
-      price: "0.6 ETH",
-      fiat: "~2 000€",
+      price: "2 000€",
+      crypto: "~0.6 ETH",
       delay: t("packs.premium.delay"),
       popular: false,
       keyFeatures: [t("packs.premium.features.0"), t("packs.premium.features.1"), t("packs.premium.features.2")],
@@ -76,7 +77,7 @@ const PacksSection = () => {
             <span className={`font-display text-2xl font-extrabold ${pack.popular ? 'text-primary' : 'text-foreground'}`}>
               {pack.price}
             </span>
-            <span className="text-muted-foreground text-sm">{pack.fiat}</span>
+            <span className="text-muted-foreground text-xs">{pack.crypto}</span>
           </div>
         </div>
 
@@ -171,7 +172,7 @@ const PacksSection = () => {
             <span className={`font-display text-4xl font-extrabold ${pack.popular ? 'text-primary' : 'text-foreground'}`}>
               {pack.price}
             </span>
-            <span className="text-muted-foreground text-sm font-medium">{pack.fiat}</span>
+            <span className="text-muted-foreground text-xs font-medium">{pack.crypto}</span>
           </div>
         </div>
 
