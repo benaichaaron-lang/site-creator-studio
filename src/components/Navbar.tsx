@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,15 +61,14 @@ const Navbar = () => {
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center gap-2 group"
+            className="flex items-center group"
             onClick={handleLogoClick}
           >
-            <span className={`font-bold text-xl tracking-tight transition-colors duration-300 ${
-              hasScrolled || isOpen ? 'text-foreground' : 'text-white'
-            }`}>
-              mysite<span className="text-primary">factory</span>
-              <span className="text-primary">.</span>
-            </span>
+            <img 
+              src={logo} 
+              alt="MySiteFactory" 
+              className="h-8 md:h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}

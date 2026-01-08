@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -71,9 +72,8 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center"><span className="text-primary-foreground font-bold text-lg">M</span></div>
-              <div className="flex flex-col"><span className="font-display font-semibold text-lg text-white/90">MySite<span className="text-primary/80">Factory</span></span><span className="text-[10px] tracking-[0.2em] uppercase text-white/40 -mt-0.5">Web Solutions</span></div>
+            <Link to="/" className="flex items-center mb-4">
+              <img src={logo} alt="MySiteFactory" className="h-10 w-auto" />
             </Link>
             <p className="text-white/60 text-sm mb-4 max-w-xs">{t("footer.description")}</p>
             <p className="text-white/40 text-xs mb-6 max-w-xs italic">{t("footer.trusted")}</p>
