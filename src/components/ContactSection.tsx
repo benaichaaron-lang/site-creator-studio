@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Mail, MessageCircle, CheckCircle, Loader2, UserPlus } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,6 +27,15 @@ const ContactSection = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string}>({});
+
+  // Check for pre-selected pack from PacksSection
+  useEffect(() => {
+    const selectedPack = sessionStorage.getItem('selectedPack');
+    if (selectedPack) {
+      setFormData(prev => ({ ...prev, budget: selectedPack }));
+      sessionStorage.removeItem('selectedPack');
+    }
+  }, []);
 
   const validateForm = () => {
     const newErrors: {firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string} = {};
@@ -160,22 +169,25 @@ const ContactSection = () => {
                   </div>
                 </motion.a>
 
-                <motion.div 
-                  className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-colors cursor-pointer"
+                <motion.a 
+                  href="https://wa.me/33600000000?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20services"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-colors"
                   whileHover={{ x: 10, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <motion.div 
-                    className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center"
+                    className="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center"
                     whileHover={{ rotate: -10 }}
                   >
-                    <MessageCircle className="w-6 h-6 text-primary" />
+                    <MessageCircle className="w-6 h-6 text-green-500" />
                   </motion.div>
                   <div>
-                    <h4 className="font-semibold text-white">Chat en direct</h4>
-                    <p className="text-white/60 text-sm">Réponse moyenne sous 24h</p>
+                    <h4 className="font-semibold text-white">WhatsApp</h4>
+                    <p className="text-white/60 text-sm">Réponse rapide sous 24h</p>
                   </div>
-                </motion.div>
+                </motion.a>
               </div>
             </motion.div>
 

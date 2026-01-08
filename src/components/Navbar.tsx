@@ -26,7 +26,6 @@ const Navbar = () => {
   const navItems = [
     { label: t("nav.packs"), href: "/#packs" },
     { label: t("nav.custom"), href: "/#custom" },
-    { label: t("nav.portfolio"), href: "/#portfolio" },
     { label: t("nav.howItWorks"), href: "/#how-it-works" },
     { label: t("nav.faq"), href: "/#faq" },
     { label: t("nav.contact"), href: "/#contact" },
