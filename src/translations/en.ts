@@ -179,6 +179,16 @@ export const en = {
     notSure: "Not sure? Start the brief and we'll guide you.",
     swipeToCompare: "Swipe to compare packs",
     hide: "Hide",
+    comparePacks: "Compare packs",
+    comparisonTitle: "Pack comparison",
+    comparison: {
+      days5: "5 days",
+      days7: "7 days",
+      days10: "10 days",
+      page1: "1 page",
+      pages5: "5 pages",
+      unlimited: "Unlimited",
+    },
     starter: {
       name: "Starter",
       delay: "5 days",

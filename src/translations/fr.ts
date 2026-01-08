@@ -179,6 +179,16 @@ export const fr = {
     notSure: "Pas sûr ? Démarrez le brief et nous vous guiderons.",
     swipeToCompare: "Glissez pour comparer les packs",
     hide: "Masquer",
+    comparePacks: "Comparer les packs",
+    comparisonTitle: "Comparaison des packs",
+    comparison: {
+      days5: "5 jours",
+      days7: "7 jours",
+      days10: "10 jours",
+      page1: "1 page",
+      pages5: "5 pages",
+      unlimited: "Illimité",
+    },
     starter: {
       name: "Starter",
       delay: "5 jours",

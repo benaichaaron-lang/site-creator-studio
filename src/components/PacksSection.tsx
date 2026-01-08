@@ -366,7 +366,7 @@ const PacksSection = () => {
             onClick={() => setShowComparison(true)}
             className="text-primary text-sm font-medium underline underline-offset-4"
           >
-            Comparer les packs
+            {t("packs.comparePacks")}
           </button>
         </div>
 
@@ -388,24 +388,24 @@ const PacksSection = () => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-bebas text-xl text-white">Comparaison des packs</h3>
+                  <h3 className="font-bebas text-xl text-white">{t("packs.comparisonTitle")}</h3>
                   <button onClick={() => setShowComparison(false)} className="text-white/50 hover:text-white">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
                 <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                  <div className="font-bold text-primary">Starter</div>
-                  <div className="font-bold text-primary">Business</div>
-                  <div className="font-bold text-primary">Premium</div>
+                  <div className="font-bold text-primary">{t("packs.starter.name")}</div>
+                  <div className="font-bold text-primary">{t("packs.business.name")}</div>
+                  <div className="font-bold text-primary">{t("packs.premium.name")}</div>
                   <div className="text-white/60">~500€</div>
                   <div className="text-white/60">~1 200€</div>
                   <div className="text-white/60">~2 000€</div>
-                  <div className="text-white/60">5 jours</div>
-                  <div className="text-white/60">7 jours</div>
-                  <div className="text-white/60">10 jours</div>
-                  <div className="text-white/60">1 page</div>
-                  <div className="text-white/60">5 pages</div>
-                  <div className="text-white/60">Illimité</div>
+                  <div className="text-white/60">{t("packs.comparison.days5")}</div>
+                  <div className="text-white/60">{t("packs.comparison.days7")}</div>
+                  <div className="text-white/60">{t("packs.comparison.days10")}</div>
+                  <div className="text-white/60">{t("packs.comparison.page1")}</div>
+                  <div className="text-white/60">{t("packs.comparison.pages5")}</div>
+                  <div className="text-white/60">{t("packs.comparison.unlimited")}</div>
                 </div>
               </motion.div>
             </motion.div>

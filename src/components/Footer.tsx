@@ -64,7 +64,7 @@ const Footer = () => {
       <motion.div className="container mx-auto px-4 mb-28" initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
         <motion.div className="max-w-4xl mx-auto bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm rounded-3xl p-10 md:p-14 border border-primary/30 shadow-[0_8px_60px_hsl(217,91%,50%,0.3)]" whileHover={{ scale: 1.01 }} transition={{ type: "spring", stiffness: 200 }}>
           <div className="text-center">
-            <motion.h2 className="font-bebas text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white">Prêt à lancer votre projet ?</motion.h2>
+            <motion.h2 className="font-bebas text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white">{t("footer.cta.title")}</motion.h2>
             <motion.p className="text-white/70 mb-2 max-w-xl mx-auto">{t("footer.cta.subtitle")}</motion.p>
             <motion.p className="text-primary text-sm mb-10 font-medium">{t("footer.cta.noPayment")}</motion.p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
