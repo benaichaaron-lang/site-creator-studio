@@ -394,7 +394,6 @@ const PacksSection = () => {
         >
           {t("packs.notSure")}
         </motion.p>
-        </motion.p>
       </div>
     </section>
   );
