@@ -52,10 +52,11 @@ const AnimatedStat = ({ value, suffix = "", prefix = "", label, delay = 0 }: Sta
 };
 
 const StatsSection = () => {
+  // Using original translation keys
   const stats = [
-    { value: 150, suffix: "+", label: "Projets livrés", delay: 0 },
-    { value: 5, suffix: "-10", label: "Jours de livraison", delay: 0.2 },
-    { value: 100, suffix: "%", label: "Satisfaction client", delay: 0.4 },
+    { value: 150, suffix: "+", label: "Projets Livrés", delay: 0 },
+    { value: 5, suffix: "-10", label: "Jours Livraison", delay: 0.2 },
+    { value: 100, suffix: "%", label: "Taux de Satisfaction", delay: 0.4 },
   ];
 
   return (
