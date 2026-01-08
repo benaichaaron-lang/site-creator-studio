@@ -30,14 +30,14 @@ const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col justify-between px-5 py-6">
       <div className="flex-1 flex flex-col justify-center">
-        {/* Title */}
+        {/* Title - Using original translations */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="font-bebas text-5xl leading-[0.95] text-white mb-2"
         >
-          Captez l'Attention
+          Sites web professionnels,
         </motion.h1>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -45,7 +45,7 @@ const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="font-bebas text-4xl text-primary leading-[0.95] mb-6"
         >
-          Créez l'Impact
+          livrés en 5-10 jours
         </motion.h2>
 
         <motion.p
@@ -54,8 +54,8 @@ const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-white/50 text-sm leading-relaxed mb-8 font-heebo"
         >
-          Votre studio web spécialisé crypto.<br />
-          Livraison en 5-10 jours. Prix fixe.
+          Prix fixes. Processus transparent.<br />
+          Paiement crypto ou carte.
         </motion.p>
 
         {/* Stats */}
@@ -172,7 +172,7 @@ const DesktopHero = () => {
             transition={{ duration: 0.6 }}
             className="font-bebas text-6xl lg:text-7xl xl:text-8xl text-white leading-[0.9] mb-2"
           >
-            Captez l'Attention
+            Sites web professionnels,
           </motion.h1>
           <motion.h2 
             initial={{ opacity: 0, y: 30 }} 
@@ -180,7 +180,7 @@ const DesktopHero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-bebas text-5xl lg:text-6xl xl:text-7xl text-primary leading-[0.9] mb-8"
           >
-            Créez l'Impact
+            livrés en 5-10 jours
           </motion.h2>
 
           <motion.p 
@@ -189,7 +189,7 @@ const DesktopHero = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-white/50 text-lg mb-8 max-w-lg font-heebo"
           >
-            Votre studio web spécialisé crypto. Sites professionnels livrés en 5-10 jours. Prix fixe et transparent.
+            Prix fixes. Processus transparent. Paiement crypto ou carte. Chaque projet géré par une vraie équipe.
           </motion.p>
 
           {/* 3D Carousel */}

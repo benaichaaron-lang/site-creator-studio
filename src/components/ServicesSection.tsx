@@ -1,36 +1,37 @@
 import { motion } from "framer-motion";
 import { Globe, ShoppingCart, Briefcase, Camera, Code, Sparkles } from "lucide-react";
 
+// Services based on user's website types from translations
 const services = [
   {
     icon: Globe,
     title: "Landing Page",
-    description: "Pages de conversion optimisées pour maximiser vos leads",
+    description: "Page unique optimisée pour convertir vos visiteurs en clients",
   },
   {
     icon: ShoppingCart,
     title: "E-commerce",
-    description: "Boutiques en ligne modernes avec paiement sécurisé",
+    description: "Boutique en ligne complète avec paiement sécurisé",
   },
   {
     icon: Briefcase,
     title: "Site Vitrine",
-    description: "Présentez votre entreprise avec style et professionnalisme",
+    description: "Présentez votre activité avec élégance et professionnalisme",
   },
   {
     icon: Camera,
     title: "Portfolio",
-    description: "Mettez en valeur vos créations et votre expertise",
+    description: "Mettez en valeur vos réalisations et votre savoir-faire",
   },
   {
     icon: Code,
     title: "Application Web",
-    description: "Solutions sur mesure avec fonctionnalités avancées",
+    description: "Solutions techniques sur mesure pour vos besoins complexes",
   },
   {
     icon: Sparkles,
     title: "Sur-mesure",
-    description: "Projets personnalisés selon vos besoins spécifiques",
+    description: "Projets personnalisés adaptés à vos exigences spécifiques",
   },
 ];
 
