@@ -4,7 +4,8 @@ import HeroSection from "@/components/HeroSection";
 import LazySection from "@/components/LazySection";
 
 // Lazy load des sections non-critiques
-const LogosSection = lazy(() => import("@/components/LogosSection"));
+const TrustSection = lazy(() => import("@/components/TrustSection"));
+const DemoTabsSection = lazy(() => import("@/components/DemoTabsSection"));
 const ServicesSection = lazy(() => import("@/components/ServicesSection"));
 const HowItWorksSection = lazy(() => import("@/components/HowItWorksSection"));
 const PacksSection = lazy(() => import("@/components/PacksSection"));
@@ -15,8 +16,8 @@ const ContactSection = lazy(() => import("@/components/ContactSection"));
 const Footer = lazy(() => import("@/components/Footer"));
 
 const SectionLoader = () => (
-  <div className="min-h-[200px] flex items-center justify-center">
-    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+  <div className="min-h-[150px] flex items-center justify-center">
+    <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
   </div>
 );
 
@@ -26,54 +27,70 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       
+      {/* Trust section - stats + client logos */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
-          <LogosSection />
+          <TrustSection />
         </Suspense>
       </LazySection>
       
+      {/* Demo tabs - Shopify style */}
+      <LazySection>
+        <Suspense fallback={<SectionLoader />}>
+          <DemoTabsSection />
+        </Suspense>
+      </LazySection>
+      
+      {/* Services grid */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <ServicesSection />
         </Suspense>
       </LazySection>
       
+      {/* How it works */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <HowItWorksSection />
         </Suspense>
       </LazySection>
       
+      {/* Pricing packs */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <PacksSection />
         </Suspense>
       </LazySection>
       
+      {/* Crypto payment */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <CryptoSection />
         </Suspense>
       </LazySection>
       
+      {/* Custom projects */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <CustomSection />
         </Suspense>
       </LazySection>
       
+      {/* FAQ */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <FAQSection />
         </Suspense>
       </LazySection>
       
+      {/* Contact */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <ContactSection />
         </Suspense>
       </LazySection>
       
+      {/* Footer */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <Footer />
