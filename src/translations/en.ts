@@ -644,6 +644,52 @@ export const en = {
       resolved: "Resolved",
       closed: "Closed",
     },
+    packType: {
+      subscription: "Subscription",
+      oneTime: "One-time",
+    },
+    perMonth: "month",
+    perMonths: "months",
+    subscribe: "Subscribe",
+    myTickets: "My tickets",
+    selectTicketPlaceholder: "Describe your issue briefly",
+    detailRequest: "Detail your request...",
+  },
+
+  // Checkout Page
+  checkout: {
+    backToDashboard: "Back to dashboard",
+    subscription: "Subscription",
+    oneTimePayment: "One-time payment",
+    perMonth: "month",
+    perMonths: "months",
+    cryptoPayment: "Crypto Payment",
+    selectCrypto: "Select your preferred cryptocurrency",
+    proceedToPayment: "Proceed to payment",
+    securePayment: "Secure payment via NOWPayments • Automatic confirmation",
+    paymentCreated: "Payment created",
+    sendExactAmount: "Send the exact amount to the address shown",
+    awaitingPayment: "Awaiting payment",
+    timeRemaining: "Time remaining",
+    paymentExpired: "Payment expired - Please create a new payment",
+    exactAmount: "Exact amount to send",
+    paymentAddress: "Payment address",
+    paymentVerification: "Payment will be verified automatically. You will receive a confirmation once the payment is confirmed on the blockchain.",
+    copied: "Copied!",
+    toasts: {
+      error: "Error",
+      packNotFound: "Pack not found",
+      paymentCreated: "Payment created",
+      sendExactAmount: "Send the exact amount to the address shown",
+      cantCreatePayment: "Unable to create payment",
+    },
+  },
+
+  // NotFound Page
+  notFound: {
+    title: "404",
+    message: "Oops! Page not found",
+    backHome: "Return to Home",
   },
 
   // Terms Page

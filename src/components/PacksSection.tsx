@@ -47,13 +47,10 @@ const PacksSection = () => {
     const [expanded, setExpanded] = useState(false);
 
     const handleChoosePack = () => {
-      // Scroll to contact and pre-fill budget based on pack
-      const budgetMap: Record<string, string> = {
-        'Starter': 'starter',
-        'Business': 'business',
-        'Premium': 'premium',
-      };
-      const budgetValue = budgetMap[pack.name] || '';
+      // Use pack index to determine the pack key for pre-fill
+      const packIndex = packs.findIndex(p => p.name === pack.name);
+      const packKeys = ['starter', 'business', 'premium'];
+      const budgetValue = packKeys[packIndex] || '';
       
       // Store in sessionStorage for ContactSection to read
       if (budgetValue) {
@@ -146,13 +143,10 @@ const PacksSection = () => {
     const [expanded, setExpanded] = useState(false);
 
     const handleChoosePack = () => {
-      // Scroll to contact and pre-fill budget based on pack
-      const budgetMap: Record<string, string> = {
-        'Starter': 'starter',
-        'Business': 'business',
-        'Premium': 'premium',
-      };
-      const budgetValue = budgetMap[pack.name] || '';
+      // Use pack index to determine the pack key for pre-fill
+      const packIndex = packs.findIndex(p => p.name === pack.name);
+      const packKeys = ['starter', 'business', 'premium'];
+      const budgetValue = packKeys[packIndex] || '';
       
       // Store in sessionStorage for ContactSection to read
       if (budgetValue) {
