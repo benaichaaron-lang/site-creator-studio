@@ -72,11 +72,11 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-3 mb-4">
+            <Link to="/" className="flex items-center gap-2.5 mb-4">
               {/* Logo icon */}
-              <img src={logoIcon} alt="MySiteFactory" className="w-10 h-10 object-contain" />
+              <img src={logoIcon} alt="MySiteFactory" className="h-9 w-auto object-contain" />
               {/* Text */}
-              <span className="font-medium text-xl tracking-tight">
+              <span className="font-medium text-lg tracking-tight">
                 <span className="text-white/90">MySite</span>
                 <span className="text-primary">Factory</span>
               </span>
