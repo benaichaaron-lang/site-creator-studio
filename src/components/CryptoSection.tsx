@@ -4,23 +4,23 @@ import { motion } from "framer-motion";
 const features = [
   {
     icon: Shield,
-    title: "Secure",
-    description: "Transactions verified on the blockchain with full transparency.",
+    title: "Sécurisé",
+    description: "Transactions vérifiées sur la blockchain avec une transparence totale.",
   },
   {
     icon: Zap,
-    title: "Fast",
-    description: "Quick confirmation of your payment. We start immediately after verification.",
+    title: "Rapide",
+    description: "Confirmation rapide de votre paiement. Nous démarrons dès validation.",
   },
   {
     icon: Globe,
-    title: "Borderless",
-    description: "Pay from anywhere in the world, without traditional bank fees.",
+    title: "Sans frontières",
+    description: "Payez de n'importe où dans le monde, sans frais bancaires traditionnels.",
   },
   {
     icon: Lock,
     title: "Transparent",
-    description: "Every transaction is traceable. Invoice and reference included.",
+    description: "Chaque transaction est traçable. Facture et référence incluses.",
   },
 ];
 
@@ -38,14 +38,14 @@ const wallets = [
 ];
 
 const steps = [
-  { num: "1", title: "Choose your pack", desc: "Select the offer that suits you" },
-  { num: "2", title: "Connect your wallet", desc: "MetaMask, WalletConnect, or Coinbase Wallet" },
-  { num: "3", title: "Confirm the transaction", desc: "Validate and we start your project" },
+  { num: "1", title: "Choisissez votre pack", desc: "Sélectionnez l'offre qui vous convient" },
+  { num: "2", title: "Connectez votre wallet", desc: "MetaMask, WalletConnect, ou Coinbase Wallet" },
+  { num: "3", title: "Confirmez la transaction", desc: "Validez et nous démarrons votre projet" },
 ];
 
 const CryptoSection = () => {
   return (
-    <section className="py-16 lg:py-28 relative overflow-hidden" style={{ backgroundColor: 'hsl(220 20% 10%)' }}>
+    <section className="py-16 lg:py-28 relative overflow-hidden bg-black">
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -56,13 +56,13 @@ const CryptoSection = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-primary text-sm font-medium uppercase tracking-wider">Payment</span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-6 text-white">
-                Crypto payment accepted
+              <span className="text-primary text-sm font-medium uppercase tracking-wider">Paiement</span>
+              <h2 className="font-bebas text-3xl md:text-4xl lg:text-5xl mt-4 mb-6 text-white">
+                Paiement crypto accepté
               </h2>
-              <p className="text-white/60 text-lg mb-8 leading-relaxed">
-                We accept major cryptocurrencies for a seamless, 
-                borderless payment experience.
+              <p className="text-white/60 text-lg mb-8 leading-relaxed font-heebo">
+                Nous acceptons les principales cryptomonnaies pour une expérience 
+                de paiement fluide et sans frontières.
               </p>
 
               {/* Crypto Badges */}
@@ -70,7 +70,7 @@ const CryptoSection = () => {
                 {cryptos.map((crypto, index) => (
                   <motion.div
                     key={crypto.symbol}
-                    className="glass rounded-full px-4 py-2 flex items-center gap-2 hover:bg-card/60 transition-colors cursor-pointer"
+                    className="bg-white/5 border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 hover:bg-white/10 transition-colors cursor-pointer"
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
@@ -85,26 +85,26 @@ const CryptoSection = () => {
                     >
                       <span className="text-primary text-xs font-bold">{crypto.symbol[0]}</span>
                     </motion.div>
-                    <span className="text-sm font-medium">{crypto.name}</span>
+                    <span className="text-sm font-medium text-white">{crypto.name}</span>
                   </motion.div>
                 ))}
               </div>
 
               {/* Supported Wallets */}
               <div className="mb-10">
-                <p className="text-sm text-white/60 mb-3">Supported wallets:</p>
+                <p className="text-sm text-white/60 mb-3 font-heebo">Wallets supportés :</p>
                 <div className="flex flex-wrap gap-2">
                   {wallets.map((wallet, index) => (
                     <motion.div
                       key={wallet.name}
-                      className="flex items-center gap-2 bg-secondary/50 rounded-lg px-3 py-1.5"
+                      className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5"
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.3 + index * 0.1 }}
                     >
                       <Wallet className="w-4 h-4 text-primary" />
-                      <span className="text-xs font-medium">{wallet.name}</span>
+                      <span className="text-xs font-medium text-white/80">{wallet.name}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -128,14 +128,14 @@ const CryptoSection = () => {
                       <span className="text-primary text-sm font-bold">{step.num}</span>
                     </motion.div>
                     <div>
-                      <h4 className="font-semibold mb-1 text-white">{step.title}</h4>
-                      <p className="text-white/60 text-sm">{step.desc}</p>
+                      <h4 className="font-semibold mb-1 text-white font-heebo">{step.title}</h4>
+                      <p className="text-white/60 text-sm font-heebo">{step.desc}</p>
                     </div>
                   </motion.div>
                 ))}
               </div>
 
-              {/* Trust Notes - clear and reassuring */}
+              {/* Trust Notes */}
               <motion.div
                 className="mt-10 space-y-4"
                 initial={{ opacity: 0, y: 20 }}
@@ -144,15 +144,15 @@ const CryptoSection = () => {
                 transition={{ delay: 0.5 }}
               >
                 <div className="p-4 bg-white/[0.03] rounded-lg border border-white/10">
-                  <p className="text-sm text-white/70 leading-relaxed">
+                  <p className="text-sm text-white/70 leading-relaxed font-heebo">
                     <Shield className="w-4 h-4 inline-block mr-2 text-primary" />
-                    Invoice, transaction reference, and proof of payment provided for every order.
+                    Facture, référence de transaction et preuve de paiement fournis pour chaque commande.
                   </p>
                 </div>
                 <div className="p-4 bg-white/[0.03] rounded-lg border border-white/10">
-                  <p className="text-sm text-white/70 leading-relaxed">
-                    Payment happens <span className="text-white font-medium">only after brief validation</span>. 
-                    No upfront payment required.
+                  <p className="text-sm text-white/70 leading-relaxed font-heebo">
+                    Le paiement s'effectue <span className="text-white font-medium">uniquement après validation du brief</span>. 
+                    Aucun paiement initial requis.
                   </p>
                 </div>
               </motion.div>
@@ -183,8 +183,8 @@ const CryptoSection = () => {
                   >
                     <feature.icon className="w-6 h-6 text-primary" strokeWidth={2.5} />
                   </motion.div>
-                  <h3 className="font-display font-bold text-lg mb-2 text-white">{feature.title}</h3>
-                  <p className="text-white/60 text-sm">{feature.description}</p>
+                  <h3 className="font-bebas text-xl mb-2 text-white">{feature.title}</h3>
+                  <p className="text-white/60 text-sm font-heebo">{feature.description}</p>
                 </motion.div>
               ))}
             </motion.div>

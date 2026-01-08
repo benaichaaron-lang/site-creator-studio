@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import TextMarquee from "@/components/TextMarquee";
-import Carousel3D from "@/components/Carousel3D";
 
 const marqueeItems = [
   "Web Design",
@@ -30,7 +29,7 @@ const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col justify-between px-5 py-6">
       <div className="flex-1 flex flex-col justify-center">
-        {/* Title - Using original translations */}
+        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -58,21 +57,17 @@ const MobileHeroStatic = ({ onStartBrief }: { onStartBrief: () => void }) => {
           Paiement crypto ou carte.
         </motion.p>
 
-        {/* Stats */}
+        {/* Features instead of fake stats */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex gap-8 mb-8"
+          className="flex flex-wrap gap-3 mb-8"
         >
-          {[
-            { value: "150+", label: "Projets" },
-            { value: "5-10j", label: "Délai" },
-            { value: "100%", label: "Satisfait" },
-          ].map((stat, i) => (
-            <div key={i} className="text-center">
-              <div className="font-bebas text-2xl text-white">{stat.value}</div>
-              <div className="text-xs text-white/40 font-montserrat uppercase tracking-wider">{stat.label}</div>
+          {["5-10 jours", "Prix fixe", "Crypto accepté"].map((item, i) => (
+            <div key={i} className="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2">
+              <Check className="w-3 h-3 text-primary" />
+              <span className="text-xs text-white/70 font-heebo">{item}</span>
             </div>
           ))}
         </motion.div>
@@ -164,7 +159,7 @@ const DesktopHero = () => {
   return (
     <div className="container mx-auto px-4 relative z-10 pt-32 pb-16">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* Left content - Titles + Carousel */}
+        {/* Left content - Titles */}
         <div>
           <motion.h1 
             initial={{ opacity: 0, y: 30 }} 
@@ -192,14 +187,23 @@ const DesktopHero = () => {
             Prix fixes. Processus transparent. Paiement crypto ou carte. Chaque projet géré par une vraie équipe.
           </motion.p>
 
-          {/* 3D Carousel */}
+          {/* Features instead of carousel */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="hidden lg:block relative h-[400px]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-wrap gap-4"
           >
-            <Carousel3D />
+            {[
+              { label: "5-10 jours", desc: "Délai de livraison" },
+              { label: "Prix fixe", desc: "Sans surprise" },
+              { label: "Crypto", desc: "Paiement accepté" },
+            ].map((item, i) => (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 flex-1 min-w-[140px]">
+                <div className="font-bebas text-2xl text-white mb-1">{item.label}</div>
+                <div className="text-xs text-white/40 font-heebo">{item.desc}</div>
+              </div>
+            ))}
           </motion.div>
         </div>
 
