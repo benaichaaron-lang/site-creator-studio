@@ -6,7 +6,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,14 +60,33 @@ const Navbar = () => {
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center group"
+            className="flex items-center gap-3 group"
             onClick={handleLogoClick}
           >
-            <img 
-              src={logo} 
-              alt="MySiteFactory" 
-              className="h-8 md:h-10 w-auto"
-            />
+            {/* Circle icon with M */}
+            <div className="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center bg-transparent">
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
+                <path 
+                  d="M4 18V6L12 14L20 6V18" 
+                  stroke="url(#logoGradient)" 
+                  strokeWidth="2.5" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                  fill="none"
+                />
+                <defs>
+                  <linearGradient id="logoGradient" x1="4" y1="6" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="hsl(var(--primary))" />
+                    <stop offset="1" stopColor="#60a5fa" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            {/* Text */}
+            <span className="font-semibold text-xl tracking-tight">
+              <span className="text-white">MySite</span>
+              <span className="text-primary">Factory</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
