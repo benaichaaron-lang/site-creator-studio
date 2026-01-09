@@ -90,8 +90,12 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(forgotPasswordEmail, {
-        redirectTo: `${window.location.origin}/reset-password`,
+      // Use our custom edge function that sends via Resend only
+      const { error } = await supabase.functions.invoke('reset-password', {
+        body: {
+          email: forgotPasswordEmail,
+          redirectTo: `${window.location.origin}/reset-password`,
+        },
       });
 
       if (error) {
