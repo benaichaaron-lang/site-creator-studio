@@ -154,6 +154,62 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_intents: {
+        Row: {
+          amount: number
+          created_at: string
+          crypto_currency: string | null
+          currency: string
+          expires_at: string | null
+          id: string
+          nowpayments_payment_id: string | null
+          pack_id: string | null
+          pay_address: string | null
+          pay_amount: number | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          crypto_currency?: string | null
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          nowpayments_payment_id?: string | null
+          pack_id?: string | null
+          pay_address?: string | null
+          pay_amount?: number | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          crypto_currency?: string | null
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          nowpayments_payment_id?: string | null
+          pack_id?: string | null
+          pay_address?: string | null
+          pay_amount?: number | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_intents_pack_id_fkey"
+            columns: ["pack_id"]
+            isOneToOne: false
+            referencedRelation: "packs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount: number

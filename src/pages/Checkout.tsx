@@ -35,7 +35,7 @@ interface PaymentData {
   pay_address: string;
   pay_amount: number;
   pay_currency: string;
-  order_id: string;
+  intent_id: string;
   order_description: string;
   price_amount: number;
   price_currency: string;
