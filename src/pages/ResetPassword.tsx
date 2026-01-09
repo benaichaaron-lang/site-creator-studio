@@ -35,18 +35,35 @@ const ResetPassword = () => {
   useEffect(() => {
     // Check if we have a valid recovery session
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      // Check URL for recovery token
+      // Check URL for recovery token (either in hash or query params)
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      const accessToken = hashParams.get('access_token');
-      const type = hashParams.get('type');
+      const queryParams = new URLSearchParams(window.location.search);
       
+      const accessToken = hashParams.get('access_token') || queryParams.get('access_token');
+      const tokenHash = hashParams.get('token_hash') || queryParams.get('token_hash');
+      const type = hashParams.get('type') || queryParams.get('type');
+      
+      // If we have a token_hash, verify it with Supabase
+      if (type === 'recovery' && tokenHash) {
+        const { error } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: 'recovery',
+        });
+        
+        if (error) {
+          console.error('Error verifying token:', error);
+          setIsValidSession(false);
+        } else {
+          setIsValidSession(true);
+        }
+        return;
+      }
+      
+      // If we have an access_token directly
       if (type === 'recovery' && accessToken) {
-        // Set the session with the recovery token
         const { error } = await supabase.auth.setSession({
           access_token: accessToken,
-          refresh_token: hashParams.get('refresh_token') || '',
+          refresh_token: hashParams.get('refresh_token') || queryParams.get('refresh_token') || '',
         });
         
         if (error) {
@@ -55,7 +72,12 @@ const ResetPassword = () => {
         } else {
           setIsValidSession(true);
         }
-      } else if (session) {
+        return;
+      }
+      
+      // Check for existing session
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
         setIsValidSession(true);
       } else {
         setIsValidSession(false);
