@@ -108,25 +108,49 @@ const DemoTabsSection = () => {
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 md:px-5 md:py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-primary text-white shadow-lg shadow-primary/25"
-                    : "bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+        {/* Tab navigation with visual hint */}
+        <div className="relative mb-8 md:mb-12">
+          <p className="text-center text-white/40 text-xs mb-4 animate-pulse">
+            👆 {t("demoTabs.clickToExplore") || "Cliquez pour explorer"}
+          </p>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 p-2 bg-white/[0.03] rounded-2xl border border-white/5">
+            {tabs.map((tab, index) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <motion.button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                  className={`relative flex items-center gap-2 px-4 py-2.5 md:px-5 md:py-3 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? "bg-primary text-white shadow-lg shadow-primary/30"
+                      : "bg-transparent text-white/60 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTabBg"
+                      className="absolute inset-0 bg-primary rounded-xl"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <Icon className={`w-4 h-4 relative z-10 ${isActive ? "text-white" : ""}`} />
+                  <span className="relative z-10">{tab.label}</span>
+                  {!isActive && (
+                    <motion.div 
+                      className="absolute inset-0 rounded-xl border-2 border-transparent"
+                      whileHover={{ borderColor: "rgba(255,255,255,0.2)" }}
+                    />
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
 
         <AnimatePresence mode="wait">
