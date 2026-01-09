@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import TrustpilotWidget from "@/components/TrustpilotWidget";
 
 const ContactSection = () => {
   const navigate = useNavigate();
@@ -189,6 +190,17 @@ const ContactSection = () => {
                     <p className="text-white/60 text-sm">{t("contact.whatsappDesc")}</p>
                   </div>
                 </motion.a>
+
+                {/* Trustpilot Widget */}
+                <motion.div
+                  className="mt-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <TrustpilotWidget />
+                </motion.div>
               </div>
             </motion.div>
 

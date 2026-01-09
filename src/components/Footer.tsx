@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import logoIcon from "@/assets/logo-icon.png";
+import TrustpilotWidget from "@/components/TrustpilotWidget";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -83,9 +84,13 @@ const Footer = () => {
             </Link>
             <p className="text-white/60 text-sm mb-4 max-w-xs">{t("footer.description")}</p>
             <p className="text-white/40 text-xs mb-6 max-w-xs italic">{t("footer.trusted")}</p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-4">
               <motion.div className="w-2 h-2 rounded-full bg-primary" animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2, repeat: Infinity }} />
               <span className="text-sm text-white/50">{t("footer.readyToWork")}</span>
+            </div>
+            {/* Trustpilot Widget */}
+            <div className="max-w-xs">
+              <TrustpilotWidget />
             </div>
           </div>
 
