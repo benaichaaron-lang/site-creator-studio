@@ -1194,4 +1194,103 @@ export const en = {
       submit: "Send my brief",
     },
   },
+
+  // Order Timeline
+  orderTimeline: {
+    steps: {
+      payment: "Payment received",
+      paymentDesc: "Transaction confirmed",
+      inProgress: "In progress",
+      inProgressDesc: "Our team is working",
+      review: "Review",
+      reviewDesc: "Ready for your feedback",
+      delivery: "Delivered",
+      deliveryDesc: "Project complete",
+    },
+    overallProgress: "Overall progress",
+  },
+
+  // Next Steps Card
+  nextSteps: {
+    activeOrder: {
+      title: "Your project in progress",
+    },
+    noOrder: {
+      title: "Ready to start?",
+      description: "Launch your web project with us. Here's how it works:",
+    },
+    reassurance: "Your project is in good hands. Track every step in real time.",
+    contactAboutOrder: "Contact support about this order",
+    startProject: "View available packs",
+    workflow: {
+      step1: "Choose your pack",
+      step2: "Fill in the brief",
+      step3: "Our team works on it",
+      step4: "Receive your site",
+    },
+  },
+
+  // Admin KPI Cards
+  adminKPI: {
+    revenueToday: "Revenue today",
+    revenueMonth: "Revenue this month",
+    ordersInProgress: "Orders in progress",
+    openTickets: "Open tickets",
+    orders: "orders",
+    completed: "completed",
+    needsAttention: "needs attention",
+    totalRevenue: "Total revenue",
+    totalOrders: "total orders",
+    alerts: {
+      title: "Alerts",
+      pendingOrders: "pending orders",
+      openTickets: "open tickets",
+      pendingPayments: "pending payments",
+    },
+  },
+
+  // Dashboard Improvements
+  dashboardUX: {
+    welcome: {
+      morning: "Good morning",
+      afternoon: "Good afternoon",
+      evening: "Good evening",
+    },
+    reassurance: "Your project is in good hands. Track every step in real time.",
+    projectStatus: "Project status",
+    estimatedDelivery: "Estimated delivery",
+    daysRemaining: "days remaining",
+    viewAllOrders: "View all my orders",
+  },
+
+  // Empty States
+  emptyStates: {
+    noOrders: {
+      title: "No orders",
+      description: "You don't have any orders yet. Discover our packs to launch your web project.",
+    },
+    noTickets: {
+      title: "No tickets",
+      description: "No ticket yet? Our team is here to help you at every step.",
+    },
+    support: {
+      avgResponse: "Average response time: under 24h",
+      prioritySupport: "Priority support included with Premium packs",
+    },
+  },
+
+  // Packs improvements
+  packsUX: {
+    badges: {
+      recommended: "Recommended",
+      bestValue: "Best value",
+      popular: "Most popular",
+    },
+    targetAudience: {
+      starter: "Ideal for freelancers and small projects",
+      business: "Perfect for growing SMBs",
+      premium: "For ambitious businesses",
+    },
+    upgradeHint: "Need more features? Upgrade to a higher pack.",
+  },
 };

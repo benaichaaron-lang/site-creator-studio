@@ -17,7 +17,12 @@ import {
   X,
   Plus,
   Send,
-  Loader2
+  Loader2,
+  Sparkles,
+  Shield,
+  Headphones,
+  Star,
+  Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -30,6 +35,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import OrderTimeline from '@/components/OrderTimeline';
+import NextStepsCard from '@/components/NextStepsCard';
+import EmptyState from '@/components/EmptyState';
 
 type TabType = 'overview' | 'orders' | 'packs' | 'tickets';
 
@@ -278,6 +286,13 @@ const Dashboard = () => {
 
   const dateLocale = language === 'fr' ? 'fr-FR' : 'en-US';
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return t("dashboardUX.welcome.morning");
+    if (hour < 18) return t("dashboardUX.welcome.afternoon");
+    return t("dashboardUX.welcome.evening");
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -355,11 +370,19 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-bold">{t("dashboard.welcome")} {profile?.first_name || t("dashboard.client")} !</h2>
+            {/* Welcome Section with Dynamic Greeting */}
+            <div className="space-y-2">
+              <h2 className="text-2xl md:text-3xl font-bold">
+                {getGreeting()}, {profile?.first_name || t("dashboard.client")} !
+              </h2>
+              <p className="text-muted-foreground">
+                {t("dashboardUX.reassurance")}
+              </p>
+            </div>
             
-            {/* Stats */}
+            {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Card>
+              <Card className="card-hover">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-primary/10 rounded-lg">
@@ -373,11 +396,11 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="card-hover">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 bg-success/10 rounded-lg">
-                      <CheckCircle className="h-6 w-6 text-success" />
+                    <div className="p-3 bg-emerald-500/10 rounded-lg">
+                      <CheckCircle className="h-6 w-6 text-emerald-500" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">{t("dashboard.stats.completed")}</p>
@@ -389,11 +412,11 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="card-hover">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 bg-accent/10 rounded-lg">
-                      <MessageSquare className="h-6 w-6 text-accent" />
+                    <div className="p-3 bg-blue-500/10 rounded-lg">
+                      <MessageSquare className="h-6 w-6 text-blue-500" />
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">{t("dashboard.stats.tickets")}</p>
@@ -406,35 +429,67 @@ const Dashboard = () => {
               </Card>
             </div>
 
-            {/* Current order */}
+            {/* Next Steps Card */}
+            <NextStepsCard
+              hasActiveOrder={orders.length > 0 && orders[0].status !== 'completed'}
+              currentOrder={orders.length > 0 && orders[0].status !== 'completed' ? {
+                status: orders[0].status,
+                progress: orders[0].progress,
+                packName: orders[0].pack?.name || 'Pack'
+              } : undefined}
+              onViewPacks={() => setActiveTab('packs')}
+              onContactSupport={() => {
+                setActiveTab('tickets');
+                setTicketDialogOpen(true);
+              }}
+            />
+
+            {/* Recent Order with Enhanced Timeline */}
             {orders.length > 0 && orders[0].status !== 'completed' && (
-              <Card>
+              <Card className="border-primary/20">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-primary" />
-                    {t("dashboard.currentOrder")}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">{orders[0].pack?.name || 'Pack'}</span>
-                      {getStatusBadge(orders[0].status)}
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span>{t("dashboard.progression")}</span>
-                        <span>{orders[0].progress}%</span>
-                      </div>
-                      <Progress value={orders[0].progress} className="h-2" />
-                    </div>
-                    {orders[0].notes && (
-                      <p className="text-sm text-muted-foreground">{orders[0].notes}</p>
-                    )}
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Clock className="h-5 w-5 text-primary" />
+                      {t("dashboard.currentOrder")}
+                    </CardTitle>
+                    {getStatusBadge(orders[0].status)}
                   </div>
+                  <CardDescription>
+                    {orders[0].pack?.name || 'Pack'}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <OrderTimeline 
+                    currentStatus={orders[0].status}
+                    progress={orders[0].progress}
+                  />
+                  
+                  {orders[0].notes && (
+                    <div className="p-3 bg-muted rounded-lg">
+                      <p className="text-sm text-muted-foreground">{orders[0].notes}</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}
+
+            {/* Reassurance Banner */}
+            <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-primary/20 rounded-full">
+                    <Shield className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium">{t("emptyStates.support.avgResponse")}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("emptyStates.support.prioritySupport")}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </motion.div>
         )}
 

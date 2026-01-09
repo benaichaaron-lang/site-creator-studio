@@ -1194,4 +1194,103 @@ export const fr = {
       submit: "Envoyer mon brief",
     },
   },
+
+  // Order Timeline
+  orderTimeline: {
+    steps: {
+      payment: "Paiement reçu",
+      paymentDesc: "Transaction confirmée",
+      inProgress: "En cours",
+      inProgressDesc: "Notre équipe travaille",
+      review: "Révision",
+      reviewDesc: "Prêt pour vos retours",
+      delivery: "Livré",
+      deliveryDesc: "Projet terminé",
+    },
+    overallProgress: "Progression globale",
+  },
+
+  // Next Steps Card
+  nextSteps: {
+    activeOrder: {
+      title: "Votre projet en cours",
+    },
+    noOrder: {
+      title: "Prêt à commencer ?",
+      description: "Lancez votre projet web avec nous. Voici comment ça fonctionne :",
+    },
+    reassurance: "Votre projet est entre de bonnes mains. Suivez chaque étape en temps réel.",
+    contactAboutOrder: "Contacter le support pour cette commande",
+    startProject: "Voir les packs disponibles",
+    workflow: {
+      step1: "Choisissez votre pack",
+      step2: "Remplissez le brief",
+      step3: "Notre équipe travaille",
+      step4: "Recevez votre site",
+    },
+  },
+
+  // Admin KPI Cards
+  adminKPI: {
+    revenueToday: "Revenu aujourd'hui",
+    revenueMonth: "Revenu ce mois",
+    ordersInProgress: "Commandes en cours",
+    openTickets: "Tickets ouverts",
+    orders: "commandes",
+    completed: "terminées",
+    needsAttention: "nécessite attention",
+    totalRevenue: "Revenu total",
+    totalOrders: "commandes au total",
+    alerts: {
+      title: "Alertes",
+      pendingOrders: "commandes en attente",
+      openTickets: "tickets ouverts",
+      pendingPayments: "paiements en attente",
+    },
+  },
+
+  // Dashboard Improvements
+  dashboardUX: {
+    welcome: {
+      morning: "Bonjour",
+      afternoon: "Bon après-midi",
+      evening: "Bonsoir",
+    },
+    reassurance: "Votre projet est entre de bonnes mains. Suivez chaque étape en temps réel.",
+    projectStatus: "Statut du projet",
+    estimatedDelivery: "Livraison estimée",
+    daysRemaining: "jours restants",
+    viewAllOrders: "Voir toutes mes commandes",
+  },
+
+  // Empty States
+  emptyStates: {
+    noOrders: {
+      title: "Aucune commande",
+      description: "Vous n'avez pas encore de commande. Découvrez nos packs pour lancer votre projet web.",
+    },
+    noTickets: {
+      title: "Aucun ticket",
+      description: "Pas encore de ticket ? Notre équipe est là pour vous aider à chaque étape.",
+    },
+    support: {
+      avgResponse: "Temps de réponse moyen : moins de 24h",
+      prioritySupport: "Support prioritaire inclus avec les packs Premium",
+    },
+  },
+
+  // Packs improvements
+  packsUX: {
+    badges: {
+      recommended: "Recommandé",
+      bestValue: "Meilleur rapport qualité-prix",
+      popular: "Le plus populaire",
+    },
+    targetAudience: {
+      starter: "Idéal pour les indépendants et petits projets",
+      business: "Parfait pour les PME en croissance",
+      premium: "Pour les entreprises ambitieuses",
+    },
+    upgradeHint: "Besoin de plus de fonctionnalités ? Passez au pack supérieur.",
+  },
 };
