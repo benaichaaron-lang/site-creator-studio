@@ -53,7 +53,13 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
+    // During hot module reload or initial render, provide safe fallback
+    console.warn("useLanguage called outside LanguageProvider, using fallback");
+    return {
+      language: "fr" as Language,
+      setLanguage: () => {},
+      t: (key: string) => key,
+    };
   }
   return context;
 };
