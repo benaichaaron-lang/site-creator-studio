@@ -50,7 +50,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative pt-32 pb-12 overflow-hidden bg-black border-t border-white/10">
+    <footer className="relative pt-32 pb-12 overflow-hidden border-t border-white/10">
       {/* CTA Banner */}
       <motion.div className="container mx-auto px-4 mb-28" initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
         <motion.div className="max-w-4xl mx-auto bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm rounded-3xl p-10 md:p-14 border border-primary/30 shadow-[0_8px_60px_hsl(217,91%,50%,0.3)]" whileHover={{ scale: 1.01 }} transition={{ type: "spring", stiffness: 200 }}>

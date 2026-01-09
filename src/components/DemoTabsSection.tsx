@@ -86,7 +86,7 @@ const DemoTabsSection = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-black relative overflow-hidden">
+    <section className="py-16 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(217,91%,50%,0.04),transparent_60%)]" />
 
       <div className="container mx-auto px-4 relative z-10">
