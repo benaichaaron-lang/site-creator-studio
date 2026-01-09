@@ -31,7 +31,7 @@ const TrustSection = () => {
   ];
 
   return (
-    <section className="py-14 md:py-20 bg-black border-t border-b border-white/[0.05]">
+    <section className="py-14 md:py-20 border-t border-b border-white/[0.05]">
       <div className="container mx-auto px-4">
         {/* Stats */}
         <div className="flex flex-wrap justify-center gap-10 md:gap-20 mb-12 md:mb-16">

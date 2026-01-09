@@ -43,7 +43,7 @@ const TestimonialsSection = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="testimonials" className="py-24 md:py-32 lg:py-40 bg-black relative overflow-hidden">
+    <section id="testimonials" className="py-24 md:py-32 lg:py-40 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(217,91%,50%,0.05),transparent_50%)]" />
       
       <div className="container mx-auto px-4 relative z-10">
