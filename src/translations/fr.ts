@@ -652,6 +652,28 @@ export const fr = {
     },
   },
 
+  // Reset Password Page
+  resetPassword: {
+    title: "Nouveau mot de passe",
+    subtitle: "Choisissez un nouveau mot de passe pour votre compte.",
+    newPassword: "Nouveau mot de passe",
+    confirmPassword: "Confirmer le mot de passe",
+    submit: "Réinitialiser le mot de passe",
+    errors: {
+      passwordMismatch: "Les mots de passe ne correspondent pas",
+    },
+    success: {
+      title: "Mot de passe modifié !",
+      subtitle: "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+      login: "Se connecter",
+    },
+    invalidLink: {
+      title: "Lien invalide ou expiré",
+      subtitle: "Ce lien de réinitialisation n'est plus valide. Veuillez demander un nouveau lien.",
+      backToLogin: "Retour à la connexion",
+    },
+  },
+
   // Dashboard
   dashboard: {
     mySpace: "Mon Espace",

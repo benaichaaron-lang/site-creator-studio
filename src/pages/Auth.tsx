@@ -91,7 +91,7 @@ const Auth = () => {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(forgotPasswordEmail, {
-        redirectTo: `${window.location.origin}/auth?type=recovery`,
+        redirectTo: `${window.location.origin}/reset-password`,
       });
 
       if (error) {
@@ -101,15 +101,6 @@ const Auth = () => {
           variant: "destructive",
         });
       } else {
-        // Send custom email via Resend
-        await supabase.functions.invoke('send-auth-email', {
-          body: {
-            type: 'password_reset',
-            email: forgotPasswordEmail,
-            resetLink: `${window.location.origin}/auth?type=recovery`,
-          },
-        });
-        
         setForgotPasswordSent(true);
       }
     } catch (error) {
