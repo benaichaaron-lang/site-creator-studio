@@ -815,6 +815,25 @@ const Admin = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
+            {/* Pack Performance Analytics */}
+            <PackPerformanceCard
+              packs={packs.map(p => ({
+                id: p.id,
+                name: p.name,
+                price: p.price,
+                currency: p.currency,
+                is_active: p.is_active
+              }))}
+              orders={orders.map(o => ({
+                id: o.id,
+                pack_id: o.pack?.name ? packs.find(p => p.name === o.pack?.name)?.id || null : null,
+                total_amount: o.total_amount,
+                status: o.status,
+                created_at: o.created_at
+              }))}
+            />
+
+
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">{t("admin.packs.title")}</h2>
               <Dialog>
