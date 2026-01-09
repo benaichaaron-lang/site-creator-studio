@@ -67,7 +67,7 @@ const Navbar = () => {
             {/* Logo icon */}
             <img src={logoIcon} alt="MySiteFactory" className="h-20 md:h-24 w-auto object-contain" />
             {/* Text - hidden on very small screens */}
-            <span className="font-medium text-base md:text-lg tracking-tight whitespace-nowrap">
+            <span className="font-medium text-2xl md:text-4xl tracking-tight whitespace-nowrap">
               <span className="text-white/90">MySite</span>
               <span className="text-primary">Factory</span>
             </span>
