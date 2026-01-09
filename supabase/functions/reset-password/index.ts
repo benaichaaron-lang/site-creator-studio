@@ -13,8 +13,10 @@ const corsHeaders = {
 
 interface ResetPasswordRequest {
   email: string;
-  redirectTo: string;
 }
+
+// Production domain - hardcoded to avoid Lovable preview URL issues
+const SITE_URL = "https://mysitefactory.com";
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -22,11 +24,11 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, redirectTo }: ResetPasswordRequest = await req.json();
+    const { email }: ResetPasswordRequest = await req.json();
 
-    if (!email || !redirectTo) {
+    if (!email) {
       return new Response(
-        JSON.stringify({ error: "Email and redirectTo are required" }),
+        JSON.stringify({ error: "Email is required" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
@@ -43,7 +45,7 @@ const handler = async (req: Request): Promise<Response> => {
       type: 'recovery',
       email: email,
       options: {
-        redirectTo: redirectTo,
+        redirectTo: `${SITE_URL}/reset-password`,
       },
     });
 
@@ -56,15 +58,23 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const resetLink = data.properties?.action_link;
+    // Get the hashed token from the generated link
+    // The action_link looks like: https://xxx.supabase.co/auth/v1/verify?token=xxx&type=recovery&redirect_to=xxx
+    // We need to extract the token and create a direct link to our site
+    const actionLink = data.properties?.action_link;
+    const hashedToken = data.properties?.hashed_token;
 
-    if (!resetLink) {
-      console.error("No reset link generated");
+    if (!actionLink || !hashedToken) {
+      console.error("No reset link or token generated");
       return new Response(
         JSON.stringify({ success: true, message: "If an account exists, a reset email will be sent" }),
         { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
+
+    // Build a direct link to our reset password page with the token in the hash
+    // Format: https://mysitefactory.com/reset-password#access_token=xxx&type=recovery
+    const resetLink = `${SITE_URL}/reset-password#access_token=${hashedToken}&token_hash=${hashedToken}&type=recovery`;
 
     // Send email via Resend
     const emailResponse = await fetch("https://api.resend.com/emails", {
