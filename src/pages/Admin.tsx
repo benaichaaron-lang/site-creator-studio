@@ -43,6 +43,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import AdminKPICards from '@/components/AdminKPICards';
 import OrderTimeline from '@/components/OrderTimeline';
+import PackPerformanceCard from '@/components/PackPerformanceCard';
+import UserTagsManager from '@/components/UserTagsManager';
+import AdminQuickReplies from '@/components/AdminQuickReplies';
+import SLAIndicator from '@/components/SLAIndicator';
 
 type TabType = 'overview' | 'users' | 'orders' | 'packs' | 'tickets';
 
@@ -54,6 +58,7 @@ interface UserProfile {
   last_name: string | null;
   phone: string | null;
   created_at: string;
+  internal_tags?: string[];
 }
 
 interface Order {
@@ -87,6 +92,7 @@ interface Ticket {
   subject: string;
   status: string;
   created_at: string;
+  order_id: string | null;
   profile?: { first_name: string | null; last_name: string | null; email: string } | null;
 }
 
@@ -1015,9 +1021,9 @@ const Admin = () => {
                           selectedTicket?.id === ticket.id ? 'bg-muted' : ''
                         }`}
                       >
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-2">
                           <span className="font-medium truncate">{ticket.subject}</span>
-                          <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                          <SLAIndicator createdAt={ticket.created_at} status={ticket.status} />
                         </div>
                         <p className="text-sm text-muted-foreground truncate">
                           {ticket.profile?.first_name} {ticket.profile?.last_name}
@@ -1080,11 +1086,13 @@ const Admin = () => {
                         ))}
                       </div>
                       <div className="flex gap-2">
+                        <AdminQuickReplies onSelectReply={(reply) => setNewMessage(reply)} />
                         <Input
                           value={newMessage}
                           onChange={(e) => setNewMessage(e.target.value)}
                           placeholder={t("admin.tickets.writeReply")}
                           onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                          className="flex-1"
                         />
                         <Button onClick={handleSendMessage} disabled={sendingMessage}>
                           {sendingMessage ? (

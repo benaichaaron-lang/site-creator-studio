@@ -1293,4 +1293,58 @@ export const fr = {
     },
     upgradeHint: "Besoin de plus de fonctionnalités ? Passez au pack supérieur.",
   },
+
+  // Upsells
+  upsells: {
+    maintenance: {
+      title: "Pack Maintenance",
+      description: "Gardez votre site performant et sécurisé avec notre maintenance mensuelle.",
+      price: "49€/mois",
+    },
+    seo: {
+      title: "Optimisation SEO",
+      description: "Améliorez votre visibilité et attirez plus de clients avec notre pack SEO.",
+      price: "299€",
+    },
+    priority_support: {
+      title: "Support Prioritaire",
+      description: "Réponse sous 4h garantie et accès direct à notre équipe technique.",
+      price: "99€/mois",
+    },
+    learnMore: "En savoir plus",
+  },
+
+  // User Tags
+  userTags: {
+    vip: "VIP",
+    toFollow: "À suivre",
+    inactive: "Inactif",
+    addTag: "Ajouter un tag",
+  },
+
+  // Admin Support
+  adminSupport: {
+    quickReplies: "Réponses rapides",
+    selectTemplate: "Sélectionner un modèle",
+    linkedOrder: "Commande liée",
+    noLinkedOrder: "Aucune commande liée",
+  },
+
+  // SLA
+  sla: {
+    onTrack: "Dans les temps",
+    warning: "Attention",
+    exceeded: "SLA dépassé",
+    resolved: "Résolu",
+  },
+
+  // Pack Performance
+  packPerformance: {
+    title: "Performance des packs",
+    bestSeller: "Best-seller",
+    lowPerformance: "Faible perf.",
+    inactive: "Inactif",
+    sales: "ventes",
+    revenueShare: "Part du revenu",
+  },
 };
