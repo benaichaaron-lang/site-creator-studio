@@ -11,7 +11,6 @@ interface PaymentRequest {
   amount: number;
   currency: string;
   crypto_currency: string;
-  user_id: string;
 }
 
 serve(async (req: Request) => {
@@ -40,38 +39,40 @@ serve(async (req: Request) => {
     }
 
     const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
+    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    
+    if (userError || !user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    const userId = claimsData.claims.sub;
+    const userId = user.id;
     const { pack_id, amount, currency, crypto_currency } = await req.json() as PaymentRequest;
 
-    console.log('Creating payment:', { pack_id, amount, currency, crypto_currency, userId });
+    console.log('Creating payment intent:', { pack_id, amount, currency, crypto_currency, userId });
 
-    // Create order in database
-    const { data: orderData, error: orderError } = await supabase
-      .from('orders')
+    // Create payment intent in database (NOT an order yet)
+    const { data: intentData, error: intentError } = await supabase
+      .from('payment_intents')
       .insert({
         user_id: userId,
         pack_id,
-        status: 'pending',
-        total_amount: amount,
-        currency
+        amount,
+        currency,
+        crypto_currency,
+        status: 'pending'
       })
       .select()
       .single();
 
-    if (orderError) {
-      console.error('Error creating order:', orderError);
-      throw new Error('Failed to create order');
+    if (intentError) {
+      console.error('Error creating payment intent:', intentError);
+      throw new Error('Failed to create payment intent');
     }
 
-    console.log('Order created:', orderData.id);
+    console.log('Payment intent created:', intentData.id);
 
     // Create payment with NOWPayments
     const nowPaymentsResponse = await fetch('https://api.nowpayments.io/v1/payment', {
@@ -84,7 +85,7 @@ serve(async (req: Request) => {
         price_amount: amount,
         price_currency: currency.toLowerCase(),
         pay_currency: crypto_currency,
-        order_id: orderData.id,
+        order_id: intentData.id, // Use payment_intent ID as order reference
         order_description: `Pack purchase - ${pack_id}`
       })
     });
@@ -98,23 +99,19 @@ serve(async (req: Request) => {
     const paymentData = await nowPaymentsResponse.json();
     console.log('NOWPayments response:', paymentData);
 
-    // Save payment info to database
-    const { error: paymentError } = await supabase
-      .from('payments')
-      .insert({
-        order_id: orderData.id,
-        user_id: userId,
-        amount,
-        currency,
-        crypto_currency,
-        payment_id: paymentData.payment_id?.toString(),
-        payment_status: 'pending',
+    // Update payment intent with NOWPayments data
+    const { error: updateError } = await supabase
+      .from('payment_intents')
+      .update({
+        nowpayments_payment_id: paymentData.payment_id?.toString(),
         pay_address: paymentData.pay_address,
-        pay_amount: paymentData.pay_amount
-      });
+        pay_amount: paymentData.pay_amount,
+        expires_at: paymentData.expiration_estimate_date
+      })
+      .eq('id', intentData.id);
 
-    if (paymentError) {
-      console.error('Error saving payment:', paymentError);
+    if (updateError) {
+      console.error('Error updating payment intent:', updateError);
     }
 
     return new Response(
@@ -123,7 +120,7 @@ serve(async (req: Request) => {
         pay_address: paymentData.pay_address,
         pay_amount: paymentData.pay_amount,
         pay_currency: crypto_currency,
-        order_id: orderData.id,
+        intent_id: intentData.id,
         order_description: paymentData.order_description,
         price_amount: amount,
         price_currency: currency,

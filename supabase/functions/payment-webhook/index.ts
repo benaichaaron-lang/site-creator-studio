@@ -103,56 +103,97 @@ serve(async (req: Request) => {
     const statusMap: Record<string, string> = {
       'waiting': 'pending',
       'confirming': 'confirming',
-      'confirmed': 'confirmed',
-      'sending': 'confirmed',
+      'confirmed': 'paid',
+      'sending': 'paid',
       'partially_paid': 'pending',
-      'finished': 'confirmed',
+      'finished': 'paid',
       'failed': 'failed',
-      'refunded': 'refunded',
-      'expired': 'failed'
+      'refunded': 'failed',
+      'expired': 'expired'
     };
 
     const mappedStatus = statusMap[payment_status] || payment_status;
 
-    // Update payment status
-    const { error: paymentError } = await supabase
-      .from('payments')
+    // Update payment intent status
+    const { error: intentError } = await supabase
+      .from('payment_intents')
       .update({
-        payment_status: mappedStatus,
+        status: mappedStatus,
         updated_at: new Date().toISOString()
       })
-      .eq('payment_id', payment_id.toString());
+      .eq('nowpayments_payment_id', payment_id.toString());
 
-    if (paymentError) {
-      console.error('Error updating payment:', paymentError);
+    if (intentError) {
+      console.error('Error updating payment intent:', intentError);
     }
 
-    // If payment is confirmed, update order status
-    if (mappedStatus === 'confirmed' && order_id) {
-      const { error: orderError } = await supabase
-        .from('orders')
-        .update({
-          status: 'in_progress',
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', order_id);
-
-      if (orderError) {
-        console.error('Error updating order:', orderError);
-      }
-
-      // Check if this is a subscription and create subscription record
-      const { data: orderData } = await supabase
-        .from('orders')
-        .select('user_id, pack_id')
+    // If payment is confirmed/paid, CREATE the order now
+    if (mappedStatus === 'paid' && order_id) {
+      console.log('Payment confirmed, creating order for intent:', order_id);
+      
+      // Get the payment intent details
+      const { data: intentData, error: fetchError } = await supabase
+        .from('payment_intents')
+        .select('*')
         .eq('id', order_id)
         .single();
 
-      if (orderData?.pack_id) {
+      if (fetchError || !intentData) {
+        console.error('Error fetching payment intent:', fetchError);
+        return new Response(
+          JSON.stringify({ error: 'Payment intent not found' }),
+          { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      // Create the order NOW that payment is confirmed
+      const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          user_id: intentData.user_id,
+          pack_id: intentData.pack_id,
+          status: 'in_progress', // Order starts as in_progress since payment is confirmed
+          total_amount: intentData.amount,
+          currency: intentData.currency
+        })
+        .select()
+        .single();
+
+      if (orderError) {
+        console.error('Error creating order:', orderError);
+        return new Response(
+          JSON.stringify({ error: 'Failed to create order' }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      console.log('Order created:', orderData.id);
+
+      // Create payment record linked to the order
+      const { error: paymentError } = await supabase
+        .from('payments')
+        .insert({
+          order_id: orderData.id,
+          user_id: intentData.user_id,
+          amount: intentData.amount,
+          currency: intentData.currency,
+          crypto_currency: intentData.crypto_currency,
+          payment_id: payment_id.toString(),
+          payment_status: 'confirmed',
+          pay_address: intentData.pay_address,
+          pay_amount: intentData.pay_amount
+        });
+
+      if (paymentError) {
+        console.error('Error creating payment record:', paymentError);
+      }
+
+      // Check if this is a subscription pack and create subscription record
+      if (intentData.pack_id) {
         const { data: packData } = await supabase
           .from('packs')
           .select('pack_type, duration_months')
-          .eq('id', orderData.pack_id)
+          .eq('id', intentData.pack_id)
           .single();
 
         if (packData?.pack_type === 'subscription' && packData.duration_months) {
@@ -162,12 +203,14 @@ serve(async (req: Request) => {
           await supabase
             .from('subscriptions')
             .insert({
-              user_id: orderData.user_id,
-              pack_id: orderData.pack_id,
+              user_id: intentData.user_id,
+              pack_id: intentData.pack_id,
               status: 'active',
               start_date: new Date().toISOString(),
               end_date: endDate.toISOString()
             });
+
+          console.log('Subscription created for user:', intentData.user_id);
         }
       }
     }
