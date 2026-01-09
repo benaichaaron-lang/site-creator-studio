@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Mail, Lock, User, Phone, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Lock, User, Phone, ArrowRight, Loader2, Eye, EyeOff, CheckCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
 
 const Auth = () => {
@@ -21,6 +22,10 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+  const [forgotPasswordSent, setForgotPasswordSent] = useState(false);
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -61,6 +66,62 @@ const Auth = () => {
       }
     }
   }, [user, isAdmin, navigate]);
+
+  const sendConfirmationEmail = async (userEmail: string, userFirstName: string) => {
+    try {
+      const response = await supabase.functions.invoke('send-auth-email', {
+        body: {
+          type: 'signup_confirmation',
+          email: userEmail,
+          firstName: userFirstName,
+        },
+      });
+      
+      if (response.error) {
+        console.error('Error sending confirmation email:', response.error);
+      }
+    } catch (error) {
+      console.error('Error sending confirmation email:', error);
+    }
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(forgotPasswordEmail, {
+        redirectTo: `${window.location.origin}/auth?type=recovery`,
+      });
+
+      if (error) {
+        toast({
+          title: t("authPage.toasts.error"),
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        // Send custom email via Resend
+        await supabase.functions.invoke('send-auth-email', {
+          body: {
+            type: 'password_reset',
+            email: forgotPasswordEmail,
+            resetLink: `${window.location.origin}/auth?type=recovery`,
+          },
+        });
+        
+        setForgotPasswordSent(true);
+      }
+    } catch (error) {
+      toast({
+        title: t("authPage.toasts.error"),
+        description: t("authPage.toasts.unexpectedError"),
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,10 +200,9 @@ const Auth = () => {
             });
           }
         } else {
-          toast({
-            title: t("authPage.toasts.signUpSuccess"),
-            description: t("authPage.toasts.accountCreated"),
-          });
+          // Send confirmation email via Resend
+          await sendConfirmationEmail(email, firstName);
+          setShowConfirmation(true);
         }
       }
     } catch (err) {
@@ -155,6 +215,141 @@ const Auth = () => {
       setIsLoading(false);
     }
   };
+
+  // Forgot Password Form
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen bg-hero flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
+          <div className="bg-card rounded-2xl shadow-elevated p-8">
+            <AnimatePresence mode="wait">
+              {forgotPasswordSent ? (
+                <motion.div
+                  key="sent"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center"
+                >
+                  <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                    <CheckCircle className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h2 className="text-xl font-bold text-foreground mb-2">
+                    {t("authPage.forgotPassword.emailSent")}
+                  </h2>
+                  <p className="text-muted-foreground mb-6">
+                    {t("authPage.forgotPassword.emailSentDesc")}
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setShowForgotPassword(false);
+                      setForgotPasswordSent(false);
+                      setForgotPasswordEmail('');
+                    }}
+                    className="w-full"
+                  >
+                    {t("authPage.forgotPassword.backToLogin")}
+                  </Button>
+                </motion.div>
+              ) : (
+                <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <button
+                    onClick={() => setShowForgotPassword(false)}
+                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    {t("authPage.forgotPassword.back")}
+                  </button>
+                  
+                  <h1 className="text-2xl font-bold text-foreground mb-2">
+                    {t("authPage.forgotPassword.title")}
+                  </h1>
+                  <p className="text-muted-foreground mb-6">
+                    {t("authPage.forgotPassword.subtitle")}
+                  </p>
+
+                  <form onSubmit={handleForgotPassword} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="forgot-email">{t("authPage.email")}</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="forgot-email"
+                          type="email"
+                          placeholder="jean@exemple.com"
+                          value={forgotPasswordEmail}
+                          onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                          className="pl-10"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-gradient-primary hover:opacity-90"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <>
+                          {t("authPage.forgotPassword.submit")}
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Email Confirmation Screen
+  if (showConfirmation) {
+    return (
+      <div className="min-h-screen bg-hero flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
+          <div className="bg-card rounded-2xl shadow-elevated p-8 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+              <Mail className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              {t("authPage.confirmation.title")}
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              {t("authPage.confirmation.subtitle")}
+            </p>
+            <p className="text-sm text-muted-foreground mb-6">
+              {t("authPage.confirmation.checkSpam")}
+            </p>
+            <Button
+              onClick={() => {
+                setShowConfirmation(false);
+                setIsLogin(true);
+              }}
+              className="w-full bg-gradient-primary hover:opacity-90"
+            >
+              {t("authPage.confirmation.backToLogin")}
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-hero flex items-center justify-center p-4">
@@ -275,6 +470,18 @@ const Auth = () => {
                 <p className="text-xs text-destructive">{errors.password}</p>
               )}
             </div>
+
+            {isLogin && (
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={() => setShowForgotPassword(true)}
+                  className="text-sm text-primary hover:underline"
+                >
+                  {t("authPage.forgotPasswordLink")}
+                </button>
+              </div>
+            )}
 
             <Button
               type="submit"

@@ -614,6 +614,7 @@ export const fr = {
     noAccount: "Pas encore de compte ? S'inscrire",
     hasAccount: "Déjà un compte ? Se connecter",
     backToSite: "← Retour au site",
+    forgotPasswordLink: "Mot de passe oublié ?",
     errors: {
       invalidEmail: "Email invalide",
       passwordMin: "Le mot de passe doit contenir au moins 6 caractères",
@@ -633,6 +634,21 @@ export const fr = {
       signUpSuccess: "Inscription réussie !",
       accountCreated: "Votre compte a été créé.",
       unexpectedError: "Une erreur inattendue s'est produite",
+    },
+    confirmation: {
+      title: "Vérifiez votre email",
+      subtitle: "Un email de confirmation a été envoyé à votre adresse. Veuillez cliquer sur le lien pour activer votre compte.",
+      checkSpam: "Si vous ne voyez pas l'email, vérifiez votre dossier spam.",
+      backToLogin: "Retour à la connexion",
+    },
+    forgotPassword: {
+      title: "Mot de passe oublié",
+      subtitle: "Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+      submit: "Envoyer le lien",
+      back: "Retour",
+      emailSent: "Email envoyé !",
+      emailSentDesc: "Si un compte existe avec cette adresse, vous recevrez un email avec les instructions pour réinitialiser votre mot de passe.",
+      backToLogin: "Retour à la connexion",
     },
   },
 
