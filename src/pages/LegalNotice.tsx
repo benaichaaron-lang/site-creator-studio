@@ -33,7 +33,7 @@ const LegalNotice = () => {
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
                   <strong className="text-foreground">{t("legal.sections.publisher.headquarters")}</strong> {t("legal.sections.publisher.toComplete")}<br />
-                  <strong className="text-foreground">{t("legal.sections.publisher.email")}</strong> contact@mysitefactory.io<br />
+                  <strong className="text-foreground">{t("legal.sections.publisher.email")}</strong> support@mysitefactory.com<br />
                   <strong className="text-foreground">{t("legal.sections.publisher.director")}</strong> {t("legal.sections.publisher.toComplete")}
                 </p>
               </motion.div>

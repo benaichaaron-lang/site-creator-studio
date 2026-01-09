@@ -1,3 +1,4 @@
+# https://www.robotstxt.org/robotstxt.html
 User-agent: Googlebot
 Allow: /
 
@@ -12,3 +13,11 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemap
+Sitemap: https://mysitefactory.com/sitemap.xml
+
+# Disallow admin and private pages
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /checkout

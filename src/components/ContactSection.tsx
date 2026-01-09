@@ -153,7 +153,7 @@ const ContactSection = () => {
               {/* Contact Options */}
               <div className="space-y-6">
                 <motion.a 
-                  href="mailto:contact@mysitefactory.io"
+                  href="mailto:support@mysitefactory.com"
                   className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-colors"
                   whileHover={{ x: 10, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
@@ -166,7 +166,7 @@ const ContactSection = () => {
                   </motion.div>
                   <div>
                     <h4 className="font-semibold text-white">{t("contact.email")}</h4>
-                    <p className="text-white/60 text-sm">contact@mysitefactory.io</p>
+                    <p className="text-white/60 text-sm">support@mysitefactory.com</p>
                   </div>
                 </motion.a>
 
