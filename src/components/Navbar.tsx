@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import logoIcon from "@/assets/logo-icon.png";
+import logoIcon from "@/assets/dashboard-icon.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
