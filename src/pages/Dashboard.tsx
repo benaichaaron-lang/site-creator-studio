@@ -38,6 +38,7 @@ import { useToast } from '@/hooks/use-toast';
 import OrderTimeline from '@/components/OrderTimeline';
 import NextStepsCard from '@/components/NextStepsCard';
 import EmptyState from '@/components/EmptyState';
+import UpsellCard from '@/components/UpsellCard';
 
 type TabType = 'overview' | 'orders' | 'packs' | 'tickets';
 
@@ -472,6 +473,14 @@ const Dashboard = () => {
                   )}
                 </CardContent>
               </Card>
+            )}
+
+            {/* Contextual Upsell - Show maintenance after completed order */}
+            {orders.some(o => o.status === 'completed') && (
+              <UpsellCard
+                type="maintenance"
+                onAction={() => window.open('mailto:contact@mysitefactory.com?subject=Pack%20Maintenance', '_blank')}
+              />
             )}
 
             {/* Reassurance Banner */}

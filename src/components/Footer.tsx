@@ -62,7 +62,7 @@ const Footer = () => {
               <a href="/" onClick={scrollToHeroForm}>
                 <Button variant="hero" size="xl">{t("footer.cta.startBrief")}<ArrowRight className="w-5 h-5" /></Button>
               </a>
-              <a href="/#packs" onClick={(e) => handleNavClick(e, "/#packs")}>
+              <a href="/packs" onClick={(e) => handleNavClick(e, "/packs")}>
                 <Button variant="heroOutline" size="xl">{t("footer.cta.seePricing")}</Button>
               </a>
             </div>
