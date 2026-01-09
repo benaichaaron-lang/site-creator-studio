@@ -82,8 +82,9 @@ const ProjectStarterModal = ({ isOpen, onClose, projectType }: ProjectStarterMod
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-lg md:w-full z-50 overflow-auto"
+            className="fixed inset-0 flex items-center justify-center p-4 z-50"
           >
+            <div className="w-full max-w-lg max-h-[90vh] overflow-auto">
             <div className="bg-card border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
               {/* Header */}
               <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 border-b border-white/10">
@@ -272,6 +273,7 @@ const ProjectStarterModal = ({ isOpen, onClose, projectType }: ProjectStarterMod
                   )}
                 </AnimatePresence>
               </div>
+            </div>
             </div>
           </motion.div>
         </>
