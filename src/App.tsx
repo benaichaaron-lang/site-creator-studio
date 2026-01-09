@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import ScrollToTop from "@/components/ScrollToTop";
+import CryptoBackground from "@/components/CryptoBackground";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import LegalNotice from "./pages/LegalNotice";
@@ -35,31 +36,39 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
+          
+          {/* Global crypto background - fixed on all pages */}
+          <div className="fixed inset-0 z-0">
+            <CryptoBackground />
+          </div>
+          
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/agency" element={<Agency />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/process" element={<Process />} />
-              <Route path="/packs" element={<Packs />} />
-              <Route path="/pricing" element={<Packs />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/custom" element={<Custom />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/legal-notice" element={<LegalNotice />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/checkout/:packId" element={<Checkout />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <div className="relative z-10">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/agency" element={<Agency />} />
+                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/process" element={<Process />} />
+                <Route path="/packs" element={<Packs />} />
+                <Route path="/pricing" element={<Packs />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/custom" element={<Custom />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/legal-notice" element={<LegalNotice />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/checkout/:packId" element={<Checkout />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
