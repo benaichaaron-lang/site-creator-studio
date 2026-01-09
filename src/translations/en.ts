@@ -614,6 +614,7 @@ export const en = {
     noAccount: "Don't have an account? Sign up",
     hasAccount: "Already have an account? Sign in",
     backToSite: "← Back to site",
+    forgotPasswordLink: "Forgot password?",
     errors: {
       invalidEmail: "Invalid email",
       passwordMin: "Password must be at least 6 characters",
@@ -633,6 +634,21 @@ export const en = {
       signUpSuccess: "Sign up successful!",
       accountCreated: "Your account has been created.",
       unexpectedError: "An unexpected error occurred",
+    },
+    confirmation: {
+      title: "Check your email",
+      subtitle: "A confirmation email has been sent to your address. Please click the link to activate your account.",
+      checkSpam: "If you don't see the email, check your spam folder.",
+      backToLogin: "Back to login",
+    },
+    forgotPassword: {
+      title: "Forgot password",
+      subtitle: "Enter your email address and we'll send you a link to reset your password.",
+      submit: "Send reset link",
+      back: "Back",
+      emailSent: "Email sent!",
+      emailSentDesc: "If an account exists with this address, you will receive an email with instructions to reset your password.",
+      backToLogin: "Back to login",
     },
   },
 
