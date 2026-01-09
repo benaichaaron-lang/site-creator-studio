@@ -108,12 +108,9 @@ const DemoTabsSection = () => {
           </p>
         </motion.div>
 
-        {/* Tab navigation with visual hint */}
+        {/* Tab navigation - styled as clear clickable buttons */}
         <div className="relative mb-8 md:mb-12">
-          <p className="text-center text-white/40 text-xs mb-4 animate-pulse">
-            👆 {t("demoTabs.clickToExplore") || "Cliquez pour explorer"}
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3 p-2 bg-white/[0.03] rounded-2xl border border-white/5">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
             {tabs.map((tab, index) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -121,31 +118,52 @@ const DemoTabsSection = () => {
                 <motion.button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: -10 }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.3 }}
-                  className={`relative flex items-center gap-2 px-4 py-2.5 md:px-5 md:py-3 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${
+                  transition={{ delay: index * 0.1, duration: 0.4 }}
+                  className={`group relative flex items-center gap-2.5 px-5 py-3 md:px-6 md:py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer ${
                     isActive
-                      ? "bg-primary text-white shadow-lg shadow-primary/30"
-                      : "bg-transparent text-white/60 hover:bg-white/10 hover:text-white"
+                      ? "bg-primary text-white shadow-xl shadow-primary/40 ring-2 ring-primary/50"
+                      : "bg-white/10 text-white border-2 border-white/20 hover:border-primary/60 hover:bg-primary/10 hover:text-white"
                   }`}
                 >
+                  {/* Glow effect on hover for inactive tabs */}
+                  {!isActive && (
+                    <div className="absolute inset-0 rounded-xl bg-primary/0 group-hover:bg-primary/5 transition-all duration-300" />
+                  )}
+                  
+                  {/* Animated background for active */}
                   {isActive && (
                     <motion.div
-                      layoutId="activeTabBg"
-                      className="absolute inset-0 bg-primary rounded-xl"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      layoutId="activeTabIndicator"
+                      className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 rounded-xl"
+                      transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
                     />
                   )}
-                  <Icon className={`w-4 h-4 relative z-10 ${isActive ? "text-white" : ""}`} />
-                  <span className="relative z-10">{tab.label}</span>
+                  
+                  {/* Icon with animation */}
+                  <motion.div
+                    className="relative z-10"
+                    animate={isActive ? { rotate: [0, -10, 10, 0] } : {}}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-primary group-hover:text-primary"}`} />
+                  </motion.div>
+                  
+                  {/* Label */}
+                  <span className="relative z-10 whitespace-nowrap">{tab.label}</span>
+                  
+                  {/* Arrow indicator for inactive - shows it's clickable */}
                   {!isActive && (
-                    <motion.div 
-                      className="absolute inset-0 rounded-xl border-2 border-transparent"
-                      whileHover={{ borderColor: "rgba(255,255,255,0.2)" }}
-                    />
+                    <motion.span 
+                      className="relative z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      initial={{ x: -5 }}
+                      whileHover={{ x: 0 }}
+                    >
+                      →
+                    </motion.span>
                   )}
                 </motion.button>
               );
