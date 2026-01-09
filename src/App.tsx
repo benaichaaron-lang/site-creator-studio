@@ -13,6 +13,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Checkout from "./pages/Checkout";
@@ -52,6 +53,7 @@ const App = () => (
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/checkout/:packId" element={<Checkout />} />

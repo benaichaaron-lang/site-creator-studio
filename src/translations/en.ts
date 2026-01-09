@@ -652,6 +652,28 @@ export const en = {
     },
   },
 
+  // Reset Password Page
+  resetPassword: {
+    title: "New password",
+    subtitle: "Choose a new password for your account.",
+    newPassword: "New password",
+    confirmPassword: "Confirm password",
+    submit: "Reset password",
+    errors: {
+      passwordMismatch: "Passwords do not match",
+    },
+    success: {
+      title: "Password changed!",
+      subtitle: "Your password has been reset successfully. You can now log in with your new password.",
+      login: "Sign in",
+    },
+    invalidLink: {
+      title: "Invalid or expired link",
+      subtitle: "This reset link is no longer valid. Please request a new link.",
+      backToLogin: "Back to login",
+    },
+  },
+
   // Dashboard
   dashboard: {
     mySpace: "My Space",
