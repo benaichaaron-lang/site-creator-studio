@@ -61,7 +61,7 @@ const Navbar = () => {
           {/* Logo - flex-shrink-0 prevents compression */}
           <Link 
             to="/" 
-            className="flex items-center gap-1 flex-shrink-0 group -ml-2"
+            className="flex items-center gap-1 flex-shrink-0 group -ml-6"
             onClick={handleLogoClick}
           >
             {/* Logo icon */}
