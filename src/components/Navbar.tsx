@@ -37,7 +37,6 @@ const Navbar = () => {
     e.preventDefault();
     setIsOpen(false);
     navigate(href);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleLogoClick = () => {

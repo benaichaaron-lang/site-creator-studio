@@ -5,9 +5,15 @@ import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useEmblaCarousel from "embla-carousel-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import AuthPromptModal from "@/components/AuthPromptModal";
+
 const PacksSection = () => {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [showComparison, setShowComparison] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [selectedPackName, setSelectedPackName] = useState<string>("");
   
   // EUR prices primary, crypto secondary
   const packs = [
@@ -49,6 +55,13 @@ const PacksSection = () => {
     const [expanded, setExpanded] = useState(false);
 
     const handleChoosePack = () => {
+      // Check if user is logged in
+      if (!user) {
+        setSelectedPackName(pack.name);
+        setShowAuthModal(true);
+        return;
+      }
+      
       // Use pack index to determine the pack key for pre-fill
       const packIndex = packs.findIndex(p => p.name === pack.name);
       const packKeys = ['starter', 'business', 'premium'];
@@ -146,6 +159,13 @@ const PacksSection = () => {
     const [expanded, setExpanded] = useState(false);
 
     const handleChoosePack = () => {
+      // Check if user is logged in
+      if (!user) {
+        setSelectedPackName(pack.name);
+        setShowAuthModal(true);
+        return;
+      }
+      
       // Use pack index to determine the pack key for pre-fill
       const packIndex = packs.findIndex(p => p.name === pack.name);
       const packKeys = ['starter', 'business', 'premium'];
@@ -420,6 +440,13 @@ const PacksSection = () => {
           {t("packs.notSure")}
         </motion.p>
       </div>
+
+      {/* Auth Prompt Modal */}
+      <AuthPromptModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        packName={selectedPackName}
+      />
     </section>
   );
 };
