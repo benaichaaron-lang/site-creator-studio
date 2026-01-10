@@ -105,6 +105,7 @@ const DesktopHero = () => {
   const { t } = useLanguage();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [recommendation, setRecommendation] = useState("");
   const [websiteType, setWebsiteType] = useState("");
@@ -112,12 +113,14 @@ const DesktopHero = () => {
   const [timeline, setTimeline] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string}>({});
+  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; email?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string}>({});
 
   const validateForm = () => {
     const newErrors: typeof errors = {};
     if (!firstName.trim()) newErrors.firstName = t("hero.errors.firstName");
     if (!lastName.trim()) newErrors.lastName = t("hero.errors.lastName");
+    if (!email.trim()) newErrors.email = t("hero.errors.email");
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = t("hero.errors.emailInvalid");
     if (!phone.trim()) newErrors.phone = t("hero.errors.phone");
     if (!websiteType) newErrors.websiteType = t("hero.errors.websiteType");
     if (!budget) newErrors.budget = t("hero.errors.budget");
@@ -138,7 +141,7 @@ const DesktopHero = () => {
       const response = await fetch("https://formspree.io/f/xvzgebre", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, phone, recommendation, websiteType, budget, timeline }),
+        body: JSON.stringify({ firstName, lastName, email, phone, recommendation, websiteType, budget, timeline }),
       });
 
       if (!response.ok) {
@@ -289,6 +292,17 @@ const DesktopHero = () => {
                       className={`bg-white/[0.03] border-white/[0.08] text-white h-11 placeholder:text-white/25 focus:border-primary/50 transition-colors ${errors.lastName ? 'border-red-400/60' : ''}`}
                     />
                   </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.email")} {t("hero.form.required")}</label>
+                  <Input
+                    type="email"
+                    placeholder="jean@exemple.com"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
+                    className={`bg-white/[0.03] border-white/[0.08] text-white h-11 placeholder:text-white/25 focus:border-primary/50 transition-colors ${errors.email ? 'border-red-400/60' : ''}`}
+                  />
                 </div>
 
                 <div>
