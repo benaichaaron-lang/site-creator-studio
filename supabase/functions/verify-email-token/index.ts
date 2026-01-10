@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -79,11 +79,22 @@ const handler = async (req: Request): Promise<Response> => {
       console.error("Error marking token as used:", updateError);
     }
 
-    // Update user's email_confirmed_at in auth.users if not already confirmed
-    const { data: userData, error: userError } = await supabaseAdmin.auth.admin.getUserById(tokenData.user_id);
+    // Try to find user by email first (more reliable than user_id for repeated signups)
+    const { data: usersList, error: usersListError } = await supabaseAdmin.auth.admin.listUsers();
+    
+    if (usersListError) {
+      console.error("Error listing users:", usersListError);
+      return new Response(
+        JSON.stringify({ error: "Failed to verify user", code: "USER_LIST_ERROR" }),
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
 
-    if (userError) {
-      console.error("Error fetching user:", userError);
+    // Find user by email
+    const user = usersList.users.find(u => u.email === tokenData.email);
+    
+    if (!user) {
+      console.error("User not found for email:", tokenData.email);
       return new Response(
         JSON.stringify({ error: "User not found", code: "USER_NOT_FOUND" }),
         { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -91,14 +102,14 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Update user's email confirmation status if needed
-    if (!userData.user.email_confirmed_at) {
-      await supabaseAdmin.auth.admin.updateUserById(tokenData.user_id, {
+    if (!user.email_confirmed_at) {
+      await supabaseAdmin.auth.admin.updateUserById(user.id, {
         email_confirm: true
       });
+      console.log(`Email confirmed for user: ${user.id}`);
     }
 
     // Generate a magic link that will auto-authenticate the user
-    // The redirect URL will take them directly to the dashboard after auth
     const { data: magicLinkData, error: magicLinkError } = await supabaseAdmin.auth.admin.generateLink({
       type: "magiclink",
       email: tokenData.email,
@@ -126,14 +137,14 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log(`Email verified successfully for user: ${tokenData.user_id}, magic link generated`);
+    console.log(`Email verified successfully for user: ${user.id}, magic link generated`);
 
     return new Response(
       JSON.stringify({ 
         success: true, 
         message: "Email verified successfully",
         magic_link: magicLinkUrl,
-        user_id: tokenData.user_id
+        user_id: user.id
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
