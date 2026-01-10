@@ -22,69 +22,54 @@ const DemoTabsSection = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "center", containScroll: false });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const tabs = [
-    {
-      id: "landing",
-      label: t("demoTabs.tabs.landing.label"),
-      icon: Globe,
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop",
+  // Define tabs outside of component render to prevent recreation
+  const tabIds = ["landing", "ecommerce", "vitrine", "webapp"] as const;
+  
+  const getTabData = useCallback((id: typeof tabIds[number]) => {
+    const tabConfig = {
+      landing: {
+        icon: Globe,
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop",
+      },
+      ecommerce: {
+        icon: ShoppingCart,
+        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
+      },
+      vitrine: {
+        icon: Briefcase,
+        image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=500&fit=crop",
+      },
+      webapp: {
+        icon: Code,
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
+      },
+    };
+    
+    return {
+      id,
+      label: t(`demoTabs.tabs.${id}.label`),
+      icon: tabConfig[id].icon,
+      image: tabConfig[id].image,
       bullets: [
-        t("demoTabs.tabs.landing.bullets.0") || "Modern responsive design",
-        t("demoTabs.tabs.landing.bullets.1") || "Optimized for conversion",
-        t("demoTabs.tabs.landing.bullets.2") || "Integrated contact forms",
+        t(`demoTabs.tabs.${id}.bullets.0`) || "",
+        t(`demoTabs.tabs.${id}.bullets.1`) || "",
+        t(`demoTabs.tabs.${id}.bullets.2`) || "",
       ],
-      delay: t("demoTabs.tabs.landing.delay"),
-      price: t("demoTabs.tabs.landing.price"),
-    },
-    {
-      id: "ecommerce",
-      label: t("demoTabs.tabs.ecommerce.label"),
-      icon: ShoppingCart,
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
-      bullets: [
-        t("demoTabs.tabs.ecommerce.bullets.0") || "Complete product catalog",
-        t("demoTabs.tabs.ecommerce.bullets.1") || "Secure payment integrated",
-        t("demoTabs.tabs.ecommerce.bullets.2") || "Automated stock management",
-      ],
-      delay: t("demoTabs.tabs.ecommerce.delay"),
-      price: t("demoTabs.tabs.ecommerce.price"),
-    },
-    {
-      id: "vitrine",
-      label: t("demoTabs.tabs.vitrine.label"),
-      icon: Briefcase,
-      image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=500&fit=crop",
-      bullets: [
-        t("demoTabs.tabs.vitrine.bullets.0") || "Professional presentation",
-        t("demoTabs.tabs.vitrine.bullets.1") || "Up to 5 custom pages",
-        t("demoTabs.tabs.vitrine.bullets.2") || "SEO optimized from start",
-      ],
-      delay: t("demoTabs.tabs.vitrine.delay"),
-      price: t("demoTabs.tabs.vitrine.price"),
-    },
-    {
-      id: "webapp",
-      label: t("demoTabs.tabs.webapp.label"),
-      icon: Code,
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
-      bullets: [
-        t("demoTabs.tabs.webapp.bullets.0") || "Custom architecture",
-        t("demoTabs.tabs.webapp.bullets.1") || "Advanced features",
-        t("demoTabs.tabs.webapp.bullets.2") || "Scalable and maintainable",
-      ],
-      delay: t("demoTabs.tabs.webapp.delay"),
-      price: t("demoTabs.tabs.webapp.price"),
-    },
-  ];
+      delay: t(`demoTabs.tabs.${id}.delay`),
+      price: t(`demoTabs.tabs.${id}.price`),
+    };
+  }, [t]);
 
+  const tabs = tabIds.map(getTabData);
   const activeContent = tabs.find((tab) => tab.id === activeTab)!;
 
+  // Stable callback that doesn't depend on tabs array
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     const index = emblaApi.selectedScrollSnap();
     setSelectedIndex(index);
-    setActiveTab(tabs[index].id);
-  }, [emblaApi, tabs]);
+    setActiveTab(tabIds[index]);
+  }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
