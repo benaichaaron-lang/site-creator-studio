@@ -180,12 +180,25 @@ const Admin = () => {
         .order('created_at', { ascending: false });
       setUsers(profilesData || []);
 
-      // Fetch all orders with relationships
+      // Fetch all orders with pack info
       const { data: ordersData } = await supabase
         .from('orders')
         .select('*, pack:packs(name)')
         .order('created_at', { ascending: false });
-      setOrders((ordersData || []) as any);
+      
+      // Map orders with profile data
+      const ordersWithProfiles = (ordersData || []).map(order => {
+        const profile = (profilesData || []).find(p => p.user_id === order.user_id);
+        return {
+          ...order,
+          profile: profile ? {
+            first_name: profile.first_name,
+            last_name: profile.last_name,
+            email: profile.email
+          } : null
+        };
+      });
+      setOrders(ordersWithProfiles as any);
 
       // Fetch all packs
       const { data: packsData } = await supabase
@@ -202,7 +215,20 @@ const Admin = () => {
         .from('tickets')
         .select('*')
         .order('created_at', { ascending: false });
-      setTickets((ticketsData || []) as any);
+      
+      // Map tickets with profile data
+      const ticketsWithProfiles = (ticketsData || []).map(ticket => {
+        const profile = (profilesData || []).find(p => p.user_id === ticket.user_id);
+        return {
+          ...ticket,
+          profile: profile ? {
+            first_name: profile.first_name,
+            last_name: profile.last_name,
+            email: profile.email
+          } : null
+        };
+      });
+      setTickets(ticketsWithProfiles as any);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
