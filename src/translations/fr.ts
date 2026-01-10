@@ -1347,4 +1347,15 @@ export const fr = {
     sales: "ventes",
     revenueShare: "Part du revenu",
   },
+
+  // Auth Prompt Modal
+  authPrompt: {
+    title: "Créez votre compte",
+    subtitle: "Connectez-vous pour continuer",
+    subtitleWithPack: "Pour commander le pack",
+    description: "Créez un compte gratuit pour accéder à votre espace client et suivre vos projets en temps réel.",
+    signUp: "Créer un compte",
+    signIn: "J'ai déjà un compte",
+    or: "ou",
+  },
 };
