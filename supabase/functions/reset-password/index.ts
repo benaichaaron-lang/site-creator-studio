@@ -58,23 +58,24 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Get the hashed token from the generated link
-    // The action_link looks like: https://xxx.supabase.co/auth/v1/verify?token=xxx&type=recovery&redirect_to=xxx
-    // We need to extract the token and create a direct link to our site
+    // Get the action_link from the generated link
+    // The action_link is the Supabase verify URL that will authenticate the user
+    // and redirect them to our reset-password page
     const actionLink = data.properties?.action_link;
-    const hashedToken = data.properties?.hashed_token;
 
-    if (!actionLink || !hashedToken) {
-      console.error("No reset link or token generated");
+    if (!actionLink) {
+      console.error("No reset link generated");
       return new Response(
         JSON.stringify({ success: true, message: "If an account exists, a reset email will be sent" }),
         { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // Build a direct link to our reset password page with the token in the hash
-    // Format: https://mysitefactory.com/reset-password#access_token=xxx&type=recovery
-    const resetLink = `${SITE_URL}/reset-password#access_token=${hashedToken}&token_hash=${hashedToken}&type=recovery`;
+    // Use the Supabase action link directly - it will handle the recovery flow
+    // and redirect to our reset-password page after verification
+    const resetLink = actionLink;
+    
+    console.log("Generated reset link for:", email);
 
     // Send email via Resend
     const emailResponse = await fetch("https://api.resend.com/emails", {
