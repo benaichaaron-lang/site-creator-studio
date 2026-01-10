@@ -84,7 +84,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, metadata?: { first_name?: string; last_name?: string; phone?: string }) => {
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -92,6 +92,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         data: metadata
       }
     });
+
+    // Send welcome email if signup was successful
+    if (!error && data.user) {
+      try {
+        // Detect language from browser or default to French
+        const browserLang = navigator.language?.startsWith('en') ? 'en' : 'fr';
+        
+        await supabase.functions.invoke('send-welcome-email', {
+          body: {
+            userId: data.user.id,
+            email: email,
+            firstName: metadata?.first_name,
+            language: browserLang,
+          },
+        });
+        console.log('Welcome email sent successfully');
+      } catch (emailError) {
+        console.error('Failed to send welcome email:', emailError);
+        // Don't fail signup if email fails
+      }
+    }
+
     return { error };
   };
 
