@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Check } from "lucide-react";
 import googleLogo from "@/assets/google-logo.png";
-import shopifyLogo from "@/assets/shopify-logo.png";
+import shopifyLogo from "@/assets/shopify-logo-new.png";
 
 const ExpertiseSection = () => {
   const { language } = useLanguage();
