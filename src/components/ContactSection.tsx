@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Select,
   SelectContent,
@@ -87,7 +88,11 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://formspree.io/f/xvzgebre", {
+      // Detect language
+      const browserLang = navigator.language?.startsWith('en') ? 'en' : 'fr';
+
+      // Send to Formspree (backup)
+      const formspreeResponse = await fetch("https://formspree.io/f/xvzgebre", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -102,13 +107,34 @@ const ContactSection = () => {
         }),
       });
 
-      if (!response.ok) {
+      if (!formspreeResponse.ok) {
         toast({
           title: t("contact.toasts.failed"),
           description: t("contact.toasts.failedDesc"),
           variant: "destructive",
         });
         return;
+      }
+
+      // Send confirmation emails (to client + admin notification)
+      try {
+        await supabase.functions.invoke('send-brief-confirmation', {
+          body: {
+            firstName: formData.firstName.trim(),
+            lastName: formData.lastName.trim(),
+            email: formData.email.trim(),
+            phone: formData.phone.trim(),
+            projectType: formData.websiteType,
+            budget: formData.budget,
+            timeline: formData.timeline,
+            recommendation: formData.recommendation.trim() || undefined,
+            language: browserLang,
+          },
+        });
+        console.log('Brief confirmation emails sent');
+      } catch (emailError) {
+        console.error('Failed to send confirmation emails:', emailError);
+        // Don't fail the submission if emails fail
       }
 
       setIsSubmitted(true);
