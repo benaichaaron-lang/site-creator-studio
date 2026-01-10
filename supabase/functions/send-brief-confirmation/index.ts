@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -16,8 +17,10 @@ interface BriefConfirmationRequest {
   projectType?: string;
   budget?: string;
   timeline?: string;
+  details?: string;
   recommendation?: string;
   language?: "fr" | "en";
+  userId?: string;
 }
 
 const emailContent = {
@@ -63,6 +66,7 @@ const generateEmailHtml = (
   content: typeof emailContent.fr,
   firstName: string,
   projectType?: string,
+  briefId?: string,
   language: "fr" | "en" = "fr"
 ) => {
   const dashboardUrl = "https://mysitefactory.com/dashboard";
@@ -74,6 +78,7 @@ const generateEmailHtml = (
         <p style="margin: 8px 0 0; color: #ffffff; font-size: 16px; font-weight: 600;">
           ${projectType}
         </p>
+        ${briefId ? `<p style="margin: 8px 0 0; color: #9ca3af; font-size: 12px;">Réf: ${briefId.slice(0, 8).toUpperCase()}</p>` : ''}
       </div>`
     : "";
 
@@ -262,7 +267,17 @@ const generateEmailHtml = (
   `;
 };
 
-const generateAdminNotificationHtml = (data: BriefConfirmationRequest) => {
+const generateAdminNotificationHtml = (data: BriefConfirmationRequest, briefId: string) => {
+  const adminUrl = `https://mysitefactory.com/admin?brief=${briefId}`;
+  const timestamp = new Date().toLocaleDateString('fr-FR', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit' 
+  });
+  
   return `
 <!DOCTYPE html>
 <html lang="fr">
@@ -281,6 +296,7 @@ const generateAdminNotificationHtml = (data: BriefConfirmationRequest) => {
           <tr>
             <td style="text-align: center; padding-bottom: 32px;">
               <h1 style="margin: 0; color: #818cf8; font-size: 24px; font-weight: 800;">🚀 Nouveau Brief Reçu</h1>
+              <p style="margin: 8px 0 0; color: #9ca3af; font-size: 13px;">Réf: ${briefId.slice(0, 8).toUpperCase()}</p>
             </td>
           </tr>
           
@@ -348,13 +364,20 @@ const generateAdminNotificationHtml = (data: BriefConfirmationRequest) => {
                       </tr>
                       ` : ''}
                     </table>
+                    
+                    ${data.details ? `
+                    <div style="margin-top: 20px; padding: 16px; background-color: rgba(129, 140, 248, 0.1); border-radius: 8px;">
+                      <p style="margin: 0 0 8px; color: #a5b4fc; font-size: 13px; font-weight: 600;">Détails supplémentaires:</p>
+                      <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.6; white-space: pre-wrap;">${data.details}</p>
+                    </div>
+                    ` : ''}
                   </td>
                 </tr>
                 
                 <!-- CTA -->
                 <tr>
                   <td style="padding: 16px 32px 32px; text-align: center;">
-                    <a href="https://mysitefactory.com/admin" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%); color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: 600; font-size: 15px;">
+                    <a href="${adminUrl}" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%); color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: 600; font-size: 15px;">
                       Voir dans l'admin
                     </a>
                   </td>
@@ -368,7 +391,7 @@ const generateAdminNotificationHtml = (data: BriefConfirmationRequest) => {
           <tr>
             <td style="padding: 24px 0 0; text-align: center;">
               <p style="margin: 0; color: #6b7280; font-size: 12px;">
-                Reçu le ${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                Reçu le ${timestamp}
               </p>
             </td>
           </tr>
@@ -382,7 +405,8 @@ const generateAdminNotificationHtml = (data: BriefConfirmationRequest) => {
   `;
 };
 
-const ADMIN_EMAIL = "benaichaaron@gmail.com";
+// Admin email - configurable via env or default
+const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "benaichaaron@gmail.com";
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -391,7 +415,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const requestData: BriefConfirmationRequest = await req.json();
-    const { firstName, lastName, email, phone, projectType, budget, timeline, recommendation, language = "fr" } = requestData;
+    const { firstName, lastName, email, phone, projectType, budget, timeline, details, recommendation, language = "fr", userId } = requestData;
 
     if (!email || !firstName) {
       return new Response(
@@ -400,34 +424,109 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Create Supabase admin client to save the brief
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    );
+
+    // STEP 1: Save brief to database FIRST (before sending emails)
+    console.log(`Saving brief to database for: ${email}`);
+    
+    const { data: briefData, error: briefError } = await supabaseAdmin
+      .from("project_briefs")
+      .insert({
+        first_name: firstName,
+        last_name: lastName || null,
+        email: email,
+        phone: phone || null,
+        project_type: projectType || null,
+        budget: budget || null,
+        timeline: timeline || null,
+        details: details || null,
+        recommendation: recommendation || null,
+        language: language,
+        status: 'new',
+        user_id: userId || null,
+      })
+      .select('id')
+      .single();
+
+    if (briefError) {
+      console.error("Error saving brief to database:", briefError);
+      // Continue with email sending even if DB save fails
+      // but log the error for monitoring
+    }
+
+    const briefId = briefData?.id || crypto.randomUUID();
+    console.log(`Brief saved with ID: ${briefId}`);
+
     const content = emailContent[language];
-    const emailHtml = generateEmailHtml(content, firstName, projectType, language);
+    const emailHtml = generateEmailHtml(content, firstName, projectType, briefId, language);
 
+    // STEP 2: Send confirmation email to client
     console.log(`Sending brief confirmation email to ${email} for project: ${projectType || "N/A"}`);
+    
+    let clientEmailResult = { success: false, error: null as string | null, id: null as string | null };
+    try {
+      const clientEmailResponse = await resend.emails.send({
+        from: "MySiteFactory <noreply@mysitefactory.com>",
+        to: [email],
+        subject: content.subject,
+        html: emailHtml,
+      });
+      clientEmailResult = { success: true, error: null, id: (clientEmailResponse as any).id || null };
+      console.log("Brief confirmation email sent to client:", clientEmailResponse);
+    } catch (clientEmailError: any) {
+      clientEmailResult = { success: false, error: clientEmailError.message, id: null };
+      console.error("Failed to send client email:", clientEmailError);
+    }
 
-    // Send confirmation email to client
-    const clientEmailResponse = await resend.emails.send({
-      from: "MySiteFactory <noreply@mysitefactory.com>",
-      to: [email],
-      subject: content.subject,
-      html: emailHtml,
-    });
+    // STEP 3: Send notification email to admin
+    console.log(`Sending admin notification to ${ADMIN_EMAIL}`);
+    
+    let adminEmailResult = { success: false, error: null as string | null, id: null as string | null };
+    try {
+      const adminEmailHtml = generateAdminNotificationHtml(requestData, briefId);
+      const adminEmailResponse = await resend.emails.send({
+        from: "MySiteFactory <noreply@mysitefactory.com>",
+        to: [ADMIN_EMAIL],
+        subject: `🚀 Nouveau Brief: ${firstName} ${lastName || ''} - ${projectType || 'Projet'} [${briefId.slice(0, 8).toUpperCase()}]`,
+        html: adminEmailHtml,
+      });
+      adminEmailResult = { success: true, error: null, id: (adminEmailResponse as any).id || null };
+      console.log("Admin notification email sent:", adminEmailResponse);
+    } catch (adminEmailError: any) {
+      adminEmailResult = { success: false, error: adminEmailError.message, id: null };
+      console.error("Failed to send admin email:", adminEmailError);
+    }
 
-    console.log("Brief confirmation email sent to client:", clientEmailResponse);
+    // STEP 4: Update brief status with email results
+    if (briefData?.id) {
+      await supabaseAdmin
+        .from("project_briefs")
+        .update({ 
+          status: clientEmailResult.success && adminEmailResult.success ? 'confirmed' : 'pending_email'
+        })
+        .eq('id', briefData.id);
+    }
 
-    // Send notification email to admin
-    const adminEmailHtml = generateAdminNotificationHtml(requestData);
-    const adminEmailResponse = await resend.emails.send({
-      from: "MySiteFactory <noreply@mysitefactory.com>",
-      to: [ADMIN_EMAIL],
-      subject: `🚀 Nouveau Brief: ${firstName} ${lastName || ''} - ${projectType || 'Projet'}`,
-      html: adminEmailHtml,
-    });
+    // Return success if at least the brief was saved
+    // Include email status for debugging
+    const response = {
+      success: true,
+      briefId: briefId,
+      emails: {
+        client: clientEmailResult,
+        admin: adminEmailResult,
+      }
+    };
 
-    console.log("Admin notification email sent:", adminEmailResponse);
+    // Log summary
+    console.log(`Brief ${briefId} processed: Client email ${clientEmailResult.success ? 'sent' : 'failed'}, Admin email ${adminEmailResult.success ? 'sent' : 'failed'}`);
 
     return new Response(
-      JSON.stringify({ success: true, data: { client: clientEmailResponse, admin: adminEmailResponse } }),
+      JSON.stringify(response),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   } catch (error: any) {

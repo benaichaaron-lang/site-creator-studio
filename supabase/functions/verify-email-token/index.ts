@@ -69,7 +69,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Mark token as used
+    // Mark token as used IMMEDIATELY to prevent reuse
     const { error: updateError } = await supabaseAdmin
       .from("email_verification_tokens")
       .update({ used_at: new Date().toISOString() })
@@ -77,47 +77,122 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (updateError) {
       console.error("Error marking token as used:", updateError);
+      // Continue anyway - we don't want to fail the verification
     }
 
-    // Try to find user by email first (more reliable than user_id for repeated signups)
-    const { data: usersList, error: usersListError } = await supabaseAdmin.auth.admin.listUsers();
+    // Find user by user_id from token
+    const { data: userData, error: userError } = await supabaseAdmin.auth.admin.getUserById(tokenData.user_id);
     
-    if (usersListError) {
-      console.error("Error listing users:", usersListError);
+    if (userError || !userData.user) {
+      console.error("Error fetching user:", userError);
+      
+      // Fallback: Try to find by email
+      const { data: usersList, error: usersListError } = await supabaseAdmin.auth.admin.listUsers();
+      
+      if (usersListError) {
+        console.error("Error listing users:", usersListError);
+        return new Response(
+          JSON.stringify({ error: "Failed to verify user", code: "USER_LIST_ERROR" }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+
+      const user = usersList.users.find(u => u.email === tokenData.email);
+      
+      if (!user) {
+        console.error("User not found for email:", tokenData.email);
+        return new Response(
+          JSON.stringify({ error: "User not found", code: "USER_NOT_FOUND" }),
+          { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+      
+      // Found by email fallback
+      tokenData.user_id = user.id;
+    }
+
+    const userId = userData?.user?.id || tokenData.user_id;
+
+    // Step 1: Update user's email confirmation status
+    console.log(`Confirming email for user: ${userId}`);
+    
+    const { error: confirmError } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+      email_confirm: true
+    });
+
+    if (confirmError) {
+      console.error("Error confirming email:", confirmError);
+      // Don't fail - the email might already be confirmed
+    }
+
+    console.log(`Email confirmed for user: ${userId}`);
+
+    // Step 2: Generate a magic link for auto-login
+    // We use generateLink to create a session token that will log the user in
+    console.log(`Generating magic link for auto-login: ${tokenData.email}`);
+    
+    const { data: magicLinkData, error: magicLinkError } = await supabaseAdmin.auth.admin.generateLink({
+      type: 'magiclink',
+      email: tokenData.email,
+      options: {
+        redirectTo: 'https://mysitefactory.com/dashboard'
+      }
+    });
+
+    if (magicLinkError) {
+      console.error("Error generating magic link:", magicLinkError);
+      // Fallback: return success but without auto-login
       return new Response(
-        JSON.stringify({ error: "Failed to verify user", code: "USER_LIST_ERROR" }),
-        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        JSON.stringify({ 
+          success: true, 
+          message: "Email verified successfully",
+          user_id: userId,
+          email_confirmed: true,
+          auto_login: false,
+          redirect_url: '/auth?verified=true'
+        }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // Find user by email
-    const user = usersList.users.find(u => u.email === tokenData.email);
+    // Extract the token from the magic link for client-side session creation
+    // The action_link contains the tokens needed for auto-login
+    const actionLink = magicLinkData.properties?.action_link;
     
-    if (!user) {
-      console.error("User not found for email:", tokenData.email);
+    if (!actionLink) {
+      console.error("No action link in magic link response");
       return new Response(
-        JSON.stringify({ error: "User not found", code: "USER_NOT_FOUND" }),
-        { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        JSON.stringify({ 
+          success: true, 
+          message: "Email verified successfully",
+          user_id: userId,
+          email_confirmed: true,
+          auto_login: false,
+          redirect_url: '/auth?verified=true'
+        }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // Update user's email confirmation status if needed
-    if (!user.email_confirmed_at) {
-      await supabaseAdmin.auth.admin.updateUserById(user.id, {
-        email_confirm: true
-      });
-      console.log(`Email confirmed for user: ${user.id}`);
-    }
+    // Parse the action link to extract token parameters
+    // Format: https://xxx.supabase.co/auth/v1/verify?token=xxx&type=magiclink&redirect_to=xxx
+    const url = new URL(actionLink);
+    const accessToken = url.searchParams.get('token');
+    const tokenHash = magicLinkData.properties?.hashed_token;
 
-    console.log(`Email verified successfully for user: ${user.id}`);
+    console.log(`Magic link generated successfully for: ${tokenData.email}`);
 
-    // Return success - the frontend will redirect the user to login
+    // Return success with the magic link token for auto-login
     return new Response(
       JSON.stringify({ 
         success: true, 
         message: "Email verified successfully",
-        user_id: user.id,
-        email_confirmed: true
+        user_id: userId,
+        email_confirmed: true,
+        auto_login: true,
+        // Return the Supabase action link - the frontend will use this to complete login
+        action_link: actionLink,
+        token_hash: tokenHash,
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );

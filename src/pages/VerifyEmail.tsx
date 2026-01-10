@@ -50,15 +50,74 @@ const VerifyEmail = () => {
         return;
       }
 
-      // Success! Email is verified - redirect to login page with email pre-filled
-      setStatus('success');
-      toast({
-        title: t('verifyEmail.success.title'),
-        description: t('verifyEmail.success.description'),
-      });
+      // Email verified successfully!
+      console.log('Email verified:', data);
+      
+      // Check if we can auto-login
+      if (data.auto_login && data.action_link) {
+        setStatus('redirecting');
+        toast({
+          title: t('verifyEmail.success.title'),
+          description: t('verifyEmail.success.autoLogin') || "Connexion en cours...",
+        });
 
-      // Redirect to auth page after short delay with verified flag
-      setTimeout(() => navigate('/auth?verified=true'), 2000);
+        // Use the Supabase action link to complete the magic link login
+        // The action_link from generateLink contains the verification token
+        try {
+          // Extract token_hash from action_link and use verifyOtp
+          const actionUrl = new URL(data.action_link);
+          const tokenHash = actionUrl.searchParams.get('token');
+          const type = actionUrl.searchParams.get('type') as 'magiclink';
+          
+          if (tokenHash) {
+            // Verify the magic link OTP to create a session
+            const { data: sessionData, error: sessionError } = await supabase.auth.verifyOtp({
+              token_hash: tokenHash,
+              type: 'magiclink',
+            });
+
+            if (sessionError) {
+              console.error('Session creation error:', sessionError);
+              // Fallback: redirect to dashboard anyway, user may need to login manually
+              toast({
+                title: t('verifyEmail.success.title'),
+                description: t('verifyEmail.success.description'),
+              });
+              setTimeout(() => navigate('/dashboard'), 1500);
+              return;
+            }
+
+            if (sessionData.session) {
+              console.log('Session created successfully, redirecting to dashboard');
+              toast({
+                title: t('verifyEmail.success.title'),
+                description: t('verifyEmail.success.welcomeBack') || "Bienvenue ! Redirection vers votre espace...",
+              });
+              
+              // Small delay to show success message
+              setTimeout(() => {
+                navigate('/dashboard');
+              }, 1000);
+              return;
+            }
+          }
+        } catch (sessionErr) {
+          console.error('Error creating session:', sessionErr);
+        }
+
+        // Fallback: redirect to dashboard after verification
+        setTimeout(() => navigate('/dashboard'), 1500);
+        
+      } else {
+        // No auto-login, redirect to auth page with verified flag
+        setStatus('success');
+        toast({
+          title: t('verifyEmail.success.title'),
+          description: t('verifyEmail.success.description'),
+        });
+
+        setTimeout(() => navigate('/auth?verified=true'), 2000);
+      }
 
     } catch (err: any) {
       console.error('Verification catch error:', err);
@@ -74,8 +133,13 @@ const VerifyEmail = () => {
         setErrorMessage(t('verifyEmail.errors.expired'));
         break;
       case 'USED_TOKEN':
-        setStatus('invalid');
-        setErrorMessage(t('verifyEmail.errors.alreadyUsed'));
+        // Token already used means email is verified - redirect to login
+        setStatus('success');
+        toast({
+          title: t('verifyEmail.success.alreadyVerified') || "Email déjà vérifié",
+          description: t('verifyEmail.success.loginNow') || "Vous pouvez vous connecter.",
+        });
+        setTimeout(() => navigate('/auth?verified=true'), 2000);
         break;
       case 'INVALID_TOKEN':
         setStatus('invalid');
@@ -98,7 +162,6 @@ const VerifyEmail = () => {
 
     setIsResending(true);
     try {
-      // Request new verification email via edge function
       const { error } = await supabase.functions.invoke('resend-verification-email', {
         body: { email: resendEmail }
       });
@@ -156,7 +219,7 @@ const VerifyEmail = () => {
               {t('verifyEmail.success.title')}
             </h1>
             <p className="text-muted-foreground mb-4">
-              {t('verifyEmail.success.description')}
+              {t('verifyEmail.success.autoLoginDesc') || "Votre email est vérifié. Connexion automatique en cours..."}
             </p>
             <div className="flex items-center justify-center gap-2 text-primary">
               <Loader2 className="w-4 h-4 animate-spin" />
