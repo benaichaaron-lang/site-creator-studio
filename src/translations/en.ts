@@ -1361,4 +1361,40 @@ export const en = {
     signIn: "I already have an account",
     or: "or",
   },
+
+  // Verify Email Page
+  verifyEmail: {
+    loading: {
+      title: "Verifying...",
+      description: "We're verifying your email, please wait.",
+    },
+    success: {
+      title: "Email verified!",
+      description: "Welcome to MySiteFactory! Redirecting to your dashboard...",
+      redirecting: "Redirecting...",
+      loginRequired: "Your email has been verified. You can now log in.",
+    },
+    expired: {
+      title: "Link expired",
+    },
+    error: {
+      title: "Verification error",
+    },
+    errors: {
+      noToken: "No verification token provided.",
+      expired: "This link has expired. Please request a new verification link.",
+      alreadyUsed: "This link has already been used. Log in or request a new link.",
+      invalid: "The verification link is invalid.",
+      generic: "Something went wrong. Please try again.",
+    },
+    resend: {
+      button: "Resend verification email",
+      placeholder: "Enter your email",
+      enterEmail: "Please enter your email",
+      success: "Email sent!",
+      checkInbox: "Check your inbox.",
+      error: "Could not send email. Please try again.",
+    },
+    backToLogin: "Back to login",
+  },
 };

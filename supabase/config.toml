@@ -17,3 +17,9 @@ verify_jwt = false
 
 [functions.send-welcome-email]
 verify_jwt = false
+
+[functions.verify-email-token]
+verify_jwt = false
+
+[functions.resend-verification-email]
+verify_jwt = false

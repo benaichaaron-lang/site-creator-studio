@@ -1361,4 +1361,40 @@ export const fr = {
     signIn: "J'ai déjà un compte",
     or: "ou",
   },
+
+  // Verify Email Page
+  verifyEmail: {
+    loading: {
+      title: "Vérification en cours...",
+      description: "Nous vérifions votre email, merci de patienter.",
+    },
+    success: {
+      title: "Email vérifié !",
+      description: "Bienvenue sur MySiteFactory ! Redirection vers votre espace...",
+      redirecting: "Redirection en cours...",
+      loginRequired: "Votre email a été vérifié. Vous pouvez maintenant vous connecter.",
+    },
+    expired: {
+      title: "Lien expiré",
+    },
+    error: {
+      title: "Erreur de vérification",
+    },
+    errors: {
+      noToken: "Aucun token de vérification fourni.",
+      expired: "Ce lien a expiré. Veuillez demander un nouveau lien de vérification.",
+      alreadyUsed: "Ce lien a déjà été utilisé. Connectez-vous ou demandez un nouveau lien.",
+      invalid: "Le lien de vérification est invalide.",
+      generic: "Une erreur est survenue. Veuillez réessayer.",
+    },
+    resend: {
+      button: "Renvoyer un email de vérification",
+      placeholder: "Entrez votre email",
+      enterEmail: "Veuillez entrer votre email",
+      success: "Email envoyé !",
+      checkInbox: "Vérifiez votre boîte de réception.",
+      error: "Impossible d'envoyer l'email. Réessayez.",
+    },
+    backToLogin: "Retour à la connexion",
+  },
 };

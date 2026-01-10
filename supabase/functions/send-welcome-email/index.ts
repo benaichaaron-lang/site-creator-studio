@@ -16,50 +16,60 @@ interface WelcomeEmailRequest {
   language?: "fr" | "en";
 }
 
+// Generate a secure random token
+function generateToken(): string {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
 const emailContent = {
   fr: {
-    subject: "Bienvenue chez MySiteFactory 🎉",
+    subject: "Bienvenue chez MySiteFactory 🎉 - Confirmez votre email",
     greeting: "Bonjour",
     welcome: "Bienvenue dans l'univers MySiteFactory !",
-    intro: "Nous sommes ravis de vous compter parmi nous. Votre compte a été créé avec succès et vous avez désormais accès à votre espace client personnel.",
+    intro: "Nous sommes ravis de vous compter parmi nous. Cliquez sur le bouton ci-dessous pour confirmer votre email et accéder directement à votre espace client.",
+    ctaText: "Confirmer et accéder à mon espace",
     featuresTitle: "Ce que vous pouvez faire dès maintenant",
     feature1: "Demander un devis personnalisé pour votre projet web",
     feature2: "Suivre l'avancement de vos projets en temps réel",
     feature3: "Échanger directement avec notre équipe",
     feature4: "Accéder à vos factures et documents",
-    ctaText: "Accéder à mon espace",
     helpTitle: "Besoin d'aide ?",
     helpText: "Notre équipe est disponible pour répondre à toutes vos questions. N'hésitez pas à nous contacter.",
     contactEmail: "contact@mysitefactory.com",
     footer: "À très bientôt,",
     teamName: "L'équipe MySiteFactory",
+    expiry: "Ce lien expire dans 30 minutes.",
+    fallback: "Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :",
   },
   en: {
-    subject: "Welcome to MySiteFactory 🎉",
+    subject: "Welcome to MySiteFactory 🎉 - Confirm your email",
     greeting: "Hello",
     welcome: "Welcome to the MySiteFactory universe!",
-    intro: "We're delighted to have you with us. Your account has been successfully created and you now have access to your personal client dashboard.",
+    intro: "We're delighted to have you with us. Click the button below to confirm your email and access your personal client dashboard directly.",
+    ctaText: "Confirm and access my dashboard",
     featuresTitle: "What you can do right now",
     feature1: "Request a personalized quote for your web project",
     feature2: "Track your projects progress in real-time",
     feature3: "Communicate directly with our team",
     feature4: "Access your invoices and documents",
-    ctaText: "Access my dashboard",
     helpTitle: "Need help?",
     helpText: "Our team is available to answer all your questions. Feel free to contact us.",
     contactEmail: "contact@mysitefactory.com",
     footer: "See you soon,",
     teamName: "The MySiteFactory Team",
+    expiry: "This link expires in 30 minutes.",
+    fallback: "If the button doesn't work, copy this link to your browser:",
   },
 };
 
 const generateEmailHtml = (
   content: typeof emailContent.fr,
   firstName: string,
+  verifyUrl: string,
   language: "fr" | "en" = "fr"
 ) => {
-  const dashboardUrl = "https://mysitefactory.com/dashboard";
-
   return `
 <!DOCTYPE html>
 <html lang="${language}">
@@ -109,6 +119,24 @@ const generateEmailHtml = (
                   <td style="padding: 0 40px 32px;">
                     <p style="margin: 0; color: #d1d5db; font-size: 16px; line-height: 1.7;">
                       ${content.intro}
+                    </p>
+                  </td>
+                </tr>
+                
+                <!-- CTA Button - PROMINENT -->
+                <tr>
+                  <td style="padding: 0 40px 32px; text-align: center;">
+                    <a href="${verifyUrl}" style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; text-decoration: none; padding: 20px 56px; border-radius: 12px; font-weight: 700; font-size: 18px; box-shadow: 0 4px 24px rgba(16, 185, 129, 0.4);">
+                      ✓ ${content.ctaText}
+                    </a>
+                  </td>
+                </tr>
+                
+                <!-- Expiry Notice -->
+                <tr>
+                  <td style="padding: 0 40px 32px; text-align: center;">
+                    <p style="margin: 0; color: #9ca3af; font-size: 14px;">
+                      ${content.expiry}
                     </p>
                   </td>
                 </tr>
@@ -165,15 +193,6 @@ const generateEmailHtml = (
                   </td>
                 </tr>
                 
-                <!-- CTA Button -->
-                <tr>
-                  <td style="padding: 0 40px 40px; text-align: center;">
-                    <a href="${dashboardUrl}" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%); color: #ffffff; text-decoration: none; padding: 16px 48px; border-radius: 12px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 24px rgba(99, 102, 241, 0.4);">
-                      ${content.ctaText}
-                    </a>
-                  </td>
-                </tr>
-                
                 <!-- Help Section -->
                 <tr>
                   <td style="padding: 24px 40px; background-color: rgba(129, 140, 248, 0.05); border-top: 1px solid rgba(129, 140, 248, 0.1);">
@@ -183,6 +202,16 @@ const generateEmailHtml = (
                     <p style="margin: 0; color: #9ca3af; font-size: 14px; line-height: 1.6;">
                       ${content.helpText}<br>
                       <a href="mailto:${content.contactEmail}" style="color: #818cf8; text-decoration: none;">${content.contactEmail}</a>
+                    </p>
+                  </td>
+                </tr>
+                
+                <!-- Fallback Link -->
+                <tr>
+                  <td style="padding: 24px 40px; text-align: center;">
+                    <p style="margin: 0; color: #6b7280; font-size: 12px;">
+                      ${content.fallback}<br>
+                      <a href="${verifyUrl}" style="color: #818cf8; word-break: break-all; font-size: 11px;">${verifyUrl}</a>
                     </p>
                   </td>
                 </tr>
@@ -229,18 +258,54 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { userId, email, firstName, language = "fr" }: WelcomeEmailRequest = await req.json();
 
-    if (!email) {
+    if (!email || !userId) {
       return new Response(
-        JSON.stringify({ error: "Missing required field: email" }),
+        JSON.stringify({ error: "Missing required fields: email and userId" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
+    // Create Supabase admin client to store the token
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    );
+
+    // Delete any existing tokens for this user
+    await supabaseAdmin
+      .from("email_verification_tokens")
+      .delete()
+      .eq("user_id", userId);
+
+    // Generate new secure token (expires in 30 minutes)
+    const token = generateToken();
+    const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+
+    const { error: insertError } = await supabaseAdmin
+      .from("email_verification_tokens")
+      .insert({
+        user_id: userId,
+        token: token,
+        email: email,
+        expires_at: expiresAt
+      });
+
+    if (insertError) {
+      console.error("Error creating verification token:", insertError);
+      return new Response(
+        JSON.stringify({ error: "Failed to create verification token" }),
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Generate verification URL with magic link token
+    const verifyUrl = `https://mysitefactory.com/verify-email?token=${token}`;
+
     const displayName = firstName || (language === "fr" ? "cher client" : "valued customer");
     const content = emailContent[language];
-    const emailHtml = generateEmailHtml(content, displayName, language);
+    const emailHtml = generateEmailHtml(content, displayName, verifyUrl, language);
 
-    console.log(`Sending welcome email to ${email} (user: ${userId || "N/A"})`);
+    console.log(`Sending welcome email with magic link to ${email} (user: ${userId})`);
 
     const emailResponse = await resend.emails.send({
       from: "MySiteFactory <noreply@mysitefactory.com>",
@@ -249,7 +314,7 @@ const handler = async (req: Request): Promise<Response> => {
       html: emailHtml,
     });
 
-    console.log("Welcome email sent successfully:", emailResponse);
+    console.log("Welcome email with magic link sent successfully:", emailResponse);
 
     return new Response(
       JSON.stringify({ success: true, data: emailResponse }),
