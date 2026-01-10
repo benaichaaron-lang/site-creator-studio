@@ -109,42 +109,15 @@ const handler = async (req: Request): Promise<Response> => {
       console.log(`Email confirmed for user: ${user.id}`);
     }
 
-    // Generate a magic link that will auto-authenticate the user
-    const { data: magicLinkData, error: magicLinkError } = await supabaseAdmin.auth.admin.generateLink({
-      type: "magiclink",
-      email: tokenData.email,
-      options: {
-        redirectTo: "https://mysitefactory.com/dashboard"
-      }
-    });
+    console.log(`Email verified successfully for user: ${user.id}`);
 
-    if (magicLinkError) {
-      console.error("Error generating magic link:", magicLinkError);
-      return new Response(
-        JSON.stringify({ error: "Failed to create session", code: "SESSION_ERROR" }),
-        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-
-    // Get the magic link URL that will authenticate the user
-    const magicLinkUrl = magicLinkData.properties?.action_link;
-
-    if (!magicLinkUrl) {
-      console.error("No magic link URL generated");
-      return new Response(
-        JSON.stringify({ error: "Failed to generate login link", code: "LINK_ERROR" }),
-        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-
-    console.log(`Email verified successfully for user: ${user.id}, magic link generated`);
-
+    // Return success - the frontend will redirect the user to login
     return new Response(
       JSON.stringify({ 
         success: true, 
         message: "Email verified successfully",
-        magic_link: magicLinkUrl,
-        user_id: user.id
+        user_id: user.id,
+        email_confirmed: true
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );

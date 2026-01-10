@@ -50,28 +50,14 @@ const VerifyEmail = () => {
         return;
       }
 
-      // Success! We have a magic link - redirect to it for auto-authentication
-      if (data.magic_link) {
-        setStatus('redirecting');
-        toast({
-          title: t('verifyEmail.success.title'),
-          description: t('verifyEmail.success.description'),
-        });
-
-        // Small delay to show success message, then redirect to magic link
-        setTimeout(() => {
-          // Redirect to the Supabase magic link which will auto-authenticate
-          window.location.href = data.magic_link;
-        }, 1500);
-        return;
-      }
-
-      // Fallback if no magic link (shouldn't happen)
+      // Success! Email is verified - redirect to login page
       setStatus('success');
       toast({
         title: t('verifyEmail.success.title'),
-        description: t('verifyEmail.success.loginRequired'),
+        description: t('verifyEmail.success.description'),
       });
+
+      // Redirect to auth page after short delay
       setTimeout(() => navigate('/auth'), 2000);
 
     } catch (err: any) {
