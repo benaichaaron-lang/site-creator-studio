@@ -67,23 +67,8 @@ const Auth = () => {
     }
   }, [user, isAdmin, navigate]);
 
-  const sendConfirmationEmail = async (userEmail: string, userFirstName: string) => {
-    try {
-      const response = await supabase.functions.invoke('send-auth-email', {
-        body: {
-          type: 'signup_confirmation',
-          email: userEmail,
-          firstName: userFirstName,
-        },
-      });
-      
-      if (response.error) {
-        console.error('Error sending confirmation email:', response.error);
-      }
-    } catch (error) {
-      console.error('Error sending confirmation email:', error);
-    }
-  };
+  // Note: Welcome email with magic link is sent from AuthContext.signUp()
+  // No need to send a separate confirmation email here
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -194,8 +179,7 @@ const Auth = () => {
             });
           }
         } else {
-          // Send confirmation email via Resend
-          await sendConfirmationEmail(email, firstName);
+          // Welcome email with magic link is automatically sent from AuthContext.signUp()
           setShowConfirmation(true);
         }
       }
