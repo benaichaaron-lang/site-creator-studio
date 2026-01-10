@@ -642,6 +642,7 @@ export const en = {
       title: "Check your email",
       subtitle: "A confirmation email has been sent to your address. Please click the link to activate your account.",
       checkSpam: "If you don't see the email, check your spam folder.",
+      openMailbox: "Open {provider}",
       backToLogin: "Back to login",
     },
     forgotPassword: {
