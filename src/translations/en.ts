@@ -1347,4 +1347,15 @@ export const en = {
     sales: "sales",
     revenueShare: "Revenue share",
   },
+
+  // Auth Prompt Modal
+  authPrompt: {
+    title: "Sign in required",
+    subtitle: "Sign in to continue",
+    subtitleWithPack: "To order the pack",
+    description: "Sign in or create a free account to access your client area.",
+    signUp: "Sign up",
+    signIn: "Sign in",
+    or: "or",
+  },
 };
