@@ -172,7 +172,7 @@ const ContactSection = () => {
                 </motion.a>
 
                 <motion.a 
-                  href="https://wa.me/33600000000?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20services"
+                  href="https://wa.me/13463683103?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20services"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-colors"
