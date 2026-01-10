@@ -58,15 +58,15 @@ const AuthPromptModal = ({ isOpen, onClose, packName }: AuthPromptModalProps) =>
                   
                   <div className="text-center">
                     <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
-                      <UserPlus className="w-8 h-8 text-primary" />
+                      <LogIn className="w-8 h-8 text-primary" />
                     </div>
                     <h2 className="font-bebas text-2xl md:text-3xl text-white mb-2">
-                      {t("authPrompt.title") || "Créez votre compte"}
+                      {t("authPrompt.title")}
                     </h2>
                     <p className="text-white/60 text-sm">
                       {packName 
-                        ? `${t("authPrompt.subtitleWithPack") || "Pour commander le pack"} ${packName}`
-                        : t("authPrompt.subtitle") || "Connectez-vous pour continuer"
+                        ? `${t("authPrompt.subtitleWithPack")} ${packName}`
+                        : t("authPrompt.subtitle")
                       }
                     </p>
                   </div>
@@ -75,30 +75,30 @@ const AuthPromptModal = ({ isOpen, onClose, packName }: AuthPromptModalProps) =>
                 {/* Content */}
                 <div className="p-6 space-y-4">
                   <p className="text-white/70 text-sm text-center mb-6">
-                    {t("authPrompt.description") || "Créez un compte gratuit pour accéder à votre espace client et suivre vos projets."}
+                    {t("authPrompt.description")}
                   </p>
 
                   <Button
-                    onClick={handleSignUp}
-                    className="w-full bg-primary hover:bg-primary/90 text-white h-12"
+                    onClick={handleSignIn}
+                    className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-base font-semibold"
                   >
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    {t("authPrompt.signUp") || "Créer un compte"}
+                    <LogIn className="w-5 h-5 mr-2" />
+                    {t("authPrompt.signIn")}
                   </Button>
 
                   <div className="flex items-center gap-3">
                     <div className="flex-1 h-px bg-white/10" />
-                    <span className="text-white/40 text-xs">{t("authPrompt.or") || "ou"}</span>
+                    <span className="text-white/40 text-xs">{t("authPrompt.or")}</span>
                     <div className="flex-1 h-px bg-white/10" />
                   </div>
 
                   <Button
-                    onClick={handleSignIn}
+                    onClick={handleSignUp}
                     variant="outline"
-                    className="w-full h-12 border-white/20 text-white hover:bg-white/10"
+                    className="w-full h-12 border-white/20 text-white hover:bg-white/10 text-base font-semibold"
                   >
-                    <LogIn className="w-4 h-4 mr-2" />
-                    {t("authPrompt.signIn") || "J'ai déjà un compte"}
+                    <UserPlus className="w-5 h-5 mr-2" />
+                    {t("authPrompt.signUp")}
                   </Button>
                 </div>
               </div>
