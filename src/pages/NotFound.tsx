@@ -7,7 +7,10 @@ const NotFound = () => {
   const { t } = useLanguage();
 
   useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    // Log 404 for analytics (non-blocking)
+    if (process.env.NODE_ENV === 'development') {
+      console.warn("404 - Page not found:", location.pathname);
+    }
   }, [location.pathname]);
 
   return (

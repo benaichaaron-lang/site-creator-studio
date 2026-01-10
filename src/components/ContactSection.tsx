@@ -21,6 +21,7 @@ const ContactSection = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    email: "",
     phone: "",
     recommendation: "",
     websiteType: "",
@@ -29,7 +30,7 @@ const ContactSection = () => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string}>({});
+  const [errors, setErrors] = useState<{firstName?: string; lastName?: string; email?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string}>({});
 
   // Check for pre-selected pack from PacksSection
   useEffect(() => {
@@ -41,13 +42,18 @@ const ContactSection = () => {
   }, []);
 
   const validateForm = () => {
-    const newErrors: {firstName?: string; lastName?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string} = {};
+    const newErrors: {firstName?: string; lastName?: string; email?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string} = {};
     
     if (!formData.firstName.trim()) {
       newErrors.firstName = t("contact.errors.firstName");
     }
     if (!formData.lastName.trim()) {
       newErrors.lastName = t("contact.errors.lastName");
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = t("hero.errors.email");
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = t("hero.errors.emailInvalid");
     }
     if (!formData.phone.trim()) {
       newErrors.phone = t("contact.errors.phone");
@@ -87,6 +93,7 @@ const ContactSection = () => {
         body: JSON.stringify({
           firstName: formData.firstName.trim(),
           lastName: formData.lastName.trim(),
+          email: formData.email.trim(),
           phone: formData.phone.trim(),
           recommendation: formData.recommendation.trim() || null,
           websiteType: formData.websiteType,
@@ -112,7 +119,7 @@ const ContactSection = () => {
       });
 
       setTimeout(() => {
-        setFormData({ firstName: "", lastName: "", phone: "", recommendation: "", websiteType: "", budget: "", timeline: "" });
+        setFormData({ firstName: "", lastName: "", email: "", phone: "", recommendation: "", websiteType: "", budget: "", timeline: "" });
         setIsSubmitted(false);
       }, 5000);
     } catch (err) {
@@ -301,6 +308,30 @@ const ContactSection = () => {
                         )}
                       </motion.div>
                     </div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.38 }}
+                    >
+                      <label className="text-sm font-medium mb-2 block text-white/80 font-heebo">
+                        {t("hero.form.email")} <span className="text-red-400">*</span>
+                      </label>
+                      <Input
+                        type="email"
+                        placeholder="jean@exemple.com"
+                        value={formData.email}
+                        onChange={(e) => {
+                          setFormData({ ...formData, email: e.target.value });
+                          setErrors(prev => ({ ...prev, email: undefined }));
+                        }}
+                        className={`bg-white/5 border-white/10 text-white focus:border-primary transition-all duration-300 ${errors.email ? 'border-red-400' : ''}`}
+                      />
+                      {errors.email && (
+                        <p className="text-red-400 text-xs mt-1">{errors.email}</p>
+                      )}
+                    </motion.div>
 
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
