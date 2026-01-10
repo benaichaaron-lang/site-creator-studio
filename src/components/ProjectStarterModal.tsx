@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface ProjectStarterModalProps {
   isOpen: boolean;
@@ -20,7 +22,7 @@ interface ProjectStarterModalProps {
 }
 
 const ProjectStarterModal = ({ isOpen, onClose, projectType }: ProjectStarterModalProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState<"choice" | "brief" | "login">("choice");
@@ -28,6 +30,7 @@ const ProjectStarterModal = ({ isOpen, onClose, projectType }: ProjectStarterMod
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [details, setDetails] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleStartBrief = () => {
     setStep("brief");
@@ -47,11 +50,45 @@ const ProjectStarterModal = ({ isOpen, onClose, projectType }: ProjectStarterMod
     onClose();
   };
 
-  const handleSubmitBrief = (e: React.FormEvent) => {
+  const handleSubmitBrief = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Submit brief and redirect to contact confirmation
-    navigate("/contact", { state: { briefSubmitted: true, projectType: projectType.id } });
-    onClose();
+    setIsSubmitting(true);
+    
+    try {
+      // Send confirmation email via edge function
+      const { error } = await supabase.functions.invoke("send-brief-confirmation", {
+        body: {
+          firstName: name.split(" ")[0],
+          email: email,
+          projectType: projectType.title,
+          language: language as "fr" | "en",
+        },
+      });
+
+      if (error) {
+        console.error("Error sending brief confirmation email:", error);
+        // Still proceed even if email fails
+      }
+
+      toast.success(
+        language === "fr" 
+          ? "Brief envoyé ! Vérifiez votre boîte mail." 
+          : "Brief submitted! Check your inbox."
+      );
+      
+      // Redirect to contact confirmation
+      navigate("/contact", { state: { briefSubmitted: true, projectType: projectType.id } });
+      onClose();
+    } catch (error) {
+      console.error("Error submitting brief:", error);
+      toast.error(
+        language === "fr"
+          ? "Erreur lors de l'envoi. Veuillez réessayer."
+          : "Error sending. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetAndClose = () => {
@@ -60,6 +97,7 @@ const ProjectStarterModal = ({ isOpen, onClose, projectType }: ProjectStarterMod
     setName("");
     setPhone("");
     setDetails("");
+    setIsSubmitting(false);
     onClose();
   };
 
@@ -263,10 +301,13 @@ const ProjectStarterModal = ({ isOpen, onClose, projectType }: ProjectStarterMod
 
                         <Button
                           type="submit"
-                          className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-semibold"
+                          disabled={isSubmitting}
+                          className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-semibold disabled:opacity-50"
                         >
-                          {t("projectStarter.briefForm.submit")}
-                          <ArrowRight className="w-4 h-4 ml-2" />
+                          {isSubmitting 
+                            ? (language === "fr" ? "Envoi en cours..." : "Sending...") 
+                            : t("projectStarter.briefForm.submit")}
+                          {!isSubmitting && <ArrowRight className="w-4 h-4 ml-2" />}
                         </Button>
                       </form>
                     </motion.div>
