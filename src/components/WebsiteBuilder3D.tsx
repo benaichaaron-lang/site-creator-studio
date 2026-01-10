@@ -1,174 +1,134 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, RoundedBox, Environment, PresentationControls, MeshTransmissionMaterial } from "@react-three/drei";
-import { useRef, useMemo } from "react";
+import { Float, RoundedBox, Text, Environment, PresentationControls } from "@react-three/drei";
+import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 
 interface WebsiteBuilder3DProps {
   activeStep: number;
-  primaryColor: string;
-  secondaryColor: string;
-  style: "minimal" | "modern" | "bold";
 }
 
-// Convert hex to THREE.Color
-const hexToColor = (hex: string) => new THREE.Color(hex);
-
 // Header component
-const Header = ({ visible, primaryColor, style }: { visible: boolean; primaryColor: string; style: string }) => {
+const Header = ({ visible, progress }: { visible: boolean; progress: number }) => {
   const ref = useRef<THREE.Group>(null);
-  const color = hexToColor(primaryColor);
   
-  useFrame(() => {
+  useFrame((state) => {
     if (ref.current && visible) {
-      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, 2.2, 0.08);
-      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.08));
+      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, 2.2, 0.1);
+      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.1));
     } else if (ref.current) {
       ref.current.position.y = 4;
       ref.current.scale.setScalar(0);
     }
   });
 
-  const headerRadius = style === "minimal" ? 0.02 : style === "bold" ? 0.1 : 0.05;
-
   return (
     <group ref={ref} position={[0, 4, 0]} scale={0}>
-      <RoundedBox args={[4.2, 0.45, 0.12]} radius={headerRadius} position={[0, 0, 0]}>
-        <meshStandardMaterial color={color} metalness={0.4} roughness={0.3} />
+      <RoundedBox args={[4, 0.4, 0.1]} radius={0.05} position={[0, 0, 0]}>
+        <meshStandardMaterial color="#8B5CF6" metalness={0.3} roughness={0.4} />
       </RoundedBox>
-      {/* Logo */}
-      <Float speed={2} rotationIntensity={0.1} floatIntensity={0.1}>
-        <RoundedBox args={[0.5, 0.28, 0.08]} radius={0.05} position={[-1.6, 0, 0.1]}>
-          <meshStandardMaterial color="#ffffff" metalness={0.6} roughness={0.2} />
-        </RoundedBox>
-      </Float>
+      {/* Logo placeholder */}
+      <RoundedBox args={[0.5, 0.25, 0.05]} radius={0.02} position={[-1.5, 0, 0.08]}>
+        <meshStandardMaterial color="#ffffff" metalness={0.5} roughness={0.3} />
+      </RoundedBox>
       {/* Nav items */}
-      {[-0.4, 0.2, 0.8].map((x, i) => (
-        <RoundedBox key={i} args={[0.45, 0.12, 0.04]} radius={0.02} position={[x, 0, 0.1]}>
-          <meshStandardMaterial color="#ffffff" opacity={0.7} transparent metalness={0.5} roughness={0.3} />
+      {[-0.3, 0.3, 0.9].map((x, i) => (
+        <RoundedBox key={i} args={[0.4, 0.15, 0.05]} radius={0.02} position={[x, 0, 0.08]}>
+          <meshStandardMaterial color="#ffffff" opacity={0.6} transparent metalness={0.5} roughness={0.3} />
         </RoundedBox>
       ))}
       {/* CTA button */}
-      <Float speed={3} rotationIntensity={0.2} floatIntensity={0.2}>
-        <RoundedBox args={[0.55, 0.22, 0.06]} radius={0.08} position={[1.55, 0, 0.1]}>
-          <meshStandardMaterial color="#ffffff" metalness={0.5} roughness={0.2} />
-        </RoundedBox>
-      </Float>
+      <RoundedBox args={[0.5, 0.2, 0.05]} radius={0.05} position={[1.5, 0, 0.08]}>
+        <meshStandardMaterial color="#22C55E" metalness={0.4} roughness={0.3} />
+      </RoundedBox>
     </group>
   );
 };
 
 // Hero section
-const HeroSection = ({ visible, primaryColor, secondaryColor, style }: { visible: boolean; primaryColor: string; secondaryColor: string; style: string }) => {
+const HeroSection = ({ visible }: { visible: boolean }) => {
   const ref = useRef<THREE.Group>(null);
-  const imageRef = useRef<THREE.Mesh>(null);
-  const primary = hexToColor(primaryColor);
-  const secondary = hexToColor(secondaryColor);
   
-  useFrame((state) => {
+  useFrame(() => {
     if (ref.current && visible) {
-      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, 1.1, 0.08);
-      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.08));
+      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, 1.2, 0.1);
+      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.1));
     } else if (ref.current) {
       ref.current.position.y = 3;
       ref.current.scale.setScalar(0);
-    }
-    
-    if (imageRef.current && visible) {
-      imageRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
     }
   });
 
   return (
     <group ref={ref} position={[0, 3, 0]} scale={0}>
-      {/* Hero background with gradient effect */}
-      <RoundedBox args={[4.2, 1.6, 0.1]} radius={style === "bold" ? 0.15 : 0.08} position={[0, 0, -0.05]}>
-        <meshStandardMaterial color="#0f0f23" metalness={0.1} roughness={0.8} />
+      {/* Hero background */}
+      <RoundedBox args={[4, 1.5, 0.08]} radius={0.05} position={[0, 0, -0.05]}>
+        <meshStandardMaterial color="#1E1B4B" metalness={0.2} roughness={0.5} />
       </RoundedBox>
-      
-      {/* Decorative gradient orb */}
-      <mesh position={[1.5, 0.3, 0.2]}>
-        <sphereGeometry args={[0.4, 32, 32]} />
-        <meshStandardMaterial color={primary} transparent opacity={0.3} />
-      </mesh>
-      
-      {/* Title placeholder */}
-      <RoundedBox args={[2.2, 0.22, 0.06]} radius={0.03} position={[-0.6, 0.45, 0.08]}>
+      {/* Title */}
+      <RoundedBox args={[2.5, 0.25, 0.05]} radius={0.03} position={[-0.5, 0.4, 0.05]}>
         <meshStandardMaterial color="#ffffff" metalness={0.5} roughness={0.3} />
       </RoundedBox>
-      
       {/* Subtitle */}
-      <RoundedBox args={[1.6, 0.1, 0.04]} radius={0.02} position={[-0.9, 0.15, 0.08]}>
-        <meshStandardMaterial color="#ffffff" opacity={0.5} transparent />
+      <RoundedBox args={[1.8, 0.12, 0.05]} radius={0.02} position={[-0.85, 0.1, 0.05]}>
+        <meshStandardMaterial color="#ffffff" opacity={0.5} transparent metalness={0.5} roughness={0.3} />
       </RoundedBox>
-      
       {/* CTA buttons */}
-      <Float speed={2} rotationIntensity={0.1} floatIntensity={0.15}>
-        <RoundedBox args={[0.75, 0.28, 0.08]} radius={0.08} position={[-1.3, -0.25, 0.1]}>
-          <meshStandardMaterial color={primary} metalness={0.4} roughness={0.3} />
-        </RoundedBox>
-      </Float>
-      <RoundedBox args={[0.75, 0.28, 0.08]} radius={0.08} position={[-0.45, -0.25, 0.1]}>
-        <meshStandardMaterial color={secondary} metalness={0.3} roughness={0.4} />
+      <RoundedBox args={[0.7, 0.25, 0.05]} radius={0.05} position={[-1.2, -0.3, 0.05]}>
+        <meshStandardMaterial color="#8B5CF6" metalness={0.4} roughness={0.3} />
       </RoundedBox>
-      
-      {/* Hero image/mockup */}
-      <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
-        <mesh ref={imageRef} position={[1.3, 0, 0.15]}>
-          <RoundedBox args={[1.4, 1.1, 0.1]} radius={0.1}>
-            <meshStandardMaterial color={primary} metalness={0.5} roughness={0.3} />
-          </RoundedBox>
-          {/* Screen content */}
-          <RoundedBox args={[1.2, 0.9, 0.02]} radius={0.05} position={[0, 0, 0.07]}>
-            <meshStandardMaterial color="#1a1a2e" metalness={0.2} roughness={0.5} />
-          </RoundedBox>
-        </mesh>
-      </Float>
+      <RoundedBox args={[0.7, 0.25, 0.05]} radius={0.05} position={[-0.4, -0.3, 0.05]}>
+        <meshStandardMaterial color="#374151" metalness={0.4} roughness={0.3} />
+      </RoundedBox>
+      {/* Hero image placeholder */}
+      <RoundedBox args={[1.2, 1, 0.08]} radius={0.08} position={[1.2, 0, 0.1]}>
+        <meshStandardMaterial color="#6366F1" metalness={0.3} roughness={0.4} />
+      </RoundedBox>
     </group>
   );
 };
 
-// Features/Cards section
-const FeaturesSection = ({ visible, primaryColor, secondaryColor, style }: { visible: boolean; primaryColor: string; secondaryColor: string; style: string }) => {
+// Content cards section
+const ContentCards = ({ visible }: { visible: boolean }) => {
   const ref = useRef<THREE.Group>(null);
-  const primary = hexToColor(primaryColor);
-  const secondary = hexToColor(secondaryColor);
   
   useFrame(() => {
     if (ref.current && visible) {
-      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, -0.4, 0.08);
-      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.08));
+      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, -0.3, 0.1);
+      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.1));
     } else if (ref.current) {
       ref.current.position.y = 2;
       ref.current.scale.setScalar(0);
     }
   });
 
-  const cardColors = [primary, secondary, new THREE.Color("#10B981")];
-  const cardRadius = style === "minimal" ? 0.03 : style === "bold" ? 0.15 : 0.08;
+  const cards = [
+    { x: -1.4, color: "#EC4899" },
+    { x: 0, color: "#F59E0B" },
+    { x: 1.4, color: "#10B981" },
+  ];
 
   return (
     <group ref={ref} position={[0, 2, 0]} scale={0}>
-      {[-1.35, 0, 1.35].map((x, i) => (
-        <Float key={i} speed={2 + i * 0.3} rotationIntensity={0.15} floatIntensity={0.25}>
-          <group position={[x, 0, 0]}>
-            {/* Card */}
-            <RoundedBox args={[1.15, 1.3, 0.1]} radius={cardRadius}>
-              <meshStandardMaterial color="#1F2937" metalness={0.2} roughness={0.6} />
+      {cards.map((card, i) => (
+        <Float key={i} speed={2} rotationIntensity={0.1} floatIntensity={0.2}>
+          <group position={[card.x, 0, 0]}>
+            <RoundedBox args={[1.1, 1.2, 0.08]} radius={0.08}>
+              <meshStandardMaterial color="#1F2937" metalness={0.3} roughness={0.5} />
             </RoundedBox>
-            {/* Icon */}
-            <RoundedBox args={[0.45, 0.45, 0.08]} radius={0.1} position={[0, 0.35, 0.08]}>
-              <meshStandardMaterial color={cardColors[i]} metalness={0.5} roughness={0.3} />
+            {/* Card icon */}
+            <RoundedBox args={[0.4, 0.4, 0.05]} radius={0.08} position={[0, 0.3, 0.06]}>
+              <meshStandardMaterial color={card.color} metalness={0.4} roughness={0.3} />
             </RoundedBox>
-            {/* Title */}
-            <RoundedBox args={[0.75, 0.1, 0.04]} radius={0.02} position={[0, -0.05, 0.08]}>
+            {/* Card title */}
+            <RoundedBox args={[0.7, 0.1, 0.03]} radius={0.02} position={[0, -0.1, 0.06]}>
               <meshStandardMaterial color="#ffffff" metalness={0.5} roughness={0.3} />
             </RoundedBox>
-            {/* Description lines */}
-            <RoundedBox args={[0.85, 0.06, 0.03]} radius={0.01} position={[0, -0.25, 0.08]}>
-              <meshStandardMaterial color="#ffffff" opacity={0.4} transparent />
+            {/* Card text */}
+            <RoundedBox args={[0.8, 0.06, 0.03]} radius={0.01} position={[0, -0.3, 0.06]}>
+              <meshStandardMaterial color="#ffffff" opacity={0.4} transparent metalness={0.5} roughness={0.3} />
             </RoundedBox>
-            <RoundedBox args={[0.65, 0.06, 0.03]} radius={0.01} position={[0, -0.38, 0.08]}>
-              <meshStandardMaterial color="#ffffff" opacity={0.3} transparent />
+            <RoundedBox args={[0.6, 0.06, 0.03]} radius={0.01} position={[0, -0.42, 0.06]}>
+              <meshStandardMaterial color="#ffffff" opacity={0.3} transparent metalness={0.5} roughness={0.3} />
             </RoundedBox>
           </group>
         </Float>
@@ -177,62 +137,66 @@ const FeaturesSection = ({ visible, primaryColor, secondaryColor, style }: { vis
   );
 };
 
-// Testimonials section
-const TestimonialsSection = ({ visible, primaryColor }: { visible: boolean; primaryColor: string }) => {
+// Animations section with particles
+const AnimationsSection = ({ visible }: { visible: boolean }) => {
   const ref = useRef<THREE.Group>(null);
-  const primary = hexToColor(primaryColor);
+  const particlesRef = useRef<THREE.Points>(null);
   
   useFrame((state) => {
     if (ref.current && visible) {
-      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, -1.6, 0.08);
-      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.08));
+      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, -1.5, 0.1);
+      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.1));
     } else if (ref.current) {
       ref.current.position.y = 1;
       ref.current.scale.setScalar(0);
     }
+    
+    if (particlesRef.current && visible) {
+      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.1;
+    }
   });
+
+  // Create particles
+  const particleCount = 50;
+  const positions = new Float32Array(particleCount * 3);
+  for (let i = 0; i < particleCount; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 4;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 0.8;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 0.5;
+  }
 
   return (
     <group ref={ref} position={[0, 1, 0]} scale={0}>
-      {/* Section background */}
-      <RoundedBox args={[4.2, 0.9, 0.08]} radius={0.1}>
-        <meshStandardMaterial color="#111827" metalness={0.1} roughness={0.7} />
-      </RoundedBox>
-      
-      {/* Quote marks */}
-      <Float speed={2} rotationIntensity={0.1} floatIntensity={0.1}>
-        <mesh position={[-1.7, 0.25, 0.1]}>
-          <torusGeometry args={[0.08, 0.025, 16, 32]} />
-          <meshStandardMaterial color={primary} metalness={0.6} roughness={0.3} />
-        </mesh>
+      {/* Animated gradient bar */}
+      <Float speed={3} rotationIntensity={0.2} floatIntensity={0.3}>
+        <RoundedBox args={[4, 0.8, 0.08]} radius={0.08}>
+          <meshStandardMaterial color="#4F46E5" metalness={0.4} roughness={0.3} />
+        </RoundedBox>
+        {/* Sparkle effects */}
+        <points ref={particlesRef}>
+          <bufferGeometry>
+            <bufferAttribute
+              attach="attributes-position"
+              count={particleCount}
+              array={positions}
+              itemSize={3}
+            />
+          </bufferGeometry>
+          <pointsMaterial size={0.03} color="#F9A8D4" transparent opacity={0.8} />
+        </points>
       </Float>
-      
-      {/* Testimonial text */}
-      <RoundedBox args={[2.8, 0.08, 0.03]} radius={0.01} position={[0, 0.1, 0.08]}>
-        <meshStandardMaterial color="#ffffff" opacity={0.7} transparent />
-      </RoundedBox>
-      <RoundedBox args={[2.2, 0.08, 0.03]} radius={0.01} position={[0, -0.05, 0.08]}>
-        <meshStandardMaterial color="#ffffff" opacity={0.5} transparent />
-      </RoundedBox>
-      
-      {/* Avatar */}
-      <mesh position={[0, -0.3, 0.1]}>
-        <sphereGeometry args={[0.12, 32, 32]} />
-        <meshStandardMaterial color={primary} metalness={0.4} roughness={0.4} />
-      </mesh>
     </group>
   );
 };
 
 // Footer section
-const FooterSection = ({ visible, primaryColor, style }: { visible: boolean; primaryColor: string; style: string }) => {
+const FooterSection = ({ visible }: { visible: boolean }) => {
   const ref = useRef<THREE.Group>(null);
-  const primary = hexToColor(primaryColor);
   
   useFrame(() => {
     if (ref.current && visible) {
-      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, -2.4, 0.08);
-      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.08));
+      ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, -2.3, 0.1);
+      ref.current.scale.setScalar(THREE.MathUtils.lerp(ref.current.scale.x, 1, 0.1));
     } else if (ref.current) {
       ref.current.position.y = 0;
       ref.current.scale.setScalar(0);
@@ -241,21 +205,20 @@ const FooterSection = ({ visible, primaryColor, style }: { visible: boolean; pri
 
   return (
     <group ref={ref} position={[0, 0, 0]} scale={0}>
-      <RoundedBox args={[4.2, 0.55, 0.08]} radius={style === "bold" ? 0.1 : 0.05}>
-        <meshStandardMaterial color={primary} metalness={0.3} roughness={0.5} opacity={0.9} transparent />
+      <RoundedBox args={[4, 0.5, 0.08]} radius={0.05}>
+        <meshStandardMaterial color="#111827" metalness={0.2} roughness={0.6} />
       </RoundedBox>
-      
       {/* Footer columns */}
-      {[-1.4, -0.5, 0.4, 1.3].map((x, i) => (
+      {[-1.2, -0.4, 0.4, 1.2].map((x, i) => (
         <group key={i} position={[x, 0, 0.06]}>
-          <RoundedBox args={[0.55, 0.08, 0.02]} radius={0.01} position={[0, 0.12, 0]}>
-            <meshStandardMaterial color="#ffffff" opacity={0.9} transparent />
+          <RoundedBox args={[0.5, 0.08, 0.02]} radius={0.01} position={[0, 0.1, 0]}>
+            <meshStandardMaterial color="#ffffff" opacity={0.8} transparent />
           </RoundedBox>
-          <RoundedBox args={[0.45, 0.05, 0.02]} radius={0.01} position={[0, 0, 0]}>
-            <meshStandardMaterial color="#ffffff" opacity={0.5} transparent />
-          </RoundedBox>
-          <RoundedBox args={[0.4, 0.05, 0.02]} radius={0.01} position={[0, -0.1, 0]}>
+          <RoundedBox args={[0.4, 0.05, 0.02]} radius={0.01} position={[0, -0.02, 0]}>
             <meshStandardMaterial color="#ffffff" opacity={0.4} transparent />
+          </RoundedBox>
+          <RoundedBox args={[0.35, 0.05, 0.02]} radius={0.01} position={[0, -0.1, 0]}>
+            <meshStandardMaterial color="#ffffff" opacity={0.3} transparent />
           </RoundedBox>
         </group>
       ))}
@@ -263,84 +226,44 @@ const FooterSection = ({ visible, primaryColor, style }: { visible: boolean; pri
   );
 };
 
-// Floating particles
-const Particles = ({ primaryColor, secondaryColor }: { primaryColor: string; secondaryColor: string }) => {
-  const ref = useRef<THREE.Points>(null);
-  const primary = hexToColor(primaryColor);
-  
-  const particles = useMemo(() => {
-    const count = 80;
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 8;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 6;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 2;
-    }
-    return positions;
-  }, []);
-
-  useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.02;
-      ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.05;
-    }
-  });
-
-  return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particles.length / 3}
-          array={particles}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial size={0.03} color={primary} transparent opacity={0.6} />
-    </points>
-  );
-};
-
 // Scene content
-const Scene = ({ activeStep, primaryColor, secondaryColor, style }: WebsiteBuilder3DProps) => {
+const Scene = ({ activeStep }: { activeStep: number }) => {
   return (
     <>
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[10, 10, 5]} intensity={1.2} />
-      <pointLight position={[-10, -10, -5]} intensity={0.6} color={primaryColor} />
-      <pointLight position={[5, 5, 5]} intensity={0.4} color={secondaryColor} />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[10, 10, 5]} intensity={1} />
+      <pointLight position={[-10, -10, -5]} intensity={0.5} color="#8B5CF6" />
       
       <PresentationControls
         global
         rotation={[0.1, 0.1, 0]}
-        polar={[-0.3, 0.3]}
-        azimuth={[-0.6, 0.6]}
+        polar={[-0.2, 0.2]}
+        azimuth={[-0.5, 0.5]}
         config={{ mass: 2, tension: 400 }}
         snap={{ mass: 4, tension: 400 }}
       >
-        <group position={[0, 0.2, 0]}>
-          <Header visible={activeStep >= 0} primaryColor={primaryColor} style={style} />
-          <HeroSection visible={activeStep >= 1} primaryColor={primaryColor} secondaryColor={secondaryColor} style={style} />
-          <FeaturesSection visible={activeStep >= 2} primaryColor={primaryColor} secondaryColor={secondaryColor} style={style} />
-          <TestimonialsSection visible={activeStep >= 3} primaryColor={primaryColor} />
-          <FooterSection visible={activeStep >= 4} primaryColor={primaryColor} style={style} />
+        <group position={[0, 0, 0]}>
+          <Header visible={activeStep >= 0} progress={activeStep} />
+          <HeroSection visible={activeStep >= 1} />
+          <ContentCards visible={activeStep >= 2} />
+          <AnimationsSection visible={activeStep >= 3} />
+          <FooterSection visible={activeStep >= 4} />
         </group>
       </PresentationControls>
 
-      <Particles primaryColor={primaryColor} secondaryColor={secondaryColor} />
       <Environment preset="city" />
     </>
   );
 };
 
-const WebsiteBuilder3D = ({ activeStep, primaryColor, secondaryColor, style }: WebsiteBuilder3DProps) => {
+const WebsiteBuilder3D = ({ activeStep }: WebsiteBuilder3DProps) => {
   return (
-    <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#0a0a1a] via-[#0f0f2a] to-[#0a0a1a]">
+    <div className="w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background border border-white/10">
       <Canvas
         camera={{ position: [0, 0, 6], fov: 45 }}
         dpr={[1, 2]}
       >
-        <Scene activeStep={activeStep} primaryColor={primaryColor} secondaryColor={secondaryColor} style={style} />
+        <Scene activeStep={activeStep} />
       </Canvas>
     </div>
   );
