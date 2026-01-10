@@ -59,6 +59,8 @@ interface UserProfile {
   phone: string | null;
   created_at: string;
   internal_tags?: string[];
+  email_confirmed_at?: string | null;
+  is_email_confirmed?: boolean;
 }
 
 interface Order {
@@ -173,12 +175,22 @@ const Admin = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // Fetch all profiles
-      const { data: profilesData } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('created_at', { ascending: false });
-      setUsers(profilesData || []);
+      // Fetch verified profiles using edge function (only shows email-confirmed users)
+      const { data: verifiedUsersData, error: verifiedUsersError } = await supabase.functions.invoke('get-verified-users');
+      
+      let profilesData: UserProfile[] = [];
+      if (verifiedUsersError) {
+        console.error('Error fetching verified users:', verifiedUsersError);
+        // Fallback to regular profiles query
+        const { data } = await supabase
+          .from('profiles')
+          .select('*')
+          .order('created_at', { ascending: false });
+        profilesData = data || [];
+      } else {
+        profilesData = verifiedUsersData?.users || [];
+      }
+      setUsers(profilesData);
 
       // Fetch all orders with pack info
       const { data: ordersData } = await supabase
