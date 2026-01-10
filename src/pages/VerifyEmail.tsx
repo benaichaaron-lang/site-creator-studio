@@ -7,7 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
-type VerificationStatus = 'loading' | 'success' | 'expired' | 'invalid' | 'error';
+type VerificationStatus = 'loading' | 'success' | 'redirecting' | 'expired' | 'invalid' | 'error';
 
 const VerifyEmail = () => {
   const { t } = useLanguage();
@@ -50,36 +50,29 @@ const VerifyEmail = () => {
         return;
       }
 
-      // Success! Set the session with the tokens
-      if (data.access_token && data.refresh_token) {
-        const { error: sessionError } = await supabase.auth.setSession({
-          access_token: data.access_token,
-          refresh_token: data.refresh_token
+      // Success! We have a magic link - redirect to it for auto-authentication
+      if (data.magic_link) {
+        setStatus('redirecting');
+        toast({
+          title: t('verifyEmail.success.title'),
+          description: t('verifyEmail.success.description'),
         });
 
-        if (sessionError) {
-          console.error('Session error:', sessionError);
-          // Still show success but user may need to login
-          setStatus('success');
-          toast({
-            title: t('verifyEmail.success.title'),
-            description: t('verifyEmail.success.loginRequired'),
-          });
-          setTimeout(() => navigate('/auth'), 2000);
-          return;
-        }
+        // Small delay to show success message, then redirect to magic link
+        setTimeout(() => {
+          // Redirect to the Supabase magic link which will auto-authenticate
+          window.location.href = data.magic_link;
+        }, 1500);
+        return;
       }
 
+      // Fallback if no magic link (shouldn't happen)
       setStatus('success');
       toast({
         title: t('verifyEmail.success.title'),
-        description: t('verifyEmail.success.description'),
+        description: t('verifyEmail.success.loginRequired'),
       });
-
-      // Redirect to dashboard after a short delay
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 2000);
+      setTimeout(() => navigate('/auth'), 2000);
 
     } catch (err: any) {
       console.error('Verification catch error:', err);
@@ -159,6 +152,30 @@ const VerifyEmail = () => {
             <p className="text-muted-foreground">
               {t('verifyEmail.loading.description')}
             </p>
+          </motion.div>
+        );
+
+      case 'redirecting':
+        return (
+          <motion.div
+            key="redirecting"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center"
+          >
+            <div className="w-20 h-20 mx-auto mb-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+              <CheckCircle className="w-10 h-10 text-green-600" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground mb-3">
+              {t('verifyEmail.success.title')}
+            </h1>
+            <p className="text-muted-foreground mb-4">
+              {t('verifyEmail.success.description')}
+            </p>
+            <div className="flex items-center justify-center gap-2 text-primary">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span className="text-sm">{t('verifyEmail.success.redirecting')}</span>
+            </div>
           </motion.div>
         );
 

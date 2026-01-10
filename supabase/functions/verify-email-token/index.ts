@@ -97,10 +97,14 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    // Generate a magic link for auto-login
+    // Generate a magic link that will auto-authenticate the user
+    // The redirect URL will take them directly to the dashboard after auth
     const { data: magicLinkData, error: magicLinkError } = await supabaseAdmin.auth.admin.generateLink({
       type: "magiclink",
       email: tokenData.email,
+      options: {
+        redirectTo: "https://mysitefactory.com/dashboard"
+      }
     });
 
     if (magicLinkError) {
@@ -111,23 +115,24 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Extract the token from the magic link properties
-    const actionLink = magicLinkData.properties?.action_link;
-    
-    // Parse the hashed_token from the action link
-    const url = new URL(actionLink);
-    const hashParams = new URLSearchParams(url.hash.substring(1));
-    const accessToken = hashParams.get("access_token");
-    const refreshToken = hashParams.get("refresh_token");
+    // Get the magic link URL that will authenticate the user
+    const magicLinkUrl = magicLinkData.properties?.action_link;
 
-    console.log(`Email verified successfully for user: ${tokenData.user_id}`);
+    if (!magicLinkUrl) {
+      console.error("No magic link URL generated");
+      return new Response(
+        JSON.stringify({ error: "Failed to generate login link", code: "LINK_ERROR" }),
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    console.log(`Email verified successfully for user: ${tokenData.user_id}, magic link generated`);
 
     return new Response(
       JSON.stringify({ 
         success: true, 
         message: "Email verified successfully",
-        access_token: accessToken,
-        refresh_token: refreshToken,
+        magic_link: magicLinkUrl,
         user_id: tokenData.user_id
       }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
