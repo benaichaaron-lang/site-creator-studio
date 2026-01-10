@@ -31,10 +31,10 @@ const TrustSection = () => {
   ];
 
   return (
-    <section className="py-14 md:py-20 border-t border-b border-white/[0.05]">
+    <section className="py-10 md:py-20 border-t border-b border-white/[0.05]">
       <div className="container mx-auto px-4">
-        {/* Stats */}
-        <div className="flex flex-wrap justify-center gap-10 md:gap-20 mb-12 md:mb-16">
+        {/* Stats - horizontal scroll on mobile, row on desktop */}
+        <div className="flex justify-between md:justify-center gap-6 md:gap-20 mb-8 md:mb-16 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -42,20 +42,20 @@ const TrustSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="text-center"
+              className="text-center flex-shrink-0"
             >
-              <div className="flex items-center justify-center gap-2.5 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="w-5 h-5 text-primary" />
+              <div className="flex items-center justify-center gap-2 mb-1.5">
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                 </div>
-                <span className="font-bebas text-4xl md:text-5xl text-white tracking-tight">{stat.value}</span>
+                <span className="font-bebas text-3xl md:text-5xl text-white tracking-tight">{stat.value}</span>
               </div>
-              <p className="text-white/40 text-sm font-heebo">{stat.label}</p>
+              <p className="text-white/40 text-xs md:text-sm font-heebo whitespace-nowrap">{stat.label}</p>
             </motion.div>
           ))}
         </div>
 
-        {/* Credibility phrase + sectors */}
+        {/* Credibility phrase + sectors - more compact on mobile */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -63,12 +63,12 @@ const TrustSection = () => {
           transition={{ delay: 0.2 }}
           className="text-center"
         >
-          <p className="text-white/50 text-sm mb-6 font-heebo max-w-md mx-auto">
+          <p className="text-white/50 text-xs md:text-sm mb-4 md:mb-6 font-heebo max-w-sm md:max-w-md mx-auto px-2">
             {t("trust.credibility")}
           </p>
           
-          {/* Sector icons - premium monochrome */}
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
+          {/* Sector icons - horizontal scroll on mobile */}
+          <div className="flex items-center justify-start md:justify-center gap-3 md:gap-6 overflow-x-auto pb-2 md:pb-0 px-2 md:px-0 scrollbar-hide">
             {sectors.map((sector, index) => (
               <motion.div
                 key={sector.name}
@@ -76,13 +76,13 @@ const TrustSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 + index * 0.08, duration: 0.4 }}
-                className="group"
+                className="group flex-shrink-0"
               >
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center group-hover:bg-white/[0.05] group-hover:border-white/[0.1] transition-all duration-300">
-                    <sector.icon className="w-6 h-6 text-white/40 group-hover:text-white/60 transition-colors" />
+                <div className="flex flex-col items-center gap-1.5 md:gap-2">
+                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-lg md:rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center group-hover:bg-white/[0.05] group-hover:border-white/[0.1] transition-all duration-300">
+                    <sector.icon className="w-5 h-5 md:w-6 md:h-6 text-white/40 group-hover:text-white/60 transition-colors" />
                   </div>
-                  <span className="text-[11px] text-white/30 font-heebo group-hover:text-white/50 transition-colors">{sector.name}</span>
+                  <span className="text-[10px] md:text-[11px] text-white/30 font-heebo group-hover:text-white/50 transition-colors whitespace-nowrap">{sector.name}</span>
                 </div>
               </motion.div>
             ))}

@@ -3,9 +3,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Check } from "lucide-react";
 import googleLogo from "@/assets/google-logo.png";
 import shopifyLogo from "@/assets/shopify-logo-new.png";
+import useEmblaCarousel from "embla-carousel-react";
+import { useCallback, useEffect, useState } from "react";
 
 const ExpertiseSection = () => {
   const { language } = useLanguage();
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "center", containScroll: false });
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const expertises = [
     {
@@ -34,36 +38,106 @@ const ExpertiseSection = () => {
     },
   ];
 
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi, onSelect]);
+
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-16 md:py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background to-card/30" />
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
+        {/* Header - compact on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4">
+          <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs md:text-sm font-medium mb-3 md:mb-4">
             {language === "fr" ? "Nos Maîtrises" : "Our Expertise"}
           </span>
-          <h2 className="font-bebas text-4xl md:text-5xl lg:text-6xl text-white mb-4">
+          <h2 className="font-bebas text-2xl md:text-5xl lg:text-6xl text-white mb-2 md:mb-4">
             {language === "fr" 
               ? "Technologies & Plateformes" 
               : "Technologies & Platforms"}
           </h2>
-          <p className="text-white/60 max-w-2xl mx-auto text-lg">
+          <p className="text-white/60 max-w-xl mx-auto text-sm md:text-lg hidden md:block">
             {language === "fr"
               ? "Nous maîtrisons les outils et plateformes essentiels pour votre succès digital"
               : "We master the essential tools and platforms for your digital success"}
           </p>
         </motion.div>
 
-        {/* Expertise Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        {/* Mobile: Swipeable cards */}
+        <div className="md:hidden">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex">
+              {expertises.map((expertise) => (
+                <div key={expertise.name} className="flex-[0_0_90%] min-w-0 pl-3 first:pl-0 pr-3">
+                  <div className={`relative p-5 rounded-2xl bg-gradient-to-br ${expertise.bgColor} backdrop-blur-sm border ${expertise.borderColor} transition-all duration-300`}>
+                    {/* Logo */}
+                    <div className="mb-4">
+                      <div className="h-12 flex items-center">
+                        <img 
+                          src={expertise.logo} 
+                          alt={expertise.name}
+                          className="h-full w-auto object-contain max-w-[150px]"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <h3 className="font-bebas text-xl text-white mb-2">
+                      {expertise.name}
+                    </h3>
+                    <p className="text-white/60 text-sm mb-4">
+                      {expertise.description}
+                    </p>
+
+                    {/* Features - 2 columns on mobile */}
+                    <div className="grid grid-cols-2 gap-2">
+                      {expertise.features.map((feature) => (
+                        <div
+                          key={feature}
+                          className="flex items-center gap-1.5"
+                        >
+                          <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                            <Check className="w-2.5 h-2.5 text-primary" />
+                          </div>
+                          <span className="text-xs text-white/80">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Indicators */}
+          <div className="flex justify-center gap-1.5 mt-4">
+            {expertises.map((_, index) => (
+              <button
+                key={index}
+                className={`h-1.5 rounded-full transition-all duration-300 ${index === selectedIndex ? "w-6 bg-primary" : "w-1.5 bg-white/20"}`}
+                onClick={() => emblaApi?.scrollTo(index)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: Grid */}
+        <div className="hidden md:grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {expertises.map((expertise, index) => (
             <motion.div
               key={expertise.name}
@@ -127,9 +201,9 @@ const ExpertiseSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="text-center mt-12"
+          className="text-center mt-8 md:mt-12"
         >
-          <p className="text-white/50 text-sm">
+          <p className="text-white/50 text-xs md:text-sm">
             {language === "fr" 
               ? "Et bien plus encore : React, Next.js, WordPress, Webflow..."
               : "And much more: React, Next.js, WordPress, Webflow..."}
