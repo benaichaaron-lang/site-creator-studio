@@ -39,6 +39,7 @@ export const fr = {
       subtitle: "Devis gratuit • Réponse sous 24h",
       firstName: "Prénom",
       lastName: "Nom",
+      email: "Email",
       phone: "Téléphone",
       recommendation: "Recommandation",
       recommendationPlaceholder: "Qui vous a parlé de nous ?",
@@ -81,6 +82,8 @@ export const fr = {
     errors: {
       firstName: "Prénom requis",
       lastName: "Nom requis",
+      email: "Email requis",
+      emailInvalid: "Email invalide",
       phone: "Téléphone requis",
       websiteType: "Sélectionnez un type",
       budget: "Sélectionnez un budget",

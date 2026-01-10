@@ -39,6 +39,7 @@ export const en = {
       subtitle: "Free quote • Response within 24h",
       firstName: "First name",
       lastName: "Last name",
+      email: "Email",
       phone: "Phone",
       recommendation: "Referral",
       recommendationPlaceholder: "Who referred you to us?",
@@ -81,6 +82,8 @@ export const en = {
     errors: {
       firstName: "First name required",
       lastName: "Last name required",
+      email: "Email required",
+      emailInvalid: "Invalid email",
       phone: "Phone required",
       websiteType: "Select a type",
       budget: "Select a budget",
