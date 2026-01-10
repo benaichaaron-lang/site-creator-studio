@@ -335,6 +335,60 @@ export type Database = {
         }
         Relationships: []
       }
+      project_briefs: {
+        Row: {
+          budget: string | null
+          created_at: string
+          details: string | null
+          email: string
+          first_name: string
+          id: string
+          language: string | null
+          last_name: string | null
+          phone: string | null
+          project_type: string | null
+          recommendation: string | null
+          status: string | null
+          timeline: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          budget?: string | null
+          created_at?: string
+          details?: string | null
+          email: string
+          first_name: string
+          id?: string
+          language?: string | null
+          last_name?: string | null
+          phone?: string | null
+          project_type?: string | null
+          recommendation?: string | null
+          status?: string | null
+          timeline?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          budget?: string | null
+          created_at?: string
+          details?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          language?: string | null
+          last_name?: string | null
+          phone?: string | null
+          project_type?: string | null
+          recommendation?: string | null
+          status?: string | null
+          timeline?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           created_at: string
