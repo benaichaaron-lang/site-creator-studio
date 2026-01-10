@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,28 +14,31 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     // Get the authorization header to verify admin status
     const authHeader = req.headers.get("authorization");
-    if (!authHeader) {
+    if (!authHeader?.startsWith("Bearer ")) {
       return new Response(
         JSON.stringify({ error: "Authorization required" }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // Create Supabase clients
+    // Create Supabase admin client
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
+    // Create client with user's token
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_ANON_KEY")!,
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    // Verify the user is authenticated and is an admin
+    // Verify the user using getUser
     const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+    
     if (userError || !user) {
+      console.error("User error:", userError);
       return new Response(
         JSON.stringify({ error: "Authentication failed" }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
