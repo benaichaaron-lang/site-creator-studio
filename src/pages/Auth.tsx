@@ -291,8 +291,41 @@ const Auth = () => {
     );
   }
 
+  // Helper function to get email provider link
+  const getEmailProviderLink = (userEmail: string): { name: string; url: string } | null => {
+    const domain = userEmail.split('@')[1]?.toLowerCase();
+    
+    const providers: Record<string, { name: string; url: string }> = {
+      'gmail.com': { name: 'Gmail', url: 'https://mail.google.com' },
+      'googlemail.com': { name: 'Gmail', url: 'https://mail.google.com' },
+      'outlook.com': { name: 'Outlook', url: 'https://outlook.live.com' },
+      'outlook.fr': { name: 'Outlook', url: 'https://outlook.live.com' },
+      'hotmail.com': { name: 'Outlook', url: 'https://outlook.live.com' },
+      'hotmail.fr': { name: 'Outlook', url: 'https://outlook.live.com' },
+      'live.com': { name: 'Outlook', url: 'https://outlook.live.com' },
+      'live.fr': { name: 'Outlook', url: 'https://outlook.live.com' },
+      'msn.com': { name: 'Outlook', url: 'https://outlook.live.com' },
+      'yahoo.com': { name: 'Yahoo Mail', url: 'https://mail.yahoo.com' },
+      'yahoo.fr': { name: 'Yahoo Mail', url: 'https://mail.yahoo.com' },
+      'icloud.com': { name: 'iCloud Mail', url: 'https://www.icloud.com/mail' },
+      'me.com': { name: 'iCloud Mail', url: 'https://www.icloud.com/mail' },
+      'mac.com': { name: 'iCloud Mail', url: 'https://www.icloud.com/mail' },
+      'protonmail.com': { name: 'ProtonMail', url: 'https://mail.protonmail.com' },
+      'proton.me': { name: 'Proton Mail', url: 'https://mail.proton.me' },
+      'orange.fr': { name: 'Orange Mail', url: 'https://messagerie.orange.fr' },
+      'wanadoo.fr': { name: 'Orange Mail', url: 'https://messagerie.orange.fr' },
+      'sfr.fr': { name: 'SFR Mail', url: 'https://webmail.sfr.fr' },
+      'free.fr': { name: 'Free Mail', url: 'https://webmail.free.fr' },
+      'laposte.net': { name: 'La Poste', url: 'https://www.laposte.net/accueil' },
+    };
+    
+    return providers[domain] || null;
+  };
+
   // Email Confirmation Screen
   if (showConfirmation) {
+    const emailProvider = getEmailProviderLink(email);
+    
     return (
       <div className="min-h-screen bg-hero flex items-center justify-center p-4">
         <motion.div
@@ -314,15 +347,29 @@ const Auth = () => {
             <p className="text-sm text-muted-foreground mb-6">
               {t("authPage.confirmation.checkSpam")}
             </p>
-            <Button
-              onClick={() => {
-                setShowConfirmation(false);
-                setIsLogin(true);
-              }}
-              className="w-full bg-gradient-primary hover:opacity-90"
-            >
-              {t("authPage.confirmation.backToLogin")}
-            </Button>
+            
+            <div className="space-y-3">
+              {emailProvider && (
+                <Button
+                  onClick={() => window.open(emailProvider.url, '_blank')}
+                  className="w-full bg-gradient-primary hover:opacity-90"
+                >
+                  <Mail className="w-4 h-4 mr-2" />
+                  {t("authPage.confirmation.openMailbox").replace('{provider}', emailProvider.name)}
+                </Button>
+              )}
+              
+              <Button
+                variant={emailProvider ? "outline" : "default"}
+                onClick={() => {
+                  setShowConfirmation(false);
+                  setIsLogin(true);
+                }}
+                className={emailProvider ? "w-full" : "w-full bg-gradient-primary hover:opacity-90"}
+              >
+                {t("authPage.confirmation.backToLogin")}
+              </Button>
+            </div>
           </div>
         </motion.div>
       </div>
