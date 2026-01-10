@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.resend-verification-email]
 verify_jwt = false
+
+[functions.get-verified-users]
+verify_jwt = false
