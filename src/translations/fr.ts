@@ -618,6 +618,7 @@ export const fr = {
     hasAccount: "Déjà un compte ? Se connecter",
     backToSite: "← Retour au site",
     forgotPasswordLink: "Mot de passe oublié ?",
+    emailVerified: "Email vérifié avec succès ! Connectez-vous maintenant.",
     errors: {
       invalidEmail: "Email invalide",
       passwordMin: "Le mot de passe doit contenir au moins 6 caractères",
