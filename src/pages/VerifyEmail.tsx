@@ -50,15 +50,15 @@ const VerifyEmail = () => {
         return;
       }
 
-      // Success! Email is verified - redirect to login page
+      // Success! Email is verified - redirect to login page with email pre-filled
       setStatus('success');
       toast({
         title: t('verifyEmail.success.title'),
         description: t('verifyEmail.success.description'),
       });
 
-      // Redirect to auth page after short delay
-      setTimeout(() => navigate('/auth'), 2000);
+      // Redirect to auth page after short delay with verified flag
+      setTimeout(() => navigate('/auth?verified=true'), 2000);
 
     } catch (err: any) {
       console.error('Verification catch error:', err);

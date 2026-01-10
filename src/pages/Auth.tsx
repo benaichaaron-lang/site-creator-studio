@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, User, Phone, ArrowRight, Loader2, Eye, EyeOff, CheckCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,9 +26,11 @@ const Auth = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
   const [forgotPasswordSent, setForgotPasswordSent] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
   
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { signIn, signUp, user, isAdmin } = useAuth();
   const { toast } = useToast();
 
@@ -54,7 +56,13 @@ const Auth = () => {
       if (state.phone) setPhone(state.phone);
       if (state.isSignUp) setIsLogin(false);
     }
-  }, [location.state]);
+    
+    // Check if coming from email verification
+    if (searchParams.get('verified') === 'true') {
+      setEmailVerified(true);
+      setIsLogin(true);
+    }
+  }, [location.state, searchParams]);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -385,6 +393,20 @@ const Auth = () => {
         className="w-full max-w-md"
       >
         <div className="bg-card rounded-2xl shadow-elevated p-8">
+          {/* Email verified success banner */}
+          {emailVerified && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center gap-3"
+            >
+              <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+              <p className="text-sm text-green-400">
+                {t("authPage.emailVerified") || "Email vérifié avec succès ! Connectez-vous maintenant."}
+              </p>
+            </motion.div>
+          )}
+          
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-foreground mb-2">
               {isLogin ? t("authPage.signIn") : t("authPage.signUp")}

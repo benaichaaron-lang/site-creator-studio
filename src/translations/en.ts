@@ -618,6 +618,7 @@ export const en = {
     hasAccount: "Already have an account? Sign in",
     backToSite: "← Back to site",
     forgotPasswordLink: "Forgot password?",
+    emailVerified: "Email verified successfully! You can now sign in.",
     errors: {
       invalidEmail: "Invalid email",
       passwordMin: "Password must be at least 6 characters",
