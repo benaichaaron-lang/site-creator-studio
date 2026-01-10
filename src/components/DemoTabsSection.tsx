@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Globe, ShoppingCart, Briefcase, Code, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ProjectStarterModal from "./ProjectStarterModal";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect } from "react";
 
 const DemoTabsSection = () => {
   const { t } = useLanguage();
