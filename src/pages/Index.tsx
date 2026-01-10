@@ -5,8 +5,8 @@ import LazySection from "@/components/LazySection";
 
 // Lazy load sections
 const TrustSection = lazy(() => import("@/components/TrustSection"));
+const DemoTabsSection = lazy(() => import("@/components/DemoTabsSection"));
 const InteractiveDemoSection = lazy(() => import("@/components/InteractiveDemoSection"));
-const UIUXSection = lazy(() => import("@/components/UIUXSection"));
 const ExpertiseSection = lazy(() => import("@/components/ExpertiseSection"));
 const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
 const Footer = lazy(() => import("@/components/Footer"));
@@ -30,17 +30,17 @@ const Index = () => {
         </Suspense>
       </LazySection>
       
+      {/* Demo tabs - Preview of services */}
+      <LazySection>
+        <Suspense fallback={<SectionLoader />}>
+          <DemoTabsSection />
+        </Suspense>
+      </LazySection>
+
       {/* Interactive Demo - Website Builder Playground */}
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <InteractiveDemoSection />
-        </Suspense>
-      </LazySection>
-
-      {/* UI/UX Section */}
-      <LazySection>
-        <Suspense fallback={<SectionLoader />}>
-          <UIUXSection />
         </Suspense>
       </LazySection>
 
