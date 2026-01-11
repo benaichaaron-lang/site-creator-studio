@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { Clock, Users, Headphones, Briefcase, ShoppingBag, Rocket, Building } from "lucide-react";
+import { Clock, Users, Headphones, Briefcase, ShoppingBag, Rocket, Building, Wallet } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import CryptoBadge, { BitcoinIcon, EthereumIcon, USDCIcon, USDTIcon } from "./CryptoBadge";
 
 const TrustSection = () => {
   const { t } = useLanguage();
@@ -30,6 +31,13 @@ const TrustSection = () => {
     { name: t("trust.sectors.services"), icon: Briefcase },
   ];
 
+  const cryptos = [
+    { Icon: BitcoinIcon, name: "BTC" },
+    { Icon: EthereumIcon, name: "ETH" },
+    { Icon: USDCIcon, name: "USDC" },
+    { Icon: USDTIcon, name: "USDT" },
+  ];
+
   return (
     <section className="py-10 md:py-20 border-t border-b border-white/[0.05]">
       <div className="container mx-auto px-4">
@@ -55,12 +63,42 @@ const TrustSection = () => {
           ))}
         </div>
 
+        {/* Crypto payment banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mb-8 md:mb-12"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 p-4 md:p-6 rounded-2xl bg-gradient-to-r from-[#F7931A]/5 via-[#627EEA]/5 to-[#26A17B]/5 border border-white/[0.08]">
+            <div className="flex items-center gap-2">
+              <Wallet className="w-5 h-5 text-primary" />
+              <span className="text-white/70 font-medium text-sm md:text-base">{t("cryptoNative.payWith")}</span>
+            </div>
+            <div className="flex items-center gap-3">
+              {cryptos.map((crypto) => (
+                <motion.div
+                  key={crypto.name}
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/10"
+                >
+                  <crypto.Icon className="w-5 h-5" />
+                  <span className="text-white/60 text-xs font-medium">{crypto.name}</span>
+                </motion.div>
+              ))}
+            </div>
+            <div className="hidden md:block h-5 w-px bg-white/10" />
+            <span className="text-xs text-white/40 font-heebo">{t("cryptoNative.web2web3")}</span>
+          </div>
+        </motion.div>
+
         {/* Credibility phrase + sectors - more compact on mobile */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.3 }}
           className="text-center"
         >
           <p className="text-white/50 text-xs md:text-sm mb-4 md:mb-6 font-heebo max-w-sm md:max-w-md mx-auto px-2">
@@ -75,7 +113,7 @@ const TrustSection = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.3 + index * 0.08, duration: 0.4 }}
+                transition={{ delay: 0.4 + index * 0.08, duration: 0.4 }}
                 className="group flex-shrink-0"
               >
                 <div className="flex flex-col items-center gap-1.5 md:gap-2">

@@ -1453,4 +1453,167 @@ export const en = {
     continueWith: "Continue with Google",
     or: "or",
   },
+
+  // Crypto Benefits Section
+  cryptoBenefits: {
+    badge: "Web3 Payments",
+    title: "Pay with crypto, friction-free",
+    subtitle: "Fast, secure, borderless transactions. No banks, no delays, just code.",
+    fast: {
+      title: "Fast",
+      description: "Confirmation in minutes. We start your project immediately upon receipt.",
+    },
+    global: {
+      title: "Borderless",
+      description: "Pay from anywhere in the world, no international banking fees.",
+    },
+    secure: {
+      title: "Secure",
+      description: "Blockchain-verified transactions. Complete traceability.",
+    },
+    transparent: {
+      title: "Transparent",
+      description: "Official invoice and blockchain proof for every payment.",
+    },
+    supportedWallets: "Supported Wallets",
+    noUpfront: "Payment only after brief validation. No deposit required.",
+    cta: "Start my project",
+  },
+
+  // Services Page - Extended
+  servicesPage: {
+    badge: "Services",
+    title: "Service Catalog",
+    subtitle: "Modular solutions for every digital need. All crypto-payment compatible.",
+    categories: {
+      development: "Web Development",
+      design: "UI/UX Design",
+      branding: "Branding & Identity",
+      web3: "Web3 Services",
+      performance: "Performance & SEO",
+      maintenance: "Maintenance & Support",
+    },
+    services: {
+      landingPage: {
+        title: "Landing Page",
+        description: "Conversion-optimized page to capture leads and sell.",
+        price: "From $500",
+        delay: "5 days",
+        features: ["Responsive design", "Conversion optimization", "Integrated forms", "Analytics"],
+      },
+      businessSite: {
+        title: "Business Site",
+        description: "Complete professional presence for your company.",
+        price: "From $1,200",
+        delay: "7 days",
+        features: ["Up to 5 pages", "SEO optimized", "Premium design", "CMS integrated"],
+      },
+      ecommerce: {
+        title: "E-commerce",
+        description: "Complete online store with inventory and payment management.",
+        price: "From $2,000",
+        delay: "10 days",
+        features: ["Product catalog", "Secure payment", "Stock management", "Shipping integrated"],
+      },
+      webapp: {
+        title: "Web Application",
+        description: "Custom solution to digitize your business processes.",
+        price: "Custom quote",
+        delay: "2-4 weeks",
+        features: ["Custom architecture", "Database", "Integrated APIs", "Admin dashboard"],
+      },
+      saas: {
+        title: "SaaS Platform",
+        description: "Scalable digital product with subscriptions and multi-tenancy.",
+        price: "Custom quote",
+        delay: "4-8 weeks",
+        features: ["Multi-users", "Integrated billing", "Analytics", "Public API"],
+      },
+      uiDesign: {
+        title: "UI Design",
+        description: "Modern, intuitive interfaces for web and mobile.",
+        price: "From $800",
+        delay: "5 days",
+        features: ["Figma mockups", "Design system", "Clickable prototypes", "Exported assets"],
+      },
+      uxAudit: {
+        title: "UX Audit",
+        description: "User experience analysis and recommendations.",
+        price: "From $500",
+        delay: "3 days",
+        features: ["Journey analysis", "Friction points", "Recommendations", "Detailed report"],
+      },
+      dashboardDesign: {
+        title: "Dashboard Design",
+        description: "Complex data interfaces, clear and actionable.",
+        price: "From $1,500",
+        delay: "7 days",
+        features: ["Data visualization", "Design system", "Reusable components", "Dark/Light mode"],
+      },
+      logoDesign: {
+        title: "Logo & Identity",
+        description: "Logo creation and complete brand guidelines.",
+        price: "From $400",
+        delay: "5 days",
+        features: ["3 proposals", "Revisions included", "Source files", "Usage guide"],
+      },
+      brandIdentity: {
+        title: "Brand Identity",
+        description: "Complete brand strategy: positioning, tone, visuals.",
+        price: "From $1,500",
+        delay: "10 days",
+        features: ["Brand strategy", "Style guide", "Social templates", "Guidelines"],
+      },
+      cryptoPayments: {
+        title: "Crypto Integration",
+        description: "Add crypto payments to your existing site or app.",
+        price: "From $800",
+        delay: "3 days",
+        features: ["Multi-crypto", "Wallet connect", "Webhooks", "Payment dashboard"],
+      },
+      web3Dashboard: {
+        title: "Web3 Dashboard",
+        description: "Interfaces for DeFi, NFT, or blockchain data.",
+        price: "Custom quote",
+        delay: "2-4 weeks",
+        features: ["Wallet connection", "On-chain data", "Smart contracts", "Multi-chain"],
+      },
+      seoOptimization: {
+        title: "SEO Optimization",
+        description: "Improve your site's organic search ranking.",
+        price: "From $600",
+        delay: "5 days",
+        features: ["Technical audit", "On-page optimization", "Schema markup", "Monthly report"],
+      },
+      performanceAudit: {
+        title: "Performance Audit",
+        description: "Analysis and optimization of loading speed.",
+        price: "From $400",
+        delay: "3 days",
+        features: ["Core Web Vitals", "Image optimization", "Cache strategy", "CDN setup"],
+      },
+      maintenanceMonthly: {
+        title: "Monthly Maintenance",
+        description: "Continuous support, updates and monitoring.",
+        price: "From $150/month",
+        delay: "Ongoing",
+        features: ["Updates", "Backups", "24/7 monitoring", "Priority support"],
+      },
+      supportHourly: {
+        title: "Hourly Support",
+        description: "One-time interventions and modifications.",
+        price: "$80/hour",
+        delay: "Within 48h",
+        features: ["Modifications", "Bug fixes", "New features", "Technical advice"],
+      },
+    },
+  },
+
+  // Crypto-native messaging
+  cryptoNative: {
+    tagline: "Crypto-Friendly Agency",
+    web2web3: "Web2 & Web3 Ready",
+    payWith: "Pay with crypto or card",
+    acceptedCryptos: "BTC • ETH • USDC • USDT",
+  },
 };
