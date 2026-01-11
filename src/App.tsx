@@ -27,6 +27,7 @@ import Packs from "./pages/Packs";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import Custom from "./pages/Custom";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,7 @@ const App = () => (
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/verify-email" element={<VerifyEmail />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/checkout/:packId" element={<Checkout />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

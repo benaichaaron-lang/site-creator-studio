@@ -13,10 +13,74 @@ const corsHeaders = {
 
 interface ResetPasswordRequest {
   email: string;
+  language?: 'fr' | 'en';
 }
 
 // Production domain - hardcoded to avoid Lovable preview URL issues
 const SITE_URL = "https://mysitefactory.com";
+
+// Email content for both languages
+const emailContent = {
+  fr: {
+    subject: "Réinitialisation de votre mot de passe - MySiteFactory",
+    title: "Réinitialisation de mot de passe 🔐",
+    greeting: "Vous avez demandé à réinitialiser votre mot de passe. Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe :",
+    cta: "Réinitialiser mon mot de passe",
+    expiry: "Ce lien expire dans 1 heure. Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.",
+    fallback: "Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :",
+    footer: "Création de sites web professionnels",
+  },
+  en: {
+    subject: "Reset your password - MySiteFactory",
+    title: "Password Reset 🔐",
+    greeting: "You requested to reset your password. Click the button below to create a new password:",
+    cta: "Reset my password",
+    expiry: "This link expires in 1 hour. If you didn't request this reset, please ignore this email.",
+    fallback: "If the button doesn't work, copy this link to your browser:",
+    footer: "Professional website creation",
+  },
+};
+
+const generateEmailHtml = (content: typeof emailContent.fr, resetLink: string) => `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f5;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+    <div style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border-radius: 16px 16px 0 0; padding: 40px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 28px;">MySiteFactory</h1>
+    </div>
+    <div style="background: white; padding: 40px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+      <h2 style="color: #18181b; margin-top: 0;">${content.title}</h2>
+      <p style="color: #52525b; line-height: 1.6; font-size: 16px;">
+        ${content.greeting}
+      </p>
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="${resetLink}" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
+          ${content.cta}
+        </a>
+      </div>
+      <p style="color: #a1a1aa; font-size: 14px; margin-top: 30px;">
+        ${content.expiry}
+      </p>
+      <p style="color: #a1a1aa; font-size: 12px; margin-top: 20px;">
+        ${content.fallback}<br>
+        <a href="${resetLink}" style="color: #6366f1; word-break: break-all;">${resetLink}</a>
+      </p>
+    </div>
+    <div style="text-align: center; padding: 20px; color: #a1a1aa; font-size: 12px;">
+      <p>© 2025 MySiteFactory - ${content.footer}</p>
+      <p>
+        <a href="https://mysitefactory.com" style="color: #6366f1; text-decoration: none;">mysitefactory.com</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+`;
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -24,7 +88,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email }: ResetPasswordRequest = await req.json();
+    const { email, language = "fr" }: ResetPasswordRequest = await req.json();
 
     if (!email) {
       return new Response(
@@ -59,8 +123,6 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Get the action_link from the generated link
-    // The action_link is the Supabase verify URL that will authenticate the user
-    // and redirect them to our reset-password page
     const actionLink = data.properties?.action_link;
 
     if (!actionLink) {
@@ -71,11 +133,12 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Use the Supabase action link directly - it will handle the recovery flow
-    // and redirect to our reset-password page after verification
     const resetLink = actionLink;
-    
     console.log("Generated reset link for:", email);
+
+    // Get the appropriate email content based on language
+    const content = emailContent[language] || emailContent.fr;
+    const emailHtml = generateEmailHtml(content, resetLink);
 
     // Send email via Resend
     const emailResponse = await fetch("https://api.resend.com/emails", {
@@ -87,47 +150,8 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "MySiteFactory <noreply@mysitefactory.com>",
         to: [email],
-        subject: "Réinitialisation de votre mot de passe - MySiteFactory",
-        html: `
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          </head>
-          <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f5;">
-            <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-              <div style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border-radius: 16px 16px 0 0; padding: 40px; text-align: center;">
-                <h1 style="color: white; margin: 0; font-size: 28px;">MySiteFactory</h1>
-              </div>
-              <div style="background: white; padding: 40px; border-radius: 0 0 16px 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                <h2 style="color: #18181b; margin-top: 0;">Réinitialisation de mot de passe 🔐</h2>
-                <p style="color: #52525b; line-height: 1.6; font-size: 16px;">
-                  Vous avez demandé à réinitialiser votre mot de passe. Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe :
-                </p>
-                <div style="text-align: center; margin: 30px 0;">
-                  <a href="${resetLink}" style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
-                    Réinitialiser mon mot de passe
-                  </a>
-                </div>
-                <p style="color: #a1a1aa; font-size: 14px; margin-top: 30px;">
-                  Ce lien expire dans 1 heure. Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.
-                </p>
-                <p style="color: #a1a1aa; font-size: 12px; margin-top: 20px;">
-                  Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :<br>
-                  <a href="${resetLink}" style="color: #6366f1; word-break: break-all;">${resetLink}</a>
-                </p>
-              </div>
-              <div style="text-align: center; padding: 20px; color: #a1a1aa; font-size: 12px;">
-                <p>© 2025 MySiteFactory - Création de sites web professionnels</p>
-                <p>
-                  <a href="https://mysitefactory.com" style="color: #6366f1; text-decoration: none;">mysitefactory.com</a>
-                </p>
-              </div>
-            </div>
-          </body>
-          </html>
-        `,
+        subject: content.subject,
+        html: emailHtml,
       }),
     });
 
