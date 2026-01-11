@@ -1,22 +1,27 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, 
   Code2, 
   Palette, 
-  Layers, 
-  Globe, 
-  Zap, 
-  Wrench,
+  Bot, 
+  Shield,
+  Globe,
+  Zap,
   LayoutDashboard,
+  Rocket,
+  RefreshCw,
   Smartphone,
-  ShoppingCart,
-  FileCode,
+  LineChart,
+  MessageSquare,
+  Wrench,
+  Lock,
   Wallet,
-  BarChart3,
-  Settings,
-  Headphones,
-  Shield
+  Eye,
+  Target,
+  ChevronDown,
+  Star,
+  Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -24,75 +29,74 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProjectStarterModal from "@/components/ProjectStarterModal";
-import CryptoBadge, { BitcoinIcon, EthereumIcon, USDCIcon } from "@/components/CryptoBadge";
+import { BitcoinIcon, EthereumIcon, USDCIcon } from "@/components/CryptoBadge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-// Service categories with their services
-const serviceCategories = [
+// 4 Tiers structure as specified
+const serviceTiers = [
   {
-    id: "development",
+    id: "core",
+    tier: 1,
     icon: Code2,
-    gradient: "from-blue-500/20 to-cyan-500/20",
-    iconColor: "text-blue-400",
-    services: ["landing", "vitrine", "webapp", "saas"]
+    gradient: "from-primary/20 to-blue-500/20",
+    borderColor: "border-primary/30",
+    iconColor: "text-primary",
+    bgColor: "bg-primary/10",
+    services: [
+      { id: "landing", icon: Zap, popular: true, highDemand: true },
+      { id: "business", icon: Globe, popular: true },
+      { id: "redesign", icon: RefreshCw, highDemand: true },
+      { id: "dashboard", icon: LayoutDashboard },
+      { id: "mvp", icon: Rocket, highDemand: true },
+    ]
   },
   {
     id: "design",
+    tier: 2,
     icon: Palette,
     gradient: "from-purple-500/20 to-pink-500/20",
+    borderColor: "border-purple-500/30",
     iconColor: "text-purple-400",
-    services: ["uiux", "dashboard", "designSystem"]
+    bgColor: "bg-purple-500/10",
+    services: [
+      { id: "uiDesign", icon: Palette, popular: true },
+      { id: "uxAudit", icon: Eye },
+      { id: "mobileFirst", icon: Smartphone },
+      { id: "dashboardDesign", icon: LayoutDashboard },
+      { id: "prototyping", icon: Target },
+    ]
   },
   {
-    id: "branding",
-    icon: Layers,
-    gradient: "from-orange-500/20 to-red-500/20",
-    iconColor: "text-orange-400",
-    services: ["logo", "identity", "social"]
+    id: "automation",
+    tier: 3,
+    icon: Bot,
+    gradient: "from-amber-500/20 to-orange-500/20",
+    borderColor: "border-amber-500/30",
+    iconColor: "text-amber-400",
+    bgColor: "bg-amber-500/10",
+    services: [
+      { id: "automations", icon: Zap, highDemand: true },
+      { id: "internalTools", icon: Wrench },
+      { id: "aiChatbots", icon: MessageSquare, popular: true },
+      { id: "analytics", icon: LineChart },
+    ]
   },
   {
-    id: "web3",
-    icon: Wallet,
-    gradient: "from-[#F7931A]/20 to-[#627EEA]/20",
-    iconColor: "text-[#F7931A]",
-    services: ["cryptoPayments", "walletIntegration", "web3Dashboard"]
-  },
-  {
-    id: "performance",
-    icon: BarChart3,
-    gradient: "from-green-500/20 to-emerald-500/20",
-    iconColor: "text-green-400",
-    services: ["seo", "analytics", "optimization"]
-  },
-  {
-    id: "maintenance",
-    icon: Settings,
-    gradient: "from-slate-500/20 to-gray-500/20",
-    iconColor: "text-slate-400",
-    services: ["support", "hosting", "updates"]
+    id: "infrastructure",
+    tier: 4,
+    icon: Shield,
+    gradient: "from-emerald-500/20 to-teal-500/20",
+    borderColor: "border-emerald-500/30",
+    iconColor: "text-emerald-400",
+    bgColor: "bg-emerald-500/10",
+    services: [
+      { id: "maintenance", icon: Wrench },
+      { id: "security", icon: Lock },
+      { id: "cryptoPayments", icon: Wallet, crypto: true },
+      { id: "web3Landing", icon: Globe, crypto: true },
+    ]
   }
 ];
-
-const serviceIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  landing: Zap,
-  vitrine: Globe,
-  webapp: Code2,
-  saas: LayoutDashboard,
-  uiux: Palette,
-  dashboard: LayoutDashboard,
-  designSystem: Layers,
-  logo: Layers,
-  identity: Palette,
-  social: Smartphone,
-  cryptoPayments: Wallet,
-  walletIntegration: Shield,
-  web3Dashboard: BarChart3,
-  seo: BarChart3,
-  analytics: BarChart3,
-  optimization: Zap,
-  support: Headphones,
-  hosting: Settings,
-  updates: Wrench,
-};
 
 const Services = () => {
   const navigate = useNavigate();
@@ -105,30 +109,28 @@ const Services = () => {
     delay: string;
     features?: string[];
   } | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState("core");
 
-  const handleStartProject = (categoryId: string, serviceId: string) => {
-    const serviceKey = `services.catalog.${categoryId}.services.${serviceId}`;
+  const handleRequestService = (tierId: string, serviceId: string) => {
+    const serviceKey = `servicesTiers.tiers.${tierId}.services.${serviceId}`;
     setSelectedService({
       id: serviceId,
       title: t(`${serviceKey}.title`),
       price: t(`${serviceKey}.price`),
-      delay: t(`${serviceKey}.delay`),
+      delay: "Variable",
       features: [],
     });
     setIsModalOpen(true);
   };
 
-  const filteredCategories = activeCategory === "all" 
-    ? serviceCategories 
-    : serviceCategories.filter(cat => cat.id === activeCategory);
+  const activeTier = serviceTiers.find(tier => tier.id === activeTab)!;
 
   return (
     <main className="min-h-screen bg-black">
       <Navbar />
       
       {/* Hero */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-24">
+      <section className="pt-32 pb-12 md:pt-40 md:pb-16">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -148,152 +150,163 @@ const Services = () => {
                 <EthereumIcon className="w-5 h-5" />
                 <USDCIcon className="w-5 h-5" />
               </div>
-              <span className="text-sm font-medium text-white/80">{t("services.cryptoBadge")}</span>
+              <span className="text-sm font-medium text-white/80">{t("servicesTiers.cryptoAvailable")}</span>
             </motion.div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              {t("services.hero.title")}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight font-bebas">
+              {t("servicesTiers.title")}
             </h1>
             <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-8">
-              {t("services.hero.subtitle")}
+              {t("servicesTiers.subtitle")}
             </p>
 
             {/* Crypto payment highlight */}
             <div className="flex flex-wrap justify-center gap-4 items-center">
               <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/10">
                 <Wallet className="w-4 h-4 text-primary" />
-                <span className="text-sm text-white/70">{t("services.payWithCrypto")}</span>
+                <span className="text-sm text-white/70">{t("cryptoNative.payWith")}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/10">
                 <Globe className="w-4 h-4 text-primary" />
-                <span className="text-sm text-white/70">{t("services.worldwide")}</span>
+                <span className="text-sm text-white/70">{t("cryptoNative.web2web3")}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/10">
-                <Zap className="w-4 h-4 text-primary" />
-                <span className="text-sm text-white/70">{t("services.fastDelivery")}</span>
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-sm text-white/70">{t("cryptoNative.tagline")}</span>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Category Filter */}
-      <section className="pb-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-2">
-            <button
-              onClick={() => setActiveCategory("all")}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeCategory === "all"
-                  ? "bg-primary text-white"
-                  : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              {t("services.filter.all")}
-            </button>
-            {serviceCategories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  activeCategory === category.id
-                    ? "bg-primary text-white"
-                    : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                {t(`services.catalog.${category.id}.title`)}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Catalog */}
+      {/* Services with Tabs */}
       <section className="pb-24">
         <div className="container mx-auto px-4">
-          <div className="space-y-16">
-            {filteredCategories.map((category, catIndex) => (
-              <motion.div
-                key={category.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: catIndex * 0.1 }}
-              >
-                {/* Category Header */}
-                <div className="flex items-center gap-4 mb-8">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${category.gradient} flex items-center justify-center`}>
-                    <category.icon className={`w-6 h-6 ${category.iconColor}`} />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-white">
-                      {t(`services.catalog.${category.id}.title`)}
-                    </h2>
-                    <p className="text-white/50 text-sm">
-                      {t(`services.catalog.${category.id}.subtitle`)}
-                    </p>
-                  </div>
-                  {category.id === "web3" && (
-                    <CryptoBadge variant="compact" className="ml-auto" />
-                  )}
-                </div>
+          {/* Tab Navigation */}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="w-full justify-start bg-transparent border-b border-white/10 rounded-none h-auto p-0 mb-8 flex-wrap">
+              {serviceTiers.map((tier) => {
+                const TierIcon = tier.icon;
+                return (
+                  <TabsTrigger
+                    key={tier.id}
+                    value={tier.id}
+                    className={`relative px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent bg-transparent text-white/60 data-[state=active]:text-white font-medium transition-all`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <TierIcon className="w-4 h-4" />
+                      <span className="hidden sm:inline">{t(`servicesTiers.tiers.${tier.id}.title`)}</span>
+                      <span className="sm:hidden">Tier {tier.tier}</span>
+                    </div>
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
 
-                {/* Services Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {category.services.map((serviceId, index) => {
-                    const ServiceIcon = serviceIcons[serviceId] || Code2;
-                    const serviceKey = `services.catalog.${category.id}.services.${serviceId}`;
-                    
-                    return (
-                      <motion.div
-                        key={serviceId}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: index * 0.1 }}
-                        className={`group relative p-6 rounded-2xl bg-gradient-to-br ${category.gradient} border border-white/10 hover:border-white/20 transition-all duration-300`}
-                      >
-                        <div className={`w-10 h-10 rounded-lg bg-black/30 flex items-center justify-center mb-4 ${category.iconColor}`}>
-                          <ServiceIcon className="w-5 h-5" />
+            {/* Tab Content */}
+            {serviceTiers.map((tier) => (
+              <TabsContent key={tier.id} value={tier.id} className="mt-0">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Tier Header */}
+                  <div className={`rounded-2xl p-6 md:p-8 mb-8 bg-gradient-to-br ${tier.gradient} border ${tier.borderColor}`}>
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-xl ${tier.bgColor} flex items-center justify-center ${tier.iconColor}`}>
+                          <tier.icon className="w-6 h-6" />
                         </div>
-                        
-                        <h3 className="text-lg font-semibold text-white mb-2">
-                          {t(`${serviceKey}.title`)}
-                        </h3>
-                        <p className="text-white/60 text-sm mb-4 leading-relaxed">
-                          {t(`${serviceKey}.description`)}
-                        </p>
-                        
-                        <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                          <div>
-                            <p className="text-xs text-white/40">{t("services.from")}</p>
-                            <div className="flex items-center gap-2">
-                              <span className="text-primary font-semibold">{t(`${serviceKey}.price`)}</span>
-                              {category.id === "web3" && (
-                                <span className="text-[#F7931A] text-xs">/ {t(`${serviceKey}.cryptoPrice`)}</span>
-                              )}
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-xs text-white/40">{t("services.deliveredIn")}</p>
-                            <span className="text-white text-sm">{t(`${serviceKey}.delay`)}</span>
-                          </div>
+                        <div>
+                          <h2 className="text-2xl md:text-3xl font-bold text-white font-bebas">
+                            {t(`servicesTiers.tiers.${tier.id}.title`)}
+                          </h2>
+                          <p className="text-white/50 text-sm md:text-base">
+                            {t(`servicesTiers.tiers.${tier.id}.subtitle`)}
+                          </p>
                         </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <BitcoinIcon className="w-5 h-5" />
+                        <EthereumIcon className="w-5 h-5" />
+                        <USDCIcon className="w-5 h-5" />
+                        <span className="text-white/50 text-sm ml-2">{t("servicesTiers.cryptoAvailable")}</span>
+                      </div>
+                    </div>
+                  </div>
 
-                        <Button
-                          onClick={() => handleStartProject(category.id, serviceId)}
-                          className="w-full mt-4 bg-white/10 hover:bg-primary text-white font-medium h-10 transition-all"
+                  {/* Services Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {tier.services.map((service, index) => {
+                      const ServiceIcon = service.icon;
+                      const serviceKey = `servicesTiers.tiers.${tier.id}.services.${service.id}`;
+                      
+                      return (
+                        <motion.div
+                          key={service.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: index * 0.05 }}
+                          className={`group relative p-6 rounded-2xl bg-gradient-to-br ${tier.gradient} border ${tier.borderColor} hover:border-white/20 transition-all duration-300`}
                         >
-                          {t("services.orderNow")}
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </motion.div>
+                          {/* Badges */}
+                          <div className="flex gap-1.5 absolute -top-2 right-4">
+                            {service.popular && (
+                              <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-[10px] font-semibold text-white">
+                                <Star className="w-2.5 h-2.5 fill-current" />
+                                {t("servicesTiers.badges.popular")}
+                              </span>
+                            )}
+                            {service.highDemand && (
+                              <span className="px-2 py-0.5 rounded-full bg-amber-500 text-[10px] font-semibold text-black">
+                                {t("servicesTiers.badges.highDemand")}
+                              </span>
+                            )}
+                            {service.crypto && (
+                              <span className="px-2 py-0.5 rounded-full bg-[#F7931A]/80 text-[10px] font-semibold text-white flex items-center gap-1">
+                                <Wallet className="w-2.5 h-2.5" />
+                                Web3
+                              </span>
+                            )}
+                          </div>
+
+                          <div className={`w-10 h-10 rounded-lg ${tier.bgColor} flex items-center justify-center mb-4 ${tier.iconColor}`}>
+                            <ServiceIcon className="w-5 h-5" />
+                          </div>
+                          
+                          <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-primary transition-colors">
+                            {t(`${serviceKey}.title`)}
+                          </h3>
+                          <p className="text-white/60 text-sm mb-4 leading-relaxed">
+                            {t(`${serviceKey}.description`)}
+                          </p>
+                          
+                          <div className="flex items-center justify-between pt-4 border-t border-white/10 mb-4">
+                            <span className="text-primary font-semibold">{t(`${serviceKey}.price`)}</span>
+                            {service.crypto && (
+                              <div className="flex items-center gap-1">
+                                <BitcoinIcon className="w-3.5 h-3.5" />
+                                <EthereumIcon className="w-3.5 h-3.5" />
+                              </div>
+                            )}
+                          </div>
+
+                          <Button
+                            onClick={() => handleRequestService(tier.id, service.id)}
+                            className="w-full bg-white/10 hover:bg-primary text-white font-medium h-10 transition-all"
+                          >
+                            {t("contact.form.submit")}
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              </TabsContent>
             ))}
-          </div>
+          </Tabs>
         </div>
       </section>
 
@@ -312,26 +325,26 @@ const Services = () => {
               <EthereumIcon className="w-10 h-10" />
               <USDCIcon className="w-10 h-10" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              {t("services.web3Section.title")}
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-bebas">
+              {t("servicesTiers.cryptoCta.title")}
             </h2>
             <p className="text-white/60 text-lg mb-8">
-              {t("services.web3Section.subtitle")}
+              {t("servicesTiers.cryptoCta.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                onClick={() => navigate("/packs")}
+                onClick={() => navigate('/contact')}
                 className="bg-gradient-to-r from-[#F7931A] to-[#627EEA] hover:opacity-90 text-white px-8 py-6 text-lg font-semibold"
               >
-                {t("services.web3Section.cta")}
+                {t("servicesTiers.cryptoCta.button")}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               <Button
                 variant="outline"
-                onClick={() => navigate("/contact")}
+                onClick={() => navigate('/packs')}
                 className="border-white/20 text-white hover:bg-white/10 px-8 py-6 text-lg"
               >
-                {t("services.web3Section.contact")}
+                {t("services.cta.seePricing")}
               </Button>
             </div>
           </motion.div>
@@ -347,7 +360,7 @@ const Services = () => {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 font-bebas">
               {t("services.cta.title")}
             </h2>
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
@@ -355,7 +368,7 @@ const Services = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                onClick={() => navigate("/packs")}
+                onClick={() => navigate('/packs')}
                 className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg"
               >
                 {t("services.cta.seePricing")}
@@ -363,7 +376,7 @@ const Services = () => {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => navigate("/contact")}
+                onClick={() => navigate('/contact')}
                 className="border-white/20 text-white hover:bg-white/10 px-8 py-6 text-lg"
               >
                 {t("services.cta.contact")}

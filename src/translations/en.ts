@@ -1691,4 +1691,182 @@ export const en = {
     payWith: "Pay with crypto or card",
     acceptedCryptos: "BTC • ETH • USDC • USDT",
   },
+
+  // Homepage Core Services (Tier 1 only)
+  homepageServices: {
+    badge: "Our Services",
+    title: "What we create",
+    subtitle: "Professional web solutions, delivered fast. Pay with crypto or card.",
+    cryptoBadge: "Crypto accepted",
+    popular: "Popular",
+    viewAll: "View all services",
+    payWithCrypto: "Pay with crypto",
+    trust: "+50 projects delivered • Guaranteed deadlines • 98% client satisfaction",
+    services: {
+      landing: {
+        title: "Landing Page",
+        description: "Conversion-optimized page to capture leads.",
+        price: "From $500",
+        delay: "5 days",
+      },
+      business: {
+        title: "Business Website",
+        description: "Complete professional presence for your company.",
+        price: "From $1,200",
+        delay: "7 days",
+      },
+      redesign: {
+        title: "Website Redesign",
+        description: "Modernize your existing site with a fresh design.",
+        price: "Custom quote",
+        delay: "7-10 days",
+      },
+      dashboard: {
+        title: "Dashboard & Web App",
+        description: "Custom web applications with dashboards.",
+        price: "Custom quote",
+        delay: "2-4 weeks",
+      },
+      mvp: {
+        title: "MVP / SaaS",
+        description: "Launch your product quickly with a functional MVP.",
+        price: "Custom quote",
+        delay: "4-8 weeks",
+      },
+    },
+  },
+
+  // Services Tiered Section (Full page)
+  servicesTiers: {
+    title: "Services Catalog",
+    subtitle: "Modular solutions for every need. All compatible with crypto payment.",
+    cryptoAvailable: "All services accept crypto payment",
+    services: "services",
+    seeAllServices: "See all services",
+    badges: {
+      popular: "Popular",
+      highDemand: "High demand",
+    },
+    cryptoCta: {
+      title: "Pay with crypto, no friction",
+      subtitle: "Fast, secure, borderless transactions. No banks, no delays.",
+      button: "Start my project",
+    },
+    tiers: {
+      core: {
+        title: "Web Development",
+        subtitle: "Sites, applications and custom platforms",
+        services: {
+          landing: {
+            title: "Landing Page",
+            description: "Conversion-optimized page to capture leads and sell.",
+            price: "From $500",
+          },
+          business: {
+            title: "Business Website",
+            description: "Complete professional presence for your company.",
+            price: "From $1,200",
+          },
+          redesign: {
+            title: "Website Redesign",
+            description: "Modernize your existing site with a fresh design.",
+            price: "Custom quote",
+          },
+          dashboard: {
+            title: "Dashboard & Web App",
+            description: "Custom web applications with dashboards.",
+            price: "Custom quote",
+          },
+          mvp: {
+            title: "MVP / SaaS",
+            description: "Launch your product quickly with a functional MVP.",
+            price: "Custom quote",
+          },
+        },
+      },
+      design: {
+        title: "Design & UX",
+        subtitle: "Modern interfaces and optimized user experiences",
+        services: {
+          uiDesign: {
+            title: "UI Design",
+            description: "Modern, intuitive interfaces for web and mobile.",
+            price: "From $800",
+          },
+          uxAudit: {
+            title: "UX Audit",
+            description: "Analysis and optimization of user experience.",
+            price: "From $500",
+          },
+          mobileFirst: {
+            title: "Mobile-First Design",
+            description: "Interfaces optimized for mobile experience.",
+            price: "From $600",
+          },
+          dashboardDesign: {
+            title: "Dashboard Design",
+            description: "Complex data interfaces, clear and actionable.",
+            price: "From $1,500",
+          },
+          prototyping: {
+            title: "Prototyping",
+            description: "Interactive prototypes to validate your concepts.",
+            price: "From $400",
+          },
+        },
+      },
+      automation: {
+        title: "Automation, AI & Data",
+        subtitle: "Automate your processes and leverage your data",
+        services: {
+          automations: {
+            title: "Automations",
+            description: "Automate your recurring business processes.",
+            price: "From $500",
+          },
+          internalTools: {
+            title: "Internal Tools",
+            description: "Custom internal applications for your teams.",
+            price: "Custom quote",
+          },
+          aiChatbots: {
+            title: "AI Chatbots",
+            description: "Intelligent assistants for your customer service.",
+            price: "From $1,000",
+          },
+          analytics: {
+            title: "Analytics & Tracking",
+            description: "Dashboards to track your KPIs in real-time.",
+            price: "From $600",
+          },
+        },
+      },
+      infrastructure: {
+        title: "Maintenance, Security & Web3",
+        subtitle: "Continuous support and blockchain integrations",
+        services: {
+          maintenance: {
+            title: "Maintenance & Support",
+            description: "Continuous support, updates and monitoring.",
+            price: "From $150/month",
+          },
+          security: {
+            title: "Security & Monitoring",
+            description: "Security audit and 24/7 surveillance.",
+            price: "From $400",
+          },
+          cryptoPayments: {
+            title: "Crypto Integration",
+            description: "Add crypto payments to your site.",
+            price: "From $800",
+          },
+          web3Landing: {
+            title: "Web3 Site",
+            description: "Landing pages and dashboards for crypto projects.",
+            price: "Custom quote",
+          },
+        },
+      },
+    },
+  },
 };
