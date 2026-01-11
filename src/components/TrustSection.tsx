@@ -39,88 +39,92 @@ const TrustSection = () => {
   ];
 
   return (
-    <section className="py-10 md:py-20 border-t border-b border-white/[0.05]">
-      <div className="container mx-auto px-4">
-        {/* Stats - horizontal scroll on mobile, row on desktop */}
-        <div className="flex justify-between md:justify-center gap-6 md:gap-20 mb-8 md:mb-16 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+    <section className="py-16 md:py-28 lg:py-32 relative">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent pointer-events-none" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Stats - elegant horizontal layout */}
+        <div className="flex justify-center gap-8 md:gap-16 lg:gap-24 mb-12 md:mb-20">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="text-center flex-shrink-0"
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.1, duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+              className="text-center"
             >
-              <div className="flex items-center justify-center gap-2 mb-1.5">
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                 </div>
-                <span className="font-bebas text-3xl md:text-5xl text-white tracking-tight">{stat.value}</span>
+                <span className="font-bebas text-4xl md:text-6xl text-foreground tracking-tight">{stat.value}</span>
               </div>
-              <p className="text-white/40 text-xs md:text-sm font-heebo whitespace-nowrap">{stat.label}</p>
+              <p className="text-muted-foreground text-sm md:text-base font-medium">{stat.label}</p>
             </motion.div>
           ))}
         </div>
 
-        {/* Crypto payment banner */}
+        {/* Crypto payment banner - refined glass style */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="mb-8 md:mb-12"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ delay: 0.2, duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+          className="mb-12 md:mb-20"
         >
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 p-4 md:p-6 rounded-2xl bg-gradient-to-r from-[#F7931A]/5 via-[#627EEA]/5 to-[#26A17B]/5 border border-white/[0.08]">
-            <div className="flex items-center gap-2">
-              <Wallet className="w-5 h-5 text-primary" />
-              <span className="text-white/70 font-medium text-sm md:text-base">{t("cryptoNative.payWith")}</span>
-            </div>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-10 p-5 md:p-8 rounded-3xl bg-gradient-to-r from-[#F7931A]/[0.04] via-[#627EEA]/[0.04] to-[#26A17B]/[0.04] border border-border/50 backdrop-blur-sm">
             <div className="flex items-center gap-3">
+              <Wallet className="w-5 h-5 text-primary/80" />
+              <span className="text-muted-foreground font-medium">{t("cryptoNative.payWith")}</span>
+            </div>
+            <div className="flex items-center gap-4">
               {cryptos.map((crypto) => (
                 <motion.div
                   key={crypto.name}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/10"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border/50 hover:border-border transition-colors"
                 >
                   <crypto.Icon className="w-5 h-5" />
-                  <span className="text-white/60 text-xs font-medium">{crypto.name}</span>
+                  <span className="text-muted-foreground text-sm font-medium">{crypto.name}</span>
                 </motion.div>
               ))}
             </div>
-            <div className="hidden md:block h-5 w-px bg-white/10" />
-            <span className="text-xs text-white/40 font-heebo">{t("cryptoNative.web2web3")}</span>
+            <div className="hidden md:block h-6 w-px bg-border/50" />
+            <span className="text-sm text-muted-foreground/70">{t("cryptoNative.web2web3")}</span>
           </div>
         </motion.div>
 
-        {/* Credibility phrase + sectors - more compact on mobile */}
+        {/* Credibility phrase + sectors */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ delay: 0.3, duration: 0.6 }}
           className="text-center"
         >
-          <p className="text-white/50 text-xs md:text-sm mb-4 md:mb-6 font-heebo max-w-sm md:max-w-md mx-auto px-2">
+          <p className="text-muted-foreground text-sm md:text-base mb-8 md:mb-10 max-w-md mx-auto leading-relaxed">
             {t("trust.credibility")}
           </p>
           
-          {/* Sector icons - horizontal scroll on mobile */}
-          <div className="flex items-center justify-start md:justify-center gap-3 md:gap-6 overflow-x-auto pb-2 md:pb-0 px-2 md:px-0 scrollbar-hide">
+          {/* Sector icons - clean grid */}
+          <div className="flex items-center justify-center gap-6 md:gap-10">
             {sectors.map((sector, index) => (
               <motion.div
                 key={sector.name}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.4 + index * 0.08, duration: 0.4 }}
-                className="group flex-shrink-0"
+                transition={{ delay: 0.4 + index * 0.08, duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+                className="group"
               >
-                <div className="flex flex-col items-center gap-1.5 md:gap-2">
-                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-lg md:rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center group-hover:bg-white/[0.05] group-hover:border-white/[0.1] transition-all duration-300">
-                    <sector.icon className="w-5 h-5 md:w-6 md:h-6 text-white/40 group-hover:text-white/60 transition-colors" />
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-14 h-14 md:w-18 md:h-18 rounded-2xl bg-card/60 border border-border/40 flex items-center justify-center group-hover:bg-card group-hover:border-border/60 transition-all duration-500">
+                    <sector.icon className="w-6 h-6 md:w-7 md:h-7 text-muted-foreground group-hover:text-foreground/80 transition-colors duration-500" />
                   </div>
-                  <span className="text-[10px] md:text-[11px] text-white/30 font-heebo group-hover:text-white/50 transition-colors whitespace-nowrap">{sector.name}</span>
+                  <span className="text-xs md:text-sm text-muted-foreground/70 group-hover:text-muted-foreground transition-colors duration-500">{sector.name}</span>
                 </div>
               </motion.div>
             ))}
