@@ -1401,4 +1401,53 @@ export const fr = {
     signIn: "J'ai déjà un compte",
     or: "ou",
   },
+
+  // Password Strength Indicator
+  passwordStrength: {
+    weak: "Faible",
+    fair: "Moyen",
+    good: "Bon",
+    strong: "Fort",
+    veryStrong: "Très fort",
+  },
+
+  // Profile Page
+  profile: {
+    title: "Mon profil",
+    subtitle: "Gérez vos informations personnelles",
+    personalInfo: "Informations personnelles",
+    personalInfoDesc: "Mettez à jour vos informations de contact",
+    firstName: "Prénom",
+    lastName: "Nom",
+    email: "Email",
+    emailCantChange: "L'adresse email ne peut pas être modifiée",
+    phone: "Téléphone",
+    saveChanges: "Enregistrer les modifications",
+    changePassword: "Changer le mot de passe",
+    changePasswordDesc: "Créez un nouveau mot de passe pour votre compte",
+    currentPassword: "Mot de passe actuel",
+    newPassword: "Nouveau mot de passe",
+    confirmPassword: "Confirmer le mot de passe",
+    updatePassword: "Mettre à jour le mot de passe",
+    passwordSuccessMessage: "Votre mot de passe a été modifié avec succès",
+    errors: {
+      passwordMin: "Le mot de passe doit contenir au moins 6 caractères",
+      passwordMismatch: "Les mots de passe ne correspondent pas",
+    },
+    toasts: {
+      profileUpdated: "Profil mis à jour",
+      profileUpdatedDesc: "Vos informations ont été enregistrées",
+      passwordChanged: "Mot de passe modifié",
+      passwordChangedDesc: "Votre nouveau mot de passe est actif",
+      error: "Erreur",
+      cantUpdate: "Impossible de mettre à jour le profil",
+      cantChangePassword: "Impossible de changer le mot de passe",
+    },
+  },
+
+  // Google Auth
+  googleAuth: {
+    continueWith: "Continuer avec Google",
+    or: "ou",
+  },
 };

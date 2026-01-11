@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
+import PasswordStrengthIndicator from '@/components/PasswordStrengthIndicator';
 
 const ResetPassword = () => {
   const { t } = useLanguage();
@@ -257,6 +258,7 @@ const ResetPassword = () => {
               {errors.password && (
                 <p className="text-xs text-destructive">{errors.password}</p>
               )}
+              <PasswordStrengthIndicator password={password} />
             </div>
 
             <div className="space-y-2">

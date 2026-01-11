@@ -1404,4 +1404,53 @@ export const en = {
     },
     backToLogin: "Back to login",
   },
+
+  // Password Strength Indicator
+  passwordStrength: {
+    weak: "Weak",
+    fair: "Fair",
+    good: "Good",
+    strong: "Strong",
+    veryStrong: "Very strong",
+  },
+
+  // Profile Page
+  profile: {
+    title: "My Profile",
+    subtitle: "Manage your personal information",
+    personalInfo: "Personal Information",
+    personalInfoDesc: "Update your contact information",
+    firstName: "First name",
+    lastName: "Last name",
+    email: "Email",
+    emailCantChange: "Email address cannot be changed",
+    phone: "Phone",
+    saveChanges: "Save changes",
+    changePassword: "Change password",
+    changePasswordDesc: "Create a new password for your account",
+    currentPassword: "Current password",
+    newPassword: "New password",
+    confirmPassword: "Confirm password",
+    updatePassword: "Update password",
+    passwordSuccessMessage: "Your password has been changed successfully",
+    errors: {
+      passwordMin: "Password must be at least 6 characters",
+      passwordMismatch: "Passwords do not match",
+    },
+    toasts: {
+      profileUpdated: "Profile updated",
+      profileUpdatedDesc: "Your information has been saved",
+      passwordChanged: "Password changed",
+      passwordChangedDesc: "Your new password is now active",
+      error: "Error",
+      cantUpdate: "Unable to update profile",
+      cantChangePassword: "Unable to change password",
+    },
+  },
+
+  // Google Auth
+  googleAuth: {
+    continueWith: "Continue with Google",
+    or: "or",
+  },
 };

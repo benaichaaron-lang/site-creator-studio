@@ -285,6 +285,10 @@ const Dashboard = () => {
     { id: 'tickets' as TabType, label: t("dashboard.menu.tickets"), icon: MessageSquare },
   ];
 
+  const handleNavigateToProfile = () => {
+    navigate('/profile');
+  };
+
   const dateLocale = language === 'fr' ? 'fr-FR' : 'en-US';
 
   const getGreeting = () => {
@@ -323,9 +327,13 @@ const Dashboard = () => {
           <div className="p-6 border-b border-border">
             <h1 className="text-xl font-bold text-foreground">{t("dashboard.mySpace")}</h1>
             {profile && (
-              <p className="text-sm text-muted-foreground mt-1">
+              <button 
+                onClick={handleNavigateToProfile}
+                className="text-sm text-muted-foreground mt-1 hover:text-primary transition-colors flex items-center gap-1"
+              >
+                <User className="h-3 w-3" />
                 {profile.first_name} {profile.last_name}
-              </p>
+              </button>
             )}
           </div>
 
@@ -351,7 +359,14 @@ const Dashboard = () => {
             ))}
           </nav>
 
-          <div className="p-4 border-t border-border">
+          <div className="p-4 border-t border-border space-y-2">
+            <button
+              onClick={handleNavigateToProfile}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            >
+              <User className="h-5 w-5" />
+              {t("dashboard.menu.profile") || "Profil"}
+            </button>
             <button
               onClick={handleSignOut}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"

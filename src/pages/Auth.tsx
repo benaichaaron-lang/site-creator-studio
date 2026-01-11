@@ -5,11 +5,14 @@ import { Mail, Lock, User, Phone, ArrowRight, Loader2, Eye, EyeOff, CheckCircle,
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
+import PasswordStrengthIndicator from '@/components/PasswordStrengthIndicator';
+import googleLogo from '@/assets/google-logo.png';
 
 const Auth = () => {
   const { t } = useLanguage();
@@ -77,6 +80,31 @@ const Auth = () => {
 
   // Note: Welcome email with magic link is sent from AuthContext.signUp()
   // No need to send a separate confirmation email here
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+
+      if (error) {
+        toast({
+          title: t("authPage.toasts.error"),
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: t("authPage.toasts.error"),
+        description: t("authPage.toasts.unexpectedError"),
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -516,6 +544,7 @@ const Auth = () => {
               {errors.password && (
                 <p className="text-xs text-destructive">{errors.password}</p>
               )}
+              {!isLogin && <PasswordStrengthIndicator password={password} />}
             </div>
 
             {isLogin && (
@@ -545,6 +574,30 @@ const Auth = () => {
               )}
             </Button>
           </form>
+
+          {/* Google OAuth Button */}
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className="w-full" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card px-2 text-muted-foreground">
+                  {t("googleAuth.or")}
+                </span>
+              </div>
+            </div>
+            
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full mt-4"
+              onClick={handleGoogleSignIn}
+            >
+              <img src={googleLogo} alt="Google" className="w-5 h-5 mr-2" />
+              {t("googleAuth.continueWith")}
+            </Button>
+          </div>
 
           <div className="mt-6 text-center">
             <button
