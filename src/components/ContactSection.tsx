@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Mail, MessageCircle, CheckCircle, Loader2, UserPlus } from "lucide-react";
+import { Send, Mail, MessageCircle, CheckCircle, Loader2, UserPlus, Wallet } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import TrustpilotWidget from "@/components/TrustpilotWidget";
+import { BitcoinIcon, EthereumIcon, USDCIcon } from "@/components/CryptoBadge";
 
 const ContactSection = () => {
   const navigate = useNavigate();
@@ -223,6 +224,28 @@ const ContactSection = () => {
                     <p className="text-white/60 text-sm">{t("contact.whatsappDesc")}</p>
                   </div>
                 </motion.a>
+
+                {/* Crypto Payment Badge */}
+                <motion.div
+                  className="flex items-center gap-4 bg-gradient-to-r from-amber-500/10 to-primary/10 border border-amber-500/20 rounded-xl p-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.35 }}
+                >
+                  <div className="w-12 h-12 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                    <Wallet className="w-6 h-6 text-amber-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-white text-sm">{t("contact.cryptoPayment.title")}</h4>
+                    <p className="text-white/60 text-xs">{t("contact.cryptoPayment.subtitle")}</p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <BitcoinIcon className="w-5 h-5" />
+                    <EthereumIcon className="w-5 h-5" />
+                    <USDCIcon className="w-5 h-5" />
+                  </div>
+                </motion.div>
 
                 {/* Trustpilot Widget */}
                 <motion.div

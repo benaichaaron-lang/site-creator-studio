@@ -478,6 +478,10 @@ export const fr = {
       failed: "Échec de l'envoi",
       failedDesc: "Une erreur est survenue. Veuillez réessayer ou nous contacter directement.",
     },
+    cryptoPayment: {
+      title: "Paiement crypto accepté",
+      subtitle: "BTC, ETH, USDC disponibles",
+    },
   },
 
   // Testimonials
@@ -779,6 +783,11 @@ export const fr = {
     myTickets: "Mes tickets",
     selectTicketPlaceholder: "Décrivez brièvement votre problème",
     detailRequest: "Détaillez votre demande...",
+    cryptoPayment: {
+      title: "Paiement crypto accepté",
+      subtitle: "Payez en BTC, ETH ou USDC",
+      orCrypto: "ou payez en crypto",
+    },
   },
 
   // Admin Panel
