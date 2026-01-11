@@ -38,8 +38,14 @@ const App = () => (
           <Toaster />
           <Sonner />
           
-          {/* Global crypto background - fixed on all pages */}
-          <div className="fixed inset-0 z-0">
+          {/* Global crypto background - fixed on all pages, optimized for scroll */}
+          <div 
+            className="fixed inset-0 z-0 pointer-events-none"
+            style={{ 
+              transform: 'translateZ(0)',
+              willChange: 'auto',
+            }}
+          >
             <CryptoBackground />
           </div>
           
