@@ -1047,6 +1047,81 @@ export const en = {
     deliveredIn: "Delivered in",
     from: "Starting at",
     startProject: "Start this project",
+    orderNow: "Order now",
+    cryptoBadge: "Crypto Payment Accepted",
+    payWithCrypto: "Pay with crypto",
+    worldwide: "Worldwide service",
+    fastDelivery: "Fast delivery",
+    filter: {
+      all: "All services",
+    },
+    hero: {
+      title: "Modular Digital Services",
+      subtitle: "Development, design, branding and Web3 — each service is individually purchasable and crypto-compatible.",
+    },
+    web3Section: {
+      title: "Web2 & Web3 Ready",
+      subtitle: "First European agency to accept crypto payments on all our services. Pay in BTC, ETH or stablecoins.",
+      cta: "See pricing",
+      contact: "Discuss a project",
+    },
+    catalog: {
+      development: {
+        title: "Web Development",
+        subtitle: "Websites, applications and custom SaaS solutions",
+        services: {
+          landing: { title: "Landing Page", description: "Conversion-optimized landing page.", price: "$500", cryptoPrice: "0.15 ETH", delay: "5 days" },
+          vitrine: { title: "Business Website", description: "Professional presentation up to 5 pages.", price: "$1,000", cryptoPrice: "0.3 ETH", delay: "7 days" },
+          webapp: { title: "Web Application", description: "Interactive web app with advanced features.", price: "$2,500", cryptoPrice: "0.7 ETH", delay: "2-3 weeks" },
+          saas: { title: "SaaS Platform", description: "Software platform with subscription system.", price: "Custom", cryptoPrice: "Custom", delay: "4-8 weeks" },
+        },
+      },
+      design: {
+        title: "UI/UX Design",
+        subtitle: "Modern interfaces and optimized user experiences",
+        services: {
+          uiux: { title: "UI/UX Design", description: "Complete mockups with Figma prototype.", price: "$800", cryptoPrice: "0.25 ETH", delay: "5 days" },
+          dashboard: { title: "Dashboard Design", description: "Admin interface or analytics dashboard.", price: "$1,200", cryptoPrice: "0.35 ETH", delay: "7 days" },
+          designSystem: { title: "Design System", description: "Scalable design system for your products.", price: "$2,000", cryptoPrice: "0.6 ETH", delay: "10 days" },
+        },
+      },
+      branding: {
+        title: "Branding",
+        subtitle: "Visual identity and memorable brand presence",
+        services: {
+          logo: { title: "Logo Design", description: "Unique logo with variations and source files.", price: "$400", cryptoPrice: "0.12 ETH", delay: "5 days" },
+          identity: { title: "Visual Identity", description: "Complete style guide.", price: "$1,500", cryptoPrice: "0.45 ETH", delay: "10 days" },
+          social: { title: "Social Media Kit", description: "Posts and stories templates.", price: "$600", cryptoPrice: "0.18 ETH", delay: "5 days" },
+        },
+      },
+      web3: {
+        title: "Web3 & Crypto",
+        subtitle: "Blockchain solutions, crypto payments and DeFi",
+        services: {
+          cryptoPayments: { title: "Crypto Payments", description: "BTC, ETH, USDC integration.", price: "$800", cryptoPrice: "0.25 ETH", delay: "3 days" },
+          walletIntegration: { title: "Wallet Connect", description: "MetaMask and wallet connection.", price: "$600", cryptoPrice: "0.18 ETH", delay: "3 days" },
+          web3Dashboard: { title: "Web3 Dashboard", description: "DeFi, NFT, blockchain interfaces.", price: "Custom", cryptoPrice: "Custom", delay: "2-4 weeks" },
+        },
+      },
+      performance: {
+        title: "Performance & SEO",
+        subtitle: "Technical optimization and organic visibility",
+        services: {
+          seo: { title: "Complete SEO", description: "Audit and ranking optimization.", price: "$600", cryptoPrice: "0.18 ETH", delay: "5 days" },
+          analytics: { title: "Analytics Setup", description: "GA4, dashboards and tracking.", price: "$400", cryptoPrice: "0.12 ETH", delay: "2 days" },
+          optimization: { title: "Speed Optimization", description: "Core Web Vitals and CDN.", price: "$500", cryptoPrice: "0.15 ETH", delay: "3 days" },
+        },
+      },
+      maintenance: {
+        title: "Maintenance & Support",
+        subtitle: "Ongoing support and interventions",
+        services: {
+          support: { title: "Monthly Support", description: "Updates, monitoring and support.", price: "$150/mo", cryptoPrice: "0.05 ETH/mo", delay: "Ongoing" },
+          hosting: { title: "Managed Hosting", description: "Server, SSL, backups.", price: "$50/mo", cryptoPrice: "0.015 ETH/mo", delay: "Ongoing" },
+          updates: { title: "Interventions", description: "Modifications and bug fixes.", price: "$80/hr", cryptoPrice: "0.025 ETH/h", delay: "Within 48h" },
+        },
+      },
+    },
     landing: {
       title: "Landing Page",
       description: "Conversion-optimized landing page to turn visitors into customers.",
