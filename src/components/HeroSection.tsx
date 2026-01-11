@@ -13,14 +13,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import CryptoBadge, { BitcoinIcon, EthereumIcon, USDCIcon } from "./CryptoBadge";
+
 // Badge component for trust indicators - more premium
-const TrustBadge = ({ icon: Icon, label }: { icon: React.ElementType; label: string }) => (
+const TrustBadge = ({ icon: Icon, label, cryptoIcons }: { icon?: React.ElementType; label: string; cryptoIcons?: boolean }) => (
   <motion.div 
     className="flex items-center gap-2.5 bg-white/[0.03] border border-white/[0.08] rounded-full px-4 py-2.5 backdrop-blur-sm"
     whileHover={{ scale: 1.02, borderColor: "rgba(255,255,255,0.15)" }}
     transition={{ duration: 0.2 }}
   >
-    <Icon className="w-4 h-4 text-primary" />
+    {cryptoIcons ? (
+      <div className="flex items-center gap-1">
+        <BitcoinIcon className="w-4 h-4" />
+        <EthereumIcon className="w-4 h-4" />
+        <USDCIcon className="w-4 h-4" />
+      </div>
+    ) : Icon ? (
+      <Icon className="w-4 h-4 text-primary" />
+    ) : null}
     <span className="text-sm text-white/70 font-heebo">{label}</span>
   </motion.div>
 );
@@ -92,7 +102,7 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
         >
           <TrustBadge icon={Clock} label={t("hero.trustBadges.delivery")} />
           <TrustBadge icon={CreditCard} label={t("hero.trustBadges.fixedPrice")} />
-          <TrustBadge icon={Wallet} label={t("hero.trustBadges.cryptoCard")} />
+          <TrustBadge cryptoIcons label={t("hero.trustBadges.cryptoCard")} />
         </motion.div>
       </div>
     </div>
@@ -234,7 +244,21 @@ const DesktopHero = () => {
           >
             <TrustBadge icon={Clock} label={t("hero.trustBadges.deliveryLong")} />
             <TrustBadge icon={CreditCard} label={t("hero.trustBadges.fixedPrice")} />
-            <TrustBadge icon={Wallet} label={t("hero.trustBadges.cryptoCard")} />
+            <TrustBadge cryptoIcons label={t("hero.trustBadges.cryptoCard")} />
+          </motion.div>
+          
+          {/* Crypto-native badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-6"
+          >
+            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-gradient-to-r from-[#F7931A]/10 via-[#627EEA]/10 to-[#26A17B]/10 border border-white/10">
+              <CryptoBadge variant="compact" />
+              <div className="h-4 w-px bg-white/20" />
+              <span className="text-sm font-medium text-white/70">{t("cryptoNative.tagline")}</span>
+            </div>
           </motion.div>
         </div>
 

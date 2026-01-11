@@ -1450,4 +1450,167 @@ export const fr = {
     continueWith: "Continuer avec Google",
     or: "ou",
   },
+
+  // Crypto Benefits Section
+  cryptoBenefits: {
+    badge: "Paiement Web3",
+    title: "Payez en crypto, sans friction",
+    subtitle: "Transactions rapides, sécurisées et sans frontières. Pas de banques, pas de délais, juste du code.",
+    fast: {
+      title: "Rapide",
+      description: "Confirmation en quelques minutes. Nous démarrons votre projet dès réception.",
+    },
+    global: {
+      title: "Sans frontières",
+      description: "Payez de n'importe où dans le monde, sans frais bancaires internationaux.",
+    },
+    secure: {
+      title: "Sécurisé",
+      description: "Transactions vérifiées sur la blockchain. Traçabilité totale.",
+    },
+    transparent: {
+      title: "Transparent",
+      description: "Facture officielle et preuve blockchain pour chaque paiement.",
+    },
+    supportedWallets: "Wallets compatibles",
+    noUpfront: "Paiement après validation du brief uniquement. Aucun acompte.",
+    cta: "Démarrer mon projet",
+  },
+
+  // Services Page - Extended
+  servicesPage: {
+    badge: "Services",
+    title: "Catalogue de services",
+    subtitle: "Des solutions modulaires pour chaque besoin digital. Tous compatibles paiement crypto.",
+    categories: {
+      development: "Développement Web",
+      design: "Design UI/UX", 
+      branding: "Branding & Identité",
+      web3: "Services Web3",
+      performance: "Performance & SEO",
+      maintenance: "Maintenance & Support",
+    },
+    services: {
+      landingPage: {
+        title: "Landing Page",
+        description: "Page de conversion optimisée pour capturer des leads et vendre.",
+        price: "À partir de 500€",
+        delay: "5 jours",
+        features: ["Design responsive", "Optimisation conversion", "Formulaires intégrés", "Analytics"],
+      },
+      businessSite: {
+        title: "Site Vitrine",
+        description: "Présence professionnelle complète pour votre entreprise.",
+        price: "À partir de 1 200€",
+        delay: "7 jours",
+        features: ["Jusqu'à 5 pages", "SEO optimisé", "Design premium", "CMS intégré"],
+      },
+      ecommerce: {
+        title: "E-commerce",
+        description: "Boutique en ligne complète avec gestion des stocks et paiements.",
+        price: "À partir de 2 000€",
+        delay: "10 jours",
+        features: ["Catalogue produits", "Paiement sécurisé", "Gestion stocks", "Livraison intégrée"],
+      },
+      webapp: {
+        title: "Application Web",
+        description: "Solution sur-mesure pour digitaliser vos processus métier.",
+        price: "Sur devis",
+        delay: "2-4 semaines",
+        features: ["Architecture custom", "Base de données", "API intégrées", "Dashboard admin"],
+      },
+      saas: {
+        title: "Plateforme SaaS",
+        description: "Produit digital évolutif avec abonnements et multi-tenants.",
+        price: "Sur devis",
+        delay: "4-8 semaines",
+        features: ["Multi-utilisateurs", "Billing intégré", "Analytics", "API publique"],
+      },
+      uiDesign: {
+        title: "Design UI",
+        description: "Interfaces modernes et intuitives pour web et mobile.",
+        price: "À partir de 800€",
+        delay: "5 jours",
+        features: ["Maquettes Figma", "Design system", "Prototypes cliquables", "Assets exportés"],
+      },
+      uxAudit: {
+        title: "Audit UX",
+        description: "Analyse de l'expérience utilisateur et recommandations.",
+        price: "À partir de 500€",
+        delay: "3 jours",
+        features: ["Analyse parcours", "Points de friction", "Recommandations", "Rapport détaillé"],
+      },
+      dashboardDesign: {
+        title: "Design Dashboard",
+        description: "Interfaces de données complexes, claires et actionnables.",
+        price: "À partir de 1 500€",
+        delay: "7 jours",
+        features: ["Data visualization", "Design system", "Composants réutilisables", "Dark/Light mode"],
+      },
+      logoDesign: {
+        title: "Logo & Identité",
+        description: "Création de logo et charte graphique complète.",
+        price: "À partir de 400€",
+        delay: "5 jours",
+        features: ["3 propositions", "Révisions incluses", "Fichiers sources", "Guide d'utilisation"],
+      },
+      brandIdentity: {
+        title: "Identité de Marque",
+        description: "Stratégie de marque complète : positionnement, ton, visuels.",
+        price: "À partir de 1 500€",
+        delay: "10 jours",
+        features: ["Stratégie de marque", "Charte graphique", "Templates sociaux", "Guidelines"],
+      },
+      cryptoPayments: {
+        title: "Intégration Crypto",
+        description: "Ajoutez les paiements crypto à votre site ou app existante.",
+        price: "À partir de 800€",
+        delay: "3 jours",
+        features: ["Multi-cryptos", "Wallet connect", "Webhooks", "Dashboard paiements"],
+      },
+      web3Dashboard: {
+        title: "Dashboard Web3",
+        description: "Interfaces pour DeFi, NFT, ou données blockchain.",
+        price: "Sur devis",
+        delay: "2-4 semaines",
+        features: ["Connexion wallets", "Données on-chain", "Smart contracts", "Multi-chains"],
+      },
+      seoOptimization: {
+        title: "Optimisation SEO",
+        description: "Amélioration du référencement naturel de votre site.",
+        price: "À partir de 600€",
+        delay: "5 jours",
+        features: ["Audit technique", "Optimisation on-page", "Schema markup", "Rapport mensuel"],
+      },
+      performanceAudit: {
+        title: "Audit Performance",
+        description: "Analyse et optimisation de la vitesse de chargement.",
+        price: "À partir de 400€",
+        delay: "3 jours",
+        features: ["Core Web Vitals", "Optimisation images", "Cache strategy", "CDN setup"],
+      },
+      maintenanceMonthly: {
+        title: "Maintenance Mensuelle",
+        description: "Support continu, mises à jour et monitoring.",
+        price: "À partir de 150€/mois",
+        delay: "Ongoing",
+        features: ["Mises à jour", "Backups", "Monitoring 24/7", "Support prioritaire"],
+      },
+      supportHourly: {
+        title: "Support à l'Heure",
+        description: "Interventions ponctuelles et modifications.",
+        price: "80€/heure",
+        delay: "Sous 48h",
+        features: ["Modifications", "Bug fixes", "Nouvelles features", "Conseil technique"],
+      },
+    },
+  },
+
+  // Crypto-native messaging
+  cryptoNative: {
+    tagline: "Crypto-Friendly Agency",
+    web2web3: "Web2 & Web3 Ready",
+    payWith: "Payez en crypto ou carte",
+    acceptedCryptos: "BTC • ETH • USDC • USDT",
+  },
 };
