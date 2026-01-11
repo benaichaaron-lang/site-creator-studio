@@ -14,7 +14,7 @@ const TrustSection = () => {
     },
     {
       icon: Clock,
-      value: "5-10",
+      value: "5",
       label: t("trust.stats.delivery"),
     },
     {
