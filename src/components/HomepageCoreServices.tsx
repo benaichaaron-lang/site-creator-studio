@@ -55,41 +55,42 @@ const HomepageCoreServices = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 relative overflow-hidden">
-      {/* Subtle background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(217,91%,50%,0.04),transparent_60%)]" />
+    <section className="py-20 md:py-28 lg:py-36 relative overflow-hidden">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(217,91%,55%,0.03),transparent_50%)]" />
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
+        {/* Header - refined spacing */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto mb-12"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+          className="text-center max-w-2xl mx-auto mb-14 md:mb-20"
         >
-          {/* Crypto badge - subtle */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 mb-6">
-            <div className="flex items-center gap-1">
-              <BitcoinIcon className="w-3.5 h-3.5" />
-              <EthereumIcon className="w-3.5 h-3.5" />
-              <USDCIcon className="w-3.5 h-3.5" />
+          {/* Crypto badge - more subtle */}
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-card/50 border border-border/50 mb-8">
+            <div className="flex items-center gap-1.5">
+              <BitcoinIcon className="w-4 h-4" />
+              <EthereumIcon className="w-4 h-4" />
+              <USDCIcon className="w-4 h-4" />
             </div>
-            <span className="text-[11px] text-white/50">{t("homepageServices.cryptoBadge")}</span>
+            <span className="text-xs text-muted-foreground">{t("homepageServices.cryptoBadge")}</span>
           </div>
 
-          <span className="text-primary text-xs uppercase tracking-widest font-medium">
+          <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium block mb-4">
             {t("homepageServices.badge")}
           </span>
-          <h2 className="font-bebas text-3xl md:text-4xl lg:text-5xl text-white mt-3 mb-4">
+          <h2 className="font-bebas text-4xl md:text-5xl lg:text-6xl text-foreground mb-5">
             {t("homepageServices.title")}
           </h2>
-          <p className="text-white/50 text-base md:text-lg max-w-xl mx-auto">
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-lg mx-auto">
             {t("homepageServices.subtitle")}
           </p>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
+        {/* Services Grid - refined cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 lg:gap-6 mb-14">
           {coreServices.map((service, index) => {
             const ServiceIcon = service.icon;
             return (
@@ -97,58 +98,59 @@ const HomepageCoreServices = () => {
                 key={service.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ delay: index * 0.08, duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
                 onClick={() => handleServiceClick(service.id)}
-                className={`group relative p-5 rounded-2xl bg-gradient-to-br ${service.gradient} border border-white/10 hover:border-white/20 cursor-pointer transition-all duration-300 hover:-translate-y-1`}
+                className={`group relative p-6 rounded-2xl bg-card/50 border border-border/50 hover:border-border hover:bg-card/80 cursor-pointer transition-all duration-500 hover:-translate-y-1`}
               >
                 {/* Popular badge */}
                 {service.popular && (
-                  <div className="absolute -top-2 -right-2">
-                    <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-[10px] font-semibold text-white">
+                  <div className="absolute -top-2.5 -right-2.5">
+                    <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary text-[10px] font-semibold text-white shadow-lg shadow-primary/30">
                       <Star className="w-2.5 h-2.5 fill-current" />
                       {t("homepageServices.popular")}
                     </span>
                   </div>
                 )}
 
-                <div className="w-10 h-10 rounded-xl bg-black/30 flex items-center justify-center mb-4 text-primary">
-                  <ServiceIcon className="w-5 h-5" />
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/15 transition-colors duration-500">
+                  <ServiceIcon className="w-6 h-6 text-primary" />
                 </div>
 
-                <h3 className="font-semibold text-white mb-2 group-hover:text-primary transition-colors">
+                <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
                   {t(`homepageServices.services.${service.id}.title`)}
                 </h3>
-                <p className="text-white/50 text-sm leading-relaxed mb-4">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
                   {t(`homepageServices.services.${service.id}.description`)}
                 </p>
 
-                <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                <div className="flex items-center justify-between pt-4 border-t border-border/50">
                   <div>
-                    <span className="text-primary font-semibold text-sm">
+                    <span className="text-primary font-semibold">
                       {t(`homepageServices.services.${service.id}.price`)}
                     </span>
-                    <span className="text-white/30 text-xs ml-2">
+                    <span className="text-muted-foreground/60 text-xs ml-2">
                       {t(`homepageServices.services.${service.id}.delay`)}
                     </span>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-white/30 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
                 </div>
               </motion.div>
             );
           })}
         </div>
 
-        {/* CTAs */}
+        {/* CTAs - refined styling */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <Button
             onClick={() => navigate('/services')}
-            className="bg-primary hover:bg-primary/90 text-white px-6 h-12"
+            className="bg-primary hover:bg-primary/90 text-white px-8 h-14 rounded-xl text-base font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300"
           >
             {t("homepageServices.viewAll")}
             <ArrowRight className="w-4 h-4 ml-2" />
@@ -156,19 +158,19 @@ const HomepageCoreServices = () => {
           <Button
             onClick={() => navigate('/contact')}
             variant="outline"
-            className="border-white/20 text-white hover:bg-white/10 px-6 h-12"
+            className="border-border text-foreground hover:bg-card px-8 h-14 rounded-xl text-base font-medium"
           >
             <Wallet className="w-4 h-4 mr-2" />
             {t("homepageServices.payWithCrypto")}
           </Button>
         </motion.div>
 
-        {/* Trust line */}
+        {/* Trust line - more subtle */}
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center text-white/30 text-sm mt-6"
+          className="text-center text-muted-foreground/60 text-sm mt-10"
         >
           {t("homepageServices.trust")}
         </motion.p>

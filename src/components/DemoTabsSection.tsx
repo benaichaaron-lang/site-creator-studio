@@ -94,25 +94,26 @@ const DemoTabsSection = () => {
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   return (
-    <section className="py-12 md:py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(217,91%,50%,0.04),transparent_60%)]" />
+    <section className="py-20 md:py-28 lg:py-36 relative overflow-hidden">
+      {/* Subtle gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(217,91%,55%,0.02),transparent_60%)]" />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header - compact on mobile */}
+        {/* Header - refined */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-6 md:mb-14"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+          className="text-center mb-10 md:mb-16"
         >
-          <span className="font-montserrat text-primary text-xs uppercase tracking-widest">
+          <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium block mb-4">
             {t("demoTabs.badge")}
           </span>
-          <h2 className="font-bebas text-2xl md:text-4xl lg:text-5xl text-white mt-2 mb-2">
+          <h2 className="font-bebas text-3xl md:text-5xl lg:text-6xl text-foreground mb-4">
             {t("demoTabs.title")}
           </h2>
-          <p className="text-white/50 max-w-xl mx-auto font-heebo text-sm hidden md:block">
+          <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg leading-relaxed hidden md:block">
             {t("demoTabs.subtitle")}
           </p>
         </motion.div>
@@ -127,9 +128,9 @@ const DemoTabsSection = () => {
                   <div key={tab.id} className="flex-[0_0_85%] min-w-0 pl-3 first:pl-0 pr-3">
                     <motion.div
                       initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: index === selectedIndex ? 1 : 0.6, scale: index === selectedIndex ? 1 : 0.95 }}
-                      transition={{ duration: 0.3 }}
-                      className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden"
+                      animate={{ opacity: index === selectedIndex ? 1 : 0.5, scale: index === selectedIndex ? 1 : 0.95 }}
+                      transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+                      className="bg-card/60 border border-border/50 rounded-2xl overflow-hidden backdrop-blur-sm"
                     >
                       {/* Image */}
                       <div className="relative aspect-[16/10] overflow-hidden">
@@ -149,24 +150,24 @@ const DemoTabsSection = () => {
                       </div>
                       
                       {/* Content */}
-                      <div className="p-4">
-                        <div className="flex items-center justify-between mb-3">
+                      <div className="p-5">
+                        <div className="flex items-center justify-between mb-4">
                           <span className="text-primary font-bold text-xl">{tab.price}</span>
-                          <span className="text-white/50 text-sm">{tab.delay}</span>
+                          <span className="text-muted-foreground text-sm">{tab.delay}</span>
                         </div>
                         
-                        <ul className="space-y-2 mb-4">
+                        <ul className="space-y-2.5 mb-5">
                           {tab.bullets.map((bullet, i) => (
-                            <li key={i} className="flex items-start gap-2">
+                            <li key={i} className="flex items-start gap-2.5">
                               <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                              <span className="text-white/70 text-sm font-heebo">{bullet}</span>
+                              <span className="text-muted-foreground text-sm leading-relaxed">{bullet}</span>
                             </li>
                           ))}
                         </ul>
                         
                         <Button
                           onClick={() => handleStartProject(tab)}
-                          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-11"
+                          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-12"
                         >
                           {t("demoTabs.cta")}
                           <ArrowRight className="w-4 h-4 ml-2" />
@@ -179,21 +180,21 @@ const DemoTabsSection = () => {
             </div>
           </div>
           
-          {/* Mobile navigation */}
-          <div className="flex items-center justify-center gap-4 mt-4">
+          {/* Mobile navigation - refined */}
+          <div className="flex items-center justify-center gap-6 mt-6">
             <button
               onClick={scrollPrev}
-              className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:bg-white/10 transition-colors"
+              className="w-11 h-11 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:bg-card/80 hover:text-foreground transition-all duration-300"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             
-            <div className="flex gap-1.5">
+            <div className="flex gap-2">
               {tabs.map((_, index) => (
                 <button
                   key={index}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    index === selectedIndex ? "w-6 bg-primary" : "w-1.5 bg-white/20"
+                  className={`h-2 rounded-full transition-all duration-400 ${
+                    index === selectedIndex ? "w-8 bg-primary" : "w-2 bg-border"
                   }`}
                   onClick={() => emblaApi?.scrollTo(index)}
                 />
@@ -202,18 +203,18 @@ const DemoTabsSection = () => {
             
             <button
               onClick={scrollNext}
-              className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:bg-white/10 transition-colors"
+              className="w-11 h-11 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:bg-card/80 hover:text-foreground transition-all duration-300"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* DESKTOP: Tab buttons + content grid */}
+        {/* DESKTOP: Tab buttons + content grid - refined */}
         <div className="hidden md:block">
           {/* Tab navigation */}
-          <div className="relative mb-8 md:mb-12">
-            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+          <div className="relative mb-12 lg:mb-16">
+            <div className="flex flex-wrap justify-center gap-4">
               {tabs.map((tab, index) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -221,44 +222,32 @@ const DemoTabsSection = () => {
                   <motion.button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    whileHover={{ scale: 1.03, y: -2 }}
-                    whileTap={{ scale: 0.97 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.4 }}
-                    className={`group relative flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                    transition={{ delay: index * 0.1, duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+                    className={`group relative flex items-center gap-3 px-7 py-4 rounded-2xl text-sm font-semibold transition-all duration-500 cursor-pointer ${
                       isActive
-                        ? "bg-primary text-white shadow-xl shadow-primary/40 ring-2 ring-primary/50"
-                        : "bg-white/10 text-white border-2 border-white/20 hover:border-primary/60 hover:bg-primary/10 hover:text-white"
+                        ? "bg-primary text-white shadow-xl shadow-primary/30"
+                        : "bg-card/60 text-foreground border border-border hover:border-primary/50 hover:bg-card"
                     }`}
                   >
-                    {!isActive && (
-                      <div className="absolute inset-0 rounded-xl bg-primary/0 group-hover:bg-primary/5 transition-all duration-300" />
-                    )}
                     {isActive && (
                       <motion.div
                         layoutId="activeTabIndicator"
-                        className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 rounded-xl"
-                        transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                        className="absolute inset-0 bg-primary rounded-2xl"
+                        transition={{ type: "spring", bounce: 0.15, duration: 0.6 }}
                       />
                     )}
                     <motion.div
                       className="relative z-10"
-                      animate={isActive ? { rotate: [0, -10, 10, 0] } : {}}
+                      animate={isActive ? { rotate: [0, -5, 5, 0] } : {}}
                       transition={{ duration: 0.5 }}
                     >
-                      <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-primary group-hover:text-primary"}`} />
+                      <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-primary"}`} />
                     </motion.div>
                     <span className="relative z-10 whitespace-nowrap">{tab.label}</span>
-                    {!isActive && (
-                      <motion.span 
-                        className="relative z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                        initial={{ x: -5 }}
-                        whileHover={{ x: 0 }}
-                      >
-                        →
-                      </motion.span>
-                    )}
                   </motion.button>
                 );
               })}
@@ -271,20 +260,20 @@ const DemoTabsSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
               className="max-w-5xl mx-auto"
             >
-              <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
                 <div className="relative group order-2 md:order-1">
-                  <div className="absolute -inset-2 bg-gradient-to-r from-primary/15 to-primary/5 rounded-2xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity" />
-                  <div className="relative rounded-xl overflow-hidden border border-white/10 bg-black">
-                    <div className="h-8 bg-white/5 flex items-center px-3 gap-1.5 border-b border-white/5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
-                      <div className="flex-1 mx-4">
-                        <div className="h-4 bg-white/5 rounded-full max-w-[180px] flex items-center px-2">
-                          <span className="text-[10px] text-white/30">mysite.com</span>
+                  <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-primary/5 rounded-3xl blur-2xl opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
+                  <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/50">
+                    <div className="h-10 bg-card/80 flex items-center px-4 gap-2 border-b border-border/50">
+                      <div className="w-3 h-3 rounded-full bg-red-400/50" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400/50" />
+                      <div className="w-3 h-3 rounded-full bg-green-400/50" />
+                      <div className="flex-1 mx-6">
+                        <div className="h-5 bg-background/50 rounded-lg max-w-[200px] flex items-center px-3">
+                          <span className="text-[11px] text-muted-foreground">mysite.com</span>
                         </div>
                       </div>
                     </div>
@@ -298,35 +287,35 @@ const DemoTabsSection = () => {
                   </div>
                 </div>
 
-                <div className="space-y-6 order-1 md:order-2">
+                <div className="space-y-8 order-1 md:order-2">
                   <div>
-                    <h3 className="font-bebas text-3xl md:text-4xl text-white mb-3">
+                    <h3 className="font-bebas text-4xl md:text-5xl text-foreground mb-4">
                       {activeContent.label}
                     </h3>
-                    <div className="flex items-center gap-4 text-sm">
-                      <span className="text-primary font-bold text-lg">{activeContent.price}</span>
-                      <span className="text-white/20">•</span>
-                      <span className="text-white/60">{t("demoTabs.deliveredIn")} {activeContent.delay}</span>
+                    <div className="flex items-center gap-4">
+                      <span className="text-primary font-bold text-2xl">{activeContent.price}</span>
+                      <span className="text-muted-foreground/50">•</span>
+                      <span className="text-muted-foreground">{t("demoTabs.deliveredIn")} {activeContent.delay}</span>
                     </div>
                   </div>
 
                   <ul className="space-y-4">
                     {activeContent.bullets.map((bullet, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <Check className="w-3 h-3 text-primary" />
+                      <li key={i} className="flex items-start gap-4">
+                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <Check className="w-3.5 h-3.5 text-primary" />
                         </div>
-                        <span className="text-white/80 font-heebo text-base">{bullet}</span>
+                        <span className="text-muted-foreground text-base leading-relaxed">{bullet}</span>
                       </li>
                     ))}
                   </ul>
 
                   <Button
                     onClick={() => handleStartProject()}
-                    className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-12 px-6"
+                    className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-14 px-8 text-base shadow-lg shadow-primary/20"
                   >
                     {t("demoTabs.cta")}
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                    <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </div>
               </div>
