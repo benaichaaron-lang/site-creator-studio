@@ -9,7 +9,7 @@ const TrustSection = () => {
   const stats = [
     {
       icon: Users,
-      value: "+150",
+      value: "15000",
       label: t("trust.stats.projects"),
     },
     {
