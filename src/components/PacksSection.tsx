@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Check, Zap, Building2, Crown, ArrowRight, ChevronDown, X } from "lucide-react";
+import { Check, Zap, Building2, Crown, ArrowRight, ChevronDown, X, Wallet } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthPromptModal from "@/components/AuthPromptModal";
+import { BitcoinIcon, EthereumIcon, USDCIcon } from "@/components/CryptoBadge";
 
 const PacksSection = () => {
   const { t } = useLanguage();
@@ -330,7 +331,22 @@ const PacksSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-primary text-xs sm:text-sm font-medium uppercase tracking-wider">{t("packs.badge")}</span>
+          {/* Crypto badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-[#F7931A]/10 via-[#627EEA]/10 to-[#26A17B]/10 border border-white/10 mb-4"
+          >
+            <div className="flex items-center gap-1.5">
+              <BitcoinIcon className="w-4 h-4" />
+              <EthereumIcon className="w-4 h-4" />
+              <USDCIcon className="w-4 h-4" />
+            </div>
+            <span className="text-xs font-medium text-white/70">{t("packs.cryptoAccepted")}</span>
+          </motion.div>
+          
+          <span className="block text-primary text-xs sm:text-sm font-medium uppercase tracking-wider">{t("packs.badge")}</span>
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mt-2 sm:mt-4 mb-2 sm:mb-4">
             {t("packs.title")}
           </h2>

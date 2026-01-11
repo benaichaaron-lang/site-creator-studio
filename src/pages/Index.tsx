@@ -7,6 +7,7 @@ import LazySection from "@/components/LazySection";
 const TrustSection = lazy(() => import("@/components/TrustSection"));
 const DemoTabsSection = lazy(() => import("@/components/DemoTabsSection"));
 const InteractiveDemoSection = lazy(() => import("@/components/InteractiveDemoSection"));
+const CryptoPaymentBenefits = lazy(() => import("@/components/CryptoPaymentBenefits"));
 const ExpertiseSection = lazy(() => import("@/components/ExpertiseSection"));
 const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
 const Footer = lazy(() => import("@/components/Footer"));
@@ -41,6 +42,13 @@ const Index = () => {
       <LazySection>
         <Suspense fallback={<SectionLoader />}>
           <InteractiveDemoSection />
+        </Suspense>
+      </LazySection>
+
+      {/* Crypto Payment Benefits */}
+      <LazySection>
+        <Suspense fallback={<SectionLoader />}>
+          <CryptoPaymentBenefits />
         </Suspense>
       </LazySection>
 
