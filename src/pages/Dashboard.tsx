@@ -22,7 +22,8 @@ import {
   Shield,
   Headphones,
   Star,
-  Zap
+  Zap,
+  Wallet
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,6 +40,7 @@ import OrderTimeline from '@/components/OrderTimeline';
 import NextStepsCard from '@/components/NextStepsCard';
 import EmptyState from '@/components/EmptyState';
 import UpsellCard from '@/components/UpsellCard';
+import { BitcoinIcon, EthereumIcon, USDCIcon } from '@/components/CryptoBadge';
 
 type TabType = 'overview' | 'orders' | 'packs' | 'tickets';
 
@@ -577,9 +579,38 @@ const Dashboard = () => {
           >
             <h2 className="text-2xl font-bold">{t("dashboard.ourPacks")}</h2>
             
+            {/* Crypto Payment Banner */}
+            <Card className="bg-gradient-to-r from-amber-500/10 via-primary/10 to-blue-500/10 border-amber-500/20">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-amber-500/20 rounded-lg">
+                      <Wallet className="h-5 w-5 text-amber-500" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm">{t("dashboard.cryptoPayment.title")}</p>
+                      <p className="text-xs text-muted-foreground">{t("dashboard.cryptoPayment.subtitle")}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BitcoinIcon className="w-5 h-5" />
+                    <EthereumIcon className="w-5 h-5" />
+                    <USDCIcon className="w-5 h-5" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {packs.map((pack) => (
-                <Card key={pack.id} className="card-hover">
+                <Card key={pack.id} className="card-hover relative overflow-hidden">
+                  {/* Crypto Badge */}
+                  <div className="absolute top-3 right-3">
+                    <Badge variant="outline" className="bg-amber-500/10 border-amber-500/30 text-amber-500 text-xs">
+                      <BitcoinIcon className="w-3 h-3 mr-1" />
+                      Crypto OK
+                    </Badge>
+                  </div>
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <Badge variant={pack.pack_type === 'subscription' ? 'default' : 'secondary'}>
@@ -607,13 +638,20 @@ const Dashboard = () => {
                         </li>
                       ))}
                     </ul>
-                    <Button 
-                      className="w-full" 
-                      onClick={() => navigate(`/checkout/${pack.id}`)}
-                    >
-                      <CreditCard className="mr-2 h-4 w-4" />
-                      {t("dashboard.subscribe")}
-                    </Button>
+                    <div className="space-y-2">
+                      <Button 
+                        className="w-full" 
+                        onClick={() => navigate(`/checkout/${pack.id}`)}
+                      >
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        {t("dashboard.subscribe")}
+                      </Button>
+                      <p className="text-xs text-center text-muted-foreground flex items-center justify-center gap-1">
+                        <BitcoinIcon className="w-3 h-3" />
+                        <EthereumIcon className="w-3 h-3" />
+                        {t("dashboard.cryptoPayment.orCrypto")}
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               ))}

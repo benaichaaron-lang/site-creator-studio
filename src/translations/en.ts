@@ -440,6 +440,10 @@ export const en = {
       failed: "Failed to send",
       failedDesc: "Something went wrong. Please try again or contact us directly.",
     },
+    cryptoPayment: {
+      title: "Crypto payment accepted",
+      subtitle: "BTC, ETH, USDC available",
+    },
   },
 
   // Testimonials
@@ -741,6 +745,11 @@ export const en = {
     myTickets: "My tickets",
     selectTicketPlaceholder: "Describe your issue briefly",
     detailRequest: "Detail your request...",
+    cryptoPayment: {
+      title: "Crypto payment accepted",
+      subtitle: "Pay with BTC, ETH or USDC",
+      orCrypto: "or pay with crypto",
+    },
   },
 
   // Admin Panel
