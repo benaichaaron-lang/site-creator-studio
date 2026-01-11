@@ -1364,17 +1364,22 @@ export const en = {
     or: "or",
   },
 
-  // Verify Email Page
+  // Verify Email Page - Auto Login
   verifyEmail: {
+    success: {
+      title: "Email verified!",
+      description: "Your email has been verified successfully.",
+      autoLogin: "Signing in...",
+      autoLoginDesc: "Your email is verified. Signing in automatically...",
+      welcomeBack: "Welcome! Redirecting to your dashboard...",
+      alreadyVerified: "Email already verified",
+      loginNow: "You can now sign in.",
+      redirecting: "Redirecting...",
+      loginRequired: "Your email has been verified. You can now log in.",
+    },
     loading: {
       title: "Verifying...",
       description: "We're verifying your email, please wait.",
-    },
-    success: {
-      title: "Email verified!",
-      description: "Welcome to MySiteFactory! Redirecting to your dashboard...",
-      redirecting: "Redirecting...",
-      loginRequired: "Your email has been verified. You can now log in.",
     },
     expired: {
       title: "Link expired",
