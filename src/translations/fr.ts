@@ -1688,4 +1688,182 @@ export const fr = {
     payWith: "Payez en crypto ou carte",
     acceptedCryptos: "BTC • ETH • USDC • USDT",
   },
+
+  // Homepage Core Services (Tier 1 only)
+  homepageServices: {
+    badge: "Nos Services",
+    title: "Ce que nous créons",
+    subtitle: "Des solutions web professionnelles, livrées rapidement. Paiement crypto ou carte.",
+    cryptoBadge: "Crypto accepté",
+    popular: "Populaire",
+    viewAll: "Voir tous les services",
+    payWithCrypto: "Payer en crypto",
+    trust: "+50 projets livrés • Délais garantis • Satisfaction client 98%",
+    services: {
+      landing: {
+        title: "Landing Page",
+        description: "Page de conversion optimisée pour capturer des leads.",
+        price: "À partir de 500€",
+        delay: "5 jours",
+      },
+      business: {
+        title: "Site Vitrine",
+        description: "Présence professionnelle complète pour votre entreprise.",
+        price: "À partir de 1 200€",
+        delay: "7 jours",
+      },
+      redesign: {
+        title: "Refonte de Site",
+        description: "Modernisez votre site existant avec un design actuel.",
+        price: "Sur devis",
+        delay: "7-10 jours",
+      },
+      dashboard: {
+        title: "Dashboard & Web App",
+        description: "Applications web sur-mesure avec tableaux de bord.",
+        price: "Sur devis",
+        delay: "2-4 sem.",
+      },
+      mvp: {
+        title: "MVP / SaaS",
+        description: "Lancez votre produit rapidement avec un MVP fonctionnel.",
+        price: "Sur devis",
+        delay: "4-8 sem.",
+      },
+    },
+  },
+
+  // Services Tiered Section (Full page)
+  servicesTiers: {
+    title: "Catalogue de Services",
+    subtitle: "Des solutions modulaires pour chaque besoin. Tous compatibles avec le paiement crypto.",
+    cryptoAvailable: "Tous les services acceptent le paiement crypto",
+    services: "services",
+    seeAllServices: "Voir tous les services",
+    badges: {
+      popular: "Populaire",
+      highDemand: "Forte demande",
+    },
+    cryptoCta: {
+      title: "Payez en crypto, sans friction",
+      subtitle: "Transactions rapides, sécurisées et sans frontières. Pas de banques, pas de délais.",
+      button: "Démarrer mon projet",
+    },
+    tiers: {
+      core: {
+        title: "Développement Web",
+        subtitle: "Sites, applications et plateformes sur-mesure",
+        services: {
+          landing: {
+            title: "Landing Page",
+            description: "Page de conversion optimisée pour capturer des leads et vendre.",
+            price: "À partir de 500€",
+          },
+          business: {
+            title: "Site Vitrine",
+            description: "Présence professionnelle complète pour votre entreprise.",
+            price: "À partir de 1 200€",
+          },
+          redesign: {
+            title: "Refonte de Site",
+            description: "Modernisez votre site existant avec un design actuel.",
+            price: "Sur devis",
+          },
+          dashboard: {
+            title: "Dashboard & Web App",
+            description: "Applications web sur-mesure avec tableaux de bord.",
+            price: "Sur devis",
+          },
+          mvp: {
+            title: "MVP / SaaS",
+            description: "Lancez votre produit rapidement avec un MVP fonctionnel.",
+            price: "Sur devis",
+          },
+        },
+      },
+      design: {
+        title: "Design & UX",
+        subtitle: "Interfaces modernes et expériences utilisateur optimisées",
+        services: {
+          uiDesign: {
+            title: "Design UI",
+            description: "Interfaces modernes et intuitives pour web et mobile.",
+            price: "À partir de 800€",
+          },
+          uxAudit: {
+            title: "Audit UX",
+            description: "Analyse et optimisation de l'expérience utilisateur.",
+            price: "À partir de 500€",
+          },
+          mobileFirst: {
+            title: "Design Mobile-First",
+            description: "Interfaces optimisées pour l'expérience mobile.",
+            price: "À partir de 600€",
+          },
+          dashboardDesign: {
+            title: "Design Dashboard",
+            description: "Interfaces de données complexes, claires et actionnables.",
+            price: "À partir de 1 500€",
+          },
+          prototyping: {
+            title: "Prototypage",
+            description: "Prototypes interactifs pour valider vos concepts.",
+            price: "À partir de 400€",
+          },
+        },
+      },
+      automation: {
+        title: "Automation, IA & Data",
+        subtitle: "Automatisez vos processus et exploitez vos données",
+        services: {
+          automations: {
+            title: "Automatisations",
+            description: "Automatisez vos processus métier récurrents.",
+            price: "À partir de 500€",
+          },
+          internalTools: {
+            title: "Outils Internes",
+            description: "Applications internes sur-mesure pour vos équipes.",
+            price: "Sur devis",
+          },
+          aiChatbots: {
+            title: "Chatbots IA",
+            description: "Assistants intelligents pour votre service client.",
+            price: "À partir de 1 000€",
+          },
+          analytics: {
+            title: "Analytics & Tracking",
+            description: "Tableaux de bord pour suivre vos KPIs en temps réel.",
+            price: "À partir de 600€",
+          },
+        },
+      },
+      infrastructure: {
+        title: "Maintenance, Sécurité & Web3",
+        subtitle: "Support continu et intégrations blockchain",
+        services: {
+          maintenance: {
+            title: "Maintenance & Support",
+            description: "Support continu, mises à jour et monitoring.",
+            price: "À partir de 150€/mois",
+          },
+          security: {
+            title: "Sécurité & Monitoring",
+            description: "Audit de sécurité et surveillance 24/7.",
+            price: "À partir de 400€",
+          },
+          cryptoPayments: {
+            title: "Intégration Crypto",
+            description: "Ajoutez les paiements crypto à votre site.",
+            price: "À partir de 800€",
+          },
+          web3Landing: {
+            title: "Site Web3",
+            description: "Landing pages et dashboards pour projets crypto.",
+            price: "Sur devis",
+          },
+        },
+      },
+    },
+  },
 };
