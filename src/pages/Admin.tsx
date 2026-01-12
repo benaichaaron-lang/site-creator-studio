@@ -281,16 +281,34 @@ const Admin = () => {
     
     setSavingOrder(true);
     try {
+      const previousStatus = editingOrder.status;
+      const newStatus = orderStatus;
+      
       const { error } = await supabase
         .from('orders')
         .update({
-          status: orderStatus as any,
+          status: newStatus as any,
           progress: orderProgress,
           notes: orderNotes
         })
         .eq('id', editingOrder.id);
 
       if (error) throw error;
+
+      // Send status update email if status changed
+      if (previousStatus !== newStatus) {
+        try {
+          await supabase.functions.invoke('send-project-status-email', {
+            body: {
+              orderId: editingOrder.id,
+              newStatus: newStatus,
+              language: language === 'fr' ? 'fr' : 'en',
+            },
+          });
+        } catch (emailError) {
+          console.error('Failed to send status update email:', emailError);
+        }
+      }
 
       toast({ title: t("admin.orders.toasts.updated") });
       setEditingOrder(null);
@@ -389,16 +407,31 @@ const Admin = () => {
     
     setSendingMessage(true);
     try {
+      const messageContent = newMessage.trim();
       const { error } = await supabase
         .from('ticket_messages')
         .insert({
           ticket_id: selectedTicket.id,
           sender_id: user.id,
-          message: newMessage.trim(),
+          message: messageContent,
           is_admin: true
         });
 
       if (error) throw error;
+
+      // Send email notification to client
+      try {
+        await supabase.functions.invoke('send-ticket-email', {
+          body: {
+            ticketId: selectedTicket.id,
+            emailType: 'ticket_reply_admin',
+            messagePreview: messageContent,
+            language: language === 'fr' ? 'fr' : 'en',
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send ticket reply email:', emailError);
+      }
       
       setNewMessage('');
       fetchTicketMessages(selectedTicket.id);

@@ -26,3 +26,18 @@ verify_jwt = false
 
 [functions.get-verified-users]
 verify_jwt = false
+
+[functions.send-ticket-email]
+verify_jwt = false
+
+[functions.send-admin-notification]
+verify_jwt = false
+
+[functions.send-payment-email]
+verify_jwt = false
+
+[functions.send-project-status-email]
+verify_jwt = false
+
+[functions.send-security-alert]
+verify_jwt = false

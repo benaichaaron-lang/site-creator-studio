@@ -186,16 +186,31 @@ const Dashboard = () => {
     
     setSendingMessage(true);
     try {
+      const messageContent = newMessage.trim();
       const { error } = await supabase
         .from('ticket_messages')
         .insert({
           ticket_id: selectedTicket.id,
           sender_id: user.id,
-          message: newMessage.trim(),
+          message: messageContent,
           is_admin: false
         });
 
       if (error) throw error;
+
+      // Send email notification to admin
+      try {
+        await supabase.functions.invoke('send-ticket-email', {
+          body: {
+            ticketId: selectedTicket.id,
+            emailType: 'ticket_reply_client',
+            messagePreview: messageContent,
+            language: language === 'fr' ? 'fr' : 'en',
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send ticket reply email:', emailError);
+      }
       
       setNewMessage('');
       fetchTicketMessages(selectedTicket.id);
@@ -239,6 +254,19 @@ const Dashboard = () => {
         });
 
       if (messageError) throw messageError;
+
+      // Send email notification
+      try {
+        await supabase.functions.invoke('send-ticket-email', {
+          body: {
+            ticketId: ticketData.id,
+            emailType: 'ticket_opened',
+            language: language === 'fr' ? 'fr' : 'en',
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send ticket email:', emailError);
+      }
 
       toast({
         title: t("dashboard.toasts.ticketCreated"),
