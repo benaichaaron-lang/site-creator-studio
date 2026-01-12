@@ -34,7 +34,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { signIn, signUp, user, isAdmin } = useAuth();
+  const { signIn, signUp, signInWithGoogle, user, isAdmin } = useAuth();
   const { toast } = useToast();
 
   const signUpSchema = z.object({
@@ -83,12 +83,7 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/dashboard`,
-        },
-      });
+      const { error } = await signInWithGoogle();
 
       if (error) {
         toast({
