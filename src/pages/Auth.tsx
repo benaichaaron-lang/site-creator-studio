@@ -614,14 +614,16 @@ const Auth = () => {
             </button>
           </div>
 
-          <div className="mt-4 text-center">
-            <button
+          <div className="mt-6 pt-4 border-t border-border/50">
+            <Button
               type="button"
+              variant="ghost"
               onClick={() => navigate('/')}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="w-full text-muted-foreground hover:text-foreground hover:bg-primary/5 transition-all"
             >
+              <ArrowLeft className="w-4 h-4 mr-2" />
               {t("authPage.backToSite")}
-            </button>
+            </Button>
           </div>
         </div>
       </motion.div>
