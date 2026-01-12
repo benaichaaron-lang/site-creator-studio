@@ -15,15 +15,18 @@ import {
 } from "@/components/ui/select";
 import CryptoBadge, { BitcoinIcon, EthereumIcon, USDCIcon } from "./CryptoBadge";
 
+// Premium easing curve
+const premiumEase: [number, number, number, number] = [0.25, 0.4, 0.25, 1];
+
 // Badge component for trust indicators - more premium
 const TrustBadge = ({ icon: Icon, label, cryptoIcons }: { icon?: React.ElementType; label: string; cryptoIcons?: boolean }) => (
   <motion.div 
-    className="flex items-center gap-2.5 bg-white/[0.03] border border-white/[0.08] rounded-full px-4 py-2.5 backdrop-blur-sm"
-    whileHover={{ scale: 1.02, borderColor: "rgba(255,255,255,0.15)" }}
-    transition={{ duration: 0.2 }}
+    className="flex items-center gap-2.5 bg-foreground/[0.03] border border-foreground/[0.06] rounded-full px-4 py-2.5 backdrop-blur-sm"
+    whileHover={{ scale: 1.02, borderColor: "rgba(255,255,255,0.12)" }}
+    transition={{ duration: 0.4, ease: premiumEase }}
   >
     {cryptoIcons ? (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1.5">
         <BitcoinIcon className="w-4 h-4" />
         <EthereumIcon className="w-4 h-4" />
         <USDCIcon className="w-4 h-4" />
@@ -31,7 +34,7 @@ const TrustBadge = ({ icon: Icon, label, cryptoIcons }: { icon?: React.ElementTy
     ) : Icon ? (
       <Icon className="w-4 h-4 text-primary" />
     ) : null}
-    <span className="text-sm text-white/70 font-heebo">{label}</span>
+    <span className="text-sm text-foreground/60 font-heebo">{label}</span>
   </motion.div>
 );
 
@@ -40,32 +43,32 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
   const { t } = useLanguage();
   
   return (
-    <div className="min-h-[calc(100vh-80px)] flex flex-col justify-center px-5 py-8">
+    <div className="min-h-[calc(100vh-80px)] flex flex-col justify-center px-5 py-10">
       <div className="flex-1 flex flex-col justify-center max-w-md mx-auto">
-        {/* Main Title - Elegant and precise */}
+        {/* Main Title - Larger and more impactful */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-          className="font-bebas text-[clamp(2.75rem,11vw,4rem)] leading-[0.92] text-white tracking-tight"
+          transition={{ duration: 0.7, ease: premiumEase }}
+          className="font-bebas text-[clamp(3rem,12vw,4.5rem)] leading-[0.9] text-foreground tracking-tight"
         >
           {t("hero.title")}
         </motion.h1>
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-          className="font-bebas text-[clamp(2.25rem,9vw,3.25rem)] text-primary leading-[0.92] tracking-tight mt-1 mb-6"
+          transition={{ duration: 0.7, delay: 0.1, ease: premiumEase }}
+          className="font-bebas text-[clamp(2.5rem,10vw,3.75rem)] text-primary leading-[0.9] tracking-tight mt-1 mb-8"
         >
           {t("hero.titleHighlight")}
         </motion.h2>
 
         {/* Value subtitle - more readable */}
         <motion.p
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-white/50 text-base leading-relaxed mb-8 font-heebo"
+          transition={{ duration: 0.6, delay: 0.2, ease: premiumEase }}
+          className="text-muted-foreground text-base leading-relaxed mb-10 font-heebo max-w-sm"
         >
           {t("hero.subtitle")}
         </motion.p>
@@ -74,12 +77,12 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col gap-3 mb-8"
+          transition={{ duration: 0.6, delay: 0.3, ease: premiumEase }}
+          className="flex flex-col gap-3.5 mb-10"
         >
           <Button 
             onClick={onStartBrief}
-            className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base shadow-[0_4px_20px_hsl(217,91%,50%,0.25)]"
+            className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl text-base shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-400"
           >
             {t("hero.cta.startBrief")}
             <ArrowRight className="w-5 h-5 ml-2" />
@@ -87,7 +90,7 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
           <Button 
             onClick={onSeePacks}
             variant="outline"
-            className="w-full h-12 bg-white/[0.02] border-white/[0.1] text-white/90 hover:bg-white/[0.05] hover:border-white/20 font-medium rounded-xl text-sm backdrop-blur-sm"
+            className="w-full h-13 bg-foreground/[0.02] border-foreground/[0.08] text-foreground/80 hover:bg-foreground/[0.04] hover:border-foreground/15 font-medium rounded-xl text-sm backdrop-blur-sm transition-all duration-400"
           >
             {t("hero.cta.seePacks")}
           </Button>
@@ -95,9 +98,9 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
 
         {/* Trust badges - more spaced */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: premiumEase }}
           className="flex flex-wrap gap-2.5"
         >
           <TrustBadge icon={Clock} label={t("hero.trustBadges.delivery")} />
@@ -173,55 +176,54 @@ const DesktopHero = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 lg:px-6 xl:px-8 relative z-10 pt-28 pb-20 md:pt-32 md:pb-24 lg:pt-36 lg:pb-32 xl:pt-40 xl:pb-36 2xl:pt-44 2xl:pb-40 max-w-7xl">
-      <div className="flex flex-col lg:flex-row lg:justify-between gap-10 lg:gap-8 xl:gap-12 2xl:gap-16 items-start">
+    <div className="container mx-auto px-4 lg:px-8 xl:px-10 relative z-10 pt-32 pb-24 md:pt-36 md:pb-28 lg:pt-40 lg:pb-36 xl:pt-44 xl:pb-40 2xl:pt-48 2xl:pb-44 max-w-7xl">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-12 lg:gap-10 xl:gap-16 2xl:gap-20 items-start">
         {/* Left content */}
-        <div className="flex-1 max-w-xl lg:max-w-[50%] xl:max-w-[55%] lg:pr-4">
-          {/* Title with elegant sizing - responsive */}
+        <div className="flex-1 max-w-xl lg:max-w-[52%] xl:max-w-[56%] lg:pr-6">
+          {/* Title with elegant sizing - larger for premium feel */}
           <motion.h1 
-            initial={{ opacity: 0, y: 30 }} 
+            initial={{ opacity: 0, y: 32 }} 
             animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-            className="font-bebas text-[clamp(3rem,6vw,5.5rem)] text-white leading-[0.9] tracking-tight"
+            transition={{ duration: 0.8, ease: premiumEase }}
+            className="font-bebas text-[clamp(3.25rem,6.5vw,6rem)] text-foreground leading-[0.88] tracking-tight"
           >
             {t("hero.title")}
           </motion.h1>
           <motion.h2 
-            initial={{ opacity: 0, y: 30 }} 
+            initial={{ opacity: 0, y: 32 }} 
             animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-            className="font-bebas text-[clamp(2.5rem,5vw,4.5rem)] text-primary leading-[0.9] tracking-tight mt-1 mb-6 lg:mb-8"
+            transition={{ duration: 0.8, delay: 0.1, ease: premiumEase }}
+            className="font-bebas text-[clamp(2.75rem,5.5vw,5rem)] text-primary leading-[0.88] tracking-tight mt-1 mb-8 lg:mb-10"
           >
             {t("hero.titleHighlight")}
           </motion.h2>
 
           {/* Value subtitle - cleaner */}
           <motion.p 
-            initial={{ opacity: 0, y: 20 }} 
+            initial={{ opacity: 0, y: 24 }} 
             animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-white/55 text-base lg:text-lg xl:text-xl mb-8 lg:mb-10 font-heebo leading-relaxed max-w-md lg:max-w-lg"
+            transition={{ duration: 0.7, delay: 0.2, ease: premiumEase }}
+            className="text-muted-foreground text-base lg:text-lg xl:text-xl mb-10 lg:mb-12 font-heebo leading-relaxed max-w-md lg:max-w-lg"
           >
             {t("hero.subtitle")}
           </motion.p>
 
           {/* Two CTAs - horizontal on desktop */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-            className="flex flex-wrap gap-3 lg:gap-4 mb-8 lg:mb-10"
+            transition={{ duration: 0.6, delay: 0.25, ease: premiumEase }}
+            className="flex flex-wrap gap-4 lg:gap-5 mb-10 lg:mb-12"
           >
             <Button 
               onClick={() => {
-                // Focus on first form field instead of scrolling
                 const firstInput = document.querySelector('form input') as HTMLInputElement;
                 if (firstInput) {
                   firstInput.focus();
                   firstInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
               }}
-              className="h-12 lg:h-14 px-6 lg:px-8 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-base lg:text-lg shadow-[0_4px_24px_hsl(217,91%,50%,0.3)] transition-all hover:shadow-[0_8px_32px_hsl(217,91%,50%,0.4)]"
+              className="h-13 lg:h-14 px-7 lg:px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl text-base lg:text-lg shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all duration-400"
             >
               {t("hero.cta.startBrief")}
               <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6 ml-2" />
@@ -229,7 +231,7 @@ const DesktopHero = () => {
             <Button 
               onClick={scrollToPacks}
               variant="outline"
-              className="h-12 lg:h-14 px-6 lg:px-8 bg-white/[0.02] border-white/[0.1] text-white/90 hover:bg-white/[0.05] hover:border-white/20 font-medium rounded-xl text-base lg:text-lg backdrop-blur-sm"
+              className="h-13 lg:h-14 px-7 lg:px-8 bg-foreground/[0.02] border-foreground/[0.08] text-foreground/80 hover:bg-foreground/[0.04] hover:border-foreground/15 font-medium rounded-xl text-base lg:text-lg backdrop-blur-sm transition-all duration-400"
             >
               {t("hero.cta.seePacks")}
             </Button>
@@ -239,57 +241,57 @@ const DesktopHero = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-wrap gap-2 lg:gap-3"
+            transition={{ duration: 0.6, delay: 0.3, ease: premiumEase }}
+            className="flex flex-wrap gap-3 lg:gap-4"
           >
             <TrustBadge icon={Clock} label={t("hero.trustBadges.deliveryLong")} />
             <TrustBadge icon={CreditCard} label={t("hero.trustBadges.fixedPrice")} />
             <TrustBadge cryptoIcons label={t("hero.trustBadges.cryptoCard")} />
           </motion.div>
           
-          {/* Crypto-native badge */}
+          {/* Crypto-native badge - premium styling */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mt-6"
+            transition={{ duration: 0.6, delay: 0.4, ease: premiumEase }}
+            className="mt-8"
           >
-            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-gradient-to-r from-[#F7931A]/10 via-[#627EEA]/10 to-[#26A17B]/10 border border-white/10">
+            <div className="inline-flex items-center gap-3.5 px-5 py-3.5 rounded-2xl bg-gradient-to-r from-[#F7931A]/[0.06] via-[#627EEA]/[0.06] to-[#26A17B]/[0.06] border border-foreground/[0.06] backdrop-blur-sm">
               <CryptoBadge variant="compact" />
-              <div className="h-4 w-px bg-white/20" />
-              <span className="text-sm font-medium text-white/70">{t("cryptoNative.tagline")}</span>
+              <div className="h-5 w-px bg-foreground/10" />
+              <span className="text-sm font-medium text-muted-foreground">{t("cryptoNative.tagline")}</span>
             </div>
           </motion.div>
         </div>
 
         {/* Right - Form with premium glass effect */}
         <motion.div 
-          initial={{ opacity: 0, x: 40 }} 
+          initial={{ opacity: 0, x: 48 }} 
           animate={{ opacity: 1, x: 0 }} 
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-          className="relative w-full lg:w-auto lg:flex-shrink-0 lg:max-w-[420px] xl:max-w-[460px]"
+          transition={{ duration: 0.9, delay: 0.3, ease: premiumEase }}
+          className="relative w-full lg:w-auto lg:flex-shrink-0 lg:max-w-[400px] xl:max-w-[440px]"
         >
-          {/* Subtle glow behind */}
-          <div className="absolute -inset-4 lg:-inset-6 bg-gradient-to-br from-primary/12 via-transparent to-primary/8 rounded-3xl blur-3xl" />
+          {/* Subtle glow behind - more refined */}
+          <div className="absolute -inset-6 lg:-inset-8 bg-gradient-to-br from-primary/10 via-transparent to-primary/[0.06] rounded-[2rem] blur-3xl opacity-60" />
           
-          <div className="relative bg-white/[0.03] backdrop-blur-xl border border-white/[0.1] rounded-2xl p-6 lg:p-8">
-            <div className="mb-6">
-              <h3 className="font-bebas text-2xl lg:text-3xl text-white mb-1.5 tracking-tight">{t("hero.form.title")}</h3>
-              <p className="text-white/50 text-sm lg:text-base font-heebo">{t("hero.form.subtitle")}</p>
+          <div className="relative bg-card/40 backdrop-blur-2xl border border-border/30 rounded-2xl p-7 lg:p-8 shadow-elevated">
+            <div className="mb-7">
+              <h3 className="font-bebas text-2xl lg:text-[1.75rem] text-foreground mb-2 tracking-tight">{t("hero.form.title")}</h3>
+              <p className="text-muted-foreground text-sm lg:text-base font-heebo">{t("hero.form.subtitle")}</p>
             </div>
 
             {formSubmitted ? (
-              <motion.div className="py-10 text-center" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <motion.div className="py-12 text-center" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ ease: premiumEase }}>
                 <div className="w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center mx-auto mb-5">
                   <Check className="w-8 h-8 text-primary" />
                 </div>
-                <h4 className="font-bebas text-2xl text-white mb-2 tracking-tight">{t("hero.form.success.title")}</h4>
-                <p className="text-sm text-white/50 leading-relaxed mb-6 font-heebo">
+                <h4 className="font-bebas text-2xl text-foreground mb-2 tracking-tight">{t("hero.form.success.title")}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-7 font-heebo">
                   {t("hero.form.success.message")}
                 </p>
                 <Button 
                   onClick={() => navigate('/auth', { state: { firstName, lastName, phone } })}
-                  className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-xl"
+                  className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl shadow-lg shadow-primary/20"
                 >
                   <UserPlus className="w-4 h-4 mr-2" />
                   {t("hero.form.success.createAccount")}
@@ -297,66 +299,66 @@ const DesktopHero = () => {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3.5">
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.firstName")} {t("hero.form.required")}</label>
+                    <label className="text-xs font-medium mb-2 block text-muted-foreground font-heebo">{t("hero.form.firstName")} {t("hero.form.required")}</label>
                     <Input
                       placeholder="Jean"
                       value={firstName}
                       onChange={(e) => { setFirstName(e.target.value); setErrors(prev => ({ ...prev, firstName: undefined })); }}
-                      className={`bg-white/[0.03] border-white/[0.08] text-white h-11 placeholder:text-white/25 focus:border-primary/50 transition-colors ${errors.firstName ? 'border-red-400/60' : ''}`}
+                      className={`bg-foreground/[0.02] border-border/50 text-foreground h-11 placeholder:text-muted-foreground/40 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 ${errors.firstName ? 'border-destructive/50' : ''}`}
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.lastName")} {t("hero.form.required")}</label>
+                    <label className="text-xs font-medium mb-2 block text-muted-foreground font-heebo">{t("hero.form.lastName")} {t("hero.form.required")}</label>
                     <Input
                       placeholder="Dupont"
                       value={lastName}
                       onChange={(e) => { setLastName(e.target.value); setErrors(prev => ({ ...prev, lastName: undefined })); }}
-                      className={`bg-white/[0.03] border-white/[0.08] text-white h-11 placeholder:text-white/25 focus:border-primary/50 transition-colors ${errors.lastName ? 'border-red-400/60' : ''}`}
+                      className={`bg-foreground/[0.02] border-border/50 text-foreground h-11 placeholder:text-muted-foreground/40 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 ${errors.lastName ? 'border-destructive/50' : ''}`}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.email")} {t("hero.form.required")}</label>
+                  <label className="text-xs font-medium mb-2 block text-muted-foreground font-heebo">{t("hero.form.email")} {t("hero.form.required")}</label>
                   <Input
                     type="email"
                     placeholder="jean@exemple.com"
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
-                    className={`bg-white/[0.03] border-white/[0.08] text-white h-11 placeholder:text-white/25 focus:border-primary/50 transition-colors ${errors.email ? 'border-red-400/60' : ''}`}
+                    className={`bg-foreground/[0.02] border-border/50 text-foreground h-11 placeholder:text-muted-foreground/40 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 ${errors.email ? 'border-destructive/50' : ''}`}
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.phone")} {t("hero.form.required")}</label>
+                  <label className="text-xs font-medium mb-2 block text-muted-foreground font-heebo">{t("hero.form.phone")} {t("hero.form.required")}</label>
                   <Input
                     type="tel"
                     placeholder="+33 6 12 34 56 78"
                     value={phone}
                     onChange={(e) => { setPhone(e.target.value); setErrors(prev => ({ ...prev, phone: undefined })); }}
-                    className={`bg-white/[0.03] border-white/[0.08] text-white h-11 placeholder:text-white/25 focus:border-primary/50 transition-colors ${errors.phone ? 'border-red-400/60' : ''}`}
+                    className={`bg-foreground/[0.02] border-border/50 text-foreground h-11 placeholder:text-muted-foreground/40 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300 ${errors.phone ? 'border-destructive/50' : ''}`}
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.recommendation")} <span className="text-white/30">({t("hero.form.optional")})</span></label>
+                  <label className="text-xs font-medium mb-2 block text-muted-foreground font-heebo">{t("hero.form.recommendation")} <span className="text-muted-foreground/50">({t("hero.form.optional")})</span></label>
                   <Input
                     placeholder={t("hero.form.recommendationPlaceholder")}
                     value={recommendation}
                     onChange={(e) => setRecommendation(e.target.value)}
-                    className="bg-white/[0.03] border-white/[0.08] text-white h-11 placeholder:text-white/25 focus:border-primary/50 transition-colors"
+                    className="bg-foreground/[0.02] border-border/50 text-foreground h-11 placeholder:text-muted-foreground/40 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-300"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.websiteType")} {t("hero.form.required")}</label>
+                  <label className="text-xs font-medium mb-2 block text-muted-foreground font-heebo">{t("hero.form.websiteType")} {t("hero.form.required")}</label>
                   <Select value={websiteType} onValueChange={(value) => { setWebsiteType(value); setErrors(prev => ({ ...prev, websiteType: undefined })); }}>
-                    <SelectTrigger className={`bg-white/[0.03] border-white/[0.08] text-white h-11 ${errors.websiteType ? 'border-red-400/60' : ''}`}>
+                    <SelectTrigger className={`bg-foreground/[0.02] border-border/50 text-foreground h-11 focus:ring-1 focus:ring-primary/20 ${errors.websiteType ? 'border-destructive/50' : ''}`}>
                       <SelectValue placeholder={t("hero.form.selectType")} />
                     </SelectTrigger>
-                    <SelectContent className="bg-card border-border">
+                    <SelectContent className="bg-card border-border/50 backdrop-blur-xl">
                       <SelectItem value="landing">{t("hero.websiteTypes.landing")}</SelectItem>
                       <SelectItem value="ecommerce">{t("hero.websiteTypes.ecommerce")}</SelectItem>
                       <SelectItem value="business">{t("hero.websiteTypes.business")}</SelectItem>
@@ -366,14 +368,14 @@ const DesktopHero = () => {
                   </Select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3.5">
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.budget")} {t("hero.form.required")}</label>
+                    <label className="text-xs font-medium mb-2 block text-muted-foreground font-heebo">{t("hero.form.budget")} {t("hero.form.required")}</label>
                     <Select value={budget} onValueChange={(value) => { setBudget(value); setErrors(prev => ({ ...prev, budget: undefined })); }}>
-                      <SelectTrigger className={`bg-white/[0.03] border-white/[0.08] text-white h-11 ${errors.budget ? 'border-red-400/60' : ''}`}>
+                      <SelectTrigger className={`bg-foreground/[0.02] border-border/50 text-foreground h-11 focus:ring-1 focus:ring-primary/20 ${errors.budget ? 'border-destructive/50' : ''}`}>
                         <SelectValue placeholder={t("hero.form.selectBudget")} />
                       </SelectTrigger>
-                      <SelectContent className="bg-card border-border">
+                      <SelectContent className="bg-card border-border/50 backdrop-blur-xl">
                         <SelectItem value="starter">{t("hero.budgetOptions.starter")}</SelectItem>
                         <SelectItem value="business">{t("hero.budgetOptions.business")}</SelectItem>
                         <SelectItem value="premium">{t("hero.budgetOptions.premium")}</SelectItem>
@@ -382,12 +384,12 @@ const DesktopHero = () => {
                     </Select>
                   </div>
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block text-white/60 font-heebo">{t("hero.form.timeline")} {t("hero.form.required")}</label>
+                    <label className="text-xs font-medium mb-2 block text-muted-foreground font-heebo">{t("hero.form.timeline")} {t("hero.form.required")}</label>
                     <Select value={timeline} onValueChange={(value) => { setTimeline(value); setErrors(prev => ({ ...prev, timeline: undefined })); }}>
-                      <SelectTrigger className={`bg-white/[0.03] border-white/[0.08] text-white h-11 ${errors.timeline ? 'border-red-400/60' : ''}`}>
+                      <SelectTrigger className={`bg-foreground/[0.02] border-border/50 text-foreground h-11 focus:ring-1 focus:ring-primary/20 ${errors.timeline ? 'border-destructive/50' : ''}`}>
                         <SelectValue placeholder={t("hero.form.selectTimeline")} />
                       </SelectTrigger>
-                      <SelectContent className="bg-card border-border">
+                      <SelectContent className="bg-card border-border/50 backdrop-blur-xl">
                         <SelectItem value="asap">{t("hero.timelineOptions.asap")}</SelectItem>
                         <SelectItem value="1week">{t("hero.timelineOptions.oneWeek")}</SelectItem>
                         <SelectItem value="2weeks">{t("hero.timelineOptions.twoWeeks")}</SelectItem>
@@ -397,11 +399,11 @@ const DesktopHero = () => {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl mt-3 shadow-[0_4px_16px_hsl(217,91%,50%,0.25)]" disabled={isSubmitting}>
+                <Button type="submit" className="w-full h-13 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl mt-4 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all duration-400" disabled={isSubmitting}>
                   {isSubmitting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("hero.form.submitting")}</>) : (<>{t("hero.form.submit")}<ArrowRight className="w-4 h-4 ml-2" /></>)}
                 </Button>
                 
-                <p className="text-[11px] text-white/35 text-center pt-2 font-heebo">
+                <p className="text-[11px] text-muted-foreground/50 text-center pt-2 font-heebo">
                   {t("hero.form.footer")}
                 </p>
               </form>
@@ -429,14 +431,13 @@ const HeroSection = () => {
       id="hero" 
       className="relative min-h-screen flex flex-col"
       style={{ 
-        // Prevent iOS bounce and improve scroll performance
         WebkitOverflowScrolling: 'touch',
         overscrollBehavior: 'none',
       }}
     >
       {/* Subtle noise texture overlay */}
       <div 
-        className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+        className="absolute inset-0 opacity-[0.015] pointer-events-none" 
         style={{ 
           backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
           willChange: 'auto',
@@ -444,7 +445,7 @@ const HeroSection = () => {
       />
       
       {/* Top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent z-10 pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-foreground/[0.06] to-transparent z-10 pointer-events-none" />
 
       {/* Content */}
       <div className="flex-1 flex items-center relative z-10">
@@ -459,8 +460,8 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
+      {/* Bottom gradient fade - more subtle */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none" />
     </section>
   );
 };
