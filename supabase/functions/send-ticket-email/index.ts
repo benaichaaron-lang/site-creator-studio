@@ -299,48 +299,6 @@ const handler = async (req: Request): Promise<Response> => {
           html: clientHtml,
         })
       );
-
-      // Send to admin
-      const adminHtml = generateEmailHtml(
-        content.adminTitle,
-        content.adminMessage,
-        content.adminCta,
-        adminUrl,
-        ticketRef,
-        ticket.subject,
-        undefined,
-        `${language === "fr" ? "Client" : "Client"}: ${userName} (${userEmail})`,
-        language
-      );
-      emailPromises.push(
-        resend.emails.send({
-          from: "MySiteFactory <noreply@mysitefactory.com>",
-          to: [ADMIN_EMAIL],
-          subject: content.adminSubject,
-          html: adminHtml,
-        })
-      );
-    } else if (emailType === "ticket_reply_admin" && userEmail) {
-      // Admin replied, notify client
-      const clientHtml = generateEmailHtml(
-        content.clientTitle,
-        content.clientMessage,
-        content.clientCta,
-        dashboardUrl,
-        ticketRef,
-        ticket.subject,
-        messagePreview,
-        undefined,
-        language
-      );
-      emailPromises.push(
-        resend.emails.send({
-          from: "MySiteFactory <noreply@mysitefactory.com>",
-          to: [userEmail],
-          subject: content.clientSubject,
-          html: clientHtml,
-        })
-      );
     } else if (emailType === "ticket_reply_client") {
       // Client replied, notify admin
       const adminHtml = generateEmailHtml(
