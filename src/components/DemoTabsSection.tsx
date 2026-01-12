@@ -6,6 +6,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import ProjectStarterModal from "./ProjectStarterModal";
 import useEmblaCarousel from "embla-carousel-react";
 
+// Premium easing
+const premiumEase: [number, number, number, number] = [0.25, 0.4, 0.25, 1];
+
 const DemoTabsSection = () => {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState("landing");
@@ -22,7 +25,6 @@ const DemoTabsSection = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "center", containScroll: false });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Define tabs outside of component render to prevent recreation
   const tabIds = ["landing", "ecommerce", "vitrine", "webapp"] as const;
   
   const getTabData = useCallback((id: typeof tabIds[number]) => {
@@ -63,7 +65,6 @@ const DemoTabsSection = () => {
   const tabs = tabIds.map(getTabData);
   const activeContent = tabs.find((tab) => tab.id === activeTab)!;
 
-  // Stable callback that doesn't depend on tabs array
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     const index = emblaApi.selectedScrollSnap();
@@ -94,23 +95,23 @@ const DemoTabsSection = () => {
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   return (
-    <section className="py-20 md:py-28 lg:py-36 relative overflow-hidden">
+    <section className="py-24 md:py-32 lg:py-40 relative overflow-hidden">
       {/* Subtle gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(217,91%,55%,0.02),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(217,91%,55%,0.015),transparent_60%)]" />
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 max-w-6xl">
         {/* Header - refined */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-          className="text-center mb-10 md:mb-16"
+          transition={{ duration: 0.7, ease: premiumEase }}
+          className="text-center mb-12 md:mb-20"
         >
-          <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium block mb-4">
+          <span className="text-primary text-xs uppercase tracking-[0.2em] font-medium block mb-5">
             {t("demoTabs.badge")}
           </span>
-          <h2 className="font-bebas text-3xl md:text-5xl lg:text-6xl text-foreground mb-4">
+          <h2 className="font-bebas text-4xl md:text-5xl lg:text-6xl text-foreground mb-5">
             {t("demoTabs.title")}
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg leading-relaxed hidden md:block">
@@ -118,21 +119,20 @@ const DemoTabsSection = () => {
           </p>
         </motion.div>
 
-        {/* MOBILE: Swipeable cards - one card per screen */}
+        {/* MOBILE: Swipeable cards */}
         <div className="md:hidden">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
               {tabs.map((tab, index) => {
                 const Icon = tab.icon;
                 return (
-                  <div key={tab.id} className="flex-[0_0_85%] min-w-0 pl-3 first:pl-0 pr-3">
+                  <div key={tab.id} className="flex-[0_0_88%] min-w-0 pl-3 first:pl-0 pr-3">
                     <motion.div
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: index === selectedIndex ? 1 : 0.5, scale: index === selectedIndex ? 1 : 0.95 }}
-                      transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-                      className="bg-card/60 border border-border/50 rounded-2xl overflow-hidden backdrop-blur-sm"
+                      transition={{ duration: 0.5, ease: premiumEase }}
+                      className="bg-card/50 border border-border/30 rounded-2xl overflow-hidden backdrop-blur-sm"
                     >
-                      {/* Image */}
                       <div className="relative aspect-[16/10] overflow-hidden">
                         <img
                           src={tab.image}
@@ -140,25 +140,24 @@ const DemoTabsSection = () => {
                           className="w-full h-full object-cover"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg bg-primary/90 flex items-center justify-center">
-                            <Icon className="w-4 h-4 text-white" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                        <div className="absolute bottom-4 left-4 flex items-center gap-2.5">
+                          <div className="w-9 h-9 rounded-xl bg-primary/90 flex items-center justify-center">
+                            <Icon className="w-4 h-4 text-primary-foreground" />
                           </div>
-                          <span className="text-white font-semibold">{tab.label}</span>
+                          <span className="text-foreground font-semibold">{tab.label}</span>
                         </div>
                       </div>
                       
-                      {/* Content */}
-                      <div className="p-5">
-                        <div className="flex items-center justify-between mb-4">
+                      <div className="p-6">
+                        <div className="flex items-center justify-between mb-5">
                           <span className="text-primary font-bold text-xl">{tab.price}</span>
                           <span className="text-muted-foreground text-sm">{tab.delay}</span>
                         </div>
                         
-                        <ul className="space-y-2.5 mb-5">
+                        <ul className="space-y-3 mb-6">
                           {tab.bullets.map((bullet, i) => (
-                            <li key={i} className="flex items-start gap-2.5">
+                            <li key={i} className="flex items-start gap-3">
                               <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                               <span className="text-muted-foreground text-sm leading-relaxed">{bullet}</span>
                             </li>
@@ -167,7 +166,7 @@ const DemoTabsSection = () => {
                         
                         <Button
                           onClick={() => handleStartProject(tab)}
-                          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-12"
+                          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-13 shadow-lg shadow-primary/20"
                         >
                           {t("demoTabs.cta")}
                           <ArrowRight className="w-4 h-4 ml-2" />
@@ -181,10 +180,10 @@ const DemoTabsSection = () => {
           </div>
           
           {/* Mobile navigation - refined */}
-          <div className="flex items-center justify-center gap-6 mt-6">
+          <div className="flex items-center justify-center gap-6 mt-8">
             <button
               onClick={scrollPrev}
-              className="w-11 h-11 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:bg-card/80 hover:text-foreground transition-all duration-300"
+              className="w-12 h-12 rounded-full bg-card/50 border border-border/40 flex items-center justify-center text-muted-foreground hover:bg-card/70 hover:text-foreground transition-all duration-400"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -193,8 +192,8 @@ const DemoTabsSection = () => {
               {tabs.map((_, index) => (
                 <button
                   key={index}
-                  className={`h-2 rounded-full transition-all duration-400 ${
-                    index === selectedIndex ? "w-8 bg-primary" : "w-2 bg-border"
+                  className={`h-2 rounded-full transition-all duration-500 ${
+                    index === selectedIndex ? "w-8 bg-primary" : "w-2 bg-border/60"
                   }`}
                   onClick={() => emblaApi?.scrollTo(index)}
                 />
@@ -203,7 +202,7 @@ const DemoTabsSection = () => {
             
             <button
               onClick={scrollNext}
-              className="w-11 h-11 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:bg-card/80 hover:text-foreground transition-all duration-300"
+              className="w-12 h-12 rounded-full bg-card/50 border border-border/40 flex items-center justify-center text-muted-foreground hover:bg-card/70 hover:text-foreground transition-all duration-400"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -213,7 +212,7 @@ const DemoTabsSection = () => {
         {/* DESKTOP: Tab buttons + content grid - refined */}
         <div className="hidden md:block">
           {/* Tab navigation */}
-          <div className="relative mb-12 lg:mb-16">
+          <div className="relative mb-14 lg:mb-20">
             <div className="flex flex-wrap justify-center gap-4">
               {tabs.map((tab, index) => {
                 const Icon = tab.icon;
@@ -226,26 +225,26 @@ const DemoTabsSection = () => {
                     whileTap={{ scale: 0.98 }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
-                    className={`group relative flex items-center gap-3 px-7 py-4 rounded-2xl text-sm font-semibold transition-all duration-500 cursor-pointer ${
+                    transition={{ delay: index * 0.1, duration: 0.6, ease: premiumEase }}
+                    className={`group relative flex items-center gap-3 px-8 py-4 rounded-2xl text-sm font-semibold transition-all duration-500 cursor-pointer ${
                       isActive
-                        ? "bg-primary text-white shadow-xl shadow-primary/30"
-                        : "bg-card/60 text-foreground border border-border hover:border-primary/50 hover:bg-card"
+                        ? "bg-primary text-primary-foreground shadow-xl shadow-primary/25"
+                        : "bg-card/50 text-foreground border border-border/40 hover:border-primary/40 hover:bg-card/70"
                     }`}
                   >
                     {isActive && (
                       <motion.div
                         layoutId="activeTabIndicator"
                         className="absolute inset-0 bg-primary rounded-2xl"
-                        transition={{ type: "spring", bounce: 0.15, duration: 0.6 }}
+                        transition={{ type: "spring", bounce: 0.12, duration: 0.7 }}
                       />
                     )}
                     <motion.div
                       className="relative z-10"
                       animate={isActive ? { rotate: [0, -5, 5, 0] } : {}}
-                      transition={{ duration: 0.5 }}
+                      transition={{ duration: 0.6 }}
                     >
-                      <Icon className={`w-5 h-5 ${isActive ? "text-white" : "text-primary"}`} />
+                      <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
                     </motion.div>
                     <span className="relative z-10 whitespace-nowrap">{tab.label}</span>
                   </motion.button>
@@ -257,22 +256,22 @@ const DemoTabsSection = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+              exit={{ opacity: 0, y: -24 }}
+              transition={{ duration: 0.5, ease: premiumEase }}
               className="max-w-5xl mx-auto"
             >
-              <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+              <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div className="relative group order-2 md:order-1">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-primary/5 rounded-3xl blur-2xl opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
-                  <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/50">
-                    <div className="h-10 bg-card/80 flex items-center px-4 gap-2 border-b border-border/50">
-                      <div className="w-3 h-3 rounded-full bg-red-400/50" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-400/50" />
-                      <div className="w-3 h-3 rounded-full bg-green-400/50" />
-                      <div className="flex-1 mx-6">
-                        <div className="h-5 bg-background/50 rounded-lg max-w-[200px] flex items-center px-3">
+                  <div className="absolute -inset-6 bg-gradient-to-r from-primary/8 to-primary/4 rounded-3xl blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-600" />
+                  <div className="relative rounded-2xl overflow-hidden border border-border/30 bg-card/40">
+                    <div className="h-11 bg-card/60 flex items-center px-5 gap-2 border-b border-border/30">
+                      <div className="w-3 h-3 rounded-full bg-destructive/40" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400/40" />
+                      <div className="w-3 h-3 rounded-full bg-success/40" />
+                      <div className="flex-1 mx-8">
+                        <div className="h-6 bg-background/40 rounded-lg max-w-[200px] flex items-center px-3">
                           <span className="text-[11px] text-muted-foreground">mysite.com</span>
                         </div>
                       </div>
@@ -287,22 +286,22 @@ const DemoTabsSection = () => {
                   </div>
                 </div>
 
-                <div className="space-y-8 order-1 md:order-2">
+                <div className="space-y-10 order-1 md:order-2">
                   <div>
-                    <h3 className="font-bebas text-4xl md:text-5xl text-foreground mb-4">
+                    <h3 className="font-bebas text-4xl md:text-5xl text-foreground mb-5">
                       {activeContent.label}
                     </h3>
                     <div className="flex items-center gap-4">
                       <span className="text-primary font-bold text-2xl">{activeContent.price}</span>
-                      <span className="text-muted-foreground/50">•</span>
+                      <span className="text-muted-foreground/40">•</span>
                       <span className="text-muted-foreground">{t("demoTabs.deliveredIn")} {activeContent.delay}</span>
                     </div>
                   </div>
 
-                  <ul className="space-y-4">
+                  <ul className="space-y-5">
                     {activeContent.bullets.map((bullet, i) => (
                       <li key={i} className="flex items-start gap-4">
-                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                           <Check className="w-3.5 h-3.5 text-primary" />
                         </div>
                         <span className="text-muted-foreground text-base leading-relaxed">{bullet}</span>
@@ -312,7 +311,7 @@ const DemoTabsSection = () => {
 
                   <Button
                     onClick={() => handleStartProject()}
-                    className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-14 px-8 text-base shadow-lg shadow-primary/20"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-14 px-9 text-base shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-400"
                   >
                     {t("demoTabs.cta")}
                     <ArrowRight className="w-5 h-5 ml-2" />
