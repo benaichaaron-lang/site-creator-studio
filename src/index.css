@@ -101,10 +101,13 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
@@ -116,25 +119,82 @@
     letter-spacing: -0.01em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Safe areas for notched phones */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
+  /* Mobile-first font sizing */
   h1, h2, h3, h4, h5, h6 {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     letter-spacing: 0.05em;
     line-height: 0.95;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   /* Better readability for body text */
   p {
     line-height: 1.8;
     color: hsl(var(--muted-foreground));
+    word-break: break-word;
   }
 
   /* Smoother selection */
   ::selection {
     background: hsl(var(--primary) / 0.25);
     color: hsl(var(--foreground));
+  }
+
+  /* Mobile touch improvements */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  /* Prevent zoom on input focus for iOS */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  @media (min-width: 640px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    input[type="number"],
+    select,
+    textarea {
+      font-size: inherit !important;
+    }
+  }
+
+  /* Safe area support for bottom navigation */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Container with safe areas */
+  .container {
+    max-width: 100%;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
   }
 }
 
