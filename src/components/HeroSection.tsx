@@ -18,23 +18,23 @@ import CryptoBadge, { BitcoinIcon, EthereumIcon, USDCIcon } from "./CryptoBadge"
 // Premium easing curve
 const premiumEase: [number, number, number, number] = [0.25, 0.4, 0.25, 1];
 
-// Badge component for trust indicators - more premium
+// Badge component for trust indicators - responsive
 const TrustBadge = ({ icon: Icon, label, cryptoIcons }: { icon?: React.ElementType; label: string; cryptoIcons?: boolean }) => (
   <motion.div 
-    className="flex items-center gap-2.5 bg-foreground/[0.03] border border-foreground/[0.06] rounded-full px-4 py-2.5 backdrop-blur-sm"
+    className="flex items-center gap-1.5 sm:gap-2.5 bg-foreground/[0.03] border border-foreground/[0.06] rounded-full px-3 sm:px-4 py-2 sm:py-2.5 backdrop-blur-sm"
     whileHover={{ scale: 1.02, borderColor: "rgba(255,255,255,0.12)" }}
     transition={{ duration: 0.4, ease: premiumEase }}
   >
     {cryptoIcons ? (
-      <div className="flex items-center gap-1.5">
-        <BitcoinIcon className="w-4 h-4" />
-        <EthereumIcon className="w-4 h-4" />
-        <USDCIcon className="w-4 h-4" />
+      <div className="flex items-center gap-1 sm:gap-1.5">
+        <BitcoinIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+        <EthereumIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+        <USDCIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
       </div>
     ) : Icon ? (
-      <Icon className="w-4 h-4 text-primary" />
+      <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
     ) : null}
-    <span className="text-sm text-foreground/60 font-heebo">{label}</span>
+    <span className="text-xs sm:text-sm text-foreground/60 font-heebo">{label}</span>
   </motion.div>
 );
 
@@ -176,16 +176,16 @@ const DesktopHero = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 lg:px-8 xl:px-10 relative z-10 pt-32 pb-24 md:pt-36 md:pb-28 lg:pt-40 lg:pb-36 xl:pt-44 xl:pb-40 2xl:pt-48 2xl:pb-44 max-w-7xl">
-      <div className="flex flex-col lg:flex-row lg:justify-between gap-12 lg:gap-10 xl:gap-16 2xl:gap-20 items-start">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 relative z-10 pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 lg:pt-36 lg:pb-28 xl:pt-40 xl:pb-32 2xl:pt-44 2xl:pb-36 max-w-7xl">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-10 sm:gap-12 lg:gap-10 xl:gap-16 2xl:gap-20 items-start">
         {/* Left content */}
-        <div className="flex-1 max-w-xl lg:max-w-[52%] xl:max-w-[56%] lg:pr-6">
-          {/* Title with elegant sizing - larger for premium feel */}
+        <div className="flex-1 w-full lg:max-w-[52%] xl:max-w-[56%] lg:pr-6">
+          {/* Title with elegant sizing - responsive */}
           <motion.h1 
             initial={{ opacity: 0, y: 32 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.8, ease: premiumEase }}
-            className="font-bebas text-[clamp(3.25rem,6.5vw,6rem)] text-foreground leading-[0.88] tracking-tight"
+            className="font-bebas text-[clamp(2.5rem,8vw,6rem)] sm:text-[clamp(3rem,7vw,6rem)] text-foreground leading-[0.88] tracking-tight"
           >
             {t("hero.title")}
           </motion.h1>
@@ -193,27 +193,27 @@ const DesktopHero = () => {
             initial={{ opacity: 0, y: 32 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.8, delay: 0.1, ease: premiumEase }}
-            className="font-bebas text-[clamp(2.75rem,5.5vw,5rem)] text-primary leading-[0.88] tracking-tight mt-1 mb-8 lg:mb-10"
+            className="font-bebas text-[clamp(2rem,7vw,5rem)] sm:text-[clamp(2.5rem,6vw,5rem)] text-primary leading-[0.88] tracking-tight mt-1 mb-6 sm:mb-8 lg:mb-10"
           >
             {t("hero.titleHighlight")}
           </motion.h2>
 
-          {/* Value subtitle - cleaner */}
+          {/* Value subtitle - responsive */}
           <motion.p 
             initial={{ opacity: 0, y: 24 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.7, delay: 0.2, ease: premiumEase }}
-            className="text-muted-foreground text-base lg:text-lg xl:text-xl mb-10 lg:mb-12 font-heebo leading-relaxed max-w-md lg:max-w-lg"
+            className="text-muted-foreground text-sm sm:text-base lg:text-lg xl:text-xl mb-8 sm:mb-10 lg:mb-12 font-heebo leading-relaxed max-w-md lg:max-w-lg"
           >
             {t("hero.subtitle")}
           </motion.p>
 
-          {/* Two CTAs - horizontal on desktop */}
+          {/* Two CTAs - responsive */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25, ease: premiumEase }}
-            className="flex flex-wrap gap-4 lg:gap-5 mb-10 lg:mb-12"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-5 mb-8 sm:mb-10 lg:mb-12"
           >
             <Button 
               onClick={() => {
@@ -223,61 +223,61 @@ const DesktopHero = () => {
                   firstInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
               }}
-              className="h-13 lg:h-14 px-7 lg:px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl text-base lg:text-lg shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all duration-400"
+              className="w-full sm:w-auto h-12 sm:h-13 lg:h-14 px-6 sm:px-7 lg:px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl text-sm sm:text-base lg:text-lg shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all duration-400"
             >
               {t("hero.cta.startBrief")}
-              <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6 ml-2" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ml-2" />
             </Button>
             <Button 
               onClick={scrollToPacks}
               variant="outline"
-              className="h-13 lg:h-14 px-7 lg:px-8 bg-foreground/[0.02] border-foreground/[0.08] text-foreground/80 hover:bg-foreground/[0.04] hover:border-foreground/15 font-medium rounded-xl text-base lg:text-lg backdrop-blur-sm transition-all duration-400"
+              className="w-full sm:w-auto h-12 sm:h-13 lg:h-14 px-6 sm:px-7 lg:px-8 bg-foreground/[0.02] border-foreground/[0.08] text-foreground/80 hover:bg-foreground/[0.04] hover:border-foreground/15 font-medium rounded-xl text-sm sm:text-base lg:text-lg backdrop-blur-sm transition-all duration-400"
             >
               {t("hero.cta.seePacks")}
             </Button>
           </motion.div>
 
-          {/* Trust badges - more spaced */}
+          {/* Trust badges - responsive */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: premiumEase }}
-            className="flex flex-wrap gap-3 lg:gap-4"
+            className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4"
           >
             <TrustBadge icon={Clock} label={t("hero.trustBadges.deliveryLong")} />
             <TrustBadge icon={CreditCard} label={t("hero.trustBadges.fixedPrice")} />
             <TrustBadge cryptoIcons label={t("hero.trustBadges.cryptoCard")} />
           </motion.div>
           
-          {/* Crypto-native badge - premium styling */}
+          {/* Crypto-native badge - responsive */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4, ease: premiumEase }}
-            className="mt-8"
+            className="mt-6 sm:mt-8"
           >
-            <div className="inline-flex items-center gap-3.5 px-5 py-3.5 rounded-2xl bg-gradient-to-r from-[#F7931A]/[0.06] via-[#627EEA]/[0.06] to-[#26A17B]/[0.06] border border-foreground/[0.06] backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2.5 sm:gap-3.5 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#F7931A]/[0.06] via-[#627EEA]/[0.06] to-[#26A17B]/[0.06] border border-foreground/[0.06] backdrop-blur-sm">
               <CryptoBadge variant="compact" />
-              <div className="h-5 w-px bg-foreground/10" />
-              <span className="text-sm font-medium text-muted-foreground">{t("cryptoNative.tagline")}</span>
+              <div className="h-4 sm:h-5 w-px bg-foreground/10" />
+              <span className="text-xs sm:text-sm font-medium text-muted-foreground">{t("cryptoNative.tagline")}</span>
             </div>
           </motion.div>
         </div>
 
-        {/* Right - Form with premium glass effect */}
+        {/* Right - Form with premium glass effect - responsive */}
         <motion.div 
           initial={{ opacity: 0, x: 48 }} 
           animate={{ opacity: 1, x: 0 }} 
           transition={{ duration: 0.9, delay: 0.3, ease: premiumEase }}
           className="relative w-full lg:w-auto lg:flex-shrink-0 lg:max-w-[400px] xl:max-w-[440px]"
         >
-          {/* Subtle glow behind - more refined */}
-          <div className="absolute -inset-6 lg:-inset-8 bg-gradient-to-br from-primary/10 via-transparent to-primary/[0.06] rounded-[2rem] blur-3xl opacity-60" />
+          {/* Subtle glow behind - responsive */}
+          <div className="absolute -inset-4 sm:-inset-6 lg:-inset-8 bg-gradient-to-br from-primary/10 via-transparent to-primary/[0.06] rounded-2xl sm:rounded-[2rem] blur-2xl sm:blur-3xl opacity-60" />
           
-          <div className="relative bg-card/40 backdrop-blur-2xl border border-border/30 rounded-2xl p-7 lg:p-8 shadow-elevated">
-            <div className="mb-7">
-              <h3 className="font-bebas text-2xl lg:text-[1.75rem] text-foreground mb-2 tracking-tight">{t("hero.form.title")}</h3>
-              <p className="text-muted-foreground text-sm lg:text-base font-heebo">{t("hero.form.subtitle")}</p>
+          <div className="relative bg-card/40 backdrop-blur-2xl border border-border/30 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 shadow-elevated">
+            <div className="mb-5 sm:mb-6 lg:mb-7">
+              <h3 className="font-bebas text-xl sm:text-2xl lg:text-[1.75rem] text-foreground mb-1.5 sm:mb-2 tracking-tight">{t("hero.form.title")}</h3>
+              <p className="text-muted-foreground text-xs sm:text-sm lg:text-base font-heebo">{t("hero.form.subtitle")}</p>
             </div>
 
             {formSubmitted ? (
