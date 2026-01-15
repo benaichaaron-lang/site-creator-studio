@@ -38,19 +38,19 @@ const TrustBadge = ({ icon: Icon, label, cryptoIcons }: { icon?: React.ElementTy
   </motion.div>
 );
 
-// Mobile Hero - Clean and conversion-focused
+// Mobile Hero - Optimized for all phone sizes
 const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => void; onSeePacks: () => void }) => {
   const { t } = useLanguage();
   
   return (
-    <div className="min-h-[calc(100vh-80px)] flex flex-col justify-center px-5 py-10">
-      <div className="flex-1 flex flex-col justify-center max-w-md mx-auto">
-        {/* Main Title - Larger and more impactful */}
+    <div className="min-h-[calc(100vh-72px)] min-h-[calc(100dvh-72px)] flex flex-col justify-center px-4 xs:px-5 py-8 safe-bottom">
+      <div className="flex-1 flex flex-col justify-center w-full max-w-md mx-auto">
+        {/* Main Title - Responsive for all screen sizes */}
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: premiumEase }}
-          className="font-bebas text-[clamp(3rem,12vw,4.5rem)] leading-[0.9] text-foreground tracking-tight"
+          className="font-bebas text-[clamp(2.25rem,11vw,4rem)] leading-[0.92] text-foreground tracking-tight"
         >
           {t("hero.title")}
         </motion.h1>
@@ -58,50 +58,50 @@ const MobileHeroStatic = ({ onStartBrief, onSeePacks }: { onStartBrief: () => vo
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: premiumEase }}
-          className="font-bebas text-[clamp(2.5rem,10vw,3.75rem)] text-primary leading-[0.9] tracking-tight mt-1 mb-8"
+          className="font-bebas text-[clamp(1.875rem,9vw,3.5rem)] text-primary leading-[0.92] tracking-tight mt-1 mb-6"
         >
           {t("hero.titleHighlight")}
         </motion.h2>
 
-        {/* Value subtitle - more readable */}
+        {/* Value subtitle - readable on small screens */}
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: premiumEase }}
-          className="text-muted-foreground text-base leading-relaxed mb-10 font-heebo max-w-sm"
+          className="text-muted-foreground text-sm xs:text-base leading-relaxed mb-8 font-heebo"
         >
           {t("hero.subtitle")}
         </motion.p>
 
-        {/* Two CTAs - stacked on mobile */}
+        {/* Two CTAs - full width on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease: premiumEase }}
-          className="flex flex-col gap-3.5 mb-10"
+          className="flex flex-col gap-3 mb-8"
         >
           <Button 
             onClick={onStartBrief}
-            className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl text-base shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-400"
+            className="w-full h-12 xs:h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl text-sm xs:text-base shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-400"
           >
             {t("hero.cta.startBrief")}
-            <ArrowRight className="w-5 h-5 ml-2" />
+            <ArrowRight className="w-4 h-4 xs:w-5 xs:h-5 ml-2" />
           </Button>
           <Button 
             onClick={onSeePacks}
             variant="outline"
-            className="w-full h-13 bg-foreground/[0.02] border-foreground/[0.08] text-foreground/80 hover:bg-foreground/[0.04] hover:border-foreground/15 font-medium rounded-xl text-sm backdrop-blur-sm transition-all duration-400"
+            className="w-full h-11 xs:h-12 bg-foreground/[0.02] border-foreground/[0.08] text-foreground/80 hover:bg-foreground/[0.04] hover:border-foreground/15 font-medium rounded-xl text-sm backdrop-blur-sm transition-all duration-400"
           >
             {t("hero.cta.seePacks")}
           </Button>
         </motion.div>
 
-        {/* Trust badges - more spaced */}
+        {/* Trust badges - responsive wrap */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4, ease: premiumEase }}
-          className="flex flex-wrap gap-2.5"
+          className="flex flex-wrap gap-2"
         >
           <TrustBadge icon={Clock} label={t("hero.trustBadges.delivery")} />
           <TrustBadge icon={CreditCard} label={t("hero.trustBadges.fixedPrice")} />
