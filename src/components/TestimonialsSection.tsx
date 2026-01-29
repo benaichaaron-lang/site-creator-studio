@@ -5,9 +5,11 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const avatars = [
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&h=150&fit=crop&crop=face",
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face",
   "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
 ];
 
@@ -19,8 +21,8 @@ const TestimonialsSection = () => {
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Get testimonials from translations
-  const testimonials = [0, 1, 2, 3].map((index) => ({
+  // Get testimonials from translations (now 6 testimonials)
+  const testimonials = [0, 1, 2, 3, 4, 5].map((index) => ({
     id: index + 1,
     name: t(`testimonials.list.${index}.name`),
     role: t(`testimonials.list.${index}.role`),
@@ -113,7 +115,7 @@ const TestimonialsSection = () => {
         </div>
 
         {/* Desktop: Grid */}
-        <div className="hidden sm:grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <div className="hidden sm:grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
