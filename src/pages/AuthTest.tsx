@@ -49,7 +49,7 @@ const AuthTest = () => {
               <Loader2 className="h-3 w-3 animate-spin" /> Chargement
             </Badge>
           ) : user ? (
-            <Badge className="bg-green-500/15 text-green-500 border-green-500/30">
+            <Badge className="bg-primary/15 text-primary border-primary/30">
               Connecté
             </Badge>
           ) : (
