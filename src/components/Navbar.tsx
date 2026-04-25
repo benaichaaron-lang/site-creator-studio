@@ -48,9 +48,11 @@ const Navbar = () => {
   return (
     <motion.nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        hasScrolled || isOpen
-          ? 'bg-background/90 backdrop-blur-xl border-b border-border/30' 
-          : 'bg-transparent border-b border-transparent'
+        isOpen
+          ? 'bg-background border-b border-border/40 shadow-lg shadow-black/20'
+          : hasScrolled
+            ? 'bg-background/90 backdrop-blur-xl border-b border-border/30'
+            : 'bg-transparent border-b border-transparent'
       }`}
       style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.4, 0.25, 1)' }}
       initial={{ y: -100 }}
@@ -139,7 +141,11 @@ const Navbar = () => {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="lg:hidden fixed inset-0 top-[72px] bg-background/98 backdrop-blur-xl z-40"
+              className="lg:hidden fixed inset-0 top-[72px] z-40 bg-background backdrop-blur-2xl border-t border-border/40 shadow-2xl shadow-black/40"
+              style={{
+                backgroundImage:
+                  "linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--background)) 60%, hsl(var(--card)) 100%)",
+              }}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
