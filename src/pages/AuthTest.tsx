@@ -8,77 +8,136 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, LogOut } from "lucide-react";
 import googleLogo from "@/assets/google-logo.png";
 
+// Keys considered sensitive and masked in the Details panel
+const SENSITIVE_KEYS = new Set([
+  "access_token",
+  "refresh_token",
+  "provider_token",
+  "provider_refresh_token",
+  "id_token",
+  "code",
+]);
+
+// Keys we always strip from the URL after handling the OAuth return
+const OAUTH_QUERY_KEYS = [
+  "auth",
+  "code",
+  "state",
+  "error",
+  "error_code",
+  "error_description",
+  "provider",
+];
+const OAUTH_HASH_KEYS = [
+  "access_token",
+  "refresh_token",
+  "provider_token",
+  "provider_refresh_token",
+  "id_token",
+  "expires_in",
+  "expires_at",
+  "token_type",
+  "type",
+  "state",
+  "error",
+  "error_code",
+  "error_description",
+];
+
+const maskValue = (key: string, value: string) => {
+  if (!SENSITIVE_KEYS.has(key)) return value;
+  if (value.length <= 8) return "••••";
+  return `${value.slice(0, 4)}…${value.slice(-4)} (${value.length} chars)`;
+};
+
 const AuthTest = () => {
   const { user, loading, signOut } = useAuth();
   const { toast } = useToast();
   const [busy, setBusy] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [redirectResult, setRedirectResult] = useState<
     | { type: "success"; message: string }
     | { type: "error"; message: string }
     | null
   >(null);
+  const [details, setDetails] = useState<{
+    receivedQuery: Array<[string, string]>;
+    receivedHash: Array<[string, string]>;
+    cleanedUrl: string;
+  } | null>(null);
 
-  // Detect OAuth redirect return: success when ?auth=callback or hash tokens present,
-  // error when ?error / ?error_description in query or hash.
   useEffect(() => {
-    const hash = window.location.hash.startsWith("#")
-      ? window.location.hash.slice(1)
-      : "";
-    const hashParams = new URLSearchParams(hash);
+    const url = new URL(window.location.href);
+    const queryParams = new URLSearchParams(url.search);
+    const hashRaw = url.hash.startsWith("#") ? url.hash.slice(1) : "";
+    const hashParams = new URLSearchParams(hashRaw);
 
     const queryError =
-      searchParams.get("error_description") || searchParams.get("error");
+      queryParams.get("error_description") || queryParams.get("error");
     const hashError =
       hashParams.get("error_description") || hashParams.get("error");
+    const hasCallbackFlag = queryParams.get("auth") === "callback";
+    const hasHashTokens =
+      hashParams.has("access_token") || hashParams.has("refresh_token");
+    const hasOAuthCode = queryParams.has("code");
 
+    const isOAuthReturn =
+      Boolean(queryError || hashError) ||
+      hasCallbackFlag ||
+      hasHashTokens ||
+      hasOAuthCode;
+
+    if (!isOAuthReturn) return;
+
+    // Wait for auth resolution before declaring success
+    if (!queryError && !hashError && loading) return;
+
+    // Snapshot received params (before cleanup) for the Details panel
+    const receivedQuery = Array.from(queryParams.entries());
+    const receivedHash = Array.from(hashParams.entries());
+
+    // Determine result
     if (queryError || hashError) {
       const msg = queryError || hashError || "Échec de la connexion OAuth";
       setRedirectResult({ type: "error", message: msg });
-      toast({
-        title: "Échec OAuth",
-        description: msg,
-        variant: "destructive",
+      toast({ title: "Échec OAuth", description: msg, variant: "destructive" });
+    } else if (user) {
+      setRedirectResult({
+        type: "success",
+        message: `Connexion Google réussie pour ${user.email}`,
       });
-      // Clean URL
-      window.history.replaceState({}, "", window.location.pathname);
-      return;
+      toast({ title: "Connexion réussie", description: user.email ?? "" });
+    } else {
+      setRedirectResult({
+        type: "error",
+        message: "Retour OAuth reçu mais aucune session active.",
+      });
     }
 
-    const hasCallbackFlag = searchParams.get("auth") === "callback";
-    const hasHashTokens =
-      hashParams.has("access_token") || hashParams.has("refresh_token");
+    // Robust cleanup: strip every known OAuth key from query AND hash
+    OAUTH_QUERY_KEYS.forEach((k) => queryParams.delete(k));
+    OAUTH_HASH_KEYS.forEach((k) => hashParams.delete(k));
 
-    if (hasCallbackFlag || hasHashTokens) {
-      // Wait for auth state to resolve, then confirm
-      if (!loading) {
-        if (user) {
-          setRedirectResult({
-            type: "success",
-            message: `Connexion Google réussie pour ${user.email}`,
-          });
-          toast({ title: "Connexion réussie", description: user.email ?? "" });
-        } else {
-          setRedirectResult({
-            type: "error",
-            message: "Retour OAuth reçu mais aucune session active.",
-          });
-        }
-        // Clean URL after handling
-        if (hasCallbackFlag) {
-          searchParams.delete("auth");
-          setSearchParams(searchParams, { replace: true });
-        }
-        if (hasHashTokens) {
-          window.history.replaceState({}, "", window.location.pathname);
-        }
-      }
-    }
-  }, [loading, user, searchParams, setSearchParams, toast]);
+    const newSearch = queryParams.toString();
+    const newHash = hashParams.toString();
+    const cleanedUrl =
+      url.pathname +
+      (newSearch ? `?${newSearch}` : "") +
+      (newHash ? `#${newHash}` : "");
+
+    window.history.replaceState({}, "", cleanedUrl);
+
+    setDetails({
+      receivedQuery,
+      receivedHash,
+      cleanedUrl: window.location.origin + cleanedUrl,
+    });
+  }, [loading, user, toast]);
 
   const handleGoogle = async () => {
     setBusy(true);
     setRedirectResult(null);
+    setDetails(null);
     // Override redirect target so we land back on this test page with a flag
     const { lovable } = await import("@/integrations/lovable");
     const result = await lovable.auth.signInWithOAuth("google", {
@@ -156,6 +215,60 @@ const AuthTest = () => {
               <span className="text-foreground font-mono text-xs truncate">{user.id}</span>
             </div>
           </div>
+        )}
+
+        {details && (
+          <details className="rounded-lg border border-border bg-background/50 p-4 text-sm" open>
+            <summary className="cursor-pointer text-foreground font-medium">
+              Détails de la redirection
+            </summary>
+            <div className="mt-3 space-y-3">
+              <div>
+                <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">
+                  Query params reçus
+                </div>
+                {details.receivedQuery.length === 0 ? (
+                  <div className="text-xs text-muted-foreground">(aucun)</div>
+                ) : (
+                  <ul className="space-y-1 font-mono text-xs">
+                    {details.receivedQuery.map(([k, v]) => (
+                      <li key={`q-${k}`} className="break-all">
+                        <span className="text-primary">{k}</span>
+                        <span className="text-muted-foreground"> = </span>
+                        <span className="text-foreground">{maskValue(k, v)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">
+                  Hash params reçus
+                </div>
+                {details.receivedHash.length === 0 ? (
+                  <div className="text-xs text-muted-foreground">(aucun)</div>
+                ) : (
+                  <ul className="space-y-1 font-mono text-xs">
+                    {details.receivedHash.map(([k, v]) => (
+                      <li key={`h-${k}`} className="break-all">
+                        <span className="text-primary">{k}</span>
+                        <span className="text-muted-foreground"> = </span>
+                        <span className="text-foreground">{maskValue(k, v)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">
+                  URL nettoyée
+                </div>
+                <div className="font-mono text-xs break-all text-foreground">
+                  {details.cleanedUrl}
+                </div>
+              </div>
+            </div>
+          </details>
         )}
 
         {user ? (
