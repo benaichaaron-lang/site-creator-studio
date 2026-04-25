@@ -139,7 +139,11 @@ const Navbar = () => {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="lg:hidden fixed inset-0 top-[72px] bg-background/98 backdrop-blur-xl z-40"
+              className="lg:hidden fixed inset-0 top-[72px] z-40 bg-background backdrop-blur-2xl border-t border-border/40 shadow-2xl shadow-black/40"
+              style={{
+                backgroundImage:
+                  "linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--background)) 60%, hsl(var(--card)) 100%)",
+              }}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
