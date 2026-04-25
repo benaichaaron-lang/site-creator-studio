@@ -9,7 +9,7 @@ import { Loader2, LogOut } from "lucide-react";
 import googleLogo from "@/assets/google-logo.png";
 
 const AuthTest = () => {
-  const { user, loading, signInWithGoogle, signOut } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const { toast } = useToast();
   const [busy, setBusy] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
