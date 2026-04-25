@@ -48,9 +48,11 @@ const Navbar = () => {
   return (
     <motion.nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        hasScrolled || isOpen
-          ? 'bg-background/90 backdrop-blur-xl border-b border-border/30' 
-          : 'bg-transparent border-b border-transparent'
+        isOpen
+          ? 'bg-background border-b border-border/40 shadow-lg shadow-black/20'
+          : hasScrolled
+            ? 'bg-background/90 backdrop-blur-xl border-b border-border/30'
+            : 'bg-transparent border-b border-transparent'
       }`}
       style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.4, 0.25, 1)' }}
       initial={{ y: -100 }}
