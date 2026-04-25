@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -54,7 +53,6 @@ const AuthTest = () => {
   const { user, loading, signOut } = useAuth();
   const { toast } = useToast();
   const [busy, setBusy] = useState(false);
-  const [searchParams] = useSearchParams();
   const [redirectResult, setRedirectResult] = useState<
     | { type: "success"; message: string }
     | { type: "error"; message: string }
