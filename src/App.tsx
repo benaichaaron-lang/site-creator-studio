@@ -14,6 +14,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import AuthTest from "./pages/AuthTest";
 import ResetPassword from "./pages/ResetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import Dashboard from "./pages/Dashboard";
@@ -69,6 +70,7 @@ const App = () => (
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/auth-test" element={<AuthTest />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/verify-email" element={<VerifyEmail />} />
                 <Route path="/dashboard" element={<Dashboard />} />
