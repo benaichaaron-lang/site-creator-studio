@@ -79,7 +79,12 @@ const AuthTest = () => {
   const handleGoogle = async () => {
     setBusy(true);
     setRedirectResult(null);
-    const { error } = await signInWithGoogle();
+    // Override redirect target so we land back on this test page with a flag
+    const { lovable } = await import("@/integrations/lovable");
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/auth-test?auth=callback`,
+    });
+    const error = result.error;
     if (error) {
       toast({
         title: "Erreur Google Sign-in",
