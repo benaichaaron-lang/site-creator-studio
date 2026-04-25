@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -11,15 +12,83 @@ const AuthTest = () => {
   const { user, loading, signInWithGoogle, signOut } = useAuth();
   const { toast } = useToast();
   const [busy, setBusy] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [redirectResult, setRedirectResult] = useState<
+    | { type: "success"; message: string }
+    | { type: "error"; message: string }
+    | null
+  >(null);
+
+  // Detect OAuth redirect return: success when ?auth=callback or hash tokens present,
+  // error when ?error / ?error_description in query or hash.
+  useEffect(() => {
+    const hash = window.location.hash.startsWith("#")
+      ? window.location.hash.slice(1)
+      : "";
+    const hashParams = new URLSearchParams(hash);
+
+    const queryError =
+      searchParams.get("error_description") || searchParams.get("error");
+    const hashError =
+      hashParams.get("error_description") || hashParams.get("error");
+
+    if (queryError || hashError) {
+      const msg = queryError || hashError || "Échec de la connexion OAuth";
+      setRedirectResult({ type: "error", message: msg });
+      toast({
+        title: "Échec OAuth",
+        description: msg,
+        variant: "destructive",
+      });
+      // Clean URL
+      window.history.replaceState({}, "", window.location.pathname);
+      return;
+    }
+
+    const hasCallbackFlag = searchParams.get("auth") === "callback";
+    const hasHashTokens =
+      hashParams.has("access_token") || hashParams.has("refresh_token");
+
+    if (hasCallbackFlag || hasHashTokens) {
+      // Wait for auth state to resolve, then confirm
+      if (!loading) {
+        if (user) {
+          setRedirectResult({
+            type: "success",
+            message: `Connexion Google réussie pour ${user.email}`,
+          });
+          toast({ title: "Connexion réussie", description: user.email ?? "" });
+        } else {
+          setRedirectResult({
+            type: "error",
+            message: "Retour OAuth reçu mais aucune session active.",
+          });
+        }
+        // Clean URL after handling
+        if (hasCallbackFlag) {
+          searchParams.delete("auth");
+          setSearchParams(searchParams, { replace: true });
+        }
+        if (hasHashTokens) {
+          window.history.replaceState({}, "", window.location.pathname);
+        }
+      }
+    }
+  }, [loading, user, searchParams, setSearchParams, toast]);
 
   const handleGoogle = async () => {
     setBusy(true);
+    setRedirectResult(null);
     const { error } = await signInWithGoogle();
     if (error) {
       toast({
         title: "Erreur Google Sign-in",
         description: error.message ?? String(error),
         variant: "destructive",
+      });
+      setRedirectResult({
+        type: "error",
+        message: error.message ?? String(error),
       });
       setBusy(false);
     }
@@ -56,6 +125,20 @@ const AuthTest = () => {
             <Badge variant="outline">Déconnecté</Badge>
           )}
         </div>
+
+        {redirectResult && (
+          <div
+            className={
+              redirectResult.type === "success"
+                ? "rounded-lg border border-primary/30 bg-primary/10 p-4 text-sm text-primary"
+                : "rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive"
+            }
+            role="status"
+          >
+            {redirectResult.type === "success" ? "✓ " : "✕ "}
+            {redirectResult.message}
+          </div>
+        )}
 
         {user && (
           <div className="space-y-1 rounded-lg border border-border bg-background/50 p-4 text-sm">
