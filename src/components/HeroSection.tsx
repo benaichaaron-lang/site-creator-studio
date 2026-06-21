@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useABTest, AB_EXPERIMENTS } from "@/hooks/useABTest";
 import {
   Select,
   SelectContent,
@@ -127,6 +129,10 @@ const DesktopHero = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{firstName?: string; lastName?: string; email?: string; phone?: string; websiteType?: string; budget?: string; timeline?: string}>({});
+  
+  // A/B Test sur le CTA du formulaire
+  const abTestCTA = useABTest(AB_EXPERIMENTS.HERO_CTA);
+  const abTestTitle = useABTest(AB_EXPERIMENTS.HERO_TITLE);
 
   const validateForm = () => {
     const newErrors: typeof errors = {};
@@ -151,11 +157,45 @@ const DesktopHero = () => {
 
     setIsSubmitting(true);
     try {
+      // 1. Sauvegarde dans Supabase (leads table)
+      const { data: leadData } = await supabase
+        .from("leads")
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone,
+          website_type: websiteType,
+          budget,
+          timeline,
+          recommendation,
+          source: "hero_form",
+          ab_variant: abTestCTA.variant,
+        })
+        .select("id")
+        .single();
+
+      // 2. Planifier les séquences d'emails automatiques
+      if (leadData?.id) {
+        const now = new Date();
+        const followup1 = new Date(now.getTime() + 24 * 60 * 60 * 1000); // J+1
+        const followup2 = new Date(now.getTime() + 72 * 60 * 60 * 1000); // J+3
+        await supabase.from("email_sequences").insert([
+          { lead_id: leadData.id, sequence_step: 1, email_type: "followup_guide", scheduled_at: followup1.toISOString() },
+          { lead_id: leadData.id, sequence_step: 2, email_type: "followup_offer", scheduled_at: followup2.toISOString() },
+        ]);
+      }
+
+      // 3. Envoi via Formspree (backup)
       const response = await fetch("https://formspree.io/f/xvzgebre", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, phone, recommendation, websiteType, budget, timeline }),
+        body: JSON.stringify({ firstName, lastName, email, phone, recommendation, websiteType, budget, timeline, abVariant: abTestCTA.variant }),
       });
+
+      // 4. Tracker la conversion A/B
+      abTestCTA.trackConversion("form_submit");
+      abTestTitle.trackConversion("form_submit");
 
       if (!response.ok) {
         toast({ title: t("hero.errors.failed"), description: t("hero.errors.failedDesc"), variant: "destructive" });
