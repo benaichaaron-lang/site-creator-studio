@@ -46,8 +46,15 @@ const Navbar = () => {
   };
 
   return (
+    <>
+    {/* Urgency Banner */}
+    <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-primary/90 via-primary to-primary/90 py-2 px-4 text-center">
+      <p className="text-white text-xs sm:text-sm font-medium">
+        ⚡ <span className="font-bold">Offre de lancement</span> — Sites livrés en 7 jours chrono • <a href="/pricing" className="underline underline-offset-2 hover:no-underline">Voir les offres →</a>
+      </p>
+    </div>
     <motion.nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-8 left-0 right-0 z-50 transition-all duration-500 ${
         isOpen
           ? 'bg-background border-b border-border/40 shadow-lg shadow-black/20'
           : hasScrolled
@@ -217,6 +224,7 @@ const Navbar = () => {
         </AnimatePresence>
       </div>
     </motion.nav>
+    </>
   );
 };
 

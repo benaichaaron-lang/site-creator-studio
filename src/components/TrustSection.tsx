@@ -12,12 +12,12 @@ const TrustSection = () => {
   const stats = [
     {
       icon: Users,
-      value: "15.000",
+      value: "50+",
       label: t("trust.stats.projects"),
     },
     {
       icon: Clock,
-      value: "5",
+      value: "7j",
       label: t("trust.stats.delivery"),
     },
     {

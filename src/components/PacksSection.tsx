@@ -286,9 +286,15 @@ const PacksSection = () => {
           )}
         </AnimatePresence>
 
+        {pack.popular && (
+          <div className="flex items-center justify-center gap-2 mb-3 text-xs text-muted-foreground">
+            <span className="text-green-400">✓</span>
+            <span>Satisfait ou on continue gratuitement</span>
+          </div>
+        )}
         <Button 
           variant={pack.popular ? "hero" : "outline"} 
-          className="w-full"
+          className={`w-full ${pack.popular ? 'shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40' : ''}`}
           size="lg"
           onClick={handleChoosePack}
         >
