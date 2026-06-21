@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { lovable } from '@/integrations/lovable';
+// lovable import removed — using supabase.auth.signInWithOAuth directly
 import { toast } from '@/hooks/use-toast';
 
 interface AuthContextType {
@@ -189,13 +189,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signInWithGoogle = async () => {
     // Mark that an OAuth flow is in progress so we can detect the return
     sessionStorage.setItem('oauth_pending', '1');
-    const result = await lovable.auth.signInWithOAuth('google', {
-      redirect_uri: `${window.location.origin}/auth`,
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth`,
+      },
     });
-    if (result.error) {
+    if (error) {
       sessionStorage.removeItem('oauth_pending');
     }
-    return { error: result.error };
+    return { error };
   };
 
   const signOut = async () => {
