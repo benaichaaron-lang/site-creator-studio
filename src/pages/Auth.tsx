@@ -106,11 +106,9 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      // Use our custom edge function that sends via Resend only
-      const { error } = await supabase.functions.invoke('reset-password', {
-        body: {
-          email: forgotPasswordEmail,
-        },
+      // Use Supabase Auth native resetPasswordForEmail (sends via Supabase SMTP)
+      const { error } = await supabase.auth.resetPasswordForEmail(forgotPasswordEmail, {
+        redirectTo: 'https://www.mysitefactory.com/reset-password',
       });
 
       if (error) {
